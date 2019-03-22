@@ -2,7 +2,7 @@
 title: "Follow the Gibbs Family as we Travel!"
 ---
 
-<img src="/travel/portrait_silly.png" width="300" height="300" style="float:right;"></img>
+<img src="/travel/portrait_silly.png" width="300" height="396" style="float:right;"></img>
 
 Do you know our family? Want to keep track of us as we leave California and see the world? We don't know where we'll finally wind up, and we'll have only a forwarding postal address for a few years here...
 
