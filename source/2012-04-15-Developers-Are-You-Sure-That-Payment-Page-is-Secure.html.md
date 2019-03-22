@@ -55,7 +55,7 @@ You can "Inspect element" to find it in most browsers.  Then in the page source,
 
 On rebuilding-rails.com, for instance, you should look for "submit_payment" in the page source.
 
-<img src="/images/2/payment_form.png" alt="Example Payment Form"> </img>
+<img src="/images/20120415/payment_form.png" alt="Example Payment Form"> </img>
 
 ### Names Have Power
 
@@ -75,7 +75,7 @@ What else does the page do with your information?  You found the class of the in
 
 On rebuilding-rails.com, the code looks like this:
 
-<img src="/images/2/credit_card_js.png" alt="Credit card info turns into a token"> </img>
+<img src="/images/20120415/credit_card_js.png" alt="Credit card info turns into a token"> </img>
 
 You can see that rebuilding-rails.com does some kind of "local validity checks" -- that's exactly the kind of thing to check, and we will later.
 
