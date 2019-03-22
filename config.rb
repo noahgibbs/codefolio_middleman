@@ -39,6 +39,8 @@ activate :blog do |blog|
   # blog.day_link = "{year}/{month}/{day}.html"
   # blog.default_extension = ".markdown"
 
+  blog.layout = "blog"
+
   blog.tag_template = "tag.html"
   blog.calendar_template = "calendar.html"
 
