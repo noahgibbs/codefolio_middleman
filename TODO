@@ -1,12 +1,13 @@
+## Major tasks, Layout
+
 * Import old assets/images
 * Import old posts
-* About page
-* Sidebar w/ email signup
-* Portfolio link (update)
 * Popular/recent posts or some replacement for same?
-* Twitter link
-* Disqus comment URLs
-# Content
+
+## Content
 
 * Do a find-replace on ".  " -> ". "
 * Check for broken image links somehow?
+* grep 'wistia' and look for that and other videos
+* look for old SlideRocket links
+* look for image tags - liquid, HTML, et al
