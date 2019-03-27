@@ -1,6 +1,6 @@
 ---
 title: "What Do You Lose By Not Using Chef?"
-date: 2014-11-29 17:29:23 -0800
+date: 2014-11-29 17:29:23
 ---
 
 It's easy to find <a
