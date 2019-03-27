@@ -3,9 +3,9 @@ title: "Why Rails and not Sinatra or Node.js?"
 date: 2012-09-05 02:48
 disqus_id: "http://codefol.io/posts/29"
 ---
-Rails is <a href="http://www.engineyard.com/blog/2009/thats-not-a-memory-leak-its-bloat/">bloated</a> and <a href="http://gilesbowkett.blogspot.com/2012/02/rails-went-off-rails-why-im-rebuilding.html">hard to learn</a>. You'd love to use a really simple framework like Sinatra. But what if you need something from Rails that isn't there?  You can't memorize all the hundreds of helper methods in Rails. But what are the important ones that will hurt you badly if you don't know them?
+Rails is <a href="http://www.engineyard.com/blog/2009/thats-not-a-memory-leak-its-bloat/">bloated</a> and <a href="http://gilesbowkett.blogspot.com/2012/02/rails-went-off-rails-why-im-rebuilding.html">hard to learn</a>. You'd love to use a really simple framework like Sinatra. But what if you need something from Rails that isn't there? You can't memorize all the hundreds of helper methods in Rails. But what are the important ones that will hurt you badly if you don't know them?
 
-Why not build from something simpler and smaller?  <a href="http://nodejs.org">Node.js</a> or <a href="http://sinatrarb.com">Sinatra</a>, say?
+Why not build from something simpler and smaller? <a href="http://nodejs.org">Node.js</a> or <a href="http://sinatrarb.com">Sinatra</a>, say?
 
 How much useful can Rails give you that's <a href="http://www.quora.com/Has-Ruby-on-Rails-became-bloated">worth all the bloat</a>?
 
@@ -25,7 +25,7 @@ Rails has fixes for all of these linked in the list. <a href="http://guides.ruby
 
 The Rails security guide also covers a lot of problems you have to know in *any* web framework.
 
-Do you care?  You really, *really* should.
+Do you care? You really, *really* should.
 
 ### Assets
 
@@ -35,7 +35,7 @@ But perhaps more importantly, it will rename your assets (images, CSS, javascrip
 
 Rails will also do a few other things to your assets like auto-sprite-ify sets of images with CSS and serve your assets from several different asset subdomains for maximum speed.
 
-Do you care?   You probably care after you're scaling up significantly. Rails will give you these things for free, which is nice. Or your framework of choice will allow you to build it manually and then debug it.
+Do you care?  You probably care after you're scaling up significantly. Rails will give you these things for free, which is nice. Or your framework of choice will allow you to build it manually and then debug it.
 
 ### Optimization
 

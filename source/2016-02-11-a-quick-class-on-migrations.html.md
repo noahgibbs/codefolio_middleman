@@ -7,10 +7,10 @@ Interested in taking your Rails migration code to the next level?
 Welcome. You're in the right place.
 
 What's that? Somebody in the back says they're not already up on the
-basics?  No problem. <a
+basics? No problem. <a
 href="http://edgeguides.rubyonrails.org/active_record_migrations.html">The
 Rails Guide on migrations</a> is like most Rails guides -- pretty darn
-awesome.  It'll have you adding tables, dropping columns and altering
+awesome. It'll have you adding tables, dropping columns and altering
 multi-column indices before you know it.
 
 For the rest of you who know the basics, let's learn what awesome
@@ -20,7 +20,7 @@ Rails programmers already know about migrations.
 
 Migrations can <a
 href="/posts/database-migrations-without-downtime">bring down a busy
-site</a> in a hurry.  Many things you do in a migration will lock the
+site</a> in a hurry. Many things you do in a migration will lock the
 table you're touching, which will block every SQL query and every
 Rails route that touches that table, sometimes for minutes or hours.
 You can't "scale" your way out of it -- you only get one database, and
@@ -35,7 +35,7 @@ everything. MySQL will do <b>nearly</b> all of them, but not
 quite. For those cases where you have to add an index on a huge table
 or change the format of a column, there's <a
 href="https://github.com/soundcloud/lhm">Large Hadron Migrator</a> --
-or "scheduled maintenance", a.k.a. downtime.  In both cases, <a
+or "scheduled maintenance", a.k.a. downtime. In both cases, <a
 href="https://github.com/ankane/strong_migrations">Strong
 Migrations</a> is an automated tool that can help you use only
 zero-downtime migrations.
@@ -79,7 +79,7 @@ can do all your migrations <a
 href="/posts/deployment-and-migrations">before your code deploys even
 start</a>. So not only will you have no downtime, the reduced capacity
 of a deploy can wait until you've finished with the reduced capacity
-from a migration.  Again, try to only do one thing at once so that you
+from a migration. Again, try to only do one thing at once so that you
 know what the problem is.
 
 And by separating out your migrations (see the <a
@@ -94,7 +94,7 @@ Does this count as a "class"? It's pretty short... Unless you actually
 follow links and learn properly about no-downtime migrations and the
 code review guidelines for migrations. And then it's a pretty
 significant amount of learning and will make you permanently better at
-this.  Very few developers do a good, thorough job on migrations. I
+this. Very few developers do a good, thorough job on migrations. I
 hope you'll join them, and save your projects and your employers a lot
 of wasted time and money.
 
@@ -106,4 +106,4 @@ an incorrigible speed-reader, depending. In that case, may I recommend
 a good book on databases that *isn't* Rails-specific? Or perhaps a
 consultation with your local DBA? If you truly know all this material,
 you're not just being a responsible database developer, but a real
-database specialist.  You have my respect.
+database specialist. You have my respect.
