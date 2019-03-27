@@ -5,11 +5,11 @@
 * Popular/recent posts or some replacement for same?
 * Styling for "read more" links and generally improved "summary" logic
 * Styling for index-page pager
+* Check on GitHub-flavored markup and code formatting/highlighting
 
 ## Content
 
 * Do a find-replace on ".  " -> ". "
 * Check for broken image links somehow?
 * grep 'wistia' and look for that and other videos
-* look for old SlideRocket links
 * look for image tags - liquid, HTML, et al
