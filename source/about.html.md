@@ -1,5 +1,5 @@
 ---
-layout: blog_frame
+layout: blog_page
 title: "About Me"
 date: 2014-02-02 05:01
 ---
@@ -13,7 +13,7 @@ like Rails.
 
 I've spoken at some conferences and meetups and stuff.
 
-I'm a dad.  It's amazing.  
+I'm a dad.  It's amazing.
 
 I'm a long-time professional Ruby-and-stuff developer.
 

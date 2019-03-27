@@ -1,24 +1,39 @@
-body {
-  background-color: #fbc547;
-  color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir",
-    "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans",
-    "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu",
-    "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
-  padding: 18vh 1rem;
-  text-align: center;
+//body {
+  //background-color: #fbc547;
+  //color: #333;
+  //font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", "Avenir",
+  //  "Segoe UI", "Lucida Grande", "Helvetica Neue", "Helvetica", "Fira Sans",
+  //  "Roboto", "Noto", "Droid Sans", "Cantarell", "Oxygen", "Ubuntu",
+  //  "Franklin Gothic Medium", "Century Gothic", "Liberation Sans", sans-serif;
+  //padding: 18vh 1rem;
+  //text-align: center;
+//}
+
+//a {
+//  color: rgba(#000, 0.7);
+//
+//  &:focus,
+//  &:hover {
+//    color: rgba(#000, 0.6);
+//  }
+//}
+
+//.middleman-logo {
+//  margin-bottom: 1rem;
+//  width: 10rem;
+//}
+
+.card {
+  width: 85%;
+  margin: 5%;
 }
 
-a {
-  color: rgba(#000, 0.7);
-
-  &:focus,
-  &:hover {
-    color: rgba(#000, 0.6);
-  }
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
 }
 
-.middleman-logo {
-  margin-bottom: 1rem;
-  width: 10rem;
+nav#sidebar {
+  width: 250px;
 }

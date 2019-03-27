@@ -12,8 +12,15 @@ layout: blog_frame
 <% end %>
 
 <% page_articles.each_with_index do |article, i| %>
-  <h2><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></h2>
-  <%= article.summary(250) %>
+  <div class="card border-primary">
+    <div class="card-header">
+      <span class="card-body text-muted"><%= article.date.strftime('%b %e %Y') %>| <%= link_to "COMMENTS", (article.url + "#disqus_thread") %></span>
+      <h3 class="card-title"><%= link_to article.title, article %></h3>
+    </div>
+    <div class="card-body">
+      <%= article.summary(250) %>
+    </div>
+  </div>
 <% end %>
 
 <% if paginate %>
