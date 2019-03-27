@@ -6,3 +6,7 @@
 * Popular/recent posts or some replacement for same?
 * Twitter link
 * Disqus comment URLs
+# Content
+
+* Do a find-replace on ".  " -> ". "
+* Check for broken image links somehow?
