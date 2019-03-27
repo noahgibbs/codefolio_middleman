@@ -2,6 +2,9 @@
 layout: blog_page
 title: "About Me"
 date: 2014-02-02 05:01
+comments: false
+next: false
+prev: false
 ---
 
 Hiya!

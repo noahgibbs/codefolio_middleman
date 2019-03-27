@@ -1,8 +1,24 @@
 <% wrap_layout :blog_frame do %>
   <!-- Blog page layout -->
   <div class="card border-primary">
+    <div class="card-header">
+      <h3 class="card-title"><%= current_page.data.title || "Hello!" %></h3>
+      <% if current_page.respond_to?(:date) %>
+        <span class="card-body text-muted"><%= current_page.date.strftime('%b %e %Y') %></span>
+      <% end %>
+    </div>
     <div class="card-body">
       <%= yield %>
     </div>
+    <ul class="meta text-muted pager">
+      <% if (!current_page.data.has_key?("prev") || current_page.data.prev) && current_article.article_previous %>
+        <li class="pager"><a href="<%= current_article.article_previous.url %>">(&lt;- <%= current_article.article_previous.title %>)</a></li>
+      <% end %>
+      <% if (!current_page.data.has_key?("next") || current_page.data.next) && current_article.article_next %>
+        <li class="pager"><a href="<%= current_article.article_next.url %>">(<%= current_article.article_next.title %> -&gt;)</a></li>
+      <% end %>
+    </ul>
   </div>
+
+
 <% end %>
