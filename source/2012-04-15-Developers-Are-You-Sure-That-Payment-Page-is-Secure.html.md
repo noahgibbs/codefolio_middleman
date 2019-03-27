@@ -2,8 +2,7 @@
 title: "Developers, Are You Sure That Payment Page is Secure?"
 date: 2012-04-15 20:28
 published: true
-meta:
-  disqus_id: "http://codefol.io/posts/2"
+disqus_id: "http://codefol.io/posts/2"
 ---
 Do you know a little JavaScript and HTML?  Be sure the page is safe <b>before</b> you put in your credit card number -- especially if you want the product and don't know the vendor.
 

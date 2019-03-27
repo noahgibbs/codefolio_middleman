@@ -20,5 +20,33 @@
     </ul>
   </div>
 
+  <% if !current_page.data.has_key?("comments") || current_page.data.comments %>
 
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = '<%= "http://codefol.io/" + current_page.path %>';
+
+        // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        this.page.identifier = '<%= current_page.data.disqus_id ? current_page.data.disqus_id : ("http://codefol.io/" + current_page.path) %>';
+    };
+
+    (function() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://rubymadscience.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">
+        comments powered by Disqus.
+    </a>
+</noscript>
+
+  <% end %>
 <% end %>
