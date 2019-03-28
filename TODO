@@ -1,5 +1,5 @@
 ## Major tasks, Layout
 
-* Popular/recent posts or some replacement for same?
+* Sidebar with recommended posts
 * Styling for "read more" links and generally improved "summary" logic
 * Comment counts on index page (https://help.disqus.com/developer/adding-comment-count-links-to-your-home-page)
