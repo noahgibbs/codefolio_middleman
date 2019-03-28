@@ -21,14 +21,21 @@ prev: false
   </div>
 <% end %>
 
-<% page_articles.each_with_index do |article, i| %>
+<% page_articles.each_with_index do |article, i|
+     disqus_id = article.data.disqus_id ? article.data.disqus_id : ("http://codefol.io/" + article.path.chomp("/"))
+  %>
   <div class="card border-primary">
     <div class="card-header">
-      <span class="card-body text-muted"><%= article.date.strftime('%b %e %Y') %>| <%= link_to "COMMENTS", (article.url + "#disqus_thread") %></span>
+      <span class="card-body text-muted"><%= article.date.strftime('%b %e %Y') %>|
+        <a href="<%= article.url + "#disqus_thread" %>" data-disqus-identifier="<%= disqus_id %>">First article</a>
+      </span>
       <h3 class="card-title"><%= link_to article.title, article %></h3>
     </div>
     <div class="card-body">
-      <%= article.summary(250) %>
+      <%= article.summary(300) %>
+    </div>
+    <div class="card-body">
+      <a href="<%= article.url %>"><button class="btn btn-primary">Read more</button></a>
     </div>
   </div>
 <% end %>

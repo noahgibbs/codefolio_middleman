@@ -25,11 +25,15 @@
 <div id="disqus_thread"></div>
 <script>
     var disqus_config = function () {
+      <%
+        page_url = "https://codefol.io" + current_page.url.chomp("/")
+        disqus_id = current_page.data.disqus_id ? current_page.data.disqus_id : page_url
+      %>
         // Replace PAGE_URL with your page's canonical URL variable
-        this.page.url = '<%= "http://codefol.io/" + current_page.path.chomp("/") %>';
+        this.page.url = '<%= page_url %>';
 
         // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        this.page.identifier = '<%= current_page.data.disqus_id ? current_page.data.disqus_id : ("http://codefol.io/" + current_page.path.chomp("/")) %>';
+        this.page.identifier = '<%= disqus_id %>';
     };
 
     (function() {
