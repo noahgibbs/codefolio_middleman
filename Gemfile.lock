@@ -79,6 +79,9 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (>= 3.3)
       rack-livereload (~> 0.3.15)
+    middleman-syntax (3.0.0)
+      middleman-core (>= 3.2)
+      rouge (~> 2.0)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     nokogiri (1.10.1)
@@ -99,6 +102,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     redcarpet (3.4.0)
+    rouge (2.2.1)
     sassc (2.0.1)
       ffi (~> 1.9)
       rake
@@ -120,6 +124,7 @@ DEPENDENCIES
   middleman (~> 4.1)
   middleman-blog (~> 4.0)
   middleman-livereload (~> 3.4)
+  middleman-syntax (~> 3.0)
   nokogiri
   redcarpet (~> 3.3, >= 3.3.3)
   tzinfo-data

@@ -74,3 +74,6 @@ configure :build do
   # Minify Javascript on build
   activate :minify_javascript
 end
+
+# Middleman-syntax, which uses Rouge under the hood
+activate :syntax, :line_numbers => true

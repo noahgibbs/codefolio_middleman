@@ -9,7 +9,7 @@ disqus_id: "http://codefol.io/posts/15"
 
 We'll need a config.ru file for this, and you'll need Rack installed. Here's how you want config.ru to look, at the beginning:
 
-```
+```ruby
 # config.ru
 require "rack"
 
@@ -29,7 +29,7 @@ What's the easiest way to put a password in front of this?
 
 Rack comes with nice simple built-in authentication modules. Here's how you use the Basic auth middleware:
 
-```
+```ruby
 require "rack"
 
 use Rack::Auth::Basic, "Hello, World" do |username, password|
@@ -48,7 +48,7 @@ The "use" statement says to include the password middleware. You can see that th
 
 You can also use Digest authentication with Rack::Auth::Digest::MD5. It wants to pass you the username and have you return the password, which it hashes:
 
-```
+```ruby
 require "rack"
 
 # Long random string. Use a better one than this.
