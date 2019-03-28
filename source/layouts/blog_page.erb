@@ -10,14 +10,14 @@
     <div class="card-body">
       <%= yield %>
     </div>
-    <ul class="meta text-muted pager">
+    <div class="text-muted pager">
       <% if (!current_page.data.has_key?("prev") || current_page.data.prev) && current_article.article_previous %>
-        <li class="pager"><a href="<%= current_article.article_previous.url %>">(&lt;- <%= current_article.article_previous.title %>)</a></li>
+        <a href="<%= current_article.article_previous.url %>"><button class="pull-left btn btn-primary">&#8592; <%= current_article.article_previous.title %></button></a>
       <% end %>
       <% if (!current_page.data.has_key?("next") || current_page.data.next) && current_article.article_next %>
-        <li class="pager"><a href="<%= current_article.article_next.url %>">(<%= current_article.article_next.title %> -&gt;)</a></li>
+        <a href="<%= current_article.article_next.url %>"><button class="pull-right btn btn-primary"><%= current_article.article_next.title %> &#8594;</button></a>
       <% end %>
-    </ul>
+    </div>
   </div>
 
   <% if !current_page.data.has_key?("comments") || current_page.data.comments %>

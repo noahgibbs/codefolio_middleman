@@ -8,11 +8,17 @@ next: false
 prev: false
 ---
 <% if paginate && num_pages > 1 %>
-  <p>Page <%= page_number %> of <%= num_pages %></p>
+  <div id="index-top-pager">
+    <% if prev_page %>
+      <button class="btn btn-primary"><%= link_to '&#8592; Previous page', prev_page %></button>
+    <% end %>
 
-  <% if prev_page %>
-    <p><%= link_to 'Previous page', prev_page %></p>
-  <% end %>
+    Page <%= page_number %> of <%= num_pages %>
+
+    <% if next_page %>
+      <button class="btn btn-primary"><%= link_to 'Next page &#8594;', next_page %></button>
+    <% end %>
+  </div>
 <% end %>
 
 <% page_articles.each_with_index do |article, i| %>
@@ -29,6 +35,6 @@ prev: false
 
 <% if paginate %>
   <% if next_page %>
-    <p><%= link_to 'Next page', next_page %></p>
+    <div id="bottom-next"><button class="btn btn-primary"><%= link_to 'Next page', next_page %></button></div>
   <% end %>
 <% end %>
