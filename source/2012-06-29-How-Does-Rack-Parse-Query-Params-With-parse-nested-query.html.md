@@ -104,7 +104,7 @@ Athanor:rulers noah$ irb
 
 Looks pretty good. Let's try skipping the first open brackets:
 
-```
+```ruby
 1.9.3p125 :007 > p("p[x]=1&p[y]=2")
  => {"p"=>{"x"=>"1", "y"=>"2"}} 
 1.9.3p125 :008 > p("p[123]=bobo")
@@ -115,7 +115,7 @@ So that's what we usually see in Rails with a structure.
 
 What else can we get by playing with this?
 
-```
+```ruby
 1.9.3p125 :017 > p("x[][y][w]=1&x[][z]=2&x[][y][w]=3&x[][z]=4")
  => {"x"=>[{"y"=>{"w"=>"3"}, "z"=>"2"}, {"z"=>"4"}]} 
 1.9.3p125 :018 > p("x[][z][w]=1&x[][z]=2&x[][y][w]=3&x[][z]=4")

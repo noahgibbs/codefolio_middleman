@@ -86,7 +86,7 @@ It's useful to check the set of attributes.
 In case you need to read the code: a cookbook generally has an "attributes" directory, and generally an attributes/default.rb file
 with a lot of lines like this:
 
-```
+```ruby
 default['mysql']['service_name'] = 'default'
 
 # passwords

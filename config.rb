@@ -76,4 +76,4 @@ configure :build do
 end
 
 # Middleman-syntax, which uses Rouge under the hood
-activate :syntax, :line_numbers => true
+activate :syntax

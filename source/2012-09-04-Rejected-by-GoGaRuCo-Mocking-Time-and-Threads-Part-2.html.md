@@ -68,7 +68,7 @@ There's a lot that doesn't get tested that way. Since none of the thread's code 
 
 On the plus side, this methods gives the most reliable tests *because* you're not using a big ball of timing and state in your unit tests. The approach is very clean &mdash; so clean that it misses a lot of the problems you'd like to test.
 
-```
+```ruby
 # test_mylib.rb
 require "./mylib"
 require "test/unit"
@@ -97,7 +97,7 @@ This is better since the thread code is guaranteed to not be 100% broken. It's n
 
 You'll also notice a couple of (annoying) sleeps in the test code. To avoid those, you basically need some way for the library background thread and the test code to wait on each other -- that's so rarely a good idea that I'm not even going to go into it. Believe me, you can do it, and if you do then you're probably hardcoding the tests to the point where they don't really test the behavior of code that *doesn't* integrate that deeply.
 
-```
+```ruby
 # test_mylib2.rb
 require "./mylib"
 require "test/unit"

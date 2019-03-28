@@ -13,7 +13,7 @@ I considered emailing out an abject apology and hoping I never did it again, unt
 
 Yup. Here's what I used:
 
-```
+```javascript
     if(window.location.protocol != 'https:') {
       location.href = location.href.replace("http://", "https://");
     }
