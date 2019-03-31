@@ -3,7 +3,7 @@ title: "The Bad Project Manager Meeting"
 date: 2015-08-31 16:03
 ---
 
-I recently wrote about good project managers &mdash and I mean it.
+I recently wrote about good project managers &mdash; and I mean it.
 
 But there's a particular project manager meeting that is usually a bad
 sign, a sign that you're not dealing with a good project manager.
