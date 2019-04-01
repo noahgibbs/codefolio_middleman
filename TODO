@@ -1,0 +1,2 @@
+* Re-download Sandstone Bootswatch theme, but get SCSS and adjust size *there*,
+  not ad-hoc in minimized CSS
