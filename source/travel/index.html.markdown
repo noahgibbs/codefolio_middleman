@@ -23,8 +23,7 @@ The email list will send you a confirmation message. You'll need to accept it fr
 
 (If you opt out for awhile, you can also click the 'archive' link below and see what we sent out while you weren't following.)
 
-<!-- Begin Mailchimp Signup Form -->
-<link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+<div> <!-- Begin Mailchimp Signup Form --> <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
 <style type="text/css">
     #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
     /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
@@ -39,7 +38,7 @@ The email list will send you a confirmation message. You'll need to accept it fr
     <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
 </div>
 <p><a href="https://us2.campaign-archive.com/home/?u=c5569fb6471a3e64be2aa1466&id=cb4c5fcbae" title="View previous campaigns">View the archive of list emails.</a></p>
-    <div id="mce-responses" class="clear">
+<div id="mce-responses" class="clear">
         <div class="response" id="mce-error-response" style="display:none"></div>
         <div class="response" id="mce-success-response" style="display:none"></div>
     </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
@@ -50,6 +49,7 @@ The email list will send you a confirmation message. You'll need to accept it fr
 </div>
 <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
 <!--End mc_embed_signup-->
+</div>
 
 <img src="/travel/family_couch.jpg" width="800" height="532" style="display: inline-block"></img>
 <img src="/travel/krissy_jb.jpg" width="600" height="400" style="display: inline-block"></img>
