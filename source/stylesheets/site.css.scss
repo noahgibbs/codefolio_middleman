@@ -66,3 +66,20 @@ img:not(.no-border) {
 .card {
   //margin: 1em;
 }
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Playfair Display",Playfair Display,serif
+}
+
+.btn-primary {
+  border-style: solid;
+  border-width: 0px 1px 4px 1px;
+  border-color: #4142c8;
+}
+
+body {
+  // Image is from TopTal's subtlepatterns web site
+  background-image: linear-gradient(rgba(255, 245, 206, 0.20), rgba(255, 255, 255, 0.20)),
+                    url("../images/creampaper.png");
+  //background-color: #fff5ce;
+}
