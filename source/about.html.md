@@ -14,14 +14,16 @@ href="http://rebuilding-rails.com">Rebuilding Rails</a>, a book about
 understanding Ruby web frameworks by building your own, structured
 like Rails.
 
-I've spoken at some conferences and meetups and stuff.
+I believe every programmer should keep a portfolio, like visual artists do. <a href="https://codefol.io/portfolio">I think mine is pretty decent</a>. Feel free to steal code from it.
+
+I've <a href="https://codefol.io/speaking">spoken at some conferences and meetups and stuff</a>.
 
 I'm a dad. It's amazing.
 
 I'm a long-time professional Ruby-and-stuff developer.
 
 I've written <a href="http://github.com/noahgibbs/">a lot of random
-Ruby code</a>.
+Ruby code</a> (and non-Ruby code.)
 
 I started coding at eight years old, and I'm a lot older than that
 now. I've never had a real non-programming job.
