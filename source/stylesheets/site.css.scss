@@ -77,9 +77,14 @@ h1,h2,h3,h4,h5,h6 {
   border-color: #4142c8;
 }
 
+.mc_styling {
+  background-color: #F8F0FF;
+}
+
 body {
   // Image is from TopTal's subtlepatterns web site
-  background-image: linear-gradient(rgba(255, 245, 206, 0.20), rgba(255, 255, 255, 0.20)),
-                    url("../images/creampaper.png");
+  //background-image: url("../images/creampaper.png");
+  //background-image: linear-gradient(rgba(255, 245, 206, 0.20), rgba(255, 255, 255, 0.20)),
+  //                  url("../images/creampaper.png");
   //background-color: #fff5ce;
 }
