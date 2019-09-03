@@ -6,11 +6,11 @@ title: "Follow the Gibbs Family as we Travel!"
 
 Do you know our family? Want to keep track of us as we leave California and see the world? We don't know where we'll finally wind up, and we'll have only a forwarding postal address for a few years here...
 
-Our scan-and-shred only (no packages!) US mail address:
+Our scan-and-shred only (avoid packages!) US mail address:
 
 <pre>
 Gibbs
-1321 Upland Dr. Suite 11034 
+1321 Upland Dr. Suite 11034
 Houston, TX 77043
 USA
 </pre>
