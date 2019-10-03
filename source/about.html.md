@@ -36,4 +36,6 @@ I've never had a real non-programming job. So I hope this "computer" thing doesn
 
 <img src="/images/ruby%20models.png" class="pull-right" width="359" height="195" alt="An androgynous stick figure model lounges languorously, one simple-line eyebrow raised."> </img>
 
-<img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
+<img src="/images/chalk_codefolio.png" class="pull-right" width="320" height="200" alt="The Codefol.io logo on a book cover."> </img>
+
+<img src="/images/noah_chalk_face_600_800.png" class="pull-right" width="300" height="400" alt="My face as a chalk drawing."> </img>

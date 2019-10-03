@@ -74,13 +74,17 @@ h1,h2,h3,h4,h5,h6 {
 .btn-primary {
   border-style: solid;
   border-width: 0px 1px 4px 1px;
-  border-color: #4142c8;
+  border-color: #202020;
+}
+
+#mc_embed_signup {
+  color: #007bff;
 }
 
 .mc_styling {
   margin-left: 5%;
   //width: 90%;
-  background-color: #F8F0FF;
+  //background-color: #007bff;
 }
 
 body {
@@ -89,4 +93,5 @@ body {
   //background-image: linear-gradient(rgba(255, 245, 206, 0.20), rgba(255, 255, 255, 0.20)),
   //                  url("../images/creampaper.png");
   //background-color: #fff5ce;
+  //font-size: 125%;  // Better to use SCSS to resize...
 }
