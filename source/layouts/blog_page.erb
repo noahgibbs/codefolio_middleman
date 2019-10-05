@@ -22,7 +22,7 @@
 
   <% if !current_page.data.has_key?("comments") || current_page.data.comments %>
 
-<div id="disqus_thread"></div>
+<div id="disqus_thread" class="card" style="padding:10px;"></div>
 <script>
     var disqus_config = function () {
       <%
