@@ -8,7 +8,7 @@ prev: false
 
 <img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
 
-About deployment:
+Some articles about deployment:
 
 * [What is Deployment vs Provisioning vs Orchestration?](/posts/deployment-versus-provisioning-versus-orchestration/)
 * [When Should You *Not* Use Heroku?](/posts/when-should-you-not-use-heroku/) - a description of when Heroku might be the wrong tool for your job
