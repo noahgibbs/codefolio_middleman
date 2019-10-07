@@ -63,6 +63,10 @@ img:not(.no-border) {
   border-radius: 3px;
 }
 
+.highlight pre.highlight {
+  background-image: url(/images/blackboard_tiled.png);
+}
+
 .card {
   //margin: 1em;
 }
