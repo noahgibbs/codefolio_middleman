@@ -27,7 +27,7 @@ prev: false
   <div class="card border-light">
     <div class="card-header">
       <span class="card-body text-muted"><%= article.date.strftime('%b %e %Y') %>|
-        <a href="<%= article.url + "#disqus_thread" %>" data-disqus-identifier="<%= disqus_id %>">First article</a>
+        <a href="<%= article.url + "#disqus_thread" %>" data-disqus-identifier="<%= disqus_id %>">Comments</a>
       </span>
       <h3 class="card-title"><%= link_to article.title, article %></h3>
     </div>
