@@ -21,7 +21,9 @@ software, and that *shouldn't* go down much -- the whole point is
 helping new people learn Rails. If they're doing it right, they're
 debugging. And talking programming with me isn't something I can foist
 off on a remote assistant.
-<!--more-->
+
+READMORE
+
 The summer sale was the big package thing I did with several other
 Ruby authors. Looking at the final tally, I wasn't <b>quite</b> the worst
 performer in the group for drumming up sales, but I'm honestly

@@ -25,7 +25,9 @@ table you're touching, which will block every SQL query and every
 Rails route that touches that table, sometimes for minutes or hours.
 You can't "scale" your way out of it -- you only get one database, and
 it's locked for all app servers.
-<!--more-->
+
+READMORE
+
 There are a <a
 href="https://www.braintreepayments.com/blog/safe-operations-for-high-volume-postgresql/">known
 set</a> of <a

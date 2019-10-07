@@ -10,7 +10,9 @@ This isn't really my blog post -- <a href="http://shwood.squarespace.com/news/20
 <p>Hey gang,</p>
 <p>Lately a lot of young magicians have been asking me for advice, which has caused me to remember one of the most valuable correspondences of my life:&nbsp; one of the most mind-blowing letters I ever received, chock-full of insights that to this very day guide my career and philosophy in both creating and performing magic.</p>
 <p>This is a pretty long post, but with Teller's permission, I'd like to share with you the <strong>secrets he gave me 14 years ago to starting a successful career in magic.</strong></p>
-<!--more-->
+
+READMORE
+
 <p>First, a bit of back-story:&nbsp; Penn and Teller have been my heroes in magic since I was 8 years old.&nbsp;&nbsp;&nbsp; Back when I would watch just about anything related to magic, P&amp;T were special because they were so damned <em>cool.</em>&nbsp; They'd connect with their audience, let them on the inside... even teach them some tricks to do at home.&nbsp; I was hooked.</p>
 <p>By the time I was 19, I was a decent semi-professional magician, trying desperately to figure out both who I wanted to be onstage and what I had to say, when in the summer of 1994 I got my first chance to see Penn and Teller live.&nbsp; I drove three and a half hours with my best friend Gordon to watch the performance and (more importantly) get the chance to meet them afterwards.</p>
 <p>As they've always done, Penn and Teller hung out in the lobby after the show to meet anyone who'd like to say hello.&nbsp; While we waited in line, Gordon and I started brainstorming ways to stand out from the crowd and make an impression on my heroes.&nbsp; Gordon had a hilarious idea that he was too chicken to try, so with his permission, I asked Teller to sign my three of clubs "...to my bastard son, Brian."</p>

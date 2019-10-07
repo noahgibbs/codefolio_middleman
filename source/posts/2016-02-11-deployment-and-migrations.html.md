@@ -18,7 +18,9 @@ Easy enough. Why?
 First, because that's the order you think about things. If you're
 adding a new column to a table, you'll want to make your code use
 it. If you run the migration first, that all works out nicely.
-<!--more-->
+
+READMORE
+
 It doesn't work for <i>dropped</i> columns, but that's why <a
 href="/posts/database-migrations-without-downtime">dropping a column
 can be a little tricky</a>.

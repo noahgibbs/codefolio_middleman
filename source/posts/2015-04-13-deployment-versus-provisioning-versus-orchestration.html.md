@@ -29,7 +29,8 @@ They use the word "provisioning" for that.
 (Developers are going to keep using the word "deploy" for everything
 involved in getting our app and its dependencies installed. That's
 cool. But don't be surprised if you confuse your Ops guy.)
-<!--more-->
+
+READMORE
 
 Ruby developers often use <a href="http://capistranorb.com/" target="_blank">Capistrano</a> or <a href="http://nadarei.co/mina/" target="_blank">Mina</a> for deployment.
 

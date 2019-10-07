@@ -24,7 +24,9 @@ your database supports rolling back schema changes at all, it can
 still take minutes or hours to do. Even a large, hard-to-divide
 operation like adding a column to a two-terabyte table is happiest
 if it's mostly done by itself.
-<!--more-->
+
+READMORE
+
 A small migration can often be pass/fail - a single operation will
 either succeed or fail. And if it's two or three operations, it's
 still easier to do a manual rollback if you have to.

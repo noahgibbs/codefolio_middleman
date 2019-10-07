@@ -30,7 +30,7 @@ For best results, think of Chef and Capistrano as two separate tools for two dif
 
 So what are those jobs?
 
-<!-- more -->
+READMORE
 
 ## Bring Out the Five-Dollar Words
 

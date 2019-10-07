@@ -19,7 +19,7 @@ There's a set of things Ruby is really good at. I'll list some of them:
 
 There are some other things Ruby is "good" at. Like, it's good at them but many people think they're a bad idea. I'll list some of those, too:
 
-<!-- more -->
+READMORE
 
 * Taking on a massive technical debt "loan", quickly
 * Using lots of other people's code with minimal examination (<a href="http://rubygems.org">gems</a>!)

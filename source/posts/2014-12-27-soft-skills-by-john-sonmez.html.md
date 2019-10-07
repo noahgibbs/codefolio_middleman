@@ -16,7 +16,7 @@ Oh! And don't miss the story of how he got the review, at the last minute, from 
 
 This is powerful stuff, and stuff I've never seen another book teach. In fact, <a href="http://www.manning.com/sonmez/excerpt_contents.html">go read the chapter names in the table of contents</a> before you come back. I promise, it's worth your time. And the table of contents will tell you far better than I did just what the book is about.
 
-<!--more-->
+READMORE
 
 "Soft Skills: The Software Developers Life Manual" is a bit like "Coder to
 Developer" or "The Pragmatic Programmer" -- it's about skills you need in the

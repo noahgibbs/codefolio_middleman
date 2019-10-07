@@ -31,7 +31,7 @@ missing a paycheck and reasonable savings. Why not try it?
 
 ## Yeah, Why Not Try It?
 
-<!--more-->
+READMORE
 
 I didn't get much use out of it in my job search - having it when
 you've already found a company is somewhere between useless and

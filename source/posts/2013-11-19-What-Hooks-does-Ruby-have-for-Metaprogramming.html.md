@@ -9,7 +9,7 @@ These are just hooks -- things Ruby calls in response to something happening. Th
 
 Here's summaries and links for all the hooks I could find (thanks to Google and StackOverflow!):
 
-<!-- more -->
+READMORE
 
 ## Methods
 

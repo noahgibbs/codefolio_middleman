@@ -16,7 +16,9 @@ The Metaobject protocol asks, "what if there were *more* subclasses of Class? An
 Also, it includes what we'd now call introspection functions -- they didn't usually call it that twenty years ago when this was published.
 
 But what, specifically, does that mean?
-<!-- more -->
+
+READMORE
+
 It includes:
 
 * introspection on classes, methods and instances

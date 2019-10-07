@@ -25,7 +25,7 @@ In the end, it boils down to this. You're somebody who is reading about
 software when you don't have to. Right here in this post, even! You care about
 your craft.
 
-<!--more-->
+READMORE
 
 True software craft is about <a
 href="http://blog.codinghorror.com/shipping-isnt-enough/" target="_atwood2">making software

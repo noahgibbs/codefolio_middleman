@@ -19,7 +19,9 @@ percent of salary.
 
 But when you're negotiating salary, or otherwise asking, "what does
 an employee's time cost a company?" he's right. Let me explain why.
-<!--more-->
+
+READMORE
+
 It's not just the equity, bonus and benefits, which are already a
 significant and increasing percent of salary. When you ask,
 "what does DynaCo lose when it loses ten hours of engineer time,"

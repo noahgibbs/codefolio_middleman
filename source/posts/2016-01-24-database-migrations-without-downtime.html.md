@@ -19,7 +19,9 @@ Right?
 
 I'll tell you what happened with me and crashing our servers, but first let's
 talk about database migrations.
-<!--more-->
+
+READMORE
+
 It turns out that testing a migration on your own machine won't show
 you any bugs that happen with bad data, or too much data. You probably
 migrate often, so it won't show you any bugs that only happen when you

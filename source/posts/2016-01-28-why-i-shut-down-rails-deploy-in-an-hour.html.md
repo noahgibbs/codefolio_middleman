@@ -30,7 +30,9 @@ It turns out that programmers hate doing deployment. The programmers
 I'm targeting (hobbyists, early developers, small startup guys)
 extra-specially hate doing deployment. They just want it done and
 working with minimal work.
-<!--more-->
+
+READMORE
+
 This is still a pipe dream, it turns out. My software helps a bit, but
 not enough. Let's talk about why.
 

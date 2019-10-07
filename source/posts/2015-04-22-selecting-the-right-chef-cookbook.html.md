@@ -11,7 +11,7 @@ But can you choose the right <a href="https://supermarket.chef.io/">existing coo
 Let's talk about how to choose, especially for <a href="https://docs.chef.io/chef_solo.html">Chef Solo</a>,
 <a href="https://github.com/chef/chef-zero">Chef Zero</a> or <a href="https://github.com/noahgibbs/madscience">MadScience</a>.
 
-<!-- more -->
+READMORE
 
 Already know the basics? Skip ahead to <a href="#howToChoose">how to choose</a>.
 

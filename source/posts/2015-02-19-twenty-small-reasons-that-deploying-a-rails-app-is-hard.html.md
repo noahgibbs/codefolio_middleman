@@ -27,7 +27,7 @@ those. Here are some of mine to speed you on your way.
 
 * When you try, you discover that <a href="http://stackoverflow.com/questions/13103396/c11-g-4-7-internal-compiler-error">GCC gives an internal compiler error as its "out of RAM" notice</a>. Also, that the <a href="https://github.com/fnichol/chef-rvm">RVM cookbook</a> tells you a completely wrong directory for the six logfiles to check for errors. At least, if you install RVM in user directories.
 
-<!--more-->
+READMORE
 
 * All the tools are pretty opaque about what's going wrong, naturally. It's not that they don't try. It's that it's really, really hard for the tool to get it right. Do they swamp you in 99%-the-same command output, or suppress a bunch of messages you really wish you could see? And this is running on a server, so you usually need to log in to go check the logfile.
 

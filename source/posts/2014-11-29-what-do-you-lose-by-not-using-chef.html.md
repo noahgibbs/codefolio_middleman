@@ -30,7 +30,7 @@ With a test server, you can answer questions like, "will this work if I type
 it on the production server?" And you can do it without crashing
 production. So that's kind of cool.
 
-<!--more-->
+READMORE
 
 ## Chef If Your Server Gets Owned
 

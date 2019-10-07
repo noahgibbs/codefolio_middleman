@@ -23,7 +23,9 @@ href="https://robots.thoughtbot.com/how-to-create-postgres-indexes-concurrently-
 to create indices without downtime on Postgres</a>, and <a
 href="http://pedro.herokuapp.com/past/2011/7/13/rails_migrations_with_no_downtime/">no-downtime
 migrations in general.</a>
-<!--more-->
+
+READMORE
+
 It turns out there was a whole world of information that was left
 behind by all the <i>previous</i> schmucks who froze gigantic tables
 with huge migrations. Heck, for some MySQL operations they wrote <a

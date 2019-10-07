@@ -50,7 +50,7 @@ want to be working on. Those are projects they consider valuable and
 noteworthy. If you do a good job on projects like that, they will remember you
 personally. At least, they will if you do steps 3 and 4 correctly.
 
-<!-- more -->
+READMORE
 
 2) Make sure management and/or businesspeople consider a big win on your
 project to be <i>important</i>. This is hard at first, but gets much easier

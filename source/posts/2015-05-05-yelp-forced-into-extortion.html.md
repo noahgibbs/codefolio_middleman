@@ -15,7 +15,7 @@ Spoiler: she's in an ugly situation because her startup wants to be like Yelp...
 
 Where does Emma's money come from? Advertising doesn't pay much, unless you have people who are about to buy something online in a trackable way. Emma doesn't. Most of her reviewers have already bought their thing. Users looking for reviews are (in her case) not going to buy through her, so she doesn't get paid that way. Some sites can avoid that, but Emma can't.
 
-<!--more-->
+READMORE
 
 You can't charge the people looking for reviews. There are too many free reviews sites out there. And those folks are conditioned to believe reviews are mostly free. You'd need the reputation of Consumer Reports, and even so they don't make much money &mdash; that might be a lifestyle business for Emma, but not enough to interest her VCs. Another Consumer Reports is not a VC-style moonshot and will not pay off 100x within 10 years.
 

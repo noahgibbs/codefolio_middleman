@@ -25,7 +25,7 @@ Pure Ruby <b>is</b> quite slow, but just as scalable as any other language or li
 
 There was once more truth to this. Ruby had a few leaks and Rails exercised Ruby like nothing else. Also, ActiveRecord encourages large amounts of garbage per request, which was <a href="http://www.quora.com/Does-Ruby-on-Rails-scale">easy to mistake for leaks</a>.
 
-<!--more-->
+READMORE
 
 Early Rails apps were shamefully likely to set a max requests/process threshold as low as 100 requests, often plus a memory watchdog to kill large processes, to deal with this problem. In other words, individual worker processes of the Rails site would be killed after a certain number of requests or a certain size in MB to clear out old leaks.
 

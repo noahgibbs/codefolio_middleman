@@ -31,7 +31,7 @@ activate :blog do |blog|
   blog.permalink = "posts/{slug}.html"
   # Matcher for blog source files
   blog.sources = "posts/{year}-{month}-{day}-{slug}.html"
-  blog.summary_separator = /<!--more-->/
+  # blog.summary_separator = /\<\!\-\-\ more\ \-\-\>/
   # blog.summary_length = 250
   # blog.year_link = "{year}.html"
   # blog.month_link = "{year}/{month}.html"

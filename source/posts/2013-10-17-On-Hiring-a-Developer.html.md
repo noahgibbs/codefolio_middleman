@@ -6,7 +6,9 @@ disqus_id: "http://codefol.io/posts/55"
 I got mail from somebody with a vision for an app, wanting to know how much it would cost to build their idea.
 
 This is my advice to him, with a few specifics redacted:
-<!-- more -->
+
+READMORE
+
 Hey, (Name).
 
 I only have an approximate answer, but I'll try. First off: 800-1000 hours at $55/hr isn't an unreasonable estimate at all for a mid-sized app. There are people who can get this done in a lot less than 800 hours... And they'll all charge more than $55/hr. So you're unlikely to get it done well and much cheaper than that. You could get it done badly, usually overseas, for *much* cheaper than that, but there are a lot of obvious pitfalls -- it could work, but it often doesn't.

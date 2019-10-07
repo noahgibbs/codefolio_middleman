@@ -40,7 +40,7 @@ at least three or four times as expensive for the same power.
 For a powerful server you're actually using, it's easy to pay $250/mo for what Amazon might have
 delivered for $100/mo or Digital Ocean for $80/mo.
 
-<!-- more -->
+READMORE
 
 Third-party services like MySQL (vs Postgres), Cassandra, Redis or
 MemCacheD will also cost more if you use them.
