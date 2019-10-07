@@ -10,13 +10,13 @@ prev: false
 <% if paginate && num_pages > 1 %>
   <div id="index-top-pager">
     <% if prev_page %>
-      <button class="btn btn-primary"><%= link_to '&#8592; Previous page', prev_page %></button>
+      <button class="btn btn-primary"><%= link_to '&#8592; More Recent Posts', prev_page %></button>
     <% end %>
 
     Page <%= page_number %> of <%= num_pages %>
 
     <% if next_page %>
-      <button class="btn btn-primary"><%= link_to 'Next page &#8594;', next_page %></button>
+      <button class="btn btn-primary"><%= link_to 'Earlier Posts &#8594;', next_page %></button>
     <% end %>
   </div>
 <% end %>
@@ -42,6 +42,6 @@ prev: false
 
 <% if paginate %>
   <% if next_page %>
-    <div id="bottom-next"><button class="btn btn-primary"><%= link_to 'Next page', next_page %></button></div>
+    <div id="bottom-next"><button class="btn btn-primary"><%= link_to 'Earlier posts', next_page %></button></div>
   <% end %>
 <% end %>
