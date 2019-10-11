@@ -8,10 +8,12 @@ prev: false
 
 <img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
 
-Some articles about deployment:
+Some things I've said or written about deployment:
 
 * [What is Deployment vs Provisioning vs Orchestration?](/posts/deployment-versus-provisioning-versus-orchestration/)
 * [When Should You *Not* Use Heroku?](/posts/when-should-you-not-use-heroku/) - a description of when Heroku might be the wrong tool for your job
+* I was on [the Ruby Rogues to talk about deployment](https://devchat.tv/ruby-rogues/199-rr-deployments-with-noah-gibbs/)
+* I spoke at Ruby Remote Conf in 2015 about [how a Ruby app is structured, from an HTTP request's point of view](https://www.youtube.com/watch?v=jsKWeiIuggg) - all the layers a request passes through to get there, basically
 * [How to Select the Right Chef Cookbook](/posts/selecting-the-right-chef-cookbook/)
 * [20 Small Reasons that Deploying a Rails App is Hard](/posts/twenty-small-reasons-that-deploying-a-rails-app-is-hard/
 ) - A reminder that deployment is often death by a thousand papercuts...

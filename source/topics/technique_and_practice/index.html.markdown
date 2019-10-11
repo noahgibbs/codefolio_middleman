@@ -10,3 +10,5 @@ prev: false
 
 About software technique and practice:
 
+
+* I had a [lovely podcast interview with Jason Swett](https://www.codewithjason.com/completely-unfocused-utterly-mind-blowing-conversation-noah-gibbs-rails-jason-podcast/) which veered off into learning, computing fundamentals and all sorts of other things

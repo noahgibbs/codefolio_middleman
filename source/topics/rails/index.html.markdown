@@ -10,10 +10,11 @@ prev: false
 
 I have fun blog posts about Ruby on Rails, a book about them and many other recommendations. Here's a lot of my favourite material on that subject. Yes, especially if I wrote it :-)
 
-Blog Posts:
+Rails Basics and Rails Internals:
 
-* [Understanding the Structure of Rails](/posts/Understanding-the-Structure-of-Rails/) - an introductory post about how Rails is overall structured
+* [Understanding the Structure of Rails](/posts/Understanding-the-Structure-of-Rails/) - an introductory post about how Rails is structured - the large gems that make up Rails
 * [Where Do I Put My Code in Rails? (updated)](/posts/where-do-i-put-my-code-in-rails-updated/) - my opinions about where to put various kinds of code in the Rails directory structure
+* I spoke in 2013 at Golden Gate Ruby Conference about [The Littlest ORM](https://www.youtube.com/watch?v=Uh5MYvNXt0A) - basically the ORM chapter of Rebuilding Rails, turned into its own short talk
 * [What is Rack?](/posts/What-is-Rack-A-Primer/) - understand the basics of what Rack actually is
 * [No More Requires](/posts/No-More-Requires/) - how Rails skips requires in most cases, and how you can do the same thing via const_missing
 * [Digging Into the Rails Source](/posts/Digging-Into-the-Rails-Source/) - where to start
@@ -26,4 +27,5 @@ Blog Posts:
 
 About Ruby on Rails Internals:
 
+* A [workshop I gave at Southeast Ruby 2019](https://bit.ly/southeast2019-gibbs) - similar to, but quite different from, Rebuilding Rails; build a stripped-down minimal MVC framework as fast as possible, roughly
 * My book, <a href="https://rebuilding-rails.com">Rebuilding Rails</a>, is about how to understand Ruby on Rails deeply by building your own Ruby web framework, from blank directories, structured like Rails.
