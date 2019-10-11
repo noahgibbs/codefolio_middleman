@@ -2,6 +2,8 @@
   <!-- Blog page layout -->
   <div class="blog-page card border-light">
     <div class="card-header">
+            <img class="no-border pull-right" src="/images/chalk_codefolio_transparent_160_100.png" width="160" height="100" alt=" Codefol.io logo book"></img>
+
       <h3 class="card-title"><%= current_page.data.title || "Hello!" %></h3>
       <% if current_page.respond_to?(:date) %>
         <span class="card-body text-muted"><%= current_page.date.strftime('%b %e %Y') %></span>
