@@ -12,8 +12,7 @@ I assume you know some HTML and JavaScript.  We'll audit in order of importance.
 
 ### Security
 
-First, are they using HTTPS?  Look for the green lock, green bar or <a
-href="http://faq.ssl.com/article.aspx?id=10068">equivalent for your browser</a>.
+First, are they using HTTPS? Look for the green lock, green bar or equivalent for your browser.
 
 Short version:  no lock, no buy.  You can skip to the next section if the lock is green.
 

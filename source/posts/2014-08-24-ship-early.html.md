@@ -49,8 +49,7 @@ he means it from <a
 href="http://www.amazon.com/The-War-Art-Through-Creative/dp/1936891026" target="_warofart">The
 War of Art</a>.
 
-When <b>I</b> say that shipping early means you serve your craft better and <a
-href="http://mstrick.com/ship-early-and-often/" target="_mstrick">you're more focused</a>, I'm
+When <b>I</b> say that shipping early means you serve your craft better and you're more focused, I'm
 saying it gives you a superpower &mdash; it makes you better than you would
 be otherwise, and better than other people are now.
 

@@ -3,7 +3,7 @@ title: "Rack Authentication Middleware"
 date: 2012-07-23 00:00
 disqus_id: "http://codefol.io/posts/15"
 ---
-<a href="http://codefol.io/posts/What-is-Rack-A-Primer">Rack</a> comes with a fair bit of built-in middleware that you can use to put together a simple app frame. Unfortunately, <a href="http://rack.rubyforge.org/doc/Rack/Auth/Digest/MD5.html">Rack authentication's documentation is pretty bad</a>, so let's see some simple, self-explanatory examples, shall we?
+<a href="http://codefol.io/posts/What-is-Rack-A-Primer">Rack</a> comes with a fair bit of built-in middleware that you can use to put together a simple app frame. Unfortunately, <a href="https://www.rubydoc.info/gems/rack/Rack/Auth/Digest/MD5">Rack authentication's documentation is pretty bad</a>, so let's see some simple, self-explanatory examples, shall we?
 
 ## Config
 

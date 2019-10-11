@@ -77,7 +77,7 @@ And what if you added one? Maybe you could fix a lot of nasty bugs with bad HTTP
 
 Rack ships with a bunch of middlewares and Rails has a bunch of others that it adds. You can even insert your own into the stack if you <a href="http://guides.rubyonrails.org/rails_on_rack.html">mess with config.ru</a> in your Rails app.
 
-A rack pancake can be as simple as <a href="http://rack.rubyforge.org/doc/Rack/Config.html">Rack::Config</a> where you hand it a block of code and it runs it on each request. Or it can be as complex as <a href="http://rackamole.com/">RackAMole</a> which logs every request to a MongoDB instance you have to set up. Or way, way more complex than that.
+A rack pancake can be as simple as <a href="https://www.rubydoc.info/gems/rack/Rack/Config">Rack::Config</a> where you hand it a block of code and it runs it on each request. Or it can be as complex as <a href="http://rackamole.com/">RackAMole</a> which logs every request to a MongoDB instance you have to set up. Or way, way more complex than that.
 
 There are <a href="https://github.com/rack/rack/wiki/List-of-Middleware">lots of fun pancakes</a> out there.
 

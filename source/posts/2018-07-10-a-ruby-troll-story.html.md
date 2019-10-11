@@ -86,7 +86,7 @@ Hoy](https://stackingthebricks.com/), and of many other folks who
 built up our community and taught (and still teach) our
 developers. I'm a student of Amy Hoy's. So is [Justin
 Weiss](https://www.justinweiss.com/). And [Jim
-Gay](https://www.saturnflyer.com/blog/). And Joel of
+Gay](https://www.saturnflyer.com/blog). And Joel of
 [egghead.io](https://egghead.io/). And many, many more - likely
 hundreds, but I only know the 40-ish on my Amy Hoy alumni mailing
 list. Kathy Sierra added a huge amount to our community. Then she
