@@ -5,7 +5,7 @@ disqus_id: "http://codefol.io/posts/20"
 ---
 Awkwardly, I just emailed out links to <a href="https://rebuilding-rails.com/payment_page.html">pay for Rebuilding Rails</a> with "http://" in front. Like, not "https://".
 
-Not so good. I was immediately called on it by one of my list subscribers, <a href="http://codefol.io/posts/Developers-Are-You-Sure-That-Payment-Page-is-Secure-">using my own words</a>!  Can I just say how much I love you guys for actually paying attention? People on my mailing list rule.
+Not so good. I was immediately called on it by one of my list subscribers, <a href="http://codefol.io/posts/Developers-Are-You-Sure-That-Payment-Page-is-Secure">using my own words</a>!  Can I just say how much I love you guys for actually paying attention? People on my mailing list rule.
 
 I considered emailing out an abject apology and hoping I never did it again, until it hit me...
 

@@ -8,7 +8,7 @@ an old crufty program or a badly-designed page with what I've improved at.
 
 For me, lately that's stuff with
 <a href="http://getbootstrap.com">Bootstrap</a> and
-<a href="http://code.shutterstock.com/rickshaw/examples/">Rickshaw</a>.
+<a href="https://tech.shutterstock.com/rickshaw/examples/">Rickshaw</a>.
 I've also been replacing other blog code with
 <a href="http://octopress.org">Octopress</a> &mdash; you've likely noticed.
 

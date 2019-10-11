@@ -33,7 +33,7 @@ How much of it?
 
 ## Ruby Equivalents for Metaobject Protocol Hooks
 
-Ruby already lets you do some really interesting things with your classes <a href="http://codefol.io/posts/What-Hooks-does-Ruby-have-for-Metaprogramming-">using hooks, as you metaprogrammers already know</a>.
+Ruby already lets you do some really interesting things with your classes <a href="http://codefol.io/posts/What-Hooks-does-Ruby-have-for-Metaprogramming">using hooks, as you metaprogrammers already know</a>.
 
 In Ruby, instead of a metaclass, you would make a subclass of Object that defined some hooks, and then classes that inherit from that class would get that behavior. Ruby's inherited and method_defined hooks, for instance, are very similar to redefining the inheritance or method definition behavior in a metaclass.
 

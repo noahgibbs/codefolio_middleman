@@ -19,7 +19,7 @@ Here's what I needed to do:
 * <tt>brew update</tt>, because I hadn't in awhile.
 
 * Install Pandoc. The package failed, so I had to use <a
-  href="brew.sh">Homebrew</a> to <tt>brew install
+  href="https://brew.sh">Homebrew</a> to <tt>brew install
   haskell-platform</tt>, then <tt>cabal update</tt>, possibly
   <tt>cabal install cabal-install</tt> and finally <tt>cabal install
   pandoc</tt>. Haskell-platform can take 15 minutes to compile. If

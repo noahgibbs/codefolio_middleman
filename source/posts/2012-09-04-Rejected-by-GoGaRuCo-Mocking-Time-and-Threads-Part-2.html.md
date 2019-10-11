@@ -3,7 +3,7 @@ title: "Rejected by GoGaRuCo: Mocking Time and Threads, Part 2"
 date: 2012-09-04 03:03
 disqus_id: "http://codefol.io/posts/26"
 ---
-This idea was <a href="http://codefol.io/posts/Rejected-by-GoGaRuCo-Mocking-Time-now-for-Faster-Tests-">rejected by GoGaRuCo (link to part one)</a> as a talk. So you get to see it on this blog!
+This idea was <a href="http://codefol.io/posts/Rejected-by-GoGaRuCo-Mocking-Time-now-for-Faster-Tests">rejected by GoGaRuCo (link to part one)</a> as a talk. So you get to see it on this blog!
 
 Quick summary: I've got a thing with a background thread. Clearly the code could have things go wrong. Oh Jeebus, how do I test it?
 

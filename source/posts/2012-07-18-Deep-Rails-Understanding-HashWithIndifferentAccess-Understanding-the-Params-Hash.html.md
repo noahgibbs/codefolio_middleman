@@ -52,7 +52,7 @@ params[:item] = my_array
 
 Your array will actually change!  That hash inside will suddenly have indifferent access and it will point to a whole different object!
 
-(Why?  I spent awhile with git log trying to answer that. Looks like it's <a href="https://github.com/rails/rails/commit/f43e5d160bf9708ad50b58c8168e38579769e024">because just mapping the Array won't give you the right subclass</a>, so they rewrite the innards instead!  <a href="http://codefol.io/posts/Unsolvable-Ruby-Problems-Array-map-on-an-Array-subclass-but-keep-the-subclass-">Map into an unknown Array subclass is an unsolvable problem in Ruby</a>, actually...)
+(Why?  I spent awhile with git log trying to answer that. Looks like it's <a href="https://github.com/rails/rails/commit/f43e5d160bf9708ad50b58c8168e38579769e024">because just mapping the Array won't give you the right subclass</a>, so they rewrite the innards instead!  <a href="/posts/Unsolvable-Ruby-Problems-Array-map-on-an-Array-subclass-but-keep-the-subclass">Map into an unknown Array subclass is an unsolvable problem in Ruby</a>, actually...)
 
 <h2> Up To Date? </h2>
 

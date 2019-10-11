@@ -69,7 +69,7 @@ another year or two.
 And likely more.
 
 I look forward to the future, when <a
-href="http://leopard.in.ua/2013/01/04/chef-solo-getting-started-part-1/">a
+href="https://leopard.in.ua/2013/01/04/chef-solo-getting-started-part-1">a
 well-written year-old tutorial</a> doesn't require three or four
 updates to work with recent versions of everything. And we'll get
 there.

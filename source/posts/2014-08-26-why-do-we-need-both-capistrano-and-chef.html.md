@@ -42,7 +42,7 @@ But it usually boils down to "run this code" - usually Ruby code or Bash code. I
 
 <img class="pull-right" src="/images/cap_and_chef/dont-always-write-tests-239x300.jpg" width="239" height="300" />
 
-Chef <a href="http://docs.getchef.com/chef_why.html">is all about idempotence</a>. That means you tell is "make all this stuff true" and it does. That's a pretty cool way to set up a server, but it's pretty bad for app deployment. "Use the latest version" isn't a constant state (not idempotent) and it's not exactly what you want anyway.
+Chef <a href="https://www.chef.io/why-chef/">is all about idempotence</a>. That means you tell is "make all this stuff true" and it does. That's a pretty cool way to set up a server, but it's pretty bad for app deployment. "Use the latest version" isn't a constant state (not idempotent) and it's not exactly what you want anyway.
 
 What does "make something true" involve? For Chef it usually boils down to "put a file in this location" or "install this package" or "use this app configuration." More rarely it might mean "keep this process running" (often via <a href="http://smarden.org/runit/">runit</a>) or "there must be no file at this location." <a href="http://docs.getchef.com/chef/resources.html">There are a lot of things Chef can keep true for you.</a>
 

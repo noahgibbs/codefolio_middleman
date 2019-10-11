@@ -7,7 +7,7 @@ Rails is a heavyweight framework and it does <a href="http://guides.rubyonrails.
 
 ## What’s In a REST API?
 
-When I say “your REST API”, I’m specifically talking about a little application server that serves requests over HTTP, preferably using <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST principles</a>, but not necessarily. Generally a REST API server is backed by a database or other form of data storage. It might provide calculation of some kind, either with a data store or not. You can think of the Twitter API or the GitHub API, for instance, or simpler things like <a href="http://graphite.readthedocs.org/en/1.0/url-api.html">querying data points from Graphite</a>.
+When I say “your REST API”, I’m specifically talking about a little application server that serves requests over HTTP, preferably using <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST principles</a>, but not necessarily. Generally a REST API server is backed by a database or other form of data storage. It might provide calculation of some kind, either with a data store or not. You can think of the Twitter API or the GitHub API, for instance, or simpler things like querying data points from your metrics backend.
 
 What I am <i>not</i> talking about is anything serving a user-visible HTML-CSS-and-JS web site, meant to be consumed by a user, interactively, in a browser. Let’s call that a “web app server” instead of a “REST API server”.
 
@@ -72,7 +72,7 @@ The amount of overhead we’re talking about looks small if you’re Twitter-siz
 
 Because Rails overhead doesn’t just stop after “rails new” finishes running.
 
-<a href="http://rubyrogues.com/object-oriented-programming-in-rails-with-jim-weirich/">Trying to do even plain-vanilla object-oriented programming in Rails</a> is suddenly a complicated topic with a <a href="http://evan.tiggerpalace.com/articles/2012/11/21/use-rails-until-it-hurts/">lot of people weighing in</a>, sometimes <a href="http://objectsonrails.com/">at book length</a>. You have to educate every new programmer on your project in that several-hundred-entry-point Rails API and how you mix it with OO.
+<a href="https://devchat.tv/ruby-rogues/020-rr-object-oriented-programming-in-rails-with-jim-weirich/">Trying to do even plain-vanilla object-oriented programming in Rails</a> is suddenly a complicated topic with a <a href="http://evan.tiggerpalace.com/articles/2012/11/21/use-rails-until-it-hurts/">lot of people weighing in</a>, sometimes <a href="http://objectsonrails.com/">at book length</a>. You have to educate every new programmer on your project in that several-hundred-entry-point Rails API and how you mix it with OO.
 
 Fundamentally, a dedicated API framework like Grape or Sinatra is just <i>lower overhead</i> to get new people up to speed.
 
