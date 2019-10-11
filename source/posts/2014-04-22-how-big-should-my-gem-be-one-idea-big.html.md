@@ -54,7 +54,7 @@ the important part.
 There are <a href="http://sourcemaking.com/antipatterns/the-blob">many</a>
 <a href="http://lostechies.com/chrismissal/2009/05/28/anti-patterns-and-worst-practices-monster-objects/">explanations</a>
 <a href="http://en.wikipedia.org/wiki/God_object">of the</a>
-<a href="">problems</a> <a href="http://cored.github.io/blog/2014/04/15/is-this-a-god-object/">with God Objects</a>,
+<a href="">problems</a> with God Objects,
 a.k.a. Monster Objects -- objects that do too much and know too much.
 
 Libraries can have the same problem.

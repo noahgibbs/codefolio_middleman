@@ -18,9 +18,7 @@ productive. That's a best-case scenario, but it happens semi-often.
 
 Watch for it, just in case.
 
-But if one of those was obvious, you wouldn't have asked me. As <a
-href="https://michaelochurch.wordpress.com/2013/04/22/gervais-macleod-23-the-shodan-programmer/">Michael
-Church writes</a>, those opportunities are often reserved for the programmers
+As you'd expect, those opportunities are often reserved for the programmers
 who play the politics game best &mdash; if you do well, many of those will
 mysteriously open up to you.
 

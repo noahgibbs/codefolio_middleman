@@ -12,7 +12,7 @@ time. Patrick suggests that &quot;a reasonable guesstimate is between
 150% and 200% of their salary&quot; and that the "extra" tends upward
 as salary does. Of course it depends on benefits and whatnot.
 
-<a href="https://www.quora.com/What-is-the-mean-cost-per-year-for-a-software-engineer-in-Silicon-Valley">Many
+<a href="https://www.quora.com/What-is-the-mean-cost-per-year-after-FICA-health-insurance-office-space-and-salary-for-a-software-engineer-in-Silicon-Valley">Many
 people think that's complete baloney.</a> Specifically, they tend to
 think that the "extra" is fixed (e.g. $30k extra,) rather than a large and increasing
 percent of salary.

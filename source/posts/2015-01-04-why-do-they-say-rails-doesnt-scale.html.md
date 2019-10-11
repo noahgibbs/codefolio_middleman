@@ -3,7 +3,7 @@ title: "Why Do They Say Rails Doesn't Scale?"
 date: 2015-01-04 19:27
 ---
 
-If you're new to Ruby on Rails, you may be new to the old debates (pro and con) about how <a href="http://www.quora.com/Does-Ruby-on-Rails-scale">"Rails doesn't scale."</a> You might wonder why people say that, or where it came from.
+If you're new to Ruby on Rails, you may be new to the old debates (pro and con) about how <a href="https://www.quora.com/Does-Ruby-on-Rails-scale-Why-or-why-not#">"Rails doesn't scale."</a> You might wonder why people say that, or where it came from.
 
 <img class="pull-right" src="/images/rails_noscale.png" width="200" height="385" alt="My younger daughter on a ferris wheel." />
 
@@ -23,7 +23,7 @@ Pure Ruby <b>is</b> quite slow, but just as scalable as any other language or li
 
 ## 2) Ruby/Rails leaks resources, so large or long-running projects don't work
 
-There was once more truth to this. Ruby had a few leaks and Rails exercised Ruby like nothing else. Also, ActiveRecord encourages large amounts of garbage per request, which was <a href="http://www.quora.com/Does-Ruby-on-Rails-scale">easy to mistake for leaks</a>.
+There was once more truth to this. Ruby had a few leaks and Rails exercised Ruby like nothing else. Also, ActiveRecord encourages large amounts of garbage per request, which was <a href="https://www.quora.com/Does-Ruby-on-Rails-scale-Why-or-why-not#">easy to mistake for leaks</a>.
 
 READMORE
 

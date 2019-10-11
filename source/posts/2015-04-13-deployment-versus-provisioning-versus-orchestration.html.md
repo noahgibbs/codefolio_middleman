@@ -46,14 +46,13 @@ buying access to network bandwidth, but you can probably ignore that.
 The thing to remember is that &lsquo;deployment&rsquo; does not, as a
 rule, include &lsquo;provisioning&rsquo;.
 
-Ruby developers often use <a target="_blank" href="http://getchef.io">Chef</a>, <a target="_blank"
+Ruby developers often use <a target="_blank" href="https://www.chef.io/get-chef/">Chef</a>, <a target="_blank"
 href="http://ansible.com">Ansible</a> or <a target="_blank"
 href="http://puppetlabs.com">Puppet</a> for server provisioning. This
 can also be done automatically by a service like <a target="_blank"
 href="http://engineyard.com">Engine Yard</a>, <a target="_blank"
-href="http://heroku.com">Heroku</a> or <a target="_blank"
-href="http://ninefold.com">NineFold</a>
-(but NineFold <a href="http://info.ninefold.com/webmail/36692/220177378/ec473de6e33f9bd0f87845842205a004">doesn't do Ruby any more).
+href="http://heroku.com">Heroku</a> or (briefly)NineFold
+(but NineFold seems to be gone).
 
 ## Orchestration
 

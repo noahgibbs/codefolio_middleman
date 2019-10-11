@@ -13,7 +13,7 @@ I work at <a href="http://ooyala.com">Ooyala</a>, an awesome mid-sized startup. 
 
 Rails is designed for defaults. Rails is <i>amazing</i> for your tiny startup that’s just testing out an idea. And Rails’ <a href="http://guides.rubyonrails.org/security.html">wonderful ways to protect you from yourself</a> will take you a surprisingly long way without making you think too hard about security. That’s great... up to a point.
 
-But we all know that <a href="34-Rails-Is-the-Wrong-Tool-for-Your-REST-API">vanilla Rails isn’t so good for APIs</a>. A big company’s <a href="http://en.wikipedia.org/wiki/Service-oriented_architecture">internal code is pretty much a giant ball of APIs</a>. And internal code is <a href="http://research.google.com/pubs/papers.html">95% of what we do</a>. Even <a href="http://twitter.com">companies who clearly love Rails</a> stop using it for back-end APIs pretty quickly. And that’s even better.
+But we all know that <a href="/posts/Rails-Is-the-Wrong-Tool-for-Your-REST-API/">vanilla Rails isn’t so good for APIs</a>. A big company’s <a href="http://en.wikipedia.org/wiki/Service-oriented_architecture">internal code is pretty much a giant ball of APIs</a>. And internal code is <a href="http://research.google.com/pubs/papers.html">95% of what we do</a>. Even <a href="http://twitter.com">companies who clearly love Rails</a> stop using it for back-end APIs pretty quickly. And that’s even better.
 
 ## Wait, Switch? To What?
 

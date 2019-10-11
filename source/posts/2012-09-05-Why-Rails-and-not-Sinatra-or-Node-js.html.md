@@ -3,7 +3,7 @@ title: "Why Rails and not Sinatra or Node.js?"
 date: 2012-09-05 02:48
 disqus_id: "http://codefol.io/posts/29"
 ---
-Rails is <a href="http://www.engineyard.com/blog/2009/thats-not-a-memory-leak-its-bloat/">bloated</a> and <a href="http://gilesbowkett.blogspot.com/2012/02/rails-went-off-rails-why-im-rebuilding.html">hard to learn</a>. You'd love to use a really simple framework like Sinatra. But what if you need something from Rails that isn't there? You can't memorize all the hundreds of helper methods in Rails. But what are the important ones that will hurt you badly if you don't know them?
+Rails is <a href="https://www.engineyard.com/blog/thats-not-a-memory-leak-its-bloat">bloated</a> and <a href="http://gilesbowkett.blogspot.com/2012/02/rails-went-off-rails-why-im-rebuilding.html">hard to learn</a>. You'd love to use a really simple framework like Sinatra. But what if you need something from Rails that isn't there? You can't memorize all the hundreds of helper methods in Rails. But what are the important ones that will hurt you badly if you don't know them?
 
 Why not build from something simpler and smaller? <a href="http://nodejs.org">Node.js</a> or <a href="http://sinatrarb.com">Sinatra</a>, say?
 
