@@ -56,7 +56,7 @@ very similar but with a little more detail.
 There are automated tools like <a
 href="https://github.com/testdouble/good-migrations">Good
 Migrations</a> and <a
-href="https://github.com/ankane_strong_migrations">Strong
+href="https://github.com/ankane/strong_migrations">Strong
 Migrations</a> to help you follow some high-quality migration rules
 and prevent downtime. But there's no replacement for code review by a
 careful human being.

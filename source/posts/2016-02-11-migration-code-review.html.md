@@ -13,7 +13,7 @@ human should look over. Let's talk about some of the rules for code
 reviewing a migration that <b>aren't</b> covered by the <a
 href="https://github.com/testdouble/good-migrations">Good
 Migrations</a> or <a
-href="https://github.com/ankane_strong_migrations">Strong
+href="https://github.com/ankane/strong_migrations">Strong
 Migrations</a> tools.
 
 ## Keep Each Migration Small
@@ -150,6 +150,6 @@ migrations" page somewhere for your project. Steal these rules for it
 and/or link to this article... And also add the rules from <a
 href="https://github.com/testdouble/good-migrations">Good
 Migrations</a> and <a
-href="https://github.com/ankane_strong_migrations">Strong
+href="https://github.com/ankane/strong_migrations">Strong
 Migrations</a>. If useful, link to the <a
 href="https://github.com/soundcloud/lhm">Large Hadron Migrator</a>.
