@@ -8,7 +8,7 @@ prev: false
 
 <img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
 
-About software technique and practice:
-
+About software technique and practice (see also [career](/topics/career)):
 
 * I had a [lovely podcast interview with Jason Swett](https://www.codewithjason.com/completely-unfocused-utterly-mind-blowing-conversation-noah-gibbs-rails-jason-podcast/) which veered off into learning, computing fundamentals and all sorts of other things
+* [How to Produce and Learn at the Same Time](/posts/how-to-produce-and-learn-at-the-same-time/) - probably *my* favourite post I've written for other developers
