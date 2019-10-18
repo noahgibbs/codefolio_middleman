@@ -6,7 +6,7 @@ next: false
 prev: false
 ---
 
-<img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
+<img src="/images/ruby fellow.png" class="pull-right" width="328" height="314" alt="A Ruby-using programmer hunched over his laptop, with teddy bear."> </img>
 
 Ruby-Flavored Topics:
 
