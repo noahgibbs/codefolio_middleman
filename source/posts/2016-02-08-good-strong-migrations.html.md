@@ -1,7 +1,7 @@
 ---
 title: "Good Strong Migrations"
 date: 2016-02-08 18:00
-mc_signup: codefolio_sidebar_database
+mc_signup: database
 ---
 
 Remember that <a

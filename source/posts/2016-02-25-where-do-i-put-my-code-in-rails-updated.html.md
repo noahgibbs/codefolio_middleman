@@ -1,7 +1,7 @@
 ---
 title: "Where Do I Put My Code In Rails (Updated)"
 date: 2016-02-25 18:23
-mc_signup: codefolio_sidebar_rails
+mc_signup: rails
 ---
 
 Lots of you loved my <a href="http://codefol.io/posts/Where-Do-I-Put-My-Code">old post</a> on this. Thanks! But thanks to many fine questions,

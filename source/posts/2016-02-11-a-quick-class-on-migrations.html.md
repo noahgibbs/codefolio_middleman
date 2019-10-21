@@ -1,7 +1,7 @@
 ---
 title: "A Quick Class on Migrations"
 date: 2016-02-11 18:59
-mc_signup: codefolio_sidebar_database
+mc_signup: database
 ---
 
 Interested in taking your Rails migration code to the next level?
