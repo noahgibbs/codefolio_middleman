@@ -18,7 +18,7 @@ Our family has been looking for a reason to leave California for some time. The 
 
 Also? The neighbors in the Bay know that they can't stay forever either. It feels weirdly transient because *nobody* can afford to live there for all that long. New folks constantly show up to the tech gold rush and old ones constantly leave.
 
-So in February of 2019, we sold the California house. Our little 900-square-foot stucco-front 1950s tract house sold for around US $850,000, in case you wanted more detail about that "unsustainable" thing. If the market kept rising in my retirement, how could I possibly stay? The grocery store and local folks have to pay rent at those prices, which means everything would keep getting more expensive, as it did for my first 20 years there...
+So in February of 2019, we sold the California house. Our little 1200-square-foot stucco-front 1950s tract house sold for around US $850,000, in case you wanted more detail about that "unsustainable" thing. If the market kept rising in my retirement, how could I possibly stay? The grocery store and local folks have to pay rent at those prices, which means everything would keep getting more expensive, as it did for my first 20 years there...
 
 We took the money and I followed the [Ruby conference schedule](https://rubyconferences.org/) around the world for a bit. I have the good fortune to speak at conferences for work, so we just arrived at each place a bit early and stayed in different states and countries to see what we enjoyed.
 
@@ -80,8 +80,8 @@ You know where that doesn't happen? Countries with socialised medicine like the 
 
 People complain about the National Health, but... Looking around here, it's hard to imagine why you would ever *want* the American system.
 
-Also, by paying UK taxes, which are overall higher, we won't be paying US taxes to fund [concentration camps on the borders](https://en.wikipedia.org/wiki/List_of_concentration_and_internment_camps#Migrants_at_the_Mexico%E2%80%93United_States_border). We don't mind paying taxes - again, we're not saving money on taxes by moving to the UK. But we don't want our money *doing that*.
+Also, by paying UK taxes, which are overall higher, we won't be paying US taxes to fund [concentration camps on the borders](https://en.wikipedia.org/wiki/List_of_concentration_and_internment_camps#Migrants_at_the_Mexico%E2%80%93United_States_border). We don't mind paying taxes - again, we're not saving money on taxes by moving to the UK. But we don't want our money *doing that* (or military misadventure.)
 
-California has gigantic homeless camps, essentially because the government doesn't want to help (we could get tax breaks instead!), and California has a climate that doesn't rapidly kill them. The local folks here are appalled at the idea - "why doesn't the government help?"
+California has gigantic homeless camps, essentially because the government doesn't want to help (we could get tax breaks instead!), and California has a climate that doesn't rapidly kill them. The Scots-local folks here are appalled at the idea - "why doesn't the government help?"
 
 Yes. We agree with you. And now, here we are.
