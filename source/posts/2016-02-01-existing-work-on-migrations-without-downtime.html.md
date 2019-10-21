@@ -1,6 +1,7 @@
 ---
 title: "Existing work on migrations without downtime"
 date: 2016-02-01 18:10
+mc_signup: database
 ---
 
 As I <a

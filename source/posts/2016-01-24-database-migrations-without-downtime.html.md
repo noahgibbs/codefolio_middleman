@@ -1,6 +1,7 @@
 ---
 title: "Database Migrations Without Downtime"
 date: 2016-01-24 16:05
+mc_signup: database
 ---
 
 Back when I worked at <a href="http://on-site.com">On-Site</a>, years
