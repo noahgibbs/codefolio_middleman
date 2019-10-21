@@ -1,6 +1,6 @@
 ---
 title: "Many Unix Commands Are Actually Jokes..."
-date: 2018-07-10 21:39
+date: 2019-10-21 14:00
 ---
 
 There are a lot of weird Unix command names. Where do they come from?
