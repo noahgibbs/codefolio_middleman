@@ -42,8 +42,8 @@ class is shut down at this point</a>, and it won't be reopening. The
 Science software</a> is still on GitHub, but won't be updated with any
 real frequency.
 
-If you've been watching me carefully you know I'm releasing a <a
-href="http://no-more-lost-data.com">database migrations ebook</a>. The
+If you've been watching me carefully you know I'm releasing a (edited to add: now defunct)
+database migrations ebook. The
 current revenue on that is a nice even $0, though I hope that'll go up
 over time. There's a beta ebook, I've sent my mailing list a few
 chapters and I'm recording some videos to go with it. High hopes,

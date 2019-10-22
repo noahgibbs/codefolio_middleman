@@ -6,8 +6,8 @@ date: 2015-02-19 21:43
 Are you deploying a Rails app? Here are lots of things you'll probably have to
 watch for as you do... I've been writing <a
 href="http://github.com/noahgibbs/madscience_deploy_repo">an open-source
-gem</a> and a <a href="http://rails-deploy-in-an-hour.com">for-pay online
-class</a> about this for months now. Let me share some things.
+gem</a> and a (edited to add: now defunct) for-pay online
+class about this for months now. Let me share some things.
 
 There are lots of big reasons that deploying a Rails app is hard. And lots of
 well-known, big tasks. But when you're provisioning a server and deploying
@@ -69,9 +69,3 @@ READMORE
 
 There are a multitude of fiddly bits to get right when doing your
 deployment. I hope I've saved you some time and effort!
-
-And next time you're deploying a Rails app, I hope you'll have a look at <a
-href="http://github.com/noahgibbs/madscience_deploy_repo">Ruby Mad Science</a>
-and/or <a href="http://rails-deploy-in-an-hour.com">Rails Deploy In An
-Hour</a> -- I've put a lot of very annoying work into them, as you can read
-here ;-)

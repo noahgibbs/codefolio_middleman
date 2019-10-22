@@ -24,7 +24,7 @@ assumptions and are for different scenarios, but don't spell that out.
 
 You can see an example of one way to set it up in my <a href="https://github.com/noahgibbs/madscience">Ruby Mad Science
 open-source software</a>, but
-please don't purchase <a href="http://rails-deploy-in-an-hour.com">the associated class</a>. I'm in the process of
+please don't purchase the associated class. I'm in the process of
 winding it down.
 
 For pretty much the same reason, it turns out. Deployment is something

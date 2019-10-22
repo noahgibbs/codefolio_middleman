@@ -51,8 +51,7 @@ a lot of data at a time.
 
 Luckily, you can find <a
 href="/posts/migration-code-review">guidelines for code reviews</a> if
-you look a bit. My <a href="http://no-more-lost-data.com">book</a> is
-very similar but with a little more detail.
+you look a bit.
 
 There are automated tools like <a
 href="https://github.com/testdouble/good-migrations">Good

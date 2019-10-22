@@ -3,9 +3,8 @@ title: "Why I Shut Down Rails-Deploy-In-An-Hour"
 date: 2016-01-28 18:42
 ---
 
-Some of you may remember <a
-href="http://rails-deploy-in-an-hour.com">Rails Deploy In An Hour</a>,
-a Ruby deployment class I started selling last year. More of you
+Some of you may remember Rails Deploy In An Hour,
+a Ruby deployment class I tried selling last year. More of you
 probably remember <a href="http://rubymadscience.com">Ruby Mad
 Science</a>, the open-source software that went with it.
 

@@ -141,8 +141,8 @@ the schema.
 
 ## Happy Reviewing
 
-These aren't <b>all</b> the code review rules from <a
-href="http://no-more-lost-data.com">my migration book</a>, but they're
+These aren't <b>all</b> the code review rules from
+my now-defunct migration book, but they're
 most of them &mdash; I want better migrations in the Rails community
 more than I want to sell more books, you know?
 

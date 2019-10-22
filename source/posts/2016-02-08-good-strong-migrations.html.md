@@ -26,9 +26,10 @@ downtime and not screw anything up." This may cramp your style a
 little more since you can't do things like change the type of a
 column. There's no safe way to do it, so Strong Migrations stops you.
 
-You can learn a little more about <i>why</i> to be careful with these
-things from <a href="http://no-more-lost-data.com">No More Lost
-Data</a>, my book on migrations.
+You could once learn a little more about <i>why</i> to be careful with these
+things from No More Lost
+Data, my book on migrations - I've added most of its contents to my blog
+over time.
 
 You can also learn more about <a
 href="http://codefol.io/posts/database-migrations-without-downtime">the

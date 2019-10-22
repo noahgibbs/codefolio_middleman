@@ -101,11 +101,4 @@ sometimes!</a>
 
 (And you're not wrong about those.)
 
-I have <a href="http://rails-deploy-in-an-hour.com">a solution to all of
-those</a> if you want it - it costs money, but saves you a bunch of time.
-It configures Chef and Vagrant and Capistrano and all the various tools,
-once, and lets you mostly just drop in your Rails app requirements.
-
-Or you can sign up at the mailing list link below and I'll email you more
-about it, let you see some freebies from the class and generally keep trying
-to get you to automate more. You really should, after all ;-)
+But sometimes automation is a really good idea, and it's nice to have somebody else's guidelines and mental models around to help you.

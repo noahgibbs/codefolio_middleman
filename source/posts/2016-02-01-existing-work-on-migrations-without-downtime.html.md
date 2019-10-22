@@ -6,8 +6,8 @@ mc_signup: database
 
 As I <a
 href="http://codefol.io/posts/database-migrations-without-downtime">look
-into database migration dangers</a> for <a
-href="http://no-more-lost-data.com">a book I'm working on,</a> I find
+into database migration dangers</a> for (edited to add: now defunct)
+a book I'm working on, I find
 a lot of great existing stuff that I had no idea existed.
 
 Thanks, guys!
