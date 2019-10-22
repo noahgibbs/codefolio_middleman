@@ -100,3 +100,19 @@ body {
   //background-color: #fff5ce;
   //font-size: 125%;  // Better to use SCSS to resize...
 }
+
+.inset img {
+  max-width: 90%;
+  height: auto;
+}
+
+.inset {
+  //min-width: 20%;
+  max-width: 40%;
+  border: 2px solid white;
+  border-radius: 3px;
+  font-size: 120%;
+  padding: 0.5em;
+  margin: 0.5em;
+  background-image: url("/images/blackboard_tiled.png")
+}
