@@ -3,10 +3,12 @@ title: "Why Inverness? A Story of Travel"
 date: 2019-10-22 11:00
 ---
 
-<div class="card border-light" style="float:right; max-width: 40%;">
-  <img class="img-fluid" src="/images/800px-Inverness_Castle_and_River_Ness_Inverness_Scotland_-_conner395.jpg" alt="By dave conner from Inverness, Scotland - Inverness Castle and River Ness Inverness Scotland, CC BY 2.0, https://commons.wikimedia.org/w/index.php?curid=11454144"></img><br/>
-  <h4 class="card-header">This castle is actually on my way into town. It's small, but just as pretty in person.</h4>
+<div class="inset pull-right d-none d-sm-block">
+  <img class="" src="/images/800px-Inverness_Castle_and_River_Ness_Inverness_Scotland_-_conner395.jpg" alt="By dave conner from Inverness, Scotland - Inverness Castle and River Ness Inverness Scotland, CC BY 2.0, https://commons.wikimedia.org/w/index.php?curid=11454144" />
+  This castle is actually on my way into town. It's small, but just as pretty in person.
 </div>
+
+Hrm...
 
 I recently moved to Inverness, Scotland from California. When I tell people that, the question I get most is, "why Inverness?" (The second-most is "why would you leave California?" - but it's related.)
 
@@ -24,9 +26,9 @@ We took the money and I followed the [Ruby conference schedule](https://rubyconf
 
 After a few of our early stops like Malaysia, Mexico and Japan, our kids (the two who were old enough to talk) put their foot down - our final home would need to be basically English-speaking. That's a fair request. We didn't stay *only* in English-speaking countries since we already had a stop in Bangkok scheduled later, but we started looking for final homes in places where they'd be able to understand the other kids.
 
-<div class="card border-light" style="float:left; max-width: 40%;">
-  <img class="img-fluid" src="/images/inverness_botanic_gardens.jpg" alt="Inverness Botanic Gardens"></img><br/>
-  <h4 class="card-header">It's fun that the local Botanic Gardens have distant desert plants... So they're the same things the neighbours' back gardens had in California.</h4>
+<div class="inset pull-left d-none d-sm-block">
+  <img class="" src="/images/inverness_botanic_gardens.jpg" alt="Inverness Botanic Gardens"></img>
+  It's fun that the local Botanic Gardens have distant desert plants... So they're the same things the neighbours' back gardens had in California.
 </div>
 
 One thing you should remember about California: it's hot and dry. You've probably also heard about the [wildfires](https://en.wikipedia.org/wiki/2019_California_wildfires) which have been getting worse for years, and will keep getting worse due to climate change. Quite a lot of California has been a desert for much longer than that, and the water shortage has been building for decades - not only is California a desert, it's also aggressively farmed to such an extent that [a lot of central California is literally sinking](https://www.theguardian.com/us-news/2015/nov/28/california-central-valley-sinking-farmers-deepwater-wells).
@@ -49,9 +51,9 @@ And for those who, like me, grew up in the United States... It's like living in 
 
 King Arthur may have been real or not, but the *places* where things happened are all real. And you can take a train to them. In a day.
 
-<div class="card border-light" style="float:right; max-width: 40%;">
-  <img class="img-fluid" src="/images/Old-Man-of-Storr.jpg" alt="The Isle of Skye"></img><br/>
-  <h4 class="card-header">I mean, you could also do the Google Image Search yourself. I just look out my window. No Nessie yet, but I'm still new.</h4>
+<div class="inset pull-right d-none d-sm-block">
+  <img class="" src="/images/Old-Man-of-Storr.jpg" alt="The Isle of Skye"></img><br/>
+  I mean, you could also do the Google Image Search yourself. I just look out my window. No Nessie yet, but I'm still new.
 </div>
 
 Formative history like Culloden battlefield are literally a *bus ride across town*. The Black Isle? We can see it across the bridge, past the tourist shops. The Isle of Skye? You can rent a car and get there same day. If you ask the local delivery fellow, there's a decent chance he's headed that way after our house.
