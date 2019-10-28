@@ -1,7 +1,7 @@
 module PostHelpers
     def aside_content(content, direction: :right, disappear_on_mobile: true)
         classes = "inset"
-        classes += " d-none d-sm-block" if disappear_on_mobile
+        classes += " d-none d-md-block" if disappear_on_mobile
         if direction == :right
           classes += " pull-right"
         elsif direction == :left
