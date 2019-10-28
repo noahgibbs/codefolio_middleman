@@ -116,3 +116,27 @@ body {
   margin: 0.5em;
   background-image: url("/images/blackboard_tiled.png")
 }
+
+.pull-quote {
+  background: #222;
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 120%;
+  padding-top: 71px;
+  border: 2px solid #600;
+  padding: 13px;
+  margin: 0 13px 13px 0;
+}
+
+.pull-quote p:first-letter {
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.pull-quote footer {
+  text-align: right;
+}
+
+blockquote {
+  margin: 0;
+}

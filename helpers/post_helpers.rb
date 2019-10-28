@@ -1,4 +1,34 @@
 module PostHelpers
+    def pull_quote(quote, attribution = nil, width: 8, direction: :right)
+        classes = "pull-quote col-#{width}"
+        if direction == :right
+          classes += " pull-right"
+        elsif direction == :left
+          classes += " pull-left"
+        elsif direction == :none
+        else
+          raise "Unrecognized aside_image direction: #{direction.inspect}"
+        end
+        footer = ""
+        if attribution
+            footer = <<HTML
+        <footer>
+          - #{attribution}
+        </footer
+HTML
+        end
+
+        <<HTML
+<aside class="#{classes}">
+    <blockquote>
+        <p>&quot;#{quote}&quot;</p>
+#{footer}
+    </blockquote>
+}
+</aside>
+HTML
+    end
+
     def aside_content(content, direction: :right, disappear_on_mobile: true)
         classes = "inset"
         classes += " d-none d-md-block" if disappear_on_mobile
