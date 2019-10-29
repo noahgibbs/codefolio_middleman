@@ -13,14 +13,35 @@ layout: false
     <!-- Use the title from a page's frontmatter if it has one -->
     <title><%= current_page.data.title || "Codefol.io" %></title>
     <link rel="stylesheet" href="https://codefol.io/stylesheets/bootswatch.css">
-    <link rel="stylesheet" href="https://codefol.io/stylesheets/monokai.css"> <!-- pygments style -->
 
     <script src="/javascripts/jquery-3.3.1.slim.min.js"></script>
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
 
-    <link href="/stylesheets/site.css" rel="stylesheet" />
     <script src="/javascripts/site.js"></script>
+
+    <style>
+img:not(.no-border) {
+    border: 0.25em solid #d0e0ff;
+    border-radius: 5px;
+    margin:10px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family:"Playfair Display",Playfair Display,serif;
+}
+
+.btn-primary {
+    border-style:solid;
+    border-width:0px 1px 4px 1px;
+    border-color:#202020;
+}
+
+body {
+    background-image:url("/images/blackboard_tiled.png");
+}
+
+    </style>
 
     <link href="/favicon.png" type="image/png" rel="icon">
 
@@ -36,49 +57,54 @@ layout: false
   </head>
 
   <body>
-    <h1>Mastering Software Technique</h1>
+    <div class="container" style="padding-top: 40px;"><div class="row"><div class="col-1"></div><div class="col-10">
+
+    <h1>Without Software Technique,<br/> Nothing Works</h1>
 
     <p>
+      You _know_ what the code needs to do, in that ugly moment.
+      You can _see_ it in your mind... And it's *just*... *NOT*... *doing* it.
+      You wrote a little loop, and it's wrong, and you *know* it's wrong.
+      You can _explain_ the right code. You just can't _write_ the right code.
     </p>
 
     <p>
-      You feel like you, specifically, are missing that certain something. There's a
-      hierarchy, and it's based on... technical _something something_&hellip; Maybe if you'd
-      gone to a really first-class university for computer science and you knew all
-      your algorithms cold? Or if you were one of those people who can hammer out
-      a new design immediately, without pausing. Or if you knew all the latest
-      libraries and techniques?
+      The blinking cursor is mocking you.
     </p>
 
     <p>
-      I have bad news. Even people who go to the latest technical universities
-      don't have all the algorithms cold - and they keep coming up with new ones.
-      You can't know _*all*_ the JavaScript frameworks, let alone all the
-      new software. And yet, somehow, there are people who *do* move up the
-      hierarchy and who *can* just handle any problem that comes their way. So it
-      can be done. What if _*you*_ could do it?
+      What *doesn't* fix that problem? Learning more algorithms.
+      Or reading more blog posts. Or more books. Even if you learn all
+      the math and computer science, there's a specific technique to
+      writing code, and all the study in the world doesn't give it to you.
     </p>
 
     <p>
-      Imagine a problem came up at work - which of these pieces of software do we
-      use? And you could simply code up a quick prototype, specific to your exact
-      circumstances and your use case. You've heard that "code wins arguments,"
-      and you could just... do that. Or perhaps you need an architecture diagram,
-      or just a "spike" (prototype) of a new system.
+      What does? _*Practice*_.
     </p>
 
     <p>
-      Wouldn't you love to just... *do* that? And to be the person others looked
-      at when it was *time* to do it?
+      The _*right kind*_ of practice. Conscious, mindful practice done well.
     </p>
 
     <p>
-      There's a secret to it... And it's so simple it's barely a secret at all.
-      Here it is: practice. But *how* do you practice *well enough* to make that
-      happen? That's a much more interesting secret.
+      When everything works, you can just write out the loop. Yeah, you have to
+      debug it, but... it's straightforward. You grind through the code for an
+      hour and you have an hour's worth of code. You have a problem and, twenty
+      minutes later, you wrote a solution and it works.
     </p>
 
+    <p>
+      When you're really good, you can just predictably _write_ the code. It
+      doesn't have to be an event. You don't wait for inspiration. You just
+      do it.
+    </p>
 
+    <p>
+      How do you get that good? The right kind of practice.
+    </p>
+
+  </div></div></div>
   </body>
 
 </html>
