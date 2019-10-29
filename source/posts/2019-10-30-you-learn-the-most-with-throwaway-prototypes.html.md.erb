@@ -11,7 +11,7 @@ Sometimes it's a superpower if you take and use good advice that most people don
 
 Here's one of my favourites: rewrite once and throw the first away because you will anyway.
 
-From Fred Brooks' The Mythical Man-Month, one of the oldest books about getting software written, to [Chad Fowler's keynote about "Legacy" in software](https://www.youtube.com/watch?v=YruzQgWdv48), you can find many years' of expounding the virtues of rewriting our software - in a careful, controlled way. Keep in mind that [Chad Fowler is *also* the guy who wrote the series telling you to never do The Big Rewrite](http://chadfowler.com/2006/12/27/the-big-rewrite.html).
+From [Fred Brooks' The Mythical Man-Month](https://en.wikipedia.org/wiki/The_Mythical_Man-Month), one of the oldest books about getting software written, to [Chad Fowler's keynote about "Legacy" in software](https://www.youtube.com/watch?v=YruzQgWdv48), you can find many years' of expounding the virtues of rewriting our software - in a careful, controlled way. Keep in mind that [Chad Fowler is *also* the guy who wrote the series telling you to never do The Big Rewrite](http://chadfowler.com/2006/12/27/the-big-rewrite.html).
 
 So, okay, there's some subtlety to it. What's the right way to do it?
 
@@ -19,15 +19,15 @@ READMORE
 
 ## The Power of the Prototype
 
-You've likely seen somebody, early in a big project or feature, write a quick prototype to see how it works out. If they did it well, you learned a lot of interesting things to do or not do as a result.
+You've likely seen somebody, early in a big project or feature, write a quick prototype to see how it works out. If they did it well, you learned a lot of interesting things to do (or not do!)
 
-Sometimes it's done as a ['spike'](https://en.wikipedia.org/wiki/Spike_(software_development)) - an extremely quick version of the feature, done to put something in place - more features will be added later. Sometimes it's a pure prototype, designed for learning, but not to be useful later.
+Sometimes it's done as a ['spike'](https://en.wikipedia.org/wiki/Spike_(software_development)) - an extremely quick version of the feature, just to put something in place - more features will be added later. Sometimes it's a pure prototype, designed for learning, but it won't be useful later.
 
 If your spike is done in the right place, you'll get to keep it and build on it. Wouldn't that *always* be better than a throwaway prototype?
 
 Not at all.
 
-A throwaway prototype will let you try out risky things that would be a bad idea if you had to keep the result. The less you know at the start, the more important it is *not* to keep the finished result - you want to try things that might be a *terrible* idea, and you don't want any pressure to keep that terrible idea in production. Fast learning requires being able to make mistakes.
+A throwaway prototype will let you try out _risky things_ that would be _a bad idea_ if you had to keep the result. The less you know at the start, the more important it is *not* to keep the finished result - you want to try things that might be a *terrible* idea, and you don't want any pressure to keep that terrible idea in production. Fast learning requires being able to make mistakes.
 
 So: the more you need to learn, the more important it is to throw the result away afterward.
 
@@ -43,7 +43,7 @@ It means you've built software like what you'd build if you *didn't* prototype f
 
 ## How Many Prototypes?
 
-<%= aside_image("/posts/the-computer-science-thing/FingertipFeel.png", alt: "Balancing a pencil, a teapot and stuff on a single finger", disappear_on_mobile: true, direction: :left, caption: "Try prototyping - balance just the pencil, then the teapot, *then* the umbrella.") %>
+<%= aside_image("/posts/the-computer-science-thing/FingertipFeel.png", alt: "Balancing a pencil, a teapot and stuff on a single finger", disappear_on_mobile: true, direction: :left, caption: "Try prototyping - balance just the pencil, then the teapot, <i>then</i> the umbrella.") %>
 
 If one prototype is good, then is two even better? How about four? Or twelve?
 
