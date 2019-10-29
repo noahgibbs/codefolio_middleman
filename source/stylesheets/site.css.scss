@@ -15,7 +15,7 @@
 }
 
 nav#sidebar {
-  min-width: 300px;
+  min-width: 150px;
   max-width: 500px;
 }
 
@@ -54,13 +54,13 @@ nav#sidebar {
 
 img:not(.no-border) {
   border: 0.25em solid #d0e0ff;
-  border-radius: 3px;
+  border-radius: 5px;
   margin: 10px;
 }
 
 .blog-page {
   border-width: 0.3em;
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .highlight pre.highlight {
@@ -110,20 +110,21 @@ body {
   //min-width: 20%;
   max-width: 40%;
   border: 2px solid white;
-  border-radius: 3px;
+  border-radius: 5px;
   font-size: 120%;
   padding: 0.5em;
   margin: 0.5em;
-  background-image: url("/images/blackboard_tiled.png")
+  background-image: url("/images/blackboard_tiled.png");
 }
 
 .pull-quote {
-  background: #222;
+  background-image: url("/images/blackboard_tiled.png");
   font-style: italic;
   line-height: 1.2;
   font-size: 120%;
   padding-top: 71px;
-  border: 2px solid #600;
+  border: 2px solid #03e;
+  border-radius: 5px;
   padding: 13px;
   margin: 0 13px 13px 0;
 }
