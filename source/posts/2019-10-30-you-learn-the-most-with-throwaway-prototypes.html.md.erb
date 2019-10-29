@@ -1,0 +1,63 @@
+---
+title: "You Learn the Most with Throwaway Prototypes"
+date: 2019-10-30 6:00
+mc_signup: technique
+---
+<%= pull_quote("In most projects, the first system built is barely usable....Hence plan to throw one away; you will, anyhow.", "Fred Brooks, The Mythical Man-Month", direction: :none, width: 12) %>
+
+Sometimes it's a superpower if you take and use good advice that most people don't follow. But there's nearly always a reason they don't. So you need to figure out why other people can't, so that *you can*.
+
+Here's one of my favourites: rewrite once and throw the first away because you will anyway.
+
+From Fred Brooks' The Mythical Man-Month, one of the oldest books about getting software written, to [Chad Fowler's keynote about "Legacy" in software](https://www.youtube.com/watch?v=YruzQgWdv48), you can find many years' of expounding the virtues of rewriting our software - in a careful, controlled way. Keep in mind that [Chad Fowler is *also* the guy who wrote the series telling you to never do The Big Rewrite](http://chadfowler.com/2006/12/27/the-big-rewrite.html).
+
+So, okay, there's some subtlety to it. What's the right way to do it?
+
+READMORE
+
+## The Power of the Prototype
+
+You've likely seen somebody, early in a big project or feature, write a quick prototype to see how it works out. If they did it well, you learned a lot of interesting things to do or not do as a result.
+
+Sometimes it's done as a ['spike'](https://en.wikipedia.org/wiki/Spike_(software_development)) - an extremely quick version of the feature, done to put something in place - more features will be added later. Sometimes it's a pure prototype, designed for learning, but not to be useful later.
+
+If your spike is done in the right place, you'll get to keep it and build on it. Wouldn't that *always* be better than a throwaway prototype?
+
+Not at all.
+
+A throwaway prototype will let you try out risky things that would be a bad idea if you had to keep the result. The less you know at the start, the more important it is *not* to keep the finished result - you want to try things that might be a *terrible* idea, and you don't want any pressure to keep that terrible idea in production. Fast learning requires being able to make mistakes.
+
+So: the more you need to learn, the more important it is to throw the result away afterward.
+
+# Learning - Fast _Then_ Slow
+
+Here's the obvious next question: what if it doesn't screw up? What if it works out well? *Then* is it okay to keep the result?
+
+I think you shouldn't. I *specifically* think you shouldn't because that turns "throw the first one away" into "_maybe_ throw the first one away." And if you do that then you'll want *not* to throw it away, because that will feel better, like more of a success.
+
+And so instead of the most learning, instead you get something more like a non-prototype, something cautious that teaches you less but is more likely to work tolerably, not excellently.
+
+It means you've built software like what you'd build if you *didn't* prototype first. So you've thrown away your advantage.
+
+## How Many Prototypes?
+
+If one prototype is good, then is two even better? How about four? Or twelve?
+
+The answer, of course, is, "It Depends." That's the answer to most software engineering questions. See how clever I am?
+
+*You*, however, are clever if you then ask me, "depends on *what*?"
+
+It depends on how fast you *need* to learn. If you've built the same kind of system a few times, the right number of prototypes may be _zero_ - you may have already learned what you're likely to from a prototype when building your earlier systems.
+
+If you've never built anything remotely similar, the right number of prototypes could easily be three or four - you wouldn't usually build more than two prototypes of the same part of the system, but you might build prototypes of several different parts of a large, complicated system. If you were building something massive like an [MMORPG](https://en.wikipedia.org/wiki/Massively_multiplayer_online_role-playing_game) like World of Warcraft, there might be fifteen or more absolutely-necessary prototypes, and could easily be more.
+
+As well, you may build a prototype and then discover that you've been structuring the whole problem wrong. If you start by building a highly-reliable email client, you'll find out that the email protocol isn't particularly reliable. That suggests prototyping an email server, which adds a step. Once you've done that, you'll discover that other people's email servers are a [black hole](https://en.wikipedia.org/wiki/DNSBL) of issues (pun intended.)
+
+What's the right number of prototypes for that? More than three, by the time you're done! And that's assuming you learn as much as possible from the prototype for each section - a good prototype is likely to change your idea of the problem. That's what it's meant to do. And if you're lucky, it will do it *before* you begin building your solution 'for real' and it's hard to change.
+
+[Prototyping is a whole discipline](https://software-technique.com#prototyping). But by just trying to do it at all, you're already ahead of most of the world (congratulations on that!)
+
+
+
+<%= aside_image(current_page.url + "FingertipFeel.png", alt: "Balancing a pencil, a teapot and stuff on a single finger", disappear_on_mobile: true, direction: :right, caption: "If you can do this, the research makes less difference.") %>
+
