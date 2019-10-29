@@ -16,7 +16,7 @@ Ruby-Flavored Topics:
 
 Topics for Developers Generally:
 
-* [Software Technique and Practice](/topics/technique_and_practice), including my book "Mastering Software Technique"
+* [Software Technique and Practice](/topics/technique), including my book "Mastering Software Technique"
 * [Career advice](/topics/career)
 * [Business](/topics/business)
 

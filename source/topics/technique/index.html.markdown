@@ -10,6 +10,7 @@ prev: false
 
 About software technique and practice (see also [career](/topics/career)):
 
+* [How Not to be Afraid of &quot;The Computer Science Thing&quot;](/posts/the-computer-science-thing) - important, and I think underappreciated&hellip;
 * I had a [lovely podcast interview with Jason Swett](https://www.codewithjason.com/completely-unfocused-utterly-mind-blowing-conversation-noah-gibbs-rails-jason-podcast/) which veered off into learning, computing fundamentals and all sorts of other things
 * [How to Produce and Learn at the Same Time](/posts/how-to-produce-and-learn-at-the-same-time/) - probably *my* favourite post I've written for other developers
 
