@@ -48,7 +48,7 @@ HTML
 HTML
     end
 
-    def aside_image(url, alt:, image_classes: [], div_classes: [], width: nil, height: nil, caption: nil, direction: :right, disappear_on_mobile: false)
+    def aside_image(url, alt:, image_classes: ["no-border"], div_classes: [], width: nil, height: nil, caption: nil, direction: :right, disappear_on_mobile: false)
         properties = { src: escape_html(url), alt: escape_html(alt) }
         properties[:width] = width.to_i.to_s unless width.nil?
         properties[:height] = height.to_i.to_s unless height.nil?

@@ -9,10 +9,12 @@
     <!-- Use the title from a page's frontmatter if it has one -->
     <title><%= current_page.data.title || "Codefol.io" %></title>
     <link rel="stylesheet" href="https://codefol.io/stylesheets/bootswatch.css">
+    <link href="https://fonts.googleapis.com/css?family=Stoke|Roboto&display=swap" rel="stylesheet">
 
     <script src="/javascripts/jquery-3.3.1.slim.min.js"></script>
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="https://gumroad.com/js/gumroad.js"></script>
 
     <script src="/javascripts/site.js"></script>
 
@@ -43,7 +45,7 @@ img:not(.no-border) {
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family:"Playfair Display",Playfair Display,serif;
+    font-family:"Stoke",Stoke,serif;
 }
 
 .btn-primary {
@@ -60,7 +62,7 @@ h1,h2,h3,h4,h5,h6 {
 .inset {
   //min-width: 20%;
   max-width: 40%;
-  border: 2px solid white;
+  border: 2px solid #ccc;
   border-radius: 5px;
   font-size: 120%;
   padding: 0.5em;
@@ -93,8 +95,14 @@ blockquote {
   margin: 0;
 }
 
+.cta {
+  text-align: center;
+}
+
 body {
     background-image:url("/images/blackboard_tiled.png");
+    font-size: 120%;
+    font-family:"Roboto",Roboto,sans-serif;
 }
 
     </style>
