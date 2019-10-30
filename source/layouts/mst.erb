@@ -1,7 +1,3 @@
----
-title: "Mastering Software Technique"
-layout: false
----
 <!doctype html>
 <html>
   <head>
@@ -21,6 +17,25 @@ layout: false
     <script src="/javascripts/site.js"></script>
 
     <style>
+.card {
+  width: 95%;
+  margin: 3%;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+.pull-right {
+  float:right;
+}
+
+.pull-left {
+  float:left;
+}
+
 img:not(.no-border) {
     border: 0.25em solid #d0e0ff;
     border-radius: 5px;
@@ -35,6 +50,47 @@ h1,h2,h3,h4,h5,h6 {
     border-style:solid;
     border-width:0px 1px 4px 1px;
     border-color:#202020;
+}
+
+.inset img {
+  max-width: 90%;
+  height: auto;
+}
+
+.inset {
+  //min-width: 20%;
+  max-width: 40%;
+  border: 2px solid white;
+  border-radius: 5px;
+  font-size: 120%;
+  padding: 0.5em;
+  margin: 0.5em;
+  background-image: url("/images/blackboard_tiled.png");
+}
+
+.pull-quote {
+  background-image: url("/images/blackboard_tiled.png");
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 120%;
+  padding-top: 71px;
+  border: 2px solid #03e;
+  border-radius: 5px;
+  padding: 13px;
+  margin: 0 13px 13px 0;
+}
+
+.pull-quote p:first-letter {
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.pull-quote footer {
+  text-align: right;
+}
+
+blockquote {
+  margin: 0;
 }
 
 body {
@@ -59,60 +115,8 @@ body {
   <body>
     <div class="container" style="padding-top: 40px;"><div class="row"><div class="col-1"></div><div class="col-10">
 
-    <h1>Without Software Technique,<br/> Nothing Works</h1>
-
-    <p>
-      You _know_ what the code needs to do, in that ugly moment.
-      You can _see_ it in your mind... And it's *just*... *NOT*... *doing* it.
-      You wrote a little loop, and it's wrong, and you *know* it's wrong.
-      You can _explain_ the right code. You just can't _write_ the right code.
-    </p>
-
-    <p>
-      That blinking cursor is mocking you.
-    </p>
-
-    <p>
-      What *doesn't* fix that problem? Learning more algorithms.
-      Or reading more blog posts. Or more books. Even if you learn all
-      the math and computer science, there's a specific technique to
-      writing code, and all the study in the world doesn't give it to you.
-    </p>
-
-    <p>
-      What does? _*Practice*_.
-    </p>
-
-    <p>
-      The _*right kind*_ of practice. Conscious, mindful practice done well.
-    </p>
-
-    <p>
-      When everything works, you can just write out the loop. Yeah, you have to
-      debug it, but... it's straightforward. You grind through the code for an
-      hour and you have an hour's worth of code. You have a problem and, twenty
-      minutes later, you wrote a solution and it works.
-    </p>
-
-    <p>
-      When you're really good, you can just predictably _write_ the code. It
-      doesn't have to be an event. You don't wait for inspiration. You just
-      do it.
-    </p>
-
-    <p>
-      How do you get that good? The right kind of practice.
-    </p>
-
+    <%= yield %>
   </div></div></div>
   </body>
 
-  <!--
-    1. Hook
-    2. Dream
-    3. Pain
-    4. What they've tried
-    5. Introduce a solution
-    6. Overcome objections
-    -->
 </html>
