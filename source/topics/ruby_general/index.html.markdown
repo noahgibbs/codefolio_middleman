@@ -1,6 +1,7 @@
 ---
 title: "Ruby Miscellaneous on Codefol.io"
 layout: blog_page
+mc_signup: rails
 comments: false
 next: false
 prev: false

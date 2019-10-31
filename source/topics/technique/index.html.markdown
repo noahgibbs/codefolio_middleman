@@ -1,6 +1,7 @@
 ---
 title: "Software Technique and Practice on Codefol.io"
 layout: blog_page
+mc_signup: technique
 comments: false
 next: false
 prev: false

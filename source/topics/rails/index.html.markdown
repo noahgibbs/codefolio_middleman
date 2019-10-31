@@ -2,6 +2,7 @@
 title: "Rails Internals on Codefol.io"
 layout: blog_page
 comments: false
+mc_signup: rails
 next: false
 prev: false
 ---

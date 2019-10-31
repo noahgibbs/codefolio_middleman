@@ -1,6 +1,7 @@
 ---
 title: "Migrations on Codefol.io"
 layout: blog_page
+mc_signup: database
 comments: false
 next: false
 prev: false
