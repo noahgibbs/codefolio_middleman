@@ -55,7 +55,7 @@ HTML
         properties[:class] = image_classes.join(" ") unless image_classes.empty?
         props = properties.map { |name, val| "#{name}=\"#{val}\"" }.join(" ")
         image_html = <<HTML
-<img #{props} />
+<img #{props} /><br/>
 #{caption}
 HTML
         aside_content(image_html, div_classes: div_classes, direction: direction, disappear_on_mobile: disappear_on_mobile)
