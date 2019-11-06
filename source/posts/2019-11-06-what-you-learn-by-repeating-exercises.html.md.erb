@@ -1,0 +1,86 @@
+---
+title: "What You Learn by Repeating Coding Exercises"
+date: 2019-11-06 9:00
+mc_signup: technique
+---
+
+<%= aside_image("/posts/single-idea-with-time-limit/StudyOnFloor.png", image_classes: ["no-border"], alt: "Somebody sprawled on the floor, reading", disappear_on_mobile: true, direction: :right, caption: "Reading and academics are important, but they only get you so far.") %>
+
+Here's a difficulty of coding exercises: many teach you nothing after the first time you do them. So you have to find new ones if you want to learn.
+
+It's the same reason you don't learn much by just learning all the "gotcha" job interview questions - there may be a secret to it ([advance two counters until they meet](https://www.geeksforgeeks.org/detect-loop-in-a-linked-list/)! [fourteen per floor minus one per drop](http://datagenetics.com/blog/july22012/index.html)!) but it's not a very interesting secret, or a secret you'll use much later.
+
+Good secrets usually show up in packs, not alone.
+
+Here's a "pack secret" like that - just the first of a big group: "a good exercise is one you can do over and over and get something useful out of it each time." Here's one of its pack: "good exercises are never just about the specific situation." And another: "good exercises work even if you switch them up a little."
+
+READMORE
+
+Of course, memorising a pack of secrets would be silly. They're usually in a group because, when you put them all together, there's some simple explanation for all of them. In this case, you could think of it as "good exercises test fundamental skills that you can always improve at."
+
+## Bad Exercises, Good Exercises
+
+<%= aside_image("/images/BadPractice.png", image_classes: ["no-border"], alt: "Somebody trying to hit a basketball from the ground with a tennis racket", disappear_on_mobile: true, direction: :left, caption: "It's about practicing, but also about practicing <em>correctly</em>.") %>
+
+If you think of coding exercises, you may be thinking of algorithm-of-the-week stuff or guess-what-I'm-thinking problems. Both are common.
+
+Sometimes the exercise is something like "find the longest palindrome inside a string I give you" - you need to find a way to do a slightly uncommon task. That's not terrible, but once you know the tricks, there's not much more to learn. If you come back to it later you'll either remember the trick or not. But you're not likely to learn much, fundamentally, unless you do a ton of them and learn *all* the common tricks. This is what I'm calling "algorithm of the week" problems. They're the bread and butter of coding challenge sites, for instance, and of a lot of job interview questions.
+
+Worse exercises are basically expecting you to come up with something at random and either get it right or not. I call these "guess what I'm thinking" problems. But whether it's ["swap two variables without using a temp variable"](https://www.programiz.com/c-programming/examples/swapping) or [the best way to find out how many floors an egg will fall without breaking](http://datagenetics.com/blog/july22012/index.html), you generally have to either "just figure out" something you can't work your way toward, or you have to have heard a similar question before. Not only are these bad job interview questions, they're also bad exercises for helping you improve.
+
+What you need are good *repeatable* exercises. What do those look like? How can you tell if an exercise *is* that?
+
+## Exercise, Exercise Again
+
+<%= aside_image("/posts/you-learn-the-most-with-throwaway-prototypes/SittingCoder.png", image_classes: ["no-border"], alt: "Figure typing at a console, with exclamation marks overhead", disappear_on_mobile: true, direction: :right, caption: "Actually doing the work yields results; reading about the work doesn't help.") %>
+
+Here's a simple example of a good exercise, taken from Sandi Metz's amazing book ["99 Bottles of Object-Oriented Programming"](https://www.sandimetz.com/99bottles):
+
+Design a program to print out the entire song, "99 Bottles of Beer on the Wall." Write tests for the program, then implement it.
+
+As her book describes in detail, there are about four major approaches to this with many interesting little details for each approach. If you want the intricately detailed answer, buy her book and read it. But here are some interesting things about that exercise:
+
+1) There is a simple way to check the resulting program
+2) The problem is large enough, with enough internal structure, that multiple reasonable solutions exist
+3) The exercises tells you what to do, but not how to do it
+
+This is a problem you can really chew on. You can pick multiple approaches. You can do one, then another, then return to the first approach and see what you learned from the second approach. You can adapt the exercise to different paradigms (e.g. [functional](https://en.wikipedia.org/wiki/Functional_programming), [OO](https://en.wikipedia.org/wiki/Object-oriented_programming), [procedural](https://en.wikipedia.org/wiki/Procedural_programming), [AOP](https://en.wikipedia.org/wiki/Aspect-oriented_programming).) You can pair with a partner and see how they would solve the same problem.
+
+And here are some specific ways in which this exercise is markedly different from the algorithm of the week or guess-what-I'm-thinking problems:
+
+1) it doesn't prescribe that you solve in the fastest (or even a fast-enough) way; the approach is intentionally flexible
+2) a lot of your learning isn't directly about the problem; it's about how you *approach* the problem
+
+This is a simple example of a good task.
+
+## A Good Exercise is *Worth* Your Time
+
+Good programming exercises practice fundamental skills - such as object-oriented design and test-first programming, in the case of "99 Bottles." While you might not directly gain much by immediately working through the whole book again after you finish it (or you might!), the basic task has a lot of ways to improve by doing the "same" thing again.
+
+For instance: Sandi points out four basic structures of solution to the problem. You probably started with the one that was most natural to you. How about doing one of the other three and seeing how it feels, and how good your solution winds up? There's four times through the exercise already, and none of them are wasted time.
+
+How about reworking the same exercise in a different programming language? Some of her suggested structures may not work, of course, and there may be other structures in that language that are more appropriate &mdash; imagine doing it in [SQL](https://en.wikipedia.org/wiki/SQL) or [Forth](https://en.wikipedia.org/wiki/Forth_(programming_language))!
+
+Since it's basically a design exercise with a lot of flexibility built in, the same task can be valuable in many different ways. That means that "re-doing the same exercise" can be surprisingly useful.
+
+## The Programming World is Large
+
+<%= aside_image("/posts/the-computer-science-thing/FingertipFeel.png", image_classes: ["no-border"], alt: "A hand, balancing a pencil, a teapot and an umbrella one on top of the other", disappear_on_mobile: true, direction: :left, caption: "You won't run out of tasks&hellip; or ways to make existing tasks more interesting!") %>
+
+The task in "99 Bottles" isn't unique, though it *is* unusually well-chosen.
+
+You can learn a lot from somebody else's code. Another "fundamental skills"-type exercise is to pick up somebody else's code (perhaps a small gem with tests?) and play with it. You're learning interesting skills such as the ability to read other people's code and modify tests rapidly. As a side effect, you could optionally do something useful for a real project. Obviously you could do this same *kind* of thing many times &mdash; but to keep to our theme of repetition, it's *also* useful to try a few different approaches to adding the same feature. Then you can pick the best before submitting a pull request.
+
+You can also *rebuild* a simple gem - pick something small and redesign its API, or write a similar gem with a new API. This is a great way to learn object-oriented design and/or API design. And it's also a useful exercise again and again - you'll get better with each attempt, and there are many different API designs to try out. If you get something better than the original, you can put it up yourself or try to capture the best of what you did into a pull request.
+
+For exercises, I often enjoy making small simulations. Pick a thing in the real world like vines growing on a fence (individually? entangled? blocking each others' light?) and simulate a simple model of them over time. [My book has a lot more about this](https://software-technique.com) if you're curious about the details. These are fun to do repeatedly because you can pick different properties to play with. The first time you write "vines on a fence" you might play with them growing quickly and exhausting their energy to try and block sunlight from each other. The second time you write it, it might be all about grape vines growing fruit, which slows their individual growth, but gives them an advantage *next* generation. The natural world is a genuinely enormous source of inspiration.
+
+I also like combining multiple tasks - you can write a "kids jumping on a bed" simulation that outputs "Ten Little Monkeys" pretty easily if you like!
+
+## Exercises and Repetition
+
+It's weird to me how little most computer programmers actually *practice*. I don't mean that we don't write code. I mean that we don't specifically *practice* particular skills, including basic coding skills, after we leave university.
+
+There's a little bit. When I talk about "coding challenges of the week" and so on - that *is* practice, and it *does* count. In fact, it's probably the most common practice in our entire profession!
+
+I'm working on a [book about practicing coding](https://software-technique.com). Care to sign up for more information like this and we can figure out how to fix that?
