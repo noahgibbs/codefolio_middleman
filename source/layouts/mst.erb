@@ -54,6 +54,13 @@ h1,h2,h3,h4,h5,h6 {
     border-color:#202020;
 }
 
+img.mst_banner {
+  border: 0px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
 .inset img {
   max-width: 90%;
   height: auto;
@@ -136,6 +143,7 @@ body {
   </head>
 
   <body>
+    <img class="mst_banner" src="<%= current_page.url %>images/mst_banner_200_200.png" width="200" height="200"></img>
     <div class="container" style="padding-top: 40px;"><div class="row">
       <div class="col-1"></div><div class="col-10">
 
