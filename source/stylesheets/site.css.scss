@@ -27,6 +27,10 @@ nav#sidebar {
   float:left;
 }
 
+.img-fullwidth {
+  width: 100%;
+}
+
 .pager button {
 }
 
@@ -52,7 +56,7 @@ nav#sidebar {
   margin: 1.5em;
 }
 
-img:not(.no-border) {
+container img:not(.no-border) {
   border: 0.25em solid #d0e0ff;
   border-radius: 5px;
   margin: 10px;
@@ -81,16 +85,6 @@ h1,h2,h3,h4,h5,h6 {
   border-color: #202020;
 }
 
-#mc_embed_signup {
-  color: #007bff;
-}
-
-.mc_styling {
-  margin-left: 5%;
-  //width: 90%;
-  //background-color: #007bff;
-}
-
 body {
   background-image: url("/images/blackboard_tiled.png")
   //background-color: #fff5ce;
@@ -110,6 +104,7 @@ body {
   padding: 0.5em;
   margin: 0.5em;
   background-image: url("/images/blackboard_tiled.png");
+  text-align: center;
 }
 
 .pull-quote {

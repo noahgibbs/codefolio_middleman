@@ -4,7 +4,7 @@ date: 2019-11-08 6:00
 mc_signup: technique
 ---
 
-<%= aside_image("/posts/single-idea-with-time-limit/OldComputer.png", image_classes: ["no-border"], alt: "An ancient computer, possibly some kind of Apple II", disappear_on_mobile: true, direction: :right, caption: "A first computer is like a first love &mdash; the wrong one will really screw you up, especially if you're convinced it was the right one.") %>
+<%= aside_image("/posts/single-idea-with-time-limit/OldComputer.png", alt: "An ancient computer, possibly some kind of Apple II", disappear_on_mobile: true, direction: :right, caption: "A first computer is like a first love &mdash; the wrong one will really screw you up, especially if you're convinced it was the right one.") %>
 
 I'm an old-school programmer. I've been doing this for 30 years. I worked for over a decade in C and C++, often on operating systems and device drivers.
 
@@ -12,11 +12,11 @@ If you ask, "how do I get better at programming," I'm _supposed_ to tell you:
 
 * you should learn C (or C++ or assembly) &mdash; a language that works like the computer hardware does
 * you should write code that directly messes with the hardware, preferably an operating system
-* you need to learn the highest-performance languages, because otherwise what will you do if your code is too slow?
+* you need to learn the highest-performance languages because otherwise what will you do if your code is too slow?
 
 **These are all terrible advice.**
 
-And they're all variations on a different wrong idea: that you should learn about computers and software past all the abstractions, "all the way to the bottom."
+And they're all variations on a different, wrong idea: that you should learn about computers and software past all the abstractions, "all the way to the bottom."
 
 That's also terrible advice. Let me tell you why.
 
@@ -24,13 +24,13 @@ READMORE
 
 ## Why You Shouldn't Learn C Early
 
-First of all, C is a language that works like **old computers used to**, not a language that works like modern computers do. You can get the long version in the (excellent) ACM article ["C is Not a Low-Level Language"](https://queue.acm.org/detail.cfm?id=3212479), but processors no longer look like C. The C language is older than threads and so old it has no real recognition of concurrency. It is, in fact, actively hostile to most concurrency and optimises it very poorly. That's a problem, since around 2010 we suddenly stopped being able to ignore multiple processors... But C was close to forty years old at that point, and wasn't going to make a drastic change at that age.
+First of all, C is a language that works like **old computers used to**, not a language that works like modern computers do. You can get the long version in the (excellent) ACM article ["C is Not a Low-Level Language"](https://queue.acm.org/detail.cfm?id=3212479), but processors no longer look like C. The C language is older than threads. It's so old it has no real recognition of concurrency. In fact, it's actively hostile to most concurrency and optimises it very poorly. That's a problem. Around 2010 we suddenly stopped being able to ignore multiple processors... But C was close to forty years old at that point, and wasn't going to make a drastic change at that age.
 
-<%= aside_image("/posts/the-computer-science-thing/FingertipFeel.png", image_classes: ["no-border"], alt: "A finger balancing a pencil, a teapot and an umbrella", disappear_on_mobile: true, direction: :left, caption: "It can be hard keeping a whole stack of pointers in the air in C...") %>
+<%= aside_image("/posts/the-computer-science-thing/FingertipFeel.png", alt: "A finger balancing a pencil, a teapot and an umbrella", disappear_on_mobile: true, direction: :left, caption: "It can be hard keeping a whole stack of pointers in the air in C...") %>
 
 There's another reason they tell you to learn C: so that you can use a language which, being similar to your processor, is easy to optimise to be extremely fast. That stops being true as soon as you look at processor features like concurrency and [vectorisation, or SIMD (doing the same operation on big lists of numbers all at once.)](https://en.wikipedia.org/wiki/SIMD) Those two things are, by the way, the essence of optimising a modern processor. C also makes it hard to deal with [cache line alignment](https://www.usenix.org/legacy/publications/library/proceedings/als00/2000papers/papers/full_papers/sears/sears_html/index.html), and its use of [pointer aliasing](https://en.wikipedia.org/wiki/Pointer_aliasing) means it can't assume a thing it wrote to memory is still there... Basically, C was an excellent education in how the PDP-11 computer worked in 1972, but a lot has changed since then.
 
-(C *culture*, by the way, is highly concerned with optimisation. Talking to C programmers can be a great way to learn optimisation. And they are mostly working around a language that no longer supports them well in this activity. They're frequently stuck with assembly language, external libraries, and carefully tickling one specific compiler in the right way to emit the right code. It is the *language* that is teaching the wrong lessons &mdash; the *developers* are mostly conscientious and excellent, and it's a shame they have no better tool for modern processors.)
+(C *culture*, by the way, is highly concerned with optimisation. Talking to C programmers can be a great way to learn optimisation. And they are mostly working around a language that no longer supports them well in this activity. They're frequently stuck with [assembly language](https://users.ece.cmu.edu/~franzf/teaching/slides-18-645-simd.pdf), [external libraries](https://ermig1979.github.io/Simd/index.html), and [carefully tickling one specific compiler in the right way to emit the right code](http://www.cs.uu.nl/docs/vakken/magr/2017-2018/files/SIMD%20Tutorial.pdf). It is the *language* that is teaching the wrong lessons &mdash; the *developers* are mostly conscientious and excellent, and it's a shame they have no better tool for modern processors.)
 
 I love C. It was the first language I really fell in love with, and I look for chances to use it when it's appropriate. Those chances are now rare. How often are we writing device drivers or operating systems these days? **_Not very often_**. More on that in a moment.
 
@@ -38,31 +38,31 @@ C *will* teach you a number of potentially-interesting things about low-level pr
 
 ## You Shouldn't Write Hardware-Level Code, Especially an Operating System
 
-I cut my teeth on Apple IIe code. Back then there was a lot more (what we'd now call) systems-level code. I didn't write an OS for the Apple, but I wrote or worked on OSes for [DECstations](https://en.wikipedia.org/wiki/DECstation), Intel PCs, [Motorola Dragonball](https://en.wikipedia.org/wiki/Freescale_DragonBall) and [embedded ARM processors](https://en.wikipedia.org/wiki/ARM_architecture) &mdash; the last two for money, the first two for education. Plus I technically wrote some Linux-based OS code on a few other processors while writing device drivers, but who's counting?
+I cut my teeth on [Apple IIe](https://en.wikipedia.org/wiki/Apple_IIe) code. Back then there was a lot more (what we'd now call) systems-level code. I didn't write an OS for the Apple, but I wrote or worked on OSes for [DECstations](https://en.wikipedia.org/wiki/DECstation), Intel PCs, [Motorola Dragonball](https://en.wikipedia.org/wiki/Freescale_DragonBall) and [embedded ARM processors](https://en.wikipedia.org/wiki/ARM_architecture) &mdash; the last two for money, the first two for education. I technically also wrote some Linux-based OS code on a few other processors while writing device drivers, but who's counting?
 
 So if I wrote that much OS code, why don't I tell you to?
 
-*Because* I wrote that much OS code. That's why I tell you to pick something different.
+I tell you to pick something different *because* I wrote that much OS code.
 
-I mean, if you specifically want to know OS coding for some reason, sure, go do it. Have fun with it as an eccentric side project.
+If you specifically want to know OS coding for some reason, sure, go do it. Have fun with it as an eccentric side project.
 
 But most people tell you to write an OS so that you "understand how your computer really works." [Balderdash](https://www.merriam-webster.com/dictionary/balderdash), friends. Balderdash.
 
-<%= aside_image("/posts/the-computer-science-thing/GetBetterFaster.png", image_classes: ["no-border"], alt: "An ancient computer, possibly some kind of Apple II", disappear_on_mobile: true, direction: :right, caption: "If you must spend your time studying, study the most valuable thing you can. You can never get your time back.") %>
+<%= aside_image("/posts/the-computer-science-thing/GetBetterFaster.png", alt: "An ancient computer, possibly some kind of Apple II", disappear_on_mobile: true, direction: :right, caption: "If you must spend your time studying, study the most valuable thing you can. You can never get your time back.") %>
 
 This is like recommending that you learn C. It will teach you how a computer **used to work**. You will learn a few interesting and useful tidbits like [virtual memory](https://en.wikipedia.org/wiki/Virtual_memory), which certainly **are** useful. Indeed, they are so useful that I recommend skimming the Wikipedia article and perhaps even reading a bit about them in a book of your choice. I do *not* recommend the multi-month undertaking of writing an OS to learn about virtual memory. It is a waste of your time, and it will only teach you how old primitive memory systems *used* to work, because you will not be implementing modern virtual memory, so you won't really understand it. I bring up virtual memory because nearly everything else you will learn from writing an OS is a *less* valuable use of your time.
 
 "But you'll learn how a [scheduler](https://en.wikipedia.org/wiki/Scheduling_(computing)) works." Nope. You'll learn how an old-style really simplified scheduler *used* to work. You will only learn about serious scheduler problems if you implement a variety of schedulers under a variety of workloads, using a variety of applications you will have to custom-develop for your operating system that nobody has ever used, or will ever use. It is *not* a good use of your time.
 
-I don't mean learning about schedulers is a bad use of your time &mdash; that can be quite valuable. You know what will teach you much faster than writing an OS? Writing (just) a scheduler in a modern fast-to-write language and watching scheduler failure patterns (like starvation) operate using more interesting data, where you don't have to debug [seg faults](https://en.wikipedia.org/wiki/Segmentation_fault) constantly.
+I don't mean learning about schedulers is a bad use of your time &mdash; that can be quite valuable. But you know what will teach you much faster than writing an OS? Writing (just) a scheduler in a modern fast-to-write language and watching scheduler failure patterns (like [starvation](https://en.wikipedia.org/wiki/Starvation_(computer_science))) operate using more interesting data, where you don't have to debug [seg faults](https://en.wikipedia.org/wiki/Segmentation_fault) constantly.
 
-In other words, writing your own operating system in no longer even the best way to _learn about your operating system_, let alone about the rest of your computer.
+In other words, writing your own operating system is no longer even the best way to _learn about your operating system_, let alone about the rest of your computer.
 
-I'm pretty obviously a fan of understanding a system by rebuilding that system. [I wrote a book about it](https://rebuilding-rails.com). Writing a real, honest-to-[Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) OS is not the way to do that, if you're doing it to learn. You may note that my book is written in a nice high-level language (Ruby) where you can make mistakes rapidly and so learn rapidly. C is not that sort of language. I'd listen to arguments that Rust might be, but I have doubts.
+I'm pretty obviously a fan of understanding a system by rebuilding that system. [I wrote a book about it](https://rebuilding-rails.com). Writing a real, honest-to-[Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) OS is not the way to learn quickly. My book is written in a nice high-level language (Ruby) where you can make mistakes rapidly and therefore learn rapidly. C is not that sort of language. I'd listen to arguments that [Rust](https://www.rust-lang.org/) might be, but I have doubts.
 
 "But how will you ever learn about things an OS would teach you? How will you even *know* about schedulers and virtual memory?" The folks telling you to write an OS are convinced these lessons apply elsewhere, and that OS-like situations will just happen organically. In cases where they're right, you'll learn from those organic situations. Where they were wrong, you'll skip learning something archaic and useless. There are many better uses of your time.
 
-## Learn High-Performance Languages
+## Don't Learn High-Performance Languages Without a Good Reason
 
 The conventional wisdom is that you should know a very high-performance language, and learn it early, so that you have a fallback if you need your code to be faster.
 
@@ -70,7 +70,7 @@ The same people telling you that will then tell you that you need to use it for 
 
 There are many, many things wrong with this argument.
 
-<%= aside_image("/posts/single-idea-with-time-limit/RadioRepair.png", image_classes: ["no-border"], alt: "A kneeling figure repairing an electronic device, possibly a radio", disappear_on_mobile: true, direction: :left, caption: "This is not the most efficient way to listen to a radio program. You only do it if you care about the project.") %>
+<%= aside_image("/posts/single-idea-with-time-limit/RadioRepair.png", alt: "A kneeling figure repairing an electronic device, possibly a radio", disappear_on_mobile: true, direction: :left, caption: "This is not the most efficient way to listen to a radio program. You only do it if you care about the project.") %>
 
 Let's start with my favourite: a CPU-efficient language being "faster" starts by assuming that your problem is CPU time. But your actual problem is often memory, or network round-trips, or something else that has nothing to do with your CPU. I frequently spend my time on web programming, where network round trips trump CPU time every day of the week. A Ruby program (though not necessarily Rails) is normally much more memory-efficient than Java for the same purpose, and frequently more memory-efficient than the C you'd write in practice. In general, an interpreted language can be surprisingly memory-efficient even while burning more CPU cycles. Which one is more valuable depends on your constraints.
 
@@ -80,7 +80,7 @@ But the problem goes deeper than that.
 
 Higher-level languages (I'm thinking of something like Python or Ruby here) will generally have better tools for finding the slow spots. [Profiling](https://en.wikipedia.org/wiki/Profiling_(computer_programming)) tools tend to be more effective in higher-level languages, just in general. Which means CPU-efficient low-level languages are often hard to "see into" and wind up being [penny-wise and pound-foolish](https://writingexplained.org/idiom-dictionary/penny-wise-pound-foolish) &mdash; C has less CPU overhead for a given algorithm, but it's harder to write in and so you tend to wind up with worse algorithms. In C especially, the right algorithm is often ugly and laborious to write and so there's a strong tendency to use something that can be written quickly &mdash; which can eliminate the whole benefit of C pretty rapidly. The argument against Java is the same, though less extreme because Java is a higher-level language than C. That is, it's both less efficient and easier to write in, both of which are the right choice in most cases; it's just that you can do even better than Java, and usually you should.
 
-But the above argument *also* assumes that your code will wind up needing to be "too fast for language X," which is far rarer than it sounds. And that you can't convert **just the most important sections** to another language via [foreign function interface](https://en.wikipedia.org/wiki/Foreign_function_interface) or a similar process, which you nearly always can.
+The above argument *also* assumes that your code will wind up needing to be "too fast for language X." That is far rarer than it sounds. It also assumes you can't convert **just the most important sections** to another language via [foreign function interface](https://en.wikipedia.org/wiki/Foreign_function_interface) or a similar process, which you nearly always can.
 
 At heart, using a lower-level language "just in case" is a premature optimization &mdash; which has been referred to as [the root of all evil](https://stackify.com/premature-optimization-evil/). In general, you want to profile (measure speed) before you optimise (improve speed) because otherwise you're blindly doing extra work that is likely to be wasted.
 
@@ -94,11 +94,11 @@ And here, finally, is the piece of buried bullshit that is so far outside most m
 
 Sure, let's talk about that.
 
-I used the word "virtue" above very purposefully. Programmers like to think we're driven by logic and efficiency, but mostly we have all the same repressed issues everybody else does. How could it be otherwise? We're people.
+I used the word "virtue" above very purposefully. Programmers like to think we're driven by logic and efficiency, but mostly we have all the same repressed issues as everybody else. How could it be otherwise? We're people.
 
-<%= aside_image("/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/Superpowers_2.png", image_classes: ["no-border"], alt: "A kneeling figure repairing an electronic device, possibly a radio", disappear_on_mobile: true, direction: :right, caption: "Want to be a hero? Great. Focus on what you <em>actually</em> care about.") %>
+<%= aside_image("/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/Superpowers_2.png", alt: "A kneeling figure repairing an electronic device, possibly a radio", disappear_on_mobile: true, direction: :right, caption: "Want to be a hero? Great. Focus on what you <em>actually</em> care about.") %>
 
-When most people say "all the way to the bottom" they mean that you should learn down to the level **they got down to**. If they learned C early on, they mean C. If they learned some assembly to do old pre-ubiquitous-graphics-hardware games, then they mean assembly. If a hardware designer is talking then they mean hardware. Note that it's a bit of a "natural" level thing &mdash; a systems programmer who did a little processor design probably still means assembly, even though s/he knows perfectly well that there are more levels underneath and that they matter.
+When most people say "all the way to the bottom," they mean that you should learn down to the level **they got down to**. If they learned C early on, they mean C. If they learned some assembly to do old pre-ubiquitous-graphics-hardware games, then they mean assembly. If a hardware designer is talking, they mean hardware. Note that it's a bit of a "natural" level thing &mdash; a systems programmer who did a little processor design probably still means assembly, even though they knows perfectly well that there are more levels underneath and that they matter.
 
 Each of those is wrong. Let's talk about why.
 
@@ -106,7 +106,7 @@ C doesn't work like modern hardware &mdash; no concurrency, no vectorisation, bu
 
 [Assembly language](https://techterms.com/definition/assembly_language) is, by definition, close to the hardware &mdash; it's the second-lowest-level language of a given processor after actual [machine code](https://en.wikipedia.org/wiki/Machine_code), which is barely a language at all. However, assembly language on modern processors is barely optimisable by humans. The issues involved are very difficult, and processor companies long since switched to designing their machine code to be written by [compilers](https://en.wikipedia.org/wiki/Compiler), not humans. So if you're learning assembly, it shouldn't be to learn about performance, because assembly mostly won't teach you that. You could learn about compilers &mdash; they would teach you more about performance. Compilers aren't written in assembly, though. Essentially every compiler-design class uses very high-level languages, and has at least since I was in university in the mid-1990s.
 
-You could instead learn assembly because you want to understand "everything" about how your program works. I've worked at Palm and at NVidia on experimental hardware with hardware bugs... So I'll tell you that assembly is *not* everything about how your program works. But it's worse than that. The [Pentium FDIV bug](https://en.wikipedia.org/wiki/Pentium_FDIV_bug) was a reminder that, yes, hardware bugs happen on 'normal' hardware too...
+You could instead learn assembly because you want to understand "everything" about how your program works. I've worked at Palm and at NVidia on experimental hardware with hardware bugs... So I'll tell you that assembly is *not* everything about how your program works. But it's worse than that. The [Pentium FDIV bug](https://en.wikipedia.org/wiki/Pentium_FDIV_bug) was a reminder that, yes, hardware bugs happen on 'normal' commodity hardware too...
 
 But it's not just hardware bugs. Some of a computer's behaviour is basically inaccessible to software. Whether you're looking at [memory refresh](https://en.wikipedia.org/wiki/Memory_refresh) on computers with DRAM (yeah, I'm old) or [hardware interrupts](https://en.wikipedia.org/wiki/Interrupt#Hardware_interrupts), at some level the computer is doing something you can't directly perceive or control with your software.
 
@@ -122,7 +122,7 @@ Where, then, do you expect to **find** this magical place with no further leaky 
 
 ## But What Do We Do Instead?
 
-<%= aside_image("/images/SuperPrincess.png", image_classes: ["no-border"], alt: "A teddy bear in a pink super-logo shirt and skirt", disappear_on_mobile: true, direction: :right, caption: "I hang out with my bear. And my kids. It's not everybody's thing, but it works for me.") %>
+<%= aside_image("/images/SuperPrincess.png", alt: "A teddy bear in a pink super-logo shirt and skirt", disappear_on_mobile: true, direction: :right, caption: "I hang out with my bear. And my kids. It's not everybody's thing, but it works for me.") %>
 
 It's easy for me to be a [curmudgeonly](https://www.merriam-webster.com/dictionary/curmudgeon) [grognard](https://www.merriam-webster.com/dictionary/grognard), even if I'm not quite the usual flavour. But tearing down is always easier than building up &mdash; what do I think programmers should be doing instead?
 
@@ -132,13 +132,13 @@ I don't care if you're learning a high-level language like Ruby or one like Hask
 
 I'm also not saying you should avoid anything hard &mdash; if you're going to learn Ruby on Rails, that's likely to point you in directions like SQL and high-performance database work and HTTP and TCP packet protocols and more. There are many fine and difficult topics there, **even in a low-abstraction direction**. Web programming will also, if you let it, point you in directions like [queueing theory](https://en.wikipedia.org/wiki/Queueing_theory) and [Little's Law](https://en.wikipedia.org/wiki/Little%27s_law) and many others that are quite high-abstraction indeed. Very low-level programmers often tend to ignore higher-level concerns, just like the other way around.
 
-Don't think of yourself as a turnip, starting at the surface and slowly descending *downward* below each abstraction as your roots grow. You're a star, exploding outward in *every* direction, including for abstraction. You don't need to make "downward" your particular preference unless there's something there you want &mdash; and then you should know what it is.
+Don't think of yourself as a turnip, starting at the surface and slowly descending *downward* below each abstraction as your roots grow. You're a star, exploding outward in *every* direction, including high- and low-abstraction. You don't need to make "downward" your particular preference unless there's something there you want &mdash; and then you should know what it is.
 
 How do you pick a direction right now? I'm a big fan of [conscious coding practice](https://codefol.io/topics/technique) as my personal compass. You no doubt have your own.
 
 ## But Then Why Do People Say&hellip;?
 
-<%= aside_image("/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/ScaresYou.png", image_classes: ["no-border"], alt: "A stick-man whistles as he passes a mean-looking giant toad", disappear_on_mobile: true, direction: :left, caption: "Remember, it's not bad advice if you never look directly at it...") %>
+<%= aside_image("/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/ScaresYou.png", alt: "A stick-man whistles as he passes a mean-looking giant toad", disappear_on_mobile: true, direction: :left, caption: "Remember, it's not bad advice if you never look directly at it...") %>
 
 It would be reasonable to ask, "why do people suggest that?" It's common advice, after all.
 
