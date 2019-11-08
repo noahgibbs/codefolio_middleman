@@ -8,7 +8,7 @@ prev: false
 
 <img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
 
-About career, including businesses and how to fit into them:
+About your career, including businesses and how to fit into them:
 
 * [Patrick McKenzie on Salary Negotiation](https://www.kalzumeus.com/2012/01/23/salary-negotiation/) - I didn't write this, but I recommend it to everyone who will listen; nominally about salary negotiation, but actually a sophisticated work of corporate psychoanalysis
 * [How to Produce and Learn at the Same Time](/posts/how-to-produce-and-learn-at-the-same-time/) - probably *my* favourite post I've written for other developers

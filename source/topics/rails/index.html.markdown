@@ -28,5 +28,5 @@ Rails Basics and Rails Internals:
 
 About Ruby on Rails Internals:
 
-* A [workshop I gave at Southeast Ruby 2019](https://bit.ly/southeast2019-gibbs) - similar to, but quite different from, Rebuilding Rails; build a stripped-down minimal MVC framework as fast as possible, roughly
+* A [workshop I gave at Southeast Ruby 2019](/links/2019_railsconf_workshop.key) - similar to, but quite different from, Rebuilding Rails; build a stripped-down minimal MVC framework as fast as possible, roughly
 * My book, <a href="https://rebuilding-rails.com">Rebuilding Rails</a>, is about how to understand Ruby on Rails deeply by building your own Ruby web framework, from blank directories, structured like Rails.
