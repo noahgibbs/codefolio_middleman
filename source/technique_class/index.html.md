@@ -20,7 +20,7 @@ Maybe sign up on the right-hand side there?)
 If you want it but you've done it before, it may be worth it
 to read up on [GMail aliases](https://www.labnol.org/internet/multiple-email-addresses-in-gmail/17426/),
 if you have a GMail address.
-You can basically add &quot;+rr&quot; after your GMail name and it
+You can basically add &quot;+st&quot; after your GMail name and it
 will still get to you, which lets you &quot;subscribe&quot; again
 as though it were a completely different email address. Though
 keep in mind, that means you'll get new emails from me multiple
