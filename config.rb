@@ -11,7 +11,8 @@ set :markdown, :fenced_code_blocks => true, :smartypants => true
 page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
-page '/about.html', layout: :blog_frame
+page '/*.pdf', layout: false
+page '/links/*', layout: false
 
 # With alternative layout
 # page "/path/to/file.html", layout: :otherlayout
