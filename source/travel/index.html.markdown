@@ -1,5 +1,9 @@
 ---
 title: "Follow the Gibbs Family as we Travel!"
+layout: :blog_page
+comments: false
+next: false
+prev: false
 ---
 
 <img src="/travel/portrait_silly.png" width="300" height="396" style="float:right;"></img>
