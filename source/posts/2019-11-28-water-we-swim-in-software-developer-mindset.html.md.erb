@@ -68,45 +68,122 @@ The opposite superpower, common to Operations folks, allows them to be highly in
 
 ## Developers Hate Repetition
 
-* And will automate for twice as long as it would take to just solve the problem; this can be good or bad
-* This makes them prone to "favour re-use" so much as to collapse a bunch of problems together even if they're not *quite* the same
-* It's a sort of reflexive oversimplification; it can be good, but is often bad
+We hate repetition, and we love automation. Sometimes I wonder if we don't just have seriously wandering attention &mdash; automating may be harder, but at least it's new. Often we'll try to automate a task long past the point where it will save us any time (TODO: LINK TO XKCD). This can be good for our skills, or for solving a larger problem for other people. It's usually bad as far as our own personal free time.
+
+We also tend to strongly favour re-use of solutions. That can be great: of course re-using something that works is a good idea, especially when it solves a real problem. Unfortunately, it can also lead to treating problems as the same even when they're not:
+
+    "Hey, use this tool to solve that problem."
+    "This isn't the same problem."
+    "Ah, close enough."
+
+It's one reason we often de-emphasise things like design and documentation &mdash; design and documentation usually need to recognise that the same basic functionality (e.g. word processing) is often used in multiple different ways, leading to multiple solutions that could be "the same". And so a set of tools that are basically similar (e.g. Apple Pages, Microsoft Word and the author's tool Scrivener) are often treated as inefficient and repetitive when in fact the "same" functionality (word processing) does different things in the three cases.
+
+As a designer said to Bill Gates without much effect: a drinking fountain, a sink and a toilet all have to squirt water and drain water, but that doesn't mean that we should just use one object for all three.
+
+Sometimes a developer is right: using the same solution for many things can be powerful, like how the web browser has supplanted a lot of other bad interfaces. And sometimes trying to use the same solution for very different things results in a bad kind of over-efficiency, like when a spreadsheet solution keeps anybody from trying to make something better.
+
+The opposite sensibility, favouring repetition, gives different superpowers: a designer often favours repeating functionality so that the same thing can be tweaked slightly for slightly different use cases, like having a separate 'redundant' camera even though your phone has one built in. An artist favours repetition for diffrent reasons: they are trying to perfect the expression of the thing (e.g. how to paint a face) rather than do it once "perfectly" and stop. Thus, software developers get the "efficiency" superpower, designers get "excellent suitability-for-purpose," and artists get both "great skill in expression" and "extreme specificity."
 
 ## Developers Hate Obvious Inefficiency
 
-* Why do something in six months if you could do it in two days? This is the origin of those "learn C in thirty-six hours" sort of books; realistically, you will take far longer than that, but the promise of learning improbably fast makes us happy
-* There's a reason this can be good: if you can find a domain where you learn fast and work fast, you *can* improve ridiculously quickly; it's the same idea as the "rocket ship"/"hockey stick" trajectory for certain startups. It's also extremely rare and you can waste a lifetime of opportunity looking for it. It's like if you avoided opening a bank account to spend it all on lottery tickets; recognising a winning lottery ticket is good, but spending your whole life looking for one is bad
-* We don't actually mind *non*-obvious inefficiency. We cheerfully put up with long compile times because they feel "busy" in a good way, and if the test is running we're often happy. This is often true even if you could speed both up by 10x with some work. But the time spent feels "efficient" and "busy" even if it's not actually a short route to progress.
-* Developers often *hate* being idle, because that's *obvious* inefficiency. We *hate* things like status meetings where our progress is slowed for somebody else's benefit, which feels like inefficiency. And we hate "waiting to respond" situations where we're learning, but we don't know what, before we react, but we don't know how. To be fair nearly *everybody* hates those situations, but developers often label them as "inefficiency" even when they're not.
+Related to automation: developers hate certain kinds (not all) of ineffiency. Why do something over six months if there's a way to do it in two days? You can see this in the vast array of "Learn X Programming Language in 48 Hours" books, when realistically you know it will take far longer to do anything useful. But the promise of learning improbably fast makes us happy.
+
+In some cases, this this can be good. If you can find a domain where you learn fast and work fast, you *can* improve ridiculously quickly. The software startup "rocket ship"/"hockey stick" trajectory is a direct result of finding fast learning and improvement, and working hard to keep it happening fast.
+
+These cases are extremely rare and you can waste a lifetime of opportunity looking for them. It's like if you avoided opening a bank account to spend it all on lottery tickets; recognising a winning lottery ticket is good, but spending your whole life looking for one is bad.
+
+But looking for large advantages and then taking advantage isn't a bad thing.
+
+Oddly, we don't mind **non**-obvious inefficiency. Developers cheerfully put up with long compile times because they feel "busy" in a good way. If the test suite is running we're often happy and we feel productive. These are both often true even if you could speed both up by 10x with some work. But the time spent feels "efficient" and "productive" even if it's not actually a quick route to progress.
+
+Developers often *hate* being idle, because that's *obvious* inefficiency and it *feels* unproductive. We hate status meetings where our progress is slowed for somebody else's benefit, which feels like inefficiency. And we hate "waiting to respond" situations where we're assessing a situation and don't know what's happening yet. To be fair nearly *everybody* hates those situations, but developers often label them as "inefficiency" even when they're not.
+
+This one doesn't have an obvious opposite, though it has several important contrasts. Operations folks often like tinkering and fiddling to get a feel for a system, and to "just" learn. That's a powerful skill, and it requires tolerance for not knowing what the goal is (yet.) Artists and designers are often willing to play and dabble before jumping into a project, just to get a feel. In my experience, that's much rarer for software developers, though I don't know why it should be. Businesspeople hate inefficiency *that obviously costs money*, which is a bit different from developers, though there's overlap.
 
 ## Developers Get a Huge Kick Out of Arcane Knowledge
 
-* Knowledge is good; knowledge that most people don't know is better; knowledge that can barely even be explained *what* it is, is best
-* This tends to favour academic knowledge over skills and practice; it favours study of facts and trivia that can be bragged about over tuning and improvement
+Developers love knowledge and trivia in our areas of focus. What arguments does a particular function in the standard library take? How does a particular JavaScript framework handle HTML rendering? In C++, is a template-based approach faster than macros for this problem? We've mostly broken the habit of using these as job interview questions, but we did for many years. And it's still the kind of thing developers do to posture when they get together in groups.
+
+Knowledge is good. Uncommon knowledge is better. Knowledge whose specifics can barely even be explained, is best. For the third choice, step into your favourite debate about exactly what a Monad is and why it matters. I'm not trying to pick on Monads, Haskell or Functional Programming &mdash; Object-Oriented Design has its Law of Demeter and SOLID principles, C++ has template code, Ruby has metaprogramming. We love our subtle arcane knowledge.
+
+This tends to favour academic knowledge over skills and practice. Demonstrating a practical skill is harder, especially in an Internet flame war. Being able to *do* Object Oriented Design really well is only impressive if the other person's skill is in your league. Being able to parrot back all the SOLID principles and what they mean can be verified via Google.
+
+This also favours facts and trivia over tuning and improvement for the same reason. You can show that a particular piece of optimisation *works*, but you can't easily show *how difficult* that is. But an Internet game of Trivial Pursuit or Debate Team can make you look good, in a "winning the pointless debate" sort of way.
+
+The way developers keep score with trivia and challenges is a bit different from business folks, who keep score with money. And it's different from artists and designers, who *do* use practical skills for bragging via their portfolios. I'm not sure what the equivalent for Operations folks is, though it might be war stories.
 
 ## Developers Love Complexity
 
-* Even the kind of simplicity we like has many tons of freight in mental models
-* When we try to impress each other, it's generally with how complex the answer is, never with how actually-simple
-* We're dismissive and insulting about genuinely-simple solutions ("The Russians used a pencil") unless using it to puncture a blowhard colleague we already dislike
-* We tend to assume that an easy solution we overlooked means the whole problem isn't worth much
-* This is part of why others see us as being obsessed with trivia and fiddly bits
-* Here's a developer swimming against the current: "https://us3.campaign-archive.com/?u=1090565ccff48ac602d0a84b4&id=24e2bac263". As she says, "why did this occur to me and not others," she is essentially asking, "I see water, but other developers say nothing is here; why?"
+I'll wait a moment for all the Clojure developers to protest mightily before I continue. Take a breath! Okay, let's get started.
 
-## Developers Believe Things They Don't Understand Are Easy
-(Just like other people do)
+Developers tend to try to impress each other with complexity. Here's all the cool stuff this framework does for you automatically! Here's this powerful library and how many complicated things it can do! Here are all the options that are supported! Look at how well this programs handles scaling up to huge numbers of requests! Look at all the libraries that are integrated into this! Look, I used MongoDB and I can run this on ten hosts with automatic load-balancing!
 
-* "Why don't you just...?"
+Even the kind of "simplicity" we favour tends to have many tons of freight of mental models. Pointfree style? Mathematical abstractions like Monads? Simple-looking code where the complexity is hidden by annotations or metaprogramming? In some sense, these are simple. In another, saner sense, they *really* aren't. "Simple once you've taken weeks or years to understand the model" is different from the word "simple" as used in other professions. Though for what it's worth, a mathematician might agree with this definition of "simple." I suspect they'd use a word more like "elegant," though.
+
+Actual simplicity, where we step around problems, tends to be frowned on. This is a close relative of developers being in love with problems: avoiding problems when it isn't necessary to solve them is treated as cheating, even though it's a really good idea in most human activity. You know that joke about Space Pens (TODO: LINK JOKE.) The punchline &mdash; "the Russians used a pencil" &mdash; is exactly the kind of solution that software developers make fun of. We may occasionally use that argument to take down a blowhard colleague's bad solution. But a complicated, multi-part solution is generally treated as proof of intelligence and hard work until or unless we see the opposite.
+
+Conversely, somebody who tends to come back with genuinely simple solutions by finding a way to step around the complexity is often treated as cheating, or not trying, or not a "real developer."
+
+This is another reason non-developers tend to see us as being obsessed with trivia and arcana. One of the easiest ways to add complexity is to tack on more extra bits of trivia and arcana. "Look, I also made it read email!"
+
+Here's an example of a developer (Sandi Metz) [swimming against the current](https://us3.campaign-archive.com/?u=1090565ccff48ac602d0a84b4&id=24e2bac263) of this heading. When she presents a very simple solution that turns something hard into something easy, she finds that nobody else tried that. "Why did this occur to me and not to others?" she asks. Because a solution like that (decompose the problem into two simpler steps, run them consecutively) is often a solution where we look for excuses to disqualify it - "oh, but that's less efficient" (there's that word again.)
+
+## Developers are Highly Specialised and Believe Things They Don't Understand Are Easy
+
+Most people believe that what they don't know is either trivial ("why don't you just...?") or impossible ("oh, I could never learn to paint like that!") That's not particularly specific to developers, but developers are people, and mostly they share this very normal, very human trait.
+
+And in fact, while those sound like opposites (trivial vs impossible,) in some sense they're the same thing. "Oh, *you* can paint like that because you're a natural artist" is often the implication &mdash; it may be impossible for me, but it's trivial for you. That's why people don't like the common answer from artists ("it just takes *lots* of practice.") Because that attempts to turn it into a skill which other people *could* have, but it would take a lot of work, and the artist *does* have, but only because of a lot of work.
+
+The nice thing about the trivial and the impossible is that neither one tends to demand your respect like something that is merely very difficult and very expensive. So it's a convenient and very human way to trivialise others' accomplishments.
+
+This is, again, not specific to developers.
+
+Here's the part that's more specific: developers tend to be highly specialised. Our skills tend to require a lot of time to learn, and we tend to learn a lot of different skills - multiple programming languages, multiple libraries, at least one operating system and so on. We are often computer hobbyists as well as computer professionals.
+
+There's a strong tendency for "computer stuff," collectively to eat up a big chunk of our lives.
+
+That means there are more normal human skills that we don't put a lot of time or thought into, and which we therefore assume are either trivial or impossible.
+
+A person with a little skill in a lot of different things has a more informed respect for masters of those skills. If you can cook a bit, you tend to respect an excellent cook and understand the effort they put into becoming one. If you play tennis, you tend to have a similar respect for an excellent tennis player.
+
+Developers have a strong tendency to ignore random non-computer skills and hobbies in favor of computer skills and hobbies... Which leaves them a bit less respectful, as a group, of skills like knitting and golfing that have no computer component, and which aren't frequently practiced by developers.
+
+This is also the origin of "but that sounds easy, why don't you just...?" as a response to other major fields of study (TODO: LINK TO XKCD ABOUT PHYSICS)
+
+This is an interesting one to contrast, because artists sometimes have the same problem. They're consumed in their own skills and may not have a lot of interest or respect outside that world &mdash; not always, just like developers, but frequently, just like developers. By contrast, Operations folks often have background with more "random" skills, and businesspeople almost always require a huge range of skills in small amounts. A businessperson may or may not respect skills that don't make money, depending. But they tend to understand that developing those skills is difficult and takes work.
 
 ## Developers Want There to be a Right Answer
 
-* Senior developers are the ones who have slowly, bitterly become resigned to everything being a tradeoff
-* We want a "best"
-* This is part of the religious wars over JS framework, editor, etc., where there is, in fact, no best
-* Computers are highly deterministic (same stimulus gives same result) and this makes us impatient with the way humans change constantly and react inconsistently
+One major difference between junior and senior developers is that good senior developers have slowly become bitterly resigned to the idea that everything is a tradeoff. Every tool, every techique is good for some things and bad for others. At best, a particular tool or technique may be clearly the right one for the job you're doing. And even that becomes more dubious as they gain experience.
 
-## Sub-Topic: Developers Love a Gold Star
-(Doesn't everybody? Yeah, but to varying degrees.)
+Charity Majors recently talked about getting the "sadder but wiser" perspective of a senior developer. Yeah, that. (TODO: LINK TO IT)
 
-* Developers want there to *be* a right answer, they want to *find* the right answer, and they want *credit* for the right answer
-* Contrast: OpsFolk, who want to constantly tune and upgrade, but don't trust authority to give out gold stars
+Why is it so hard for us to do that? Because we want there to be a right answer. We want there to be a "best." We'll defend our programming language, our text editor, our libraries as the best against all others because we really, really want there to *be* a best, not just an unlimited number of different "maybe best for this specific situation" tradeoffs.
+
+If there is a best, our job is, perhaps, simple. We can use the best thing. If there is nothing but ten thousand subtle tradeoffs then we're responsible for somehow navigating that huge and horrible mess for every project. Junior developers seem to find this reality too harsh to face, while senior developers seem to grudgingly work around it while trying not to look directly at it.
+
+We all have our cross to bear.
+
+Computers are highly deterministic. When we give them instructions, they have a very strong tendency to do the same thing in response, over and over. This is especially true when things are working well, and for beginner tools. As a result, people who find this enjoyable and comforting are especially likely to become developers.
+
+And then, as it turns out, they step into a field with no right answers, only tradeoffs as far as the eye can see.
+
+How can you not sympathise?
+
+Worse, the farther they advance in their discipline, the more their job is dealing with humans instead of computers. The world is not a fair place, for developers or anybody else.
+
+But at heart, we really *want* there to be right answers. We really *wish* there were right answers. We argue vehemently that **just in this one specific case** there are totally right answers and if you don't see that, you're a fool.
+
+We're unquellably optimistic at heart, is what I'm saying.
+
+As a side effect of this, we really love getting a gold star. Those same early-career tools that give simple, repeatable responses? We became developers partly because we *love* the puzzle of getting them to do what we want. And after trying hard for awhile, we get it right. And the computer &mdash; our tool, our authority, the judge of whether we did it right &mdash; gives us a gold star. It does the thing we wanted it to do.
+
+Programmers *like* right answers, and *like* gold stars. The early part of our career arc almost requires it.
+
+And then we step out into the muddy world of human needs and unreliable systems and jobs, where nothing is clearly exactly right or wrong.
+
+There's no justice in this world. Unless it's some kind of poetic justice, and I don't want to think too hard about that one.
+
+What superpower does this give us? It keeps us *looking* for that right answer, long past when a saner person would give up.
+
+What's the contrast here? Well, artists are often working for their own gratification. If they draw a thing and they like what they drew, they give *themselves* a gold star. That's probably healthier, honestly. And they tend not to believe in specific right answers, since more of their discipline is based on being different and creative. Excellent small-company business folks do neither one, in favor of satisficing (doing 80% of each thing so that everything is adequate and little is excellent.) That means *their* superpower is being able to juggle far, far too many activities at once. And while Operations get a different set of powers - the power of "good enough," where they can do most of a thing and then stop, which is very powerful. And the power of tuning and tweaking, where they don't believe a system can *ever* be fully good enough, but they're often happy to stop working on it when something else comes up.
