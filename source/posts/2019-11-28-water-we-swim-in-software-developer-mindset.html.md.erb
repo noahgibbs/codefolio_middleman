@@ -1,0 +1,112 @@
+---
+title: "The Water We Swim In: The Software Developer's Mindset"
+date: 2019-11-28 6:00
+mc_signup: technique
+---
+
+<%= aside_image(current_page.url + "fib_n.png", alt: "...", disappear_on_mobile: true, direction: :right, caption: "But wait, let me explain my theory!") %>
+
+I've been fortunate to work in DevOps and with great Ops folks in my career, including doing enough of that work to get a feel for it. The tools are fun and it's nice to be able to do basic tasks, but the incredible, invaluable thing was just watching how experienced OpsFolk responded to different events.
+
+It's not just the smooth, immediate way that they handle warnings and outages, though that *is* impressive. It's also their basic understanding that new features, even features meant for robustness and resilience, are basically trouble. It's not that an undisturbed system will necessarily keep working... But a system you *disturb* will invariably develop problems of some kind. The numbers from several Facebook whitepapers agree with them &mdash; deployments tend to break things, and deploy-free weeks like holidays tend to be downtime-free.
+
+But the important part isn't the fact that they're right. The important part is seeing a completely different attitude toward the software we write. Our way is valid for what we do, their way is valid for what they do, but it gives us completely different principles (that is, "unwritten rules that underlie everything we say and do") about software.
+
+Just like "everybody *else* has an accent," it feels like everybody *else* has a mindset - our mindset is just "the right thing." But seriously, what *are* the unwritten rules in software development?
+
+If we're the fish in the bowl, what does the water look like?
+
+And what would the opposite look like? If software developers get our superpowers from this mindset, what superpowers do other folks get from very different mindsets?
+
+READMORE
+
+## Developers are In Love with Problems
+
+In the old The Tick comic, another superhero offers to team up: "working together, in a few months we could eliminate crime from this city completely!" The Tick says, "I don't want to *eliminate* crime! I just want to fight it."
+
+He might have made a fine software developer.
+
+When you show a developer an ugly, sticky problem that wants a complicated software solution, we start to salivate. In job descriptions, we brag to each other about "interesting problems to solve." And when we say "interesting," we mean technically difficult, not "relevant to the world at large." We use different phrases for that.
+
+We don't want to *eliminate* people's problems that can be fixed with software. We just want to *fight* them.
+
+This gives us simple superpowers: motivation and skill. We love to struggle mightily against problems, and it makes us strong. It means we love to practice. We don't need a *reason* to solve a problem with software. We just need time and a chance to work. We *want* to solve a problem, just because it's there.
+
+What does the opposite superpower look like? Look at business folks. Show them a problem they can tiptoe around and they'll avoid it. Show it to *us* and we'll fight it. We get the skill increases from fighting a thorny problem, while they get the ability to rapidly move on to the next problem *without* a fight. They may have problems later because they didn't *really* solve it. *We* may have problems later because our solution is imperfect, and that adds size and complexity &mdash; *avoiding* a problem is often more reliable than *mostly* solving a problem.
+
+Operations folks often have a related not-like-developers superpower: a talent for using bubblegum and baling wire to jury rig a not-really-solution that works. If you're a developer, I don't need to tell you how this can go wrong. But if you've done much operations, I don't need to tell you that the same approach can often work well enough for a long time and save a *lot* of effort. It's an especially good superpower if you're not sure your whole product or company will work out &mdash; the bubblegum and baling wire solution is often good enough to last until something *else* kills the whole current attempt and you have to rebuild.
+
+## Developers are Optimistic about Eventually Fixing All the Bugs
+
+We don't necessarily believe that this next bugfix, or release, will fix all the bugs. But we believe if we keep working, we'll eventually get something that does the right thing. We believe it will take a large but finite amount of work to get to "really quite good."
+
+Like the previous section, this is good for our motivation. Like the previous section, it often means we'll wade into trouble for the sheer love of the fight.
+
+We're not always right, of course. Some tasks are impossible &mdash; look at the Halting Problem. Some tasks are presumably possible but far too difficult for humans to solve yet, such as the Turing Test or other forms of advanced artificial intelligence. Sometimes we wade into something that is, from our current point of view, absolutely impossible.
+
+But the flip side is that we can often solve things that *looked* impossible but aren't. That's the developer superpower from this point of view.
+
+The opposite superpower, shared by OpsFolk, Business Folk and very senior developers, is avoiding fights too difficult to be winnable, at the cost of occasionally tiptoeing around a fight they *could* have won at great cost.
+
+You'll note that startups often want younger, less-experienced developers **specifically for this reason**. They're looking for problems that look impossible, but aren't. If you throw younger developers at the problem, they'll try very hard to do the probably-impossible. If you throw experienced, sadder-but-wiser developers at the problem, they'll often avoid the impossible in favour of the hard-but-clearly possible.
+
+Is that good? Like everything here, it depends what you're doing.
+
+## Developers Quietly Contemplate and then Turn the Model Into Code
+
+Skilled developers are often masters of creating complex mental models of a problem. They're also very good at lateral thinking and simulating a problem in their head. Eventually they can become excellent at checking the real world to find out where their model is right or wrong.
+
+They can also be almost frighteningly detached, listening to complaints and problem descriptions but barely reacting as they run through their mental models and update them. This can be reassuring as you're designing a new system, and frustrating if you're trying to see if the developer understands how bad your problem with a current system is, and how much you need them to fix it.
+
+All of this tends to require a lot of quiet, stable, controlled time to think through the problem and examine it from many angles. That examination doesn't usually work if the developers have to deal with interruptions, bug-fix requests, production outages, other problems and so on.
+
+As a result, it means developers often work hard to avoid interruptions. That can involve a bug-fix team member to keep the rest of the team from being interrupted, or handing the work off to operations people who handle outages, or working late at night without other team members interrupting, or scheduling blocks of "maker time" to think about a problem for a long while without communicating with other people. There are many other strategies with this end goal.
+
+The developer superpower is in design, building and debugging of complex systems: by intense focus, a developer can be effectively smarter, and more capable of creating interesting software systems.
+
+The opposite superpower, common to Operations folks, allows them to be highly interruptible and resilient, able to do their work despite annoyances and unexpected occurrences. They don't have to *like* it, of course. But as a rule they arrange their work-lives to handle it better.
+
+## Developers Hate Repetition
+
+* And will automate for twice as long as it would take to just solve the problem; this can be good or bad
+* This makes them prone to "favour re-use" so much as to collapse a bunch of problems together even if they're not *quite* the same
+* It's a sort of reflexive oversimplification; it can be good, but is often bad
+
+## Developers Hate Obvious Inefficiency
+
+* Why do something in six months if you could do it in two days? This is the origin of those "learn C in thirty-six hours" sort of books; realistically, you will take far longer than that, but the promise of learning improbably fast makes us happy
+* There's a reason this can be good: if you can find a domain where you learn fast and work fast, you *can* improve ridiculously quickly; it's the same idea as the "rocket ship"/"hockey stick" trajectory for certain startups. It's also extremely rare and you can waste a lifetime of opportunity looking for it. It's like if you avoided opening a bank account to spend it all on lottery tickets; recognising a winning lottery ticket is good, but spending your whole life looking for one is bad
+* We don't actually mind *non*-obvious inefficiency. We cheerfully put up with long compile times because they feel "busy" in a good way, and if the test is running we're often happy. This is often true even if you could speed both up by 10x with some work. But the time spent feels "efficient" and "busy" even if it's not actually a short route to progress.
+* Developers often *hate* being idle, because that's *obvious* inefficiency. We *hate* things like status meetings where our progress is slowed for somebody else's benefit, which feels like inefficiency. And we hate "waiting to respond" situations where we're learning, but we don't know what, before we react, but we don't know how. To be fair nearly *everybody* hates those situations, but developers often label them as "inefficiency" even when they're not.
+
+## Developers Get a Huge Kick Out of Arcane Knowledge
+
+* Knowledge is good; knowledge that most people don't know is better; knowledge that can barely even be explained *what* it is, is best
+* This tends to favour academic knowledge over skills and practice; it favours study of facts and trivia that can be bragged about over tuning and improvement
+
+## Developers Love Complexity
+
+* Even the kind of simplicity we like has many tons of freight in mental models
+* When we try to impress each other, it's generally with how complex the answer is, never with how actually-simple
+* We're dismissive and insulting about genuinely-simple solutions ("The Russians used a pencil") unless using it to puncture a blowhard colleague we already dislike
+* We tend to assume that an easy solution we overlooked means the whole problem isn't worth much
+* This is part of why others see us as being obsessed with trivia and fiddly bits
+* Here's a developer swimming against the current: "https://us3.campaign-archive.com/?u=1090565ccff48ac602d0a84b4&id=24e2bac263". As she says, "why did this occur to me and not others," she is essentially asking, "I see water, but other developers say nothing is here; why?"
+
+## Developers Believe Things They Don't Understand Are Easy
+(Just like other people do)
+
+* "Why don't you just...?"
+
+## Developers Want There to be a Right Answer
+
+* Senior developers are the ones who have slowly, bitterly become resigned to everything being a tradeoff
+* We want a "best"
+* This is part of the religious wars over JS framework, editor, etc., where there is, in fact, no best
+* Computers are highly deterministic (same stimulus gives same result) and this makes us impatient with the way humans change constantly and react inconsistently
+
+## Sub-Topic: Developers Love a Gold Star
+(Doesn't everybody? Yeah, but to varying degrees.)
+
+* Developers want there to *be* a right answer, they want to *find* the right answer, and they want *credit* for the right answer
+* Contrast: OpsFolk, who want to constantly tune and upgrade, but don't trust authority to give out gold stars
