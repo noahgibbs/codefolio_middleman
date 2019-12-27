@@ -4,6 +4,8 @@ date: 2012-04-17 03:19
 disqus_id: "http://codefol.io/posts/3"
 ---
 
+<iframe src="https://anchor.fm/noah-gibbs9/embed/episodes/BigCo-New-Employee-Training---Inside-Voice-e9rd02" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
+
 Hello, new software engineers!  Welcome to the <a href="http://weblog.raganwald.com/2005/07/why-you-need-degree-to-work-for-bigco.html">(slightly) dysfunctional BigCo family</a>.
 
 Some of you are coming from Ruby, some Java. A few of you still think we should rewrite everything in Node.js. The whole company,  down to the last one-off script.
