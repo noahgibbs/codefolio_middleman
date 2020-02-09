@@ -12,6 +12,8 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   to_publish = 6
   blog.articles.each do |article|
     next if article.data.front_page == false
+    next if article.data.front_page_data && DateTime.parse(article.data.front_page_data) > article.date
+
     xml.entry do
       xml.title article.title
       xml.link "rel" => "alternate", "href" => URI.join(site_url, article.url)
