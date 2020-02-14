@@ -35,6 +35,12 @@ activate :blog do |blog|
   # blog.day_link = "{year}/{month}/{day}.html"
   # blog.default_extension = ".markdown"
 
+  # Generally speaking, I want future-dated posts to *exist*,
+  # but not to put them on the front page or in RSS.
+  # So they have to count as published for Middleman, but
+  # I have to not put them on the front page.
+  blog.publish_future_dated = true
+
   blog.layout = "blog_page"
 
   blog.tag_template = "tag.html"
