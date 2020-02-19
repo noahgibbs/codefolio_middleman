@@ -24,9 +24,7 @@ prev: false
 <% end %>
 
 <% page_articles.each_with_index do |article, i|
-     next if article.data.front_page == false
-     next if article.date > Time.now
-     next unless article.published?
+     next unless is_published(article)
      disqus_id = article.data.disqus_id ? article.data.disqus_id : ("http://codefol.io/" + article.path.chomp("/"))
   %>
   <div class="card border-light">

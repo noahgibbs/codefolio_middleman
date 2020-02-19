@@ -13,11 +13,13 @@
       <%= yield %>
     </div>
     <div class="text-muted pager">
-      <% if (!current_page.data.has_key?("prev") || current_page.data.prev) && current_article.article_previous %>
-        <a href="<%= current_article.article_previous.url %>"><button class="pull-left btn btn-primary">&#8592; <%= current_article.article_previous.title %></button></a>
+      <% prev_pub = prev_published(current_article) %>
+      <% if (!current_page.data.has_key?("prev") || current_page.data.prev) && prev_pub %>
+        <a href="<%= prev_pub.url %>"><button class="pull-left btn btn-primary">&#8592; <%= prev_pub.title %></button></a>
       <% end %>
-      <% if (!current_page.data.has_key?("next") || current_page.data.next) && current_article.article_next %>
-        <a href="<%= current_article.article_next.url %>"><button class="pull-right btn btn-primary"><%= current_article.article_next.title %> &#8594;</button></a>
+      <% next_pub = next_published(current_article) %>
+      <% if (!current_page.data.has_key?("next") || current_page.data.next) && next_pub %>
+        <a href="<%= next_pub.url %>"><button class="pull-right btn btn-primary"><%= next_pub.title %> &#8594;</button></a>
       <% end %>
     </div>
   </div>
