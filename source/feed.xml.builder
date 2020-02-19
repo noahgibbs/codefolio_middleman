@@ -11,9 +11,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
 
   to_publish = 6
   blog.articles.each do |article|
-    next if article.data.front_page == false
-    next unless article.published?
-    next if article.date > Time.now
+    next unless is_published(article)
 
     xml.entry do
       xml.title article.title
