@@ -13,6 +13,7 @@ Ruby-Flavored Topics:
 * [Ruby on Rails internals](/topics/rails), including the book "Rebuilding Rails" and my framework-building workshop
 * [Ruby Performance](/topics/performance) - I wrote a lot of this as AppFolio's Ruby Fellow - thanks, AppFolio!
 * [General Ruby and Rails](/topics/ruby_general) that don't have another catogory
+* [Learning Ruby](/topics/ruby_learning)
 
 Topics for Developers Generally:
 
