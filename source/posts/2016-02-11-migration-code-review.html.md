@@ -1,7 +1,6 @@
 ---
 title: "Migration Code Review"
 date: 2016-02-11 17:00
-mc_signup: database
 ---
 
 Migrations <a href="/posts/database-migrations-without-downtime">can
