@@ -1,0 +1,29 @@
+---
+title: "Get Around the Recording Limit on the Canon EOS 250d (aka Canon Rebel SL3)"
+---
+
+<img class="img-fluid" src="/posts/get-around-recording-limit-on-canon-eos-250d-aka-rebel-sl3/me_microphone_silly.jpg" width="800" height="600" alt="A picture of me in front of my microphone"/>
+
+I recently purchased a Canon EOS 250d (also sold as the Canon Rebel SL3.) I thought, "hey, the 200d has been around forever, it probably won't be hard to get it working for video streaming and recording my talks."
+
+***I was naive***. If you own one, you may have the same problem. (NOTE: ***I HAVE A SOLUTION BUT IT'S MAC-ONLY***.)
+
+Specifically, it's been really hard to handle the 30-minute recording limit when I want to record a long talk or use it as a webcam. [Every DSLR has a recording limit of 30 minutes or less](https://www.borrowlenses.com/blog/video-recording-limits-in-mirrorless-and-dslr-cameras/), but there are clever workarounds for many of them.
+
+There's a hack using the Canon EOS Utility for the 200d &mdash; and that hack ***does not work on the 250d***.
+
+You can install [MagicLantern](https://magiclantern.fm/) on most Canon EOS DSLRs to get around it &mdash; and MagicLantern ***does not work yet for the 250d*** (as of March 2020.)
+
+There are also hacks of desperation - you can record in under-30-minute sections and edit it back together. You can use multiple cameras in under-30-minute sections.
+
+I've found one setup that works well for my 250d - [Camera Live](https://github.com/v002/v002-Camera-Live) with [OBS](https://obsproject.com/) or [CamTwist](http://camtwiststudio.com/). On the plus side, they're free! On the minus side, they're a little clunky.
+
+Camera Live exports a Mac-specific protocol called [Syphon](http://syphon.v002.info/). CamTwist and OBS can both use a Syphon video source. OBS can then stream or record the video. Or CamTwist will make that video feed look and act like a webcam, so you can record with QuickTime or ScreenFlow or whatever you like.
+
+But more importantly, Camera Live keeps the camera active! No recording limit. I deactivated auto-power-off, so you may need to do that too.
+
+Camera Live gets the same images that would show up on your LED during Live View. That means you may need to turn off autofocus, turn off the info display (hit the INFO button as many times as needed) and otherwise set your camera up properly. I didn't need quite as elaborate a setup with this. For instance, I didn't need to focus and then turn off the physical AutoFocus switch on my lens, which you ***have to do*** with the EOS Utility hack.
+
+In any case, it's easier than the EOS Utility hack and all you need for hardware is a micro-USB cable.
+
+Thanks to [Swizec Teller](https://swizec.com/), who first put me on the track of this workaround.
