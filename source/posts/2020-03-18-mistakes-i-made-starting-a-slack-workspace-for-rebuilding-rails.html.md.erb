@@ -1,0 +1,97 @@
+---
+title: "The Mistakes I Made Starting a Slack Workspace for Rebuilding Rails"
+---
+
+<%= aside_image(current_page.url + "chalk_fishin_800_600.png", alt: "A person sleeps with an ignored fishing pole at their feet and a hat over their face.", disappear_on_mobile: true, direction: :right, caption: "This would be a better attitude for Slack invites than what I did.") %>
+
+Do you sell an online product? Or do you want to?
+
+Have you considered some sort of an online presence for the buyers, to let them talk to each other? It seems like a really good idea. If a lot of people are trying to learn the same thing, letting them talk to each other could be ***amazing***. I know I get some wonderful buyers of [Rebuilding Rails](https://rebuilding-rails.com) and [Mastering Software Technique](https://software-technique.com). And I'm an old-fashioned geek. I always want to throw a party to get all my friends into the same room so they can meet each other.
+
+My idol on this one is [Nate Berkopec](https://twitter.com/nateberkopec). In addition to being a great conversationalist, he sells [the definitive ebook on Rails performance](https://www.railsspeed.com/) and runs multi-day workshops about it too. But if you buy the ebook, you get an invitation to the Slack workspace. And the Slack alone is worth the price of the book, because anybody who is anybody in Ruby performance hangs out there. They're not all talking, but they're available for questions.
+
+His book is good. But it still pales in comparison to having everybody who's interested in the topic centered in one place. There's simply no way Nate could give you as much value as everybody else put together... So he doesn't. He invites you to a group of everybody else put together. It's a ***really good idea***.
+
+So I've sold you on it, right? It's simple. Make a Slack workspace, all the cool people will hang out there, everybody will buy your product to get access and you can retire to Bermuda.
+
+Not ***quite*** that easy, no.
+
+It turns out there are some difficulties.
+
+## Simple Logistics
+
+Inviting buyers of a product into your Slack workspace is harder to automate than you might think. Standard automation tools like [Zapier](https://zapier.com) can do things with Slack, but they won't invite users for you. Slack's current API doesn't even have an operation for it.
+
+Instead, [Slack's old API](https://api.slack.com/legacy/custom-integrations/legacy-tokens) has that operation among all the deprecation warnings. They're going to stop giving out API keys for that API completely on 5th May, 2020. And they warn that at some point this will stop working completely.
+
+So if you do this, keep in mind that in the near future you may be doing it by hand. At least until the outside world figures out a new semi-approved workaround.
+
+Once you've gotten your token (before May 5th!), the actual code is pretty simple. Here's a trivial example:
+
+~~~ruby
+require 'rest-client'
+require 'json'
+
+TOKEN = 'xoxp-00000000000-0000000000-0000000-not-my-real-token-000000000'
+
+def invite_slack_user(slack_prefix, user_email)
+  response = RestClient.post "https://#{slack_prefix}.slack.com/api/users.admin.invite", { "token" => TOKEN, "email" => user_email, "set_active" => "true" }
+  json_result = JSON.parse(response.body)
+  return true if json_result["ok"]
+  STDERR.puts "Unsuccessful JSON response to inviting #{user_email.inspect}: #{response.body.inspect}"
+  raise "Fail on error for this example!"
+end
+
+# Software Technique is the name of my Slack. It's at software-technique.slack.com.
+invite_slack_user("software-technique", "customer.email@gmail.com")
+~~~
+
+So that part isn't hard. If the result is ***not*** "ok", then there will be a field called "error" with a human-readable error. It may say that the person is already invited, for instance. Or it may say that ***the invitation limit has been reached***.
+
+## Slack and Invitation Limits
+
+Did you know Slack had invitation limits? I didn't. But now I do!
+
+I can see how a spammer might want to make a Slack and invite a lot of people as a way of trying to advertise something (ugh.) And Slack would need some kind of countermeasures. And apparently the way I created my Slack convinced them that I might be a spammer. Argh!
+
+Specifically, I invited a whole lot of people and it took awhile for any of them to accept my invitation. Which ***does*** sound kind of spammy. I can't really fault them.
+
+Of course, I also ***did something really stupid*** that made it much, much worse.
+
+So: Slack doesn't have limits (that I know of) on the ***total*** number of invitations. But if you send out too many that aren't accepted, it assumes you're a spammer. And it tells you that just withdrawing old invitations won't help. You have to wait for folks to accept.
+
+If you decide to run a script to invite a large group, perhaps many years of previous buyers? ***DO NOT DO IT IN CHRONOLOGICAL ORDER.*** The opposite would be far more sensible. Then your most recent and engaged buyers would get the first invitations. And they're far more likely to accept. If you invite a huge batch of people from many years ago, they are quite likely to not recognise you and not accept your invitations. This will make you look like a spammer to Slack, which isn't what anybody wants. And you can't easily fix the problem because withdrawing invitations won't work.
+
+You may wind up with a ***far more exclusive*** little club than you meant to.
+
+What's the actual limit? Good question. I had invited around a hundred people with under a quarter of that accepting and I hit the limit. I had a few of them accept later... and it didn't seem to give more invitations. It's possible that once you hit the limit you're pretty much doomed and that I'll need to create a new Slack workspace after this. I've given it a few days and a few acceptances and Slack won't allow me to add anybody else. Which suggests that it's now an unfixable situation, and I'll need to recreate the whole workspace.
+
+In any case, you don't want to do bulk imports. And you don't want to invite a lot of people who are unlikely to say yes.
+
+I'd recommend trying hard to ***not*** hit the limit. Scroll down to "What to Do" if you'd like more detail.
+
+## Charging
+
+If the Slack is so valuable, can you charge for it?
+
+***I wouldn't ever charge a recurring fee for a Slack-type community if I were you***.
+
+More specifically, it's hard to convince people to join and keep paying if it "feels" social. Even variations on this like [Ramit's Brain Trust](https://www.youtube.com/watch?v=hMZuDwKM7k0&list=PLPZCUlZ2z01kZ4dAg5IgWLB0ffDoHCjVi) (now shut down), which added interviews around the basic "community" idea, have a really hard time charging for access to a community. It's not impossible, but it's a very hard gig. And it means you can't easily use highly-engaged-but-poor folks to keep your community humming along.
+
+You'd like something to always feel like it's going on. Questions should be asked, or live events should happen, or there should be a discussion. One reason Nate's Slack is so amazing is that people are constantly asking and answering Ruby performance questions. You'll need some equivalent of that.
+
+Charging month-to-month means that you'll have a much harder slog. You'll need enough ***paying*** customers to help you carry that load, which makes them harder to find and keep. There are folks who make it work, usually by selling it as part of a different subscription service. But it doesn't seem to be easy.
+
+Also, folks often notice if they're carrying all the weight of what ***you*** are selling. So your most valuable people will be constantly thinking, "but wouldn't it be better if I turned this into a blog or something for myself instead?"
+
+## What To Do
+
+If you want to avoid the invitation limit, you're probably best served by starting the Slack ***immediately*** - from when you first start selling the product. That way you're getting folks who are highly engaged and relatively likely to accept the invitation. You're also getting a fairly small number of them at a time.
+
+Okay, but what if you already have a product, with existing customers?
+
+My recommendation would be to invite them newest-to-oldest, in ***small*** batches. Don't ever have a large influx of people who aren't likely to accept all at once. That also means you shouldn't tell everybody "you'll receive an invitation within the next 24 hours!" or anything like that. Learn from my mistake 😞
+
+It's also a very good idea to make people opt into their Slack invitation somehow. [Chris Ferdinandi](https://gomakethings.com/), for instance, uses a URL they have to go to, enter their email address, and ***then*** they get a Slack invitation. That means they'll usually accept it, which means you won't trigger the spam protection. He also verifies that the email address comes from an actual customer, which keeps other folks from using his form for spamming.
+
+
