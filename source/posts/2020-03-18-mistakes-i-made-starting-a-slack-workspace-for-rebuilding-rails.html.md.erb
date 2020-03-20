@@ -18,11 +18,15 @@ Not ***quite*** that easy, no.
 
 It turns out there are some difficulties.
 
-## Simple Logistics
+## The Wrong Simple Logistics
 
 Inviting buyers of a product into your Slack workspace is harder to automate than you might think. Standard automation tools like [Zapier](https://zapier.com) can do things with Slack, but they won't invite users for you. Slack's current API doesn't even have an operation for it.
 
-Instead, [Slack's old API](https://api.slack.com/legacy/custom-integrations/legacy-tokens) has that operation among all the deprecation warnings. They're going to stop giving out API keys for that API completely on 5th May, 2020. And they warn that at some point this will stop working completely.
+I tried the worse way first.
+
+(*NOTE: WANT TO SEE THE BETTER WAY TO DO IT? SCROLL DOWN TO "WHAT TO DO."*)
+
+The worse way is [Slack's old API](https://api.slack.com/legacy/custom-integrations/legacy-tokens). It can invite new users, but it's a giant mass of deprecation warnings. Slack is going to stop giving out API keys for that API completely on 5th May, 2020. And they warn that at some point this will stop working completely.
 
 So if you do this, keep in mind that in the near future you may be doing it by hand. At least until the outside world figures out a new semi-approved workaround.
 
@@ -42,11 +46,11 @@ def invite_slack_user(slack_prefix, user_email)
   raise "Fail on error for this example!"
 end
 
-# Software Technique is the name of my Slack. It's at software-technique.slack.com.
+# Software Technique is the name of my Slack. It's at software-technique.slack.com. Use your own Slack workspace name as the first parameter.
 invite_slack_user("software-technique", "customer.email@gmail.com")
 ~~~
 
-So that part isn't hard. If the result is ***not*** "ok", then there will be a field called "error" with a human-readable error. It may say that the person is already invited, for instance. Or it may say that ***the invitation limit has been reached***.
+So that part isn't hard. If the result field "ok" isn't true then there will be a field called "error" with a human-readable error. It may say that the person is already invited, for instance. Or it may say that ***the invitation limit has been reached***.
 
 ## Slack and Invitation Limits
 
@@ -60,15 +64,25 @@ Of course, I also ***did something really stupid*** that made it much, much wors
 
 So: Slack doesn't have limits (that I know of) on the ***total*** number of invitations. But if you send out too many that aren't accepted, it assumes you're a spammer. And it tells you that just withdrawing old invitations won't help. You have to wait for folks to accept.
 
-If you decide to run a script to invite a large group, perhaps many years of previous buyers? ***DO NOT DO IT IN CHRONOLOGICAL ORDER.*** The opposite would be far more sensible. Then your most recent and engaged buyers would get the first invitations. And they're far more likely to accept. If you invite a huge batch of people from many years ago, they are quite likely to not recognise you and not accept your invitations. This will make you look like a spammer to Slack, which isn't what anybody wants. And you can't easily fix the problem because withdrawing invitations won't work.
+Let's say that you decide to run a script to invite a large group, perhaps many years of previous buyers. ***DO NOT DO IT IN CHRONOLOGICAL ORDER.*** The opposite would be far more sensible. Then your most recent and engaged buyers would get the first invitations. And they're far more likely to accept. If you invite a huge batch of people from many years ago, they are quite likely to not recognise you and not accept your invitations. This will make you look like a spammer to Slack, which isn't what anybody wants. And you can't easily fix the problem because withdrawing invitations won't work.
 
 You may wind up with a ***far more exclusive*** little club than you meant to.
 
-What's the actual limit? Good question. I had invited around a hundred people with under a quarter of that accepting and I hit the limit. I had a few of them accept later... and it didn't seem to give more invitations. It's possible that once you hit the limit you're pretty much doomed and that I'll need to create a new Slack workspace after this. I've given it a few days and a few acceptances and Slack won't allow me to add anybody else. Which suggests that it's now an unfixable situation, and I'll need to recreate the whole workspace.
+If you use an API invitation instead of a link, it's a very good idea to make people opt into their Slack invitation somehow. [Chris Ferdinandi](https://gomakethings.com/), for instance, uses a URL they have to go to, enter their email address, and ***then*** they get a Slack invitation. That means they'll usually accept it, which means you won't trigger the spam protection. He also verifies that the email address comes from an actual customer, which keeps other folks from using his form for spamming.
 
-In any case, you don't want to do bulk imports. And you don't want to invite a lot of people who are unlikely to say yes.
+What's the actual limit? Good question. I had invited around a hundred people with under a quarter of that accepting and I hit the limit. I had a few of them accept later... and it didn't seem to give more invitations. It's possible that once you hit the limit you're pretty much doomed and that I'll need to create a new Slack workspace after this. I'm mostly using the other, better way of adding users now... But if I wanted to use this API, it's likely I'd need to delete the whole workspace at this point and recreate it. (Slack support also says they can't lift that limit.)
 
-I'd recommend trying hard to ***not*** hit the limit. Scroll down to "What to Do" if you'd like more detail.
+In any case, you don't want to do bulk imports. And you don't want to invite a lot of people who are unlikely to say yes. Learn from my mistake 😞 For those cases you're better off sending an invitation link instead.
+
+I'd recommend trying hard to ***not*** hit the limit. But there ***is*** another method.
+
+## A Better Method - Invitation Links
+
+If you have a big block of people to invite, you should generate a Slack invitation link. You can do this from the "invite people" link, from your workspace in the desktop client. You may have to scroll down in a window that (to me) doesn't look like it scrolls. They'll have to click it within 30 days, but that's likely fine.
+
+It has the enormous advantage that it's opt-in since they have to click on the link. That means no invitation limits!
+
+It has the disadvantage that you can only have one link at once and it has an expiration date. So if you wanted to, say, invite all your buyers into a Slack you'd have to cancel the link, generate a new link and update whatever auto-send feature you were using. Also, any time you do this, recent buyers will no longer have a valid link. Oops?
 
 ## Charging
 
@@ -86,14 +100,12 @@ Also, folks often notice if they're carrying all the weight of what ***you*** ar
 
 ## What To Do
 
-If you want to avoid the invitation limit, you're probably best served by starting the Slack ***immediately*** - from when you first start selling the product. That way you're getting folks who are highly engaged and relatively likely to accept the invitation. You're also getting a fairly small number of them at a time.
+There are two different cases, to be handled in two different ways.
 
-Okay, but what if you already have a product, with existing customers?
+If you have people who will "drip" in as they buy, you may want to use the API invitation method. That will avoid having to rotate invitation links. You'd be even better served by using Chris Ferdinandi's method (mentioned above) for opt-in. Or you could generate a new invitation link periodically and make sure you're sending out a recent one.
 
-My recommendation would be to invite them newest-to-oldest, in ***small*** batches. Don't ever have a large influx of people who aren't likely to accept all at once. That also means you shouldn't tell everybody "you'll receive an invitation within the next 24 hours!" or anything like that. Learn from my mistake 😞
-
-It's also a very good idea to make people opt into their Slack invitation somehow. [Chris Ferdinandi](https://gomakethings.com/), for instance, uses a URL they have to go to, enter their email address, and ***then*** they get a Slack invitation. That means they'll usually accept it, which means you won't trigger the spam protection. He also verifies that the email address comes from an actual customer, which keeps other folks from using his form for spamming.
+If you already have a product, with existing customers, you should send out an invitation link to them.
 
 ## Oh No, I Hit the Limit!
 
-I haven't found that waiting does me much good, even with some number of folks accepting and engaging with my Slack community. However, [a Quora question](https://www.quora.com/How-big-Slack-communities-deal-with-invitation-limits) mentions that you can email feedback@slack.com. It seems worth a try!
+I haven't found that waiting does me much good, even with some number of folks accepting and engaging with my Slack community. However, [a Quora question](https://www.quora.com/How-big-Slack-communities-deal-with-invitation-limits) mentions that you can email feedback@slack.com. I did. They couldn't lift the limit, but they can recommend the same methods I mention here.
