@@ -1,0 +1,153 @@
+---
+title: "Lessons in Basic Interview Technique from a Mock Interview"
+---
+
+<%= aside_image("http://codefol.io/images/BadPractice.png", alt: "A person uses a tennis racket to hit a basketball, golf-style, off a tee.", disappear_on_mobile: true, direction: :right, caption: "I tend to forget what interviewing was like early on. These days all the weird rules just seem normal.") %>
+
+Her nose wrinkled. "I ***really*** hate job hunting." He looked down, but her chicken curry seemed fine.
+
+"How come?"
+
+"The interviewer is trying to seem smarter than you. The questions are stupid and you've already heard them or you haven't. It's not like those are really things you do on the job."
+
+"Huh. I always kind of liked interviews. You basically spend a day bragging about how awesome you are. And if it goes well then you get more money and a more interesting job."
+
+"Yeah, well, Jim, you're a freak."
+
+==========
+
+Nearly everybody hates job hunting. And job interviews. People like Jim don't make it any better.
+
+One weird thing about job interviews: it's easy to forget ***just how weird*** they are. There are lots of little quirks. And once you've been interviewing for a few years, you forget completely about how weird they actually are.
+
+[A friend who helped me out with Mastering Software Technique](https://twitter.com/nelliesnoodles) is working to become a professional coder. That means she's learning all the weirdnesses of job interviewing. She was willing to do a mock technical interview with me... And I ***completely*** messed up the recording. But we hit a few strange things about job interviews along the way, so I'll share them.
+
+If you're new to coding interviews: yeah, these are weird. If you're an old pro: these are things new people find weird or don't know to do.
+
+They're also strongly skewed toward "junior developer" interviews, and toward remote interviewing like phone screens or over Google Hangouts or Zoom. So if you're interviewing in some other way, the answers may be a little different.
+
+If you're an early-career candidate, skim and look for oddities. The important part is that you've seen these things once or twice before. Late-career? I have more in-depth advice that may help. If you're an interviewer, I talk about what "good interviewers" do here &mdash; that's for you. 
+
+## Showing Your Work
+
+A lot of coding interview questions are so the interviewer can get a feel for your mental process. If they ask a question, you think about it for awhile, and you just give a wrong answer (or no answer) then you've both wasted your time. A wrong answer ***with how you got there*** is sometimes good. A wrong answer where you never showed your work is bad.
+
+## Design Up Front or Jump Right In?
+
+So: when the interviewer has asked a technical question, do you jump right into coding or do you stop and do some design?
+
+You won't go wrong by doing design up front as long as you talk through it. But you can also do well jumping right in... provided you talk through it. If you jump right in, you might want to say something like, "I'm not sure about this, but I often learn more by trying to work on the code. If it's too much I'll stop and do more design."
+
+And then if you ***do*** have trouble, stop and do more design.
+
+But in the mean time, especially for a junior role, partially-done design and partially-done code can both show the interviewer what you can do, even if your answer isn't right.
+
+If you refuse to talk through it or show your work... then your answer had better be right because you didn't give them anything else to go on.
+
+## "Something That Works," "Nothing Fancy," "Brute-Force It"
+
+Often the easiest way to approach a hard problem is to go through an easier problem. With Nellie, I asked about finding the length of the [longest palindrome substring](https://www.geeksforgeeks.org/longest-palindrome-substring-set-1/). It's a fairly hard problem. It's certainly not immediately clear what the best way to do it is for most coders.
+
+When an interviewer perceives that they may have given you too hard a problem, or when they want to see ***some*** progress quickly, it's common for them to use one of the phrases above. "Just show me an approach that works." "I don't need anything fancy here, but can you write working code?" "Give me a brute-force algorithm for this."
+
+If they ask that, it's a very good idea for you to respect it. Find a way to do ***something***, not necessarily anything particularly clever. That can be a job skill on its own &mdash; sometimes you don't need a fast algorithm, you just need a correct answer a small number of times.
+
+This is worth practicing on your own a few times. Especially if you're a bit of a perfectionist, you may not want to write 'bad' code. A job interview is an especially common time for you to be asked to do it. Sometimes the hard part is just being ***willing*** to do it the "dumb" way.
+
+Also, in some cases you won't know how to approach a particular problem but you feel like your initial approach isn't good. That's a great time for you to ask, "I think I have a brute-force solution. Shall I code that up?" That may tell you a lot about what they're looking for.
+
+## Multiple Tasks, Easy Tasks First
+
+Frequently a coding interview is divided into several steps. You might be asked to brute-force a problem and then to write a better or faster solution as a next step. You might be asked to take an initial easy problem and use it in an unexpected way. Way back when I asked C-language coding interview questions I had a great lead-in from the classic simple linked-list reverse question into a fun variation on the "detect a cycle in a linked list" question.
+
+That's one reason they may ask you for a brute force solution: it may be an early step from a multi-step question.
+
+Multi-step questions are good because they let you show some progress. If you do something easy, quickly, then you've shown them that you can succeed in a task. It's common for multi-step questions to be too large to finish, on purpose, just to see how far you get. That's not a bad thing, and it doesn't reflect badly on you.
+
+## "Can I Google It?"
+
+Nellie asked me, "how do they know I'm not Googling it?" It was a remote interview, so it's a very reasonable question.
+
+This depends on the interviewer a bit. But in most cases, Googling an answer is fine. Googling for answers to programming questions is a skill. In fact, it's a specific job skill that you'll need in real positions. If they're asking trivia you may want to ask first, just like Nellie did. But it's reasonable for you to say something like, "on my own, I would Google this. Do you want an answer off the top of my head, or is Googling appropriate here?"
+
+Offering to test in a REPL like irb is similar. If you're in doubt whether it's okay, ask. But if you'd check your work in irb during real development, it's not a bad idea to say so. Sometimes you'll get brownie points just for asking!
+
+## Spelling
+
+A lot of developers are sticklers about spelling. If you call a standard library function, for instance, you really have to spell it the same way the standard library does. An IDE may help you out, but you basically need to be consistent about spelling.
+
+Note that I said "consistent," not necessarily "correct."
+
+You can misspell your own function names. Most developers are fine with that as long as you do it consistently.
+
+But if you misspell words that are likely to be in standard library names, a certain number of interviewers are going to fail you for it. And they may not even tell you they're doing it.
+
+With Nellie, I specifically corrected the word "recurse" in a place she used it, even though her way worked fine. For a common word that programmers see often, you'll want to spell it the standard way.
+
+(And occasionally you'll need to consistently use somebody else's ***misspelling***. I do not like that [the HTTP standard misspells "referer."](https://en.wikipedia.org/wiki/HTTP_referer) Not at all.)
+
+But as I said to Nellie, the annoying part here is that somebody won't necessarily tell you when they're judging you poorly for spelling. You'll just fail a certain percentage of interviews and not know why. Be careful with your spelling and practice it if necessary.
+
+## Online Code Editors
+
+For remote job interviews, there's a good chance that your interviewer will want to use an everybody-type-into-it collaborative code workspace, something like [CodeShare](https://codeshare.io) or [CoderPad](https://coderpad.io). There are a number of oddities to the various editors, alas.
+
+For instance they tend to handle tabs versus spaces oddly. And they certainly won't respect the settings of your preferred code editor. And it's not as if they can directly execute code in your language of choice. So you have no autocomplete, no debugger, no ability to run the code with a keystroke&hellip;
+
+One partial answer is "get used to it." It's annoying, but practice will improve your ability to handle it. You'll get used to looking for tabs versus spaces, for instance. That's especially important if your primary language is something like Python (or Makefiles, for you ancient coders) where tabs versus spaces can be a big annoying deal.
+
+Another possibility is to cut and paste from your IDE. You can write the code in a serious editor, something like Visual Studio or Sublime Text, in your preferred environment. Then when you have something working you can paste it in.
+
+A word of caution: if you cut and paste from your editor, the interviewer can't see your process. They can't watch you writing the code. Some interviewers will find that entirely unacceptable, but even the best interviewers still can't give you credit for things they can't see. So you may want to cut and paste quite often, probably more often than you're comfortable with to show your work. You should be very willing to how partial results.
+
+You ***may*** be able to do a screenshare instead. Keep in mind that other things on your screen will be visible in that case - Instant Messages or SMS if they go to your screen, calendar notifications and so on. A screenshare may be harder to set up in some cases, so it may not be an option. But if you really hate collaborative code editors, it's worth asking about.
+
+## Interviewers Offering to Help
+
+If an interviewer is offer to help with a particular part of your code, as a rule, you should let them. I won't say you should ***absolutely*** always do it. But unless you know a good reason why not, let them.
+
+It's not always because you did something wrong. But it may also be because they're not interested in whatever problem you're hitting &mdash; if you're having trouble with something that isn't a problem in their environment, they may just offer you a workaround.
+
+In my experience, an interviewer who offers to do something to help you isn't doing it because you're failing. If you're failing it's easy enough for them to sit quietly or cut you off.
+
+## Disagreeing with the Interviewer
+
+Sometimes an interviewer won't be able to follow your code. That's a hard situation, but I can offer some guidelines.
+
+A ***good*** interviewer will give you a chance to show that your interpretation of the code is the correct one. In that case, you may want to give an example of input and actually ***run the code*** &mdash; it's hard for an interviewer to disagree with that. Then if you're talking past each other, they can offer their own example of (what they think is) input that gets an incorrect result.
+
+You can also try talking them through it, which sometimes helps. But if you try that for any length of time with no luck, I highly recommend running the code to demonstrate your points. Whether they're right or you're right (or occasionally both), running the code gives the two of you a great basis to understand your disagreement better.
+
+With that said, it ***is*** possible to write code that works and an interviewer simply refuse to accept that. Nothing you can do will fix every case of that.
+
+## "How Much Should I Talk?"
+
+It can be tricky to figure out how much to talk in an interview. But here are some quick guidelines:
+
+If you're showing your work, or talking about your process, or asking questions, keep at it. Those are all very valuable to your interviewer and they will usually increase your odds of passing the interview.
+
+By asking open-ended questions, you can keep your interviewer talking a lot. I don't normally recommend it. If you haven't talked much or written much code by the end of the interview, the interviewer doesn't have much basis for hiring you. S/he didn't see you do the work.
+
+If you feel like you're doing most of the talking, that's often a sign of a good interviewer. A good interviewer is trying to learn about you, and they do most of that by what you say.
+
+## Deleting Code That Doesn't Work
+
+If you have a chunk of code that doesn't work, consider ***not*** deleting it. That gives you the chance to go back to it. Even if you're sure you won't use it, in a code editor you can move it to the bottom or move past it.
+
+Code that you've left behind may count for "partial credit" &mdash; it gives your interviewer something to judge. That's not as good as a single, perfect flawless solution. But it's often much better than the little-or-nothing left behind if you write and delete flawed solutions but don't make much progress.
+
+At least with a failed solution they can see your process and what you were attempting.
+
+## Finishing Up, Bringing the Code to a Close
+
+At the end of the interview, a good interviewer is likely to take a few minutes to bring things to a close. They may look over your code again and ask what you were attempting. They may talk about your next steps with the interview or the company. In any case, they're likely to describe what you did and they may describe why they think you did it ("I see you're iterating over the list here and calling the helper function on each element to find the longest substring length.")
+
+That's a good thing, as a rule, and often a sign of a good interviewer. You should feel free to clarify if you think they're misunderstanding either what you did or why you did it. Again, they'd love to know about your thought process or your coding process. If you've been doing a good job of talking through your solution as you wrote it, you're less likely to need to correct them at the end.
+
+## What's Next?
+
+Junior folks: consider saving this link to review more than once.
+
+Senior folks: I write [a fair bit about career](https://codefol.io/topics/career). Maybe you'd like to read more?
+
+Interviewers: keep in mind that early-career folks ***don't already know this***. It's an odd set of conventions, and it doesn't make sense until you've been interviewing awhile. Try to be kind to them.
