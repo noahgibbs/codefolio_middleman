@@ -1,0 +1,53 @@
+<section class="widget widget-text">
+    <h2 class="widget-title">About Codefol.io</h2>
+    <p>Description of Codefol.io goes here&hellip;</p>
+</section>
+
+<section class="widget widget-recent-posts">
+    <h2 class="widget-title">Recent Articles</h2>
+    <ul>
+        <% [].each do |post| %>
+            <li>
+                <div class="post-header">
+                    <div class="post-meta">
+                        <time class="published" datetime="??"> 23 Mar 2020 <!-- post date --></time>
+                    </div>
+                    <div class="post-title">
+                        <a href="https://codefol.io">Some Post Title<!-- post title --></a>
+                    </div>
+                </div>
+                <% if false %>
+                    <!-- if featured image thumbnail -->
+                    <a class="post-thumbnail" href="https://codefol.io">
+                        <img src="https://codefol.io" alt="The post's title again"> <!-- featured thumbnail -->
+                    </a>
+                <% elsif false %>
+                    <!-- if featured image -->
+                    <a class="post-thumbnail" href="https://codefol.io"> <!-- post url -->
+                        <img src="https://codefol.io" alt="{{ post.title }}"> <!-- post featured image -->
+                    </a>
+                <% else %>
+                    <!-- nothing -->
+                <% end %>
+            </li>
+
+        <% end %>
+    </ul>
+</section>
+
+<section class="widget widget-newsletter">
+    <div class="inner">
+        <h2 class="widget-title">Become a Rebuilder</h2>
+        <p>Sign Up to Get Emailed Articles and Free Chapters.</p>
+        <!-- Begin MailChimp Signup Form -->
+        <div id="mc_embed_signup">
+            <form action="https://rebuilding-rails.us2.list-manage.com/subscribe/post?u=c5569fb6471a3e64be2aa1466&amp;id=82afd59934&amp;SIGNUP=codefolio_sidebar_default" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                class="validate gh-subscribe-form" target="_blank" novalidate>
+                <label for="mce-EMAIL" class="screen-reader-text">Email Address</label>
+                <input type="email" value="" name="EMAIL" class="required email subscribe-email" id="mce-EMAIL"
+                    placeholder="Your email address">
+                <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+            </form>
+        </div>
+    </div>
+</section>

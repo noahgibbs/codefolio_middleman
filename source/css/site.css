@@ -1,0 +1,15 @@
+.aside-right {
+	float: right;
+	max-width: 30%;
+	padding: 1.5rem;
+}
+
+.aside-left {
+	float: left;
+	max-width: 30%;
+	padding: 1.5rem;
+}
+
+.chalk-background {
+	background-image: url(/images/blackboard_tiled.png);
+}
