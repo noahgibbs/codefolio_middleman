@@ -23,16 +23,4 @@ module PostHelpers
             direction: direction,
         })
     end
-
-#    def lightbox_image(url, thumbnail, alt:, image_classes: ["no-border", "img-fluid"], width: nil, height: nil)
-#        properties = { src: escape_html(url), alt: escape_html(alt) }
-#        properties[:width] = width.to_i.to_s unless width.nil?
-#        properties[:height] = height.to_i.to_s unless height.nil?
-#        properties[:class] = image_classes.join(" ") unless image_classes.empty?
-#        props = properties.map { |name, val| "#{name}=\"#{val}\"" }.join(" ")
-#        image_html = <<HTML
-#<a href="#{escape_html(thumbnail)}" data-toggle="lightbox">
-#<img #{props} /></a>
-#HTML
-#    end
 end
