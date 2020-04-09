@@ -1,12 +1,12 @@
 ---
 title: "Topic: Ruby Learning"
-layout: blog_page
+layout: horace_page
 comments: false
 next: false
 prev: false
 ---
 
-<img src="/images/SuperPrincess.png" class="pull-right" width="600" height="800" alt="My teddy bear, drawn in chalk."> </img>
+<img src="/images/SuperPrincess.png#right" width="600" height="800" alt="My teddy bear, drawn in chalk."> </img>
 
 Interested in learning Ruby? I several pieces of advice, if you'd like them.
 

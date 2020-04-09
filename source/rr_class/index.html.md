@@ -1,5 +1,5 @@
 ---
-layout: blog_page
+layout: horace_page
 title: "Rebuilding Rails Class"
 comments: false
 next: false

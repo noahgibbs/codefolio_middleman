@@ -1,9 +1,10 @@
 ---
 title: "Follow the Gibbs Family as we Travel!"
-layout: :blog_page
+layout: :horace_page
 comments: false
 next: false
 prev: false
+no_newsletter: true
 ---
 
 <img src="/travel/portrait_silly.png" width="300" height="396" style="float:right;"></img>

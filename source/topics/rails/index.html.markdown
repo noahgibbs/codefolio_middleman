@@ -1,15 +1,15 @@
 ---
 title: "Rails Internals on Codefol.io"
-layout: blog_page
+layout: horace_page
 comments: false
 mc_signup: rails
 next: false
 prev: false
 ---
 
-<img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
+<img src="/images/codefolio_book_transparent_320_205.png#right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
 
-I have fun blog posts about Ruby on Rails, a book about them and many other recommendations. Here's a lot of my favourite material on that subject. Yes, especially if I wrote it :-)
+I have fun blog posts about Ruby on Rails, a book about them and many other recommendations. Here's a lot of my favourite material on that subject.
 
 Rails Basics and Rails Internals:
 
@@ -26,7 +26,7 @@ Rails Basics and Rails Internals:
 * [Why Rails and Not Sinatra or Node.js?](/posts/Why-Rails-and-not-Sinatra-or-Node-js/) - an older post about Rails' continued advantages... Most of which are still true
 * [Rack Authentication Middleware](/posts/Rack-Authentication-Middleware/) - how to use the simple built-in Rack authentication middleware
 
-About Ruby on Rails Internals:
+Larger Projects to Learn Rails:
 
-* A [workshop I gave at Southeast Ruby 2019](/links/2019_railsconf_workshop.key) - similar to, but quite different from, Rebuilding Rails; build a stripped-down minimal MVC framework as fast as possible, roughly
-* My book, <a href="https://rebuilding-rails.com">Rebuilding Rails</a>, is about how to understand Ruby on Rails deeply by building your own Ruby web framework, from blank directories, structured like Rails.
+* A [workshop I gave at Southeast Ruby 2019](https://speakerdeck.com/noahgibbs/build-your-own-framework-to-understand-rails-magic) - similar to, but quite different from, Rebuilding Rails; build a stripped-down minimal MVC framework as fast as possible, roughly
+* My book <a href="https://rebuilding-rails.com">Rebuilding Rails</a> is about how to understand Ruby on Rails deeply by building your own Ruby web framework, from blank directories, structured like Rails.

@@ -1,13 +1,13 @@
 ---
 title: "Migrations on Codefol.io"
-layout: blog_page
+layout: horace_page
 mc_signup: database
 comments: false
 next: false
 prev: false
 ---
 
-<img src="/images/codefolio_book_transparent_320_205.png" class="pull-right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
+<img src="/images/codefolio_book_transparent_320_205.png#right" width="320" height="205" alt="The Codefol.io logo on a book cover."> </img>
 
 About Database Migrations:
 
