@@ -1,5 +1,5 @@
 module PostHelpers
-    def aside_image(url, alt:, image_classes: ["no-border"], width: nil, height: nil, direction: :none, caption: nil, disappear_on_mobile: false)
+    def aside_image(url, alt:, image_classes: [], width: nil, height: nil, direction: :none, caption: nil, disappear_on_mobile: false)
         figure_classes = ""
         if direction == :right
             figure_classes = "aside-right"
