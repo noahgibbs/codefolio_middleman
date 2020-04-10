@@ -18,6 +18,8 @@ Once you understand the basics, there are a number of good books. [Metaprogrammi
 
 [99 Bottles of OOP](https://www.sandimetz.com/99bottles) is both a good early-career book and one of the best practices of the fundamentals I have ever seen - I had over 20 years of experience when I worked through it and it's still one of the most valuable books I have *ever* read. 99 Bottles was a big inspiration for my book [Mastering Software Technique](https://software-technique.com).
 
+[ConFreaks](https://confreaks.tv) records [a huge number of technical conferences](https://confreaks.tv/conferences) every year. So if there's anything that's been given as a conference talk at any Ruby conference, you can probably watch the talk for free.
+
 As you get more advanced in Ruby, consider learning more about its internals. Patrick Shaughnessy's book [Ruby Under a Microscope](http://patshaughnessy.net/ruby-under-a-microscope) is still the classic for that, and almost all of what it teaches is still valid for the current Ruby interpreter.
 
 One important thing about books and resources is that you don't want too many. In my experience, buying lots of them means you won't read deeply or do too much with each one. I'd recommend you pick up something work-based such as 99 Bottles or my own [Rebuilding Rails](https://rebuilding-rails.com) and put serious effort into working through it, probably over multiple weeks or months. Alternately, pick a "deep dive" background book like Ruby Under a Microscope or Metaprogramming Ruby, but then do a lot of exercises from it.
