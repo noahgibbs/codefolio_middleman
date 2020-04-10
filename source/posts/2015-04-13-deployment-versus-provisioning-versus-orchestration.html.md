@@ -2,7 +2,7 @@
 title: "What's Deployment versus Provisioning versus Orchestration?"
 date: 2015-04-13 16:38
 ---
-<img class="pull-right" width="315" height="409" src="/images/orchestration/bad_google_search.png" alt="dubious search" title="At least _you_ knew to search on deployment..."> </img>
+<img width="315" height="409" src="/images/orchestration/bad_google_search.png#right" alt="dubious search results" title="At least _you_ knew to search on deployment..."> </img>
 Hey, Ruby web developers! Having trouble asking deployment questions?
 Not sure what Provisioning or Orchestration are? Getting bad results
 Googling your questions, but not sure why?
@@ -56,7 +56,7 @@ href="http://heroku.com">Heroku</a> or (briefly)NineFold
 
 ## Orchestration
 
-<img class="pull-right" width="256" height="143" src="/images/orchestration/orchestra_512_287.jpg" alt="orchestra" title="The blond kid is totally an app server."> </img>
+<img width="256" height="143" src="/images/orchestration/orchestra_512_287.jpg#right" alt="orchestra" title="The blond kid is totally an app server."> </img>
 
 Now we're getting a little less common.
 

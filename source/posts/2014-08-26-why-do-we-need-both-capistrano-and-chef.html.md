@@ -11,7 +11,7 @@ this whole set is often used together:
 * <a href="https://github.com/applicationsonline/librarian-chef">Librarian-Chef</a>
 * <a href="http://capistranorb.com">Capistrano</a>
 
-<img class="pull-right" src="/images/cap_and_chef/librarian-chef.png" width="184" height="203" title="This guy really is a librarian chef."></img>
+<img src="/images/cap_and_chef/librarian-chef.png#right" width="184" height="203" title="This guy really is a librarian chef."></img>
 
 And that's not counting the smaller things like Vagrant plugins, Capistrano plugins, the many Chef cookbooks and so on, which would <b>also</b> be used with these. And it's
 definitely not counting the many, many competitors. That whole list is just <b>one</b> stack of tools.
@@ -40,13 +40,13 @@ Capistrano also handles separate smaller events that depend on the first one: wh
 
 But it usually boils down to "run this code" - usually Ruby code or Bash code. It's treated as a set of actions to take.
 
-<img class="pull-right" src="/images/cap_and_chef/dont-always-write-tests-239x300.jpg" width="239" height="300" />
+<img src="/images/cap_and_chef/dont-always-write-tests-239x300.jpg#right" width="239" height="300" />
 
 Chef <a href="https://www.chef.io/why-chef/">is all about idempotence</a>. That means you tell is "make all this stuff true" and it does. That's a pretty cool way to set up a server, but it's pretty bad for app deployment. "Use the latest version" isn't a constant state (not idempotent) and it's not exactly what you want anyway.
 
 What does "make something true" involve? For Chef it usually boils down to "put a file in this location" or "install this package" or "use this app configuration." More rarely it might mean "keep this process running" (often via <a href="http://smarden.org/runit/">runit</a>) or "there must be no file at this location." <a href="http://docs.getchef.com/chef/resources.html">There are a lot of things Chef can keep true for you.</a>
 
-<img class="pull-left" src="/images/cap_and_chef/make-it-so-captain.jpg" width="308" height="217" />
+<img src="/images/cap_and_chef/make-it-so-captain.jpg#left" width="308" height="217" />
 
 Where Chef's approach falls down is when you care less about the result and more about the process, like with zero-downtime deploys. Sure, it's great that you wind up with all the right files and processes in place, but can we avoid taking down the application while we do it? This is Capistrano's strength and Chef's weakness.
 

@@ -3,7 +3,7 @@ title: "Capistrano: Be Sure to Git Push!"
 date: 2014-12-11 18:18
 ---
 
-<img class="pull-right" src="/images/cityscape.png" width="401" height="197" alt="Busy debugging at night..." />
+<img src="/images/cityscape.png#right" width="401" height="197" alt="Busy debugging at night..." />
 
 (Also known as "why doesn't Capistrano pick up my changes???")
 
