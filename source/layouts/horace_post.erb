@@ -1,0 +1,74 @@
+<% wrap_layout :horace_default do %>
+
+<div id="content" class="site-content fadeInDown delay_075s">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle"><%= current_page.data.title %></h1>
+            </header><!-- .post-header -->
+            <% if current_page.data.featured_image %>
+            <div class="post-thumbnail"><img class="featured-image img-fluid" src="https://codefol.io/<%= current_page.data.featured_image %>"
+                    alt="<%= current_page.data.title %>"></div>
+            <% end %>
+            <div class="post-content">
+                <%= yield %>
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="<%= current_page.date.strftime('%Y-%m-%d') %>"><%= current_page.date.strftime('%b %e %Y') %></time>
+                </div><!-- .post-meta -->
+                <!-- <div class="post-share">
+                    <span class="post-share-title">Share:</span>
+                    <a target="_blank" href="https://twitter.com/share?text=<%= current_page.data.title %>&amp;url=<%= "https://codefol.io" + current_page.url %>">Twitter</a>
+                </div> --> <!-- .share-post -->
+            </footer>
+            <%= partial "disqus" %>
+        </article>
+        <%= partial "newsletter-box" %>
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+            <% prev_pub = prev_published(current_article) %>
+            <% if (!current_page.data.has_key?("prev") || current_page.data.prev) && prev_pub %>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="<%= prev_pub.url %>"><%= prev_pub.data.title %></a></h3>
+                    </header>
+                    <% if prev_pub.data.featured_image_thumbnail %>
+                        <a href="<%= prev_pub.url %>" class="post-thumbnail">
+                            <img src="<%= prev_pub.featured_image_thumbnail %>" alt="<%= prev_pub.data.title %>" />
+                    </a>
+                    <% elsif prev_pub.data.featured_image %>
+                        <a href="<%= prev_pub.url %>" class="post-thumbnail">
+                            <img src="<%= prev_pub.data.featured_image %>" alt="<%= prev_pub.data.title %>" />
+                    </a>
+                    <% else %>
+                    <% end %>
+                </article>
+            <% end %>
+
+            <% next_pub = next_published(current_article) %>
+            <% if (!current_page.data.has_key?("next") || current_page.data.next) && next_pub %>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="<%= next_pub.url %>"><%= next_pub.data.title %></a></h3>
+                    </header>
+                    <% if next_pub.data.featured_image_thumbnail %>
+                        <a href="<%= next_pub.url %>" class="post-thumbnail">
+                            <img src="<%= next_pub.featured_image_thumbnail %>" alt="<%= next_pub.data.title %>" />
+                    </a>
+                    <% elsif next_pub.data.featured_image %>
+                        <a href="<%= next_pub.url %>" class="post-thumbnail">
+                            <img src="<%= next_pub.data.featured_image %>" alt="<%= next_pub.data.title %>" />
+                    </a>
+                    <% else %>
+                    <% end %>
+                </article>
+            <% end %>
+
+        </section><!-- .read-next -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+<% end %>

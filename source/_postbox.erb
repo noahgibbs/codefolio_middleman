@@ -1,0 +1,28 @@
+<% disqus_id = post.data.disqus_id ? post.data.disqus_id : ("https://codefol.io" + post.url.chomp("/")) %>
+<article class="post">
+    <header class="post-header">
+        <div class="post-meta">
+            <time class="published" datetime="<%= post.date.strftime("%Y-%m-%d") %>"><%= post.date.strftime("%B %-d, %Y") %></time>
+            <a href="<%= post.url + "#disqus_thread" %>" data-disqus-identifier="<%= disqus_id %>">Comments</a>
+        </div><!-- .post-meta -->
+        <h2 class="post-title">
+            <a href="<%= post.url %>" rel="bookmark"><%= post.data.title %></a>
+        </h2>
+    </header><!-- .post-header -->
+    <% if post.data.featured_image_thumbnail %>
+    <a class="post-thumbnail" href="<%= post.url %>">
+        <img src="<%= post.data.featured_image_thumbnail %>"
+            alt="<%= post.data.title %>">
+    </a>
+    <% elsif post.data.featured_image %>
+    <a class="post-thumbnail" href="<%= post.url %>">
+        <img src="<%= post.data.featured_image %>"
+            alt="<%= post.data.title %>">
+    </a>
+    <% else %>
+    <% end %>
+    <div class="post-content">
+        <p><%= post.summary(300) %></p>
+        <a href="<%= post.url %>"><button class="btn btn-primary">Read more</button></a>
+    </div><!-- .post-content -->
+</article><!-- .post -->

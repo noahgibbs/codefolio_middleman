@@ -1,12 +1,12 @@
 ---
 title: "Topic: Ruby Learning"
-layout: blog_page
+layout: horace_page
 comments: false
 next: false
 prev: false
 ---
 
-<img src="/images/SuperPrincess.png" class="pull-right" width="600" height="800" alt="My teddy bear, drawn in chalk."> </img>
+<img src="/images/SuperPrincess.png#right" width="600" height="800" alt="My teddy bear, drawn in chalk."> </img>
 
 Interested in learning Ruby? I several pieces of advice, if you'd like them.
 
@@ -17,6 +17,8 @@ If you're in bootcamp, first, stick with it. If you're in a bootcamp at the mome
 Once you understand the basics, there are a number of good books. [Metaprogramming Ruby](https://pragprog.com/book/ppmetr2/metaprogramming-ruby-2) is near and dear to my heart. "Learn Ruby the Hard Way" can be good, but may also be a bit basic for you, depending.
 
 [99 Bottles of OOP](https://www.sandimetz.com/99bottles) is both a good early-career book and one of the best practices of the fundamentals I have ever seen - I had over 20 years of experience when I worked through it and it's still one of the most valuable books I have *ever* read. 99 Bottles was a big inspiration for my book [Mastering Software Technique](https://software-technique.com).
+
+[ConFreaks](https://confreaks.tv) records [a huge number of technical conferences](https://confreaks.tv/conferences) every year. So if there's anything that's been given as a conference talk at any Ruby conference, you can probably watch the talk for free.
 
 As you get more advanced in Ruby, consider learning more about its internals. Patrick Shaughnessy's book [Ruby Under a Microscope](http://patshaughnessy.net/ruby-under-a-microscope) is still the classic for that, and almost all of what it teaches is still valid for the current Ruby interpreter.
 

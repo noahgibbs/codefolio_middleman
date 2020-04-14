@@ -5,7 +5,7 @@ date: 2015-01-04 19:27
 
 If you're new to Ruby on Rails, you may be new to the old debates (pro and con) about how <a href="https://www.quora.com/Does-Ruby-on-Rails-scale-Why-or-why-not#">"Rails doesn't scale."</a> You might wonder why people say that, or where it came from.
 
-<img class="pull-right" src="/images/rails_noscale.png" width="200" height="385" alt="My younger daughter on a ferris wheel." />
+<img src="/images/rails_noscale.png#right" width="200" height="385" alt="The Rails logo and a scale with a circle-and-slash over top." />
 
 Let's talk about that.
 

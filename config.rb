@@ -41,7 +41,7 @@ activate :blog do |blog|
   # I have to not put them on the front page.
   blog.publish_future_dated = true
 
-  blog.layout = "blog_page"
+  blog.layout = "horace_post"
 
   blog.tag_template = "tag.html"
   blog.calendar_template = "calendar.html"

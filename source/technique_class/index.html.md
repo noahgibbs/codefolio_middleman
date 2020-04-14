@@ -1,5 +1,5 @@
 ---
-layout: blog_page
+layout: horace_page
 title: "Software Technique Class"
 comments: false
 next: false

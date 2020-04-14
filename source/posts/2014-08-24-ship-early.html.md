@@ -33,7 +33,7 @@ people want to use &mdash; that is worth using (Jeff Atwood again)</a>. To do th
 let them use it and <i>then</i> fix the problems they care about. And the faster you
 find the problem, the cheaper it is to fix (see below, credit to gridshore.nl.)
 
-<img class="center-block" src="/images/defect_cost_gridshore_nl.jpg" width="450" height="332" alt="The longer you wait, the more expensive it is to fix bugs." />
+<img src="/images/defect_cost_gridshore_nl.jpg" width="450" height="332" alt="The longer you wait, the more expensive it is to fix bugs." />
 
 You <b>want</b> to ship it "not ready." That's the easiest, best time to fix it.
 

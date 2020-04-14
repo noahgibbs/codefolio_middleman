@@ -3,7 +3,7 @@ title: "How Big Should My Gem Be? One Idea Big."
 date: 2014-04-22 22:02
 ---
 
-<img src="/images/one_idea/sapphire.jpeg" class="pull-right" alt="pictures of gemstones" />
+<img src="/images/one_idea/sapphire.jpeg#right" alt="A large sapphire" />
 
 If you've never built a Ruby gem, go do that first. It's amazingly
 easy. And it lets other people use your stuff!
@@ -43,13 +43,11 @@ Helping people see your amazing idea is priceless. Don't shovel in
 hundreds of lines of crap so it seems "more serious." Just show off
 the important part.
 
-<div class="row text-center">
-  <img src="/images/one_idea/email_headers.jpeg" alt="electronic message headers" />
-</div>
+<img src="/images/one_idea/email_headers.jpeg" alt="electronic message headers" />
 
 ## How Big is Too Big?
 
-<img src="/images/one_idea/gems_labeled.jpeg" class="pull-right" alt="pictures of gemstones" />
+<img src="/images/one_idea/gems_labeled.jpeg#right" alt="pictures of gemstones" />
 
 There are <a href="http://sourcemaking.com/antipatterns/the-blob">many</a>
 <a href="http://lostechies.com/chrismissal/2009/05/28/anti-patterns-and-worst-practices-monster-objects/">explanations</a>

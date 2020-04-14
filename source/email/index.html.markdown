@@ -1,6 +1,6 @@
 ---
 title: "Codefol.io Email Classes and Policies"
-layout: blog_page
+layout: horace_page
 comments: false
 next: false
 prev: false
@@ -34,14 +34,14 @@ Also, if you want more detail about any of this, email me. I'm happy to talk abo
 
 I use MailChimp. It's standard email software for small business marketing - better than most, I tend to think. MailChimp tracks when you click on a link in email I send you. It will tell me about that, if I check.
 
-It also tracks when you open email (or don't.) That part is less exact - it's often wrong or inexact, and it guesses based on loading images in the email. But it *attempts* to track when you open email and sometimes succeeds.
+It ***can*** also track when you open email (or don't.) I try to turn that off for my normal emails, but there's no big "turn it off" switch and you may get emails with tracking. It doesn't work terribly well and I don't generally look at it or use it. Again, when I notice it, I turn it off.
 
-I do a certain amount of trying to figure out whether you liked my stuff or you didn't based on clicks and opens. If you discover I'm doing tracking in my emails... It should be normal MailChimp stuff, neither more nor less. It's attempting to track clicks and opens. I told it to.
+I do a certain amount of trying to figure out whether you liked my stuff or you didn't based on clicks. If you discover I'm doing tracking in my emails... It should be normal MailChimp stuff, neither more nor less. It's attempting to track clicks. I told it to.
 
-I do *not* track clicks in plain-text emails, and I don't have any way to track opens in plain-text emails. So if that level of tracking is intrusive, I'd recommend signing up for plain text emails.
+I do *not* track clicks in plain-text emails, and I don't have any way to track opens in plain-text emails. So if you're worried, I'd recommend signing up for plain text emails.
 
-I also do a certain amount of tracking your visits to my web site using Google Analytics. I sometimes try to put email tracking and web site tracking together, with mixed results. But I do enough data science to find it amusing to try, and I'm curious what you folks enjoy and what you don't.
+I also do a certain amount of tracking your visits to my web site using Google Analytics. I may sometimes try to put email tracking and web site tracking together, with mixed results. I'm curious what you folks enjoy and what you don't.
 
-I get enough information that I *could* track your personal visits and see what you clicked on and/or opened. I don't generally do that. If I look at one person, it's normally to get an idea of what a single typical visitor *might* do or it's to debug a problem or potential problem. I only want to know about "you" in order to make better software and/or writing about software for you.
+I get enough information that I *could* track your personal visits by your email address (if you've subscribed) and see what you clicked on and/or opened. I don't generally do that. If I look at one person, it's normally to get an idea of what a single typical visitor *might* do or it's to debug a problem or potential problem. I only want to know about "you" in order to make better software and/or writing about software for you.
 
-In theory, somebody might some day come up with a way to infer very personal information about you from how you visit my site. I've seen distant, theoretical ideas of how such a thing might work. But there's no practical, workable way to do it that I have access to. So I'm not doing anything like that. I'm also not interested, but "it's impossible" requires less trust on your part.
+In theory, somebody might some day come up with a way to infer very personal information about you from how you visit my site. I've seen distant, theoretical ideas of how such a thing might work. But there's no practical, workable way to do it that I have access to. So I'm not doing anything like that. I don't plan to.

@@ -29,13 +29,13 @@ changed it. The words in Japanese just say he's an open source
 contributor. Which he is -- at least, the member of Ruby Core whose
 profile was copied and renamed.
 
-<img class="img-responsive img-center" src="/images/troll/stretch_bio.png" width="1056" height="414"></img>
+<img src="/images/troll/stretch_bio.png" width="1056" height="414"></img>
 
 Our gentleman here suddenly showed up to let us all know that Sarah
 Mei was a terrible person and we should exclude her from our
 communities (specifically the Brighton Ruby Conference) immediately.
 
-<img class="img-responsive img-center" src="/images/troll/sarah_mei_is_bad_mmkay.png" width="634" height="454"></img>
+<img src="/images/troll/sarah_mei_is_bad_mmkay.png" width="634" height="454"></img>
 
 There was a bit of spirited defense of Sarah -- we like Sarah, and she
 does a lot for our community. And a bit of well-meaning, "friend
@@ -198,7 +198,7 @@ asking for allies. That didn't go too well -- we're a small,
 tight-knit community and we appreciate people like Sarah who put on
 conferences for us, give talks and otherwise help us out.
 
-<img class="img-responsive img-center" src="/images/troll/good_troll_defense.png" width="640" height="785"></img>
+<img src="/images/troll/good_troll_defense.png" width="640" height="785"></img>
 
 (Do you have to be a liberal to love this? I'd argue not. You want
 people doing good things for you in the Ruby community rather than
@@ -210,14 +210,14 @@ He tried to attack back as if people not liking him were attacking
 "Japanese culture", but in an amusingly tone-deaf way. So that didn't
 go great either.
 
-<img class="img-responsive img-center" src="/images/troll/japanese_culture.png" width="591" height="514"></img>
+<img src="/images/troll/japanese_culture.png" width="591" height="514"></img>
 
 And when that didn't go well, he retreated back to whining about how
 the Ruby community is a toxic cesspit of big bullies. You know, after
 starting off the way he did. I love to call the people I'm trying to
 convince names as a method of persuasion, don't you?
 
-<img class="img-responsive img-center" src="/images/troll/ruby_community_toxic_bullies.png" width="630" height="834"></img>
+<img src="/images/troll/ruby_community_toxic_bullies.png" width="630" height="834"></img>
 
 Okay, so that was the "low-skill troll, good community defense" feel-good section. **Go team!**
 
@@ -235,7 +235,7 @@ screenshots. He doesn't care about the people he's actually
 debating. And this guy's griefing and comment-deletion were both
 pretty good. For instance:
 
-<img class="img-responsive img-center" src="/images/troll/comment_deletion.png" width="640" height="487"></img>
+<img src="/images/troll/comment_deletion.png" width="640" height="487"></img>
 
 Jorge does a great job here of being restrained and careful. Those
 "Tweet unavailable" gray comment lines are the various awful and
@@ -244,7 +244,7 @@ the bait, you can bet the troll would have screencapped the result and
 added more "look how toxic the Ruby community is" posts. The troll in
 general had a lot of parting shots trying to do exactly that:
 
-<img class="img-responsive img-center" src="/images/troll/mouse_hat.png" width="589" height="204"></img>
+<img src="/images/troll/mouse_hat.png" width="589" height="204"></img>
 
 I wish I'd thought to screenshot some of the ones he tried on me. But
 he's a troll - outright lying, insults and so on are exactly his
@@ -274,7 +274,7 @@ With that said, expect awfulness of this general kind (n.b. Adderall
 is prescription ADHD medication, mostly similar in effect to
 caffeine):
 
-<img class="img-responsive img-center" src="/images/troll/mentally_unstable.png" width="589" height="250"></img>
+<img src="/images/troll/mentally_unstable.png" width="589" height="250"></img>
 
 ## Defense and Proportionality
 
@@ -287,7 +287,7 @@ out of you, but not really the threat.
 **I two-hundred percent understand** where this guy is coming from,
 but... Try not to let trolls get under your skin, if you can.
 
-<img class="img-responsive img-center" src="/images/troll/ruby_community_dick_comments.png" width="633" height="693"></img>
+<img src="/images/troll/ruby_community_dick_comments.png" width="633" height="693"></img>
 
 ## But... What Do We Do?
 

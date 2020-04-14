@@ -2,7 +2,7 @@
 title: "Selecting the Right Chef Cookbook: Attributes, Recipes, Data Bags"
 date: 2015-04-22 15:11
 ---
-<img class="pull-right" src="/images/right_cookbook/old_cookbook.png" width="210" height="300" alt="an old Australian cookbook"></img>
+<img src="/images/right_cookbook/old_cookbook.png#right" width="210" height="300" alt="an old Australian cookbook"></img>
 There are many <a href="http://jtimberman.housepub.org/blog/2011/09/03/guide-to-writing-chef-cookbooks/">guides
 to writing a Chef cookbook</a>.
 
@@ -49,7 +49,7 @@ been opened and closed. Check pull requests, and how responsive the maintainers 
 The primary thing to do is make sure there's at least some level of activity. If there's a bug, do you want to have to fix it yourself?
 You may have to in some cases, but it's great when you don't.
 
-<img class="responsive" src="/images/right_cookbook/github-cookbook-banner.png" width="512" height="120" alt="The top banner of GitHub"></img>
+<img src="/images/right_cookbook/github-cookbook-banner.png" width="512" height="120" alt="The top banner of GitHub"></img>
 
 ### Supermarket.chef.io
 
@@ -65,8 +65,8 @@ If there **is** a specific feature you need, keep reading.
 
 Here's what those areas actually look like <a href="https://supermarket.chef.io/cookbooks/mysql">on a popular sample cookbook</a>:
 
-<img class="responsive" src="/images/right_cookbook/supermarket-top-bar.png" width="425" height="65" alt="The top area of Supermarket.chef.io"></img>
-<img class="responsive" src="/images/right_cookbook/supermarket-sidebar.png" width="357" height="621" alt="The side area of Supermarket.chef.io"></img>
+<img src="/images/right_cookbook/supermarket-top-bar.png" width="425" height="65" alt="The top area of Supermarket.chef.io"></img>
+<img src="/images/right_cookbook/supermarket-sidebar.png" width="357" height="621" alt="The side area of Supermarket.chef.io"></img>
 
 
 ## Functionality
@@ -113,7 +113,7 @@ but usually have a lot more information.
 
 The best, of course, are well-used cookbooks that people like.
 
-<img class="responsive" src="/images/right_cookbook/postgres-attr-docs.png" width="487" height="301" alt="Attribute docs from the Postgres cookbook"></img>
+<img style="border: 2px solid black;" src="/images/right_cookbook/postgres-attr-docs.png#right" width="487" height="301" alt="Attribute docs from the Postgres cookbook"></img>
 
 ## Choosing Your Cookbook: Recipes
 
@@ -127,7 +127,7 @@ probably under "cookbooks".
 You can use a recipe from your runlist (see below), or you can use it from another cookbook via
 <a href="http://stackoverflow.com/questions/16947393/should-i-use-include-recipe-or-add-the-recipe-to-run-list">include_recipe</a>.
 
-<img class="responsive" src="/images/right_cookbook/postgres-recipes-docs.png" width="605" height="448" alt="Recipe docs from the Postgres cookbook"></img>
+<img style="border: 2px solid black;" src="/images/right_cookbook/postgres-recipes-docs.png#right" width="605" height="448" alt="Recipe docs from the Postgres cookbook"></img>
 
 ## Choosing Your Cookbook: Data Bags
 
@@ -142,7 +142,7 @@ Similarly, it's best when data bags are documented in the README, but sometimes 
 Cookbook code normally uses the search() function to check for databags by name. Which, of course, makes it very hard to grep for
 them using a distinctive name. That's another reason to like them less than attributes.
 
-<img class="responsive" src="/images/right_cookbook/mysql-databag.png" width="292" height="98" alt="Code using search() for databags from MySQL cookbook"></img>
+<img src="/images/right_cookbook/mysql-databag.png" width="292" height="98" alt="Code using search() for databags from MySQL cookbook"></img>
 
 
 ## Final Details: Running the Cookbook

@@ -1,0 +1,15 @@
+<% if paginate && num_pages > 1 %>
+<nav class="pagination inner">
+  <div class="nav-links">
+    <% if prev_page %>
+    <a class="newer-posts" href="<%= url_for(prev_page) %>"><span
+        class="icon-arrow-left" aria-hidden="true"></span><span class="screen-reader-text">Newer Posts</span></a>
+    <% end %>
+    <span class="page-number"> Page <%= page_number %> of <%= num_pages %> </span>
+    <% if next_page %>
+    <a class="older-posts" href="<%= url_for(next_page) %>"><span
+        class="screen-reader-text">Older Posts</span> <span class="icon-arrow-right" aria-hidden="true"></span></a>
+    <% end %>
+  </div>
+</nav><!-- .pagination -->
+<% end %>

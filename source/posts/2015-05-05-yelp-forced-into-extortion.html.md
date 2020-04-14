@@ -5,7 +5,7 @@ date: 2015-05-05 14:26
 If your startup does certain things, you wind up with the same business model as Yelp. It turns out you really, really don't want the same
 business model as Yelp.
 
-<img class="pull-right" alt="Not the same Emma (credit: Wikimedia commons.)" title="Not the same Emma (credit: Wikimedia commons)." src="/images/yelp/Emma_Wikimedia.jpg" width="220" height="391"></img>
+<img alt="Not the same Emma (credit: Wikimedia commons.)" title="Not the same Emma (credit: Wikimedia commons)." src="/images/yelp/Emma_Wikimedia.jpg#right" width="220" height="391"></img>
 
 Let's tell the story of the fictitious Emma Goldfarb founding a seed-stage startup called Review.ly (unrelated to <a href="http://review.ly">the URL shortener</a>.) Review.ly is going to be a site where people leave reviews of some kind of business. Emma isn't quite sure about the details.  She's working on it.
 

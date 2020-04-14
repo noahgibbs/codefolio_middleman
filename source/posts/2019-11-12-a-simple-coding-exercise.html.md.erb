@@ -13,11 +13,13 @@ The theme today: ivy on a window. I'll refer to the picture below repeatedly in 
 
 One hard thing about exercises is that you need different habits for them than for production code: [you're not trying to write polished, production code](https://codefol.io/posts/you-learn-the-most-with-throwaway-prototypes/). Instead, you're trying to learn as fast as possible. So at the end, I'll talk about some intentionally weird things I do in this code and why.
 
-<%= lightbox_image(current_page.url + "window_ivy_1008_756.jpg", current_page.url + "window_ivy_1008_756.jpg", alt: "Up-close picture of ivy growing on a windowsill, houses visible through the window") %> <br/>(Click to enlarge&hellip;)
+<%= aside_image(current_page.url + "window_ivy_1008_756.jpg#wide", alt: "Up-close picture of ivy growing on a windowsill, houses visible through the window", caption: "Ivy on my windowsill") %>
+
 READMORE
+
 ## The Definition
 
-<%= aside_image("/posts/single-idea-with-time-limit/OldComputer.png", alt: "An ancient computer, possibly some kind of Apple II", disappear_on_mobile: true, direction: :right, caption: "When you see a fellow print out lots of monochrome ASCII art, you learn a lot about his aesthetics.") %>
+<%= aside_image("/posts/single-idea-with-time-limit/OldComputer.png", alt: "An ancient computer, possibly some kind of Apple II", disappear_on_mobile: true, direction: :right, image_classes: ["chalk-background"], caption: "When you see a fellow print out lots of monochrome ASCII art, you learn a lot about his aesthetics.") %>
 
 For this blog post, I'll spell out one specific way to turn the picture above into an interesting coding exercise &mdash; though [I'm actually a big fan of trying multiple ways to maximise learning](/posts/what-you-learn-by-repeating-exercises/).
 
@@ -228,7 +230,7 @@ That's why you see cut-and-paste code when there are five characters to copy int
 
 If you have a small, bounded exercise that you're planning to learn from but not share with anybody else, you should be very suspicious of abstractions, "helpers," method definitions, and even most forms of good practice and clean code. Most of us are told about how to write clean code in a professional setting, with guidelines like "code is read far more often than it is written" and "write it to communicate with a human, who could be you in six months." This code won't be re-read often, and it will be long-abandoned in six months. Unless you're specifically exploring something about one particular abstraction or about readability as your [one single idea](https://codefol.io/posts/single-idea-with-time-limit/) for this code, you should skip them.
 
-<%= aside_image("/posts/single-idea-with-time-limit/StudyOnFloor.png", alt: "A person lies on the floor, reading a book and wondering.", disappear_on_mobile: true, direction: :right, caption: "You'd think a whole industry full of bookish people would do more study and practice, wouldn't you?") %>
+<%= aside_image("/posts/single-idea-with-time-limit/StudyOnFloor.png", direction: :right, alt: "A person lies on the floor, reading a book and wondering.", disappear_on_mobile: true, image_classes: ["chalk-background"], caption: "You'd think a whole industry full of bookish people would do more study and practice, wouldn't you?") %>
 
 That's also why I emphasise "save a copy of your code" over "source control." In a professional setting, you should always use source control. When it's you on your own, the overhead may be more than is worth it. It's up to you. And it's important to be thinking about the tradeoff &mdash; does this piece of professionalism help me here more than it costs me? You're building an alternate set of habits to use for maximum learning, not maximum polished, usable code.-
 

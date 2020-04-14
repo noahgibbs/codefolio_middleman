@@ -2,49 +2,26 @@
 title: "Codefol.io, Latest Posts"
 pageable: true
 per_page: 10
-layout: blog_frame
+layout: horace_default
 comments: false
 next: false
 prev: false
 ---
-<% if paginate && num_pages > 1 %>
-  <div id="index-top-pager">
-            <img class="no-border pull-left" src="/images/chalk_codefolio_transparent_160_100.png" width="160" height="100" alt=" Codefol.io logo book"></img>
 
-    <% if prev_page %>
-      <button class="btn btn-primary"><%= link_to '&#8592; More Recent Posts', prev_page %></button>
-    <% end %>
+<!-- TODO: this is the front page - add some kind of "who are you?" link to
+    send people toward appropriate topics. -->
 
-    Page <%= page_number %> of <%= num_pages %>
+<div class="outer">
+    <div class="post-feed-title inner">Latest Articles</div>
 
-    <% if next_page %>
-      <button class="btn btn-primary"><%= link_to 'Earlier Posts &#8594;', next_page %></button>
-    <% end %>
-  </div>
-<% end %>
-
-<% page_articles.each_with_index do |article, i|
-     next unless is_published(article)
-     disqus_id = article.data.disqus_id ? article.data.disqus_id : ("http://codefol.io/" + article.path.chomp("/"))
-  %>
-  <div class="card border-light">
-    <div class="card-header">
-      <span class="card-body text-muted"><%= article.date.strftime('%b %e %Y') %>|
-        <a href="<%= article.url + "#disqus_thread" %>" data-disqus-identifier="<%= disqus_id %>">Comments</a>
-      </span>
-      <h3 class="card-title"><%= link_to article.title, article %></h3>
+    <div class="post-feed inner-wide">
+      <% page_articles.each_with_index do |article, i|
+           next unless is_published(article)
+        %>
+        <%= partial "postbox", locals: { post: article } %>
+      <% end %>
     </div>
-    <div class="card-body">
-      <%= article.summary(300) %>
-    </div>
-    <div class="card-body">
-      <a href="<%= article.url %>"><button class="btn btn-primary">Read more</button></a>
-    </div>
-  </div>
-<% end %>
+</div>
 
-<% if paginate %>
-  <% if next_page %>
-    <div id="bottom-next"><button class="btn btn-primary"><%= link_to 'Earlier posts', next_page %></button></div>
-  <% end %>
-<% end %>
+<%= partial "pagination" %>
+<%= partial "newsletter-box" %>
