@@ -4,9 +4,6 @@
     <main id="main" class="site-main outer">
         <article class="post-full inner">
             <header class="post-header">
-                <div class="post-meta">
-                    <time class="post-date" datetime="<%= current_page.date.strftime('%Y-%m-%d') %>"><%= current_page.date.strftime('%b %e %Y') %></time>
-                </div><!-- .post-meta -->
                 <h1 class="posttitle"><%= current_page.data.title %></h1>
             </header><!-- .post-header -->
             <% if current_page.data.featured_image %>
@@ -17,6 +14,9 @@
                 <%= yield %>
             </div>
             <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="<%= current_page.date.strftime('%Y-%m-%d') %>"><%= current_page.date.strftime('%b %e %Y') %></time>
+                </div><!-- .post-meta -->
                 <!-- <div class="post-share">
                     <span class="post-share-title">Share:</span>
                     <a target="_blank" href="https://twitter.com/share?text=<%= current_page.data.title %>&amp;url=<%= "https://codefol.io" + current_page.url %>">Twitter</a>
