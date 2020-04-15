@@ -1,0 +1,17 @@
+Fun/useful:
+
+* featured images and thumbnails - debug them, use them for recent posts (and older posts?)
+* Add recent posts to 'topics' page
+* Pagespeed: MST
+* Add real-ish image assets with thumbnails, multiple formats and a helper to generate refs to them
+
+## Performance
+
+* Consider removing FontAwesome for load-speed reasons
+
+## Eventually maybe
+
+* Add tags, do something resembling Horace's default use of them
+* Add featured article(s), based on Horace's defaults
+* Add images in top-bar and ability to add hero section
+* Add simplelightbox.com
