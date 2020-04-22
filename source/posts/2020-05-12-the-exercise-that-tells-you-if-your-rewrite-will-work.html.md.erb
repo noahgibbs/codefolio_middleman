@@ -1,18 +1,22 @@
 ---
-title: "The Exercise that Tells You if Your Rewrite Will Work"
+title: "The Exercise that Tells You if your Big Rewrite Will Work"
 ---
+
+<%= aside_image("/images/SuperPrincess.png", alt: "A teddy bear, drawn in chalk and dressed in a t-shirt and jeans.", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :right, caption: "I always just ask my bear if it'll work. That's not the exercise, though.") %>
 
 I have an exercise you can do to tell if your Big Rewrite software project will work out. It's a simple one, but a good one. But first, a story.
 
-Back in 2013 I worked for a company called OnLive. They brought me on as part of a project (called "Valhalla") to rewrite a big chunk of their existing system in Ruby. The idea was that the old tech-debt-laden system would be rewritten into clean, modern Ruby without carrying forward all the existing junk that had accumulated over time. My own personal idea was that they were using some uncommon combinations of technologies that I knew well. Thus I could save the team some effort and missteps, and thus be hired on for a lot of money.
+Back in 2013 I worked for a company called OnLive. They brought me on as part of a project called "Valhalla" to rewrite a big chunk of their existing system in Ruby. The idea was that the old tech-debt-laden system would be rewritten into clean, modern Ruby without carrying forward all the existing junk that had accumulated over time.
 
-You've heard this story before: Chad Fowler [tells you to be really careful about it](http://chadfowler.com/2006/12/27/the-big-rewrite.html), while [Joel Spolsky outright tells you to never do it](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/).
+They were using some uncommon combinations of technologies that I knew well. My own personal plan was to be a high-skill expert in unusual technology, save the team some effort and missteps, and thus be hired on for a lot of money.
 
-The project failed. I'm sure you're shocked. With a little work we got it to fail quickly and cheaply, with a minimum of disruption. As big rewrites go, that ***is*** a happy ending.
+You've heard Big Rewrite stories before: Chad Fowler [tells you to be really careful about it](http://chadfowler.com/2006/12/27/the-big-rewrite.html), while [Joel Spolsky outright tells you to never do it](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/).
 
-Alex was a gangling red-haired Russian who worked on Valhalla as well. He was an entertaining engineer who'll do anything if it seems fun. His grasp of boring business value and boring tech could be a bit shaky. A few months after Valhalla had failed, we were eating OnLive-provided stir-fry and I was fidgeting with a notebook. We were talking about some smaller improvements to the old system. Not surprisingly, Alex was entirely in favour of just rewriting everything again (but "doing it right," as it were.)
+The project failed. I'm sure you're shocked. With a little work we got it to fail quickly and cheaply, with a minimum of disruption. As big rewrites go, that ***is a happy ending***.
 
-This wasn't as popular with me, a couple of the other Valhalla engineers. Don, the quiet Director of Engineering was watching carefully, unmoving, as he often did. Don had done this enough times to know the right answer, and enough times after that to let us get there on our own.
+Alex was a gangling red-haired Russian who worked on Valhalla as well. He was an entertaining engineer who would do anything if it seemed fun. His grasp of boring business value and boring tech was shaky. A few months after Valhalla had failed, we were eating OnLive-provided stir-fry lunch and I was fidgeting with a notebook. We were talking about some smaller improvements to the old system. Not surprisingly, Alex was entirely in favour of just rewriting everything again (but "doing it right.")
+
+This wasn't as popular with me, a couple of the other Valhalla engineers. Don, the quiet Director of Engineering was watching, unmoving, as he often did. Don had been an engineer long enough to know the right answer, then a manager long enough to let us figure it out on our own.
 
 Alex said, "look, we want this done. Instead of doing in little pieces, the fastest way is direct." He gulped his black coffee.
 
@@ -24,19 +28,21 @@ I said, "first off, you're right. That's absolutely true." The unspoken "and mor
 
 "Something comes up. We lose a few engineers to firefight on the old product." Alex fidgeted with his coffee. This had happened, and then happened again. It was how Valhalla died, in fact, leaving us with egg on our face. "And now it runs over a little more."
 
-"Nobody wants to join &mdash; or rejoin &mdash; a project that looks like it's dying." Don raised an eyebrow. Alex looked away and took another sip of coffee. This, too, had been Valhalla's fate.
+"Nobody wants to join &mdash; or rejoin &mdash; a project that looks like it's dying." Don raised an eyebrow. Alex looked away and took a big bite of stir-fry to avoid answering. This, too, had been Valhalla's fate.
 
 ## Let's Talk About Your Good Reasons
 
 We'll get back to Alex and Don. But first, let's say you're considering a "Big Rewrite"-style project.
 
-I think you're doing it for good reasons.
+***I think you're doing it for good reasons***.
+
+<%= aside_image("/posts/the-computer-science-thing/GetBetterFaster.png", alt: "A figure sits at a desk, typing and watching the sunrise (or sunset?)", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :right, caption: "Sun rise, sun set, the app's not any good yet...") %>
 
 For instance, I'll bet the old codebase isn't well-divided into modules. I'll bet you have two or three subsystems that need separating off because they hardly ever change and you don't want to deploy them constantly. You have two modules that are so horribly entwined that nearly everything about them feels like it should be somewhere else. You have a giant "misc" model (the User model, right?) and then also a giant "misc" library. A huge number of methods are full of weird little exceptions and annoyances. The testing is dubious-quality and incomplete.
 
-These are all real problems.
+***These are all real problems***.
 
-You'd like to cut through all the noise and see the better design, latent in the system. So: if you have good reasons, and you have a good goal, that means that's the right answer.
+You'd like to cut through all the noise and see the better design that's hiding in your system. So: if you have good reasons, and you have a good goal, that means that's the right answer.
 
 Right?
 
@@ -46,47 +52,53 @@ Maybe not. Let's talk about that exercise.
 
 If you were going to start a big rewrite, you'd want to sit down and do some design, yes? Even if you're so big on Agile that you normally prefer emergent design, in this case I'd highly recommend it. This is a case where you already have a lot of domain experts (your current team) who are dissatisfied with the current design.
 
-So: sit down and start figuring out what a good design would look like. I'd recommend you involve the whole team, everybody who would be doing the rewrite. You can draw the diagrams first if you like, but they should look over them and you should incorporate feedback.
+Also: ***you know this is a hard design problem because you messed it up last time.***
+
+Sit down and start figuring out what a good design would look like. I'd recommend you involve the whole team, everybody who would be doing the rewrite. You can draw the diagrams first if you like, but the team should look over them and give feedback.
 
 If this takes a few days, that's actually a few days well spent. Seriously, do this.
 
-After all, you want to see that better design that's latent in the system.
+After all, ***you want to see that better design*** hidden inside your codebase.
 
 ## What's the Exercise?
 
-The exercise was that diagram. Let's say you've done that, including getting feedback from your fellow rewriters.
+<%= aside_image("/posts/single-idea-with-time-limit/StudyOnFloor.png", alt: "A person sprawls on the floor, reading a book from a messy stack of books.", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :right, caption: "But which part tells me if it'll work?") %>
 
-Now you're going to look at it and start thinking about all the ways your current system doesn't measure up, module by module. I'd recommend writing them down as well. If there's not a perfect module-to-module correspondence (and there shouldn't be) then just group them roughly. That's okay. The important thing is to find out where the current system doesn't measure up.
+Most of the magic "tell you if your rewrite will work" exercise was that design specification. Let's say you've finished your diagram, including getting feedback from your fellow rewriters.
 
-This step should be quicker if your diagram is good. You should understand it well enough to see where your current version is wrong. If you can't then you don't know your new version well enough &mdash; add more detail to it and try again.
+Now you're going to look at it and start thinking about all the ways your current system doesn't measure up, module by module. I'd recommend writing them down as well. If there's not a perfect module-to-module correspondence (and there shouldn't be) then just group them roughly. That's okay. The important thing is to find out where the current system doesn't measure up, and what each corresponding part of the new system would look like.
+
+This step should be quicker if your new design is good. You should understand it well enough to see where your current version is wrong. If you can't then you don't know your new version well enough &mdash; add more detail to it and try again.
 
 ## Back to Alex
 
-"So if the project starts to stall," I said, "then anything we did, we lose. Who wants to come back to the wreckage of a dead project later?"
+<%= aside_image("/images/purple_gemstone_216_288.jpg", alt: "A pear-cut purple gemstone, standing upright on the ground.", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :left, caption: "Your design in its gem-like beauty.<br/>(Photo by <a href=\"https://unsplash.com/conscious_design\">Conscious Design</a>)") %>
+
+"So if the project starts to stall," I said, "then any code we wrote, we lose. It's not ready to deploy. It's not done. And who would want to come back to the wreckage of a dead project later?"
 
 "That's not a project to get people a good reputation!" burst out Alex. He was still sensitive about Valhalla. Fair.
 
-"True. So: let's think about a different way. What if we start from the old code, and build in pieces." Alex frowned. He didn't much like the old code either.
+"True. So: let's think about a different way. What if we start from the old code, and build in pieces?" Alex frowned. He didn't much like the old code either.
 
-"You're right that it's harder. It's more steps, and more work to get done. So let's say in seven or eight months we haven't gotten as far &mdash; maybe only three quarters of the way to where we wanted."
+I tried to sweeten my response a bit: "you're right that it's harder. It's more steps, and more work to get done. So let's say in seven or eight months we haven't gotten as far &mdash; maybe only three quarters of the way to where we wanted."
 
 Alex slumped, staring into his cold coffee. Who wants three quarters of a success?
 
-"Ah," I said, "but look. It's like climbing a cliff, but going from ledge to ledge and stopping in between. If we get three quarters of the way up the other way, we go home and it was wasted. But this way we get to ***keep*** all that progress."
+"Ah," I said, "but look. It's like climbing a cliff, but going from ledge to ledge and stopping in between. If we get three quarters of the way through a Big Rewrite then we fail, we go home and all that effort was wasted. But if we build incrementally we get to ***keep*** all that progress."
 
 Alex looked resigned. This wasn't the fun way he wanted. But Don was smiling, just a bit. Don always played his cards close to the vest, but he liked that explanation.
 
 ## What to Do With That Exercise
 
-I said the exercise was putting together that design. The title says the exercise will tell you if your rewrite will work or fail.
+I said the exercise was putting together your design specification. The title of this post says the exercise will tell you if your rewrite will work or fail.
 
 But how does that work?
 
-First, let me tell you a few things. You haven't put together the actual exercise yet. That's because you're just reading the blog post. And when you first try this, the first time you ever do it, you won't put the exercise together either. You might draw out the main components, but you won't work it out in much detail.
+First, let me tell you a few things. You, right now in this very moment, haven't actually put together that design specification yet. That's because you're just reading this blog post.
 
-But once you do, magic is going to happen.
+But once you *do* put together that design, magic is going to happen.
 
-Specifically, look at that rough correspondence, that "diff," between your existing components and your new components. I have another prediction: those new modules are going to look, very roughly, like your current ones. You and/or your team have a lot of experience with your existing structure and you're going to produce a new structure that's approximately the same shape.
+Look at that rough correspondence, that "diff," between your existing components and your new components. I have another prediction: those new modules are going to look, very roughly, like your current ones. You and/or your team have a lot of experience with your existing structure and you're going to produce a new structure that's approximately the same shape.
 
 Good.
 
@@ -100,23 +112,31 @@ So here are a few times that you should rewrite.
 
 One: you simply can't bear the old code any more. You're going to throw it away no matter what the test says. A business won't usually do this, but you may not ***be*** a business. Or you may have sole authority to choose.
 
-Two: everything is so bad that even for an external team it would be faster and easier to build from scratch. This is ***almost*** never true. But for instance if nobody present has any experience with the platform in which the application is written in, or if the codebase is very bad and you have nobody that worked on the original, you may already be operating from nearly nothing. Or the old code may have stopped working long since and you have nobody that knows how it worked, when it worked. I won't say that ***never*** happens &mdash; I've seen it once or twice in my career. And at that point, you rewrite.
+Two: everything is so bad that even for an external team it would be faster and easier to build from scratch. This is ***almost*** never true. But if you're inheriting a sloppy prototype from outside contractors, or if an abandoned codebase is very bad and you have nobody that worked on the original, you may already be operating from nearly nothing. If old code stopped working long ago, you don't know for sure ***how*** it worked or even ***if*** it worked. In those cases, sure, you rewrite.
 
-But what about for a working business? How about then?
+But what about a codebase for a working business, where many of the people who wrote it still work there? How about then?
 
-First, take that diff you made between the components. For starters, each chunk of that is one smaller project you could divide the rewrite into. You could change just a few of those components at once and you'd get just one part of the software working much better in a shorter period of time. You could plan on a "divided-up rewrite," basically,  where you replace one part of the code at once. For an example of treating this as the plan for your architecture I like [Chad Fowler's RubyConf keynote about 'Legacy' in software](https://www.youtube.com/watch?v=qH_y45he4-o).
+First, take that diff you made between the old design and the new one. Each chunk of the diff is one smaller project you could divide the Big Rewrite into. You could alter or rewrite just a few of modules from your codebase at once and you'd get just one part of the software working much better in a shorter period of time.
 
-But if you consider it component by component from your diff, a 100% bottom-up rewrite almost never makes sense. Five smaller rewrites is better than one huge one. Ten smaller rewrites is better yet. If you have more, you can also prioritise and rewrite the worst parts first.
+You could plan on a ***"divided-up rewrite,"*** basically,  where you replace one part of the code at once. For an example of treating this as the plan for your architecture I like [Chad Fowler's RubyConf keynote about 'Legacy' in software](https://www.youtube.com/watch?v=qH_y45he4-o).
+
+If you consider your diff component-by-component, a 100% Big Rewrite almost never makes sense. Five smaller partial-rewrites is better than one huge one. Ten smaller rewrites is better yet. If you have pieces you can separate then you can prioritise and rewrite the worst parts first. And any progress you make, you get to keep.
 
 This is the same general idea as sprints in Agile, dividing up large tasks into smaller tasks. A rewrite, like any other large task, is much more predictable and manageable if you divide it up into smaller pieces.
 
 ## But What if There's Nothing Similar in the Diff?
 
-There's an easy way to foil my advice here, if you're of a mind to. You can do the design badly for the new system.
+<%= aside_image("/images/chalk_fishin_216_162.png", alt: "A figure lays back, hat over face, fishing.", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :right, caption: "Eh, design will take care of itself.") %>
 
-Here's the thing about that: if you can't come up with a good design for the new system, rewriting won't fix your problems.
+There's an easy way to foil my advice here, if you want to. You can intentionally make the new system share ***nothing*** with the old system's structure. It's hard to do that by accident, but you could do it on purpose.
 
-Instead, you'll write a new system and rapidly discover that your code still isn't divided into good components. When you try to add new ones, it will still be a mess. When you try to change a feature you'll have to modify it in five or ten different places, just like last time.
+If the entire structure is totally different, you've thrown away nearly everything you learned from the old system.
+
+Which means your design is going to be as bad as a new team starting from nothing. Because that's what you are.
+
+If you can't come up with a good design for the new system, rewriting won't fix your problems. You'll just get a new bad system instead of the old one.
+
+You'll write the new system and rapidly discover that your code still isn't divided into good components. When you try to add new ones, it will still be a mess. When you try to change a feature you'll have to modify it in five or ten different places, just like last time.
 
 Until you can see what the new architecture ***should*** be, you're wandering in the dark. And once you can see what it should be, you can write a plan to get there in steps. If you can't, that's a very bad sign.
 
@@ -124,9 +144,9 @@ And so a rewrite is normally a way to be lazy &mdash; to not work out the new ar
 
 ## PS: Microservices
 
-It used to be more popular to do pointless rewrites. These days, we get that it's a bad idea.
+It used to be more popular to do pointless rewrites. These days, we understand that it's a bad idea.
 
-It's now more popular to rewrite into microservices. Soon, we will get that it's a bad idea.
+It's now more popular to rewrite your monolith into microservices. Soon, we will understand that it's a bad idea.
 
 It's not that microservices are inherently bad. It's not that rewriting is inherently bad. It's that if something looks like a lazy way to not think through your design, there will be developers that use it that way.
 
