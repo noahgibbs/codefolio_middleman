@@ -7,7 +7,7 @@
                 <h1 class="posttitle"><%= current_page.data.title %></h1>
             </header><!-- .post-header -->
             <% if current_page.data.featured_image %>
-            <div class="post-thumbnail"><img class="featured-image img-fluid" src="https://codefol.io/<%= current_page.data.featured_image %>"
+            <div class="post-thumbnail"><img class="featured-image img-fluid" src="<%= current_page.data.featured_image %>"
                     alt="<%= current_page.data.title %>"></div>
             <% end %>
             <div class="post-content">

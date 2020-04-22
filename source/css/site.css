@@ -11,5 +11,6 @@
 }
 
 .chalk-background {
-	background-image: url(/images/blackboard_tiled.png);
+	background-image: url(/images/blackboard_tiled_400_500.png);
+    background: #000;
 }
