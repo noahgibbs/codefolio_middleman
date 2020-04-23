@@ -1,0 +1,31 @@
+<%
+  STDERR.puts "ASSET LOAD: #{asset.inspect}"
+
+  imageurl = asset["#{size}_path"]
+  alt = asset["alt"]
+  width = asset["#{size}_w"]
+  height = asset["#{size}_h"]
+  credit_url = asset["credit_url"]
+  credit_text = asset["credit_text"]
+
+  credit_markup = nil
+  if credit_url && credit_text
+    credit_markup = '<a href="' + escape_html(credit_url) + '">' + credit_text + '</a>'
+  elsif credit_url
+    credit_markup = '<a href="' + escape_html(credit_url) + '">Image Credit</a>'
+  elsif credit_text
+    credit_markup = credit_text
+  else
+    # Nothing
+  end
+%>
+
+<figure class="<%= figureclasses %>">
+    <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" : "" %> <%= height ? "height='#{height}'" : "" %> />
+    <% if caption %>
+        <figcaption class="caption-text"><%= caption %></figcaption> 
+    <% end %>
+    <% if credit_markup %>
+        <div class="image_credit"><%= credit_markup %></div>
+    <% end %>
+</figure>

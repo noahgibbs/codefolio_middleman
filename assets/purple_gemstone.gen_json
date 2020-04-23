@@ -1,0 +1,19 @@
+{
+  "orig_path": "orig/purple_gemstone.jpg",
+  "full_path": "img/purple_gemstone_full.jpg",
+  "full_w": 3264,
+  "full_h": 2448,
+  "full_dims_path": "img/purple_gemstone_3264_2448.jpg",
+  "aside_path": "img/purple_gemstone_aside.jpg",
+  "aside_w": 216,
+  "aside_h": 162,
+  "aside_dims_path": "img/purple_gemstone_216_162.jpg",
+  "thumb_path": "img/purple_gemstone_thumb.png",
+  "thumb_w": 100,
+  "thumb_h": 75,
+  "thumb_dims_path": "img/purple_gemstone_100_75.png",
+  "file": "purple_gemstone.jpg",
+  "alt": "A pear-cut purple gemstone stands, with its point upwards, on the ground.",
+  "credit_url": "https://unsplash.com/@conscious_design",
+  "credit_text": "Photo credit: Conscious Design on Unsplash"
+}
