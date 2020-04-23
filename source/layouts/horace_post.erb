@@ -6,15 +6,18 @@
             <header class="post-header">
                 <h1 class="posttitle"><%= current_page.data.title %></h1>
             </header><!-- .post-header -->
-            <% if current_page.data.featured_asset %>
+            <% if current_page.data.giant_featured_asset %>
                 <%
-                props = asset_properties(current_page.data.featured_asset)
+                props = asset_properties(current_page.data.giant_featured_asset)
                 aside_url = props["aside_url"]
                 %>
                 <div class="post-thumbnail"><img class="featured-image img-fluid" src="<%= aside_url %>"
                     alt="<%= current_page.data.title %>"></div>
             <% end %>
             <div class="post-content">
+                <% if current_page.data.featured_asset %>
+                  <%= asset_image(current_page.data.featured_asset, size: :aside, direction: :right, disappear_on_mobile: true, caption: current_page.data.featured_caption) %>
+                <% end %>
                 <%= yield %>
             </div>
             <footer class="post-footer">
