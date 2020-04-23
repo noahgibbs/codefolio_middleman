@@ -38,6 +38,7 @@ module PostHelpers
 
         props = asset_properties(asset_name, size: size)
 
+        image_classes += ["d-none", "d-md-block"] if disappear_on_mobile
         partial("image-asset", locals: {
             asset: props,
             size: size,
