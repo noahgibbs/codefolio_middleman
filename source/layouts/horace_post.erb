@@ -6,8 +6,12 @@
             <header class="post-header">
                 <h1 class="posttitle"><%= current_page.data.title %></h1>
             </header><!-- .post-header -->
-            <% if current_page.data.featured_image %>
-            <div class="post-thumbnail"><img class="featured-image img-fluid" src="<%= current_page.data.featured_image %>"
+            <% if current_page.data.featured_asset %>
+                <%
+                props = asset_properties(current_page.data.featured_asset)
+                aside_url = props["aside_url"]
+                %>
+                <div class="post-thumbnail"><img class="featured-image img-fluid" src="<%= aside_url %>"
                     alt="<%= current_page.data.title %>"></div>
             <% end %>
             <div class="post-content">
@@ -35,15 +39,16 @@
                     <header class="post-header">
                         <h3 class="post-title"><a href="<%= prev_pub.url %>"><%= prev_pub.data.title %></a></h3>
                     </header>
-                    <% if prev_pub.data.featured_image_thumbnail %>
+                    <% if prev_pub.data.featured_asset %>
+                        <%
+                        props = asset_properties(prev_pub.data.featured_asset)
+                        thumb_url = props["thumbnail_url"]
+                        %>
                         <a href="<%= prev_pub.url %>" class="post-thumbnail">
-                            <img src="<%= prev_pub.featured_image_thumbnail %>" alt="<%= prev_pub.data.title %>" />
-                    </a>
-                    <% elsif prev_pub.data.featured_image %>
-                        <a href="<%= prev_pub.url %>" class="post-thumbnail">
-                            <img src="<%= prev_pub.data.featured_image %>" alt="<%= prev_pub.data.title %>" />
+                            <img src="<%= thumb_url %>" alt="<%= prev_pub.data.title %>" />
                     </a>
                     <% else %>
+                      <!-- Nothing here -->
                     <% end %>
                 </article>
             <% end %>
@@ -54,15 +59,14 @@
                     <header class="post-header">
                         <h3 class="post-title"><a href="<%= next_pub.url %>"><%= next_pub.data.title %></a></h3>
                     </header>
-                    <% if next_pub.data.featured_image_thumbnail %>
+                    <% if next_pub.data.featured_asset %>
+                        <%
+                        props = asset_properties(next_pub.data.featured_asset)
+                        thumb_url = props["thumbnail_url"]
+                        %>
                         <a href="<%= next_pub.url %>" class="post-thumbnail">
-                            <img src="<%= next_pub.featured_image_thumbnail %>" alt="<%= next_pub.data.title %>" />
+                            <img src="<%= thumb_url %>" alt="<%= next_pub.data.title %>" />
                     </a>
-                    <% elsif next_pub.data.featured_image %>
-                        <a href="<%= next_pub.url %>" class="post-thumbnail">
-                            <img src="<%= next_pub.data.featured_image %>" alt="<%= next_pub.data.title %>" />
-                    </a>
-                    <% else %>
                     <% end %>
                 </article>
             <% end %>

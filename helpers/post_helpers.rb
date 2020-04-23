@@ -36,9 +36,7 @@ module PostHelpers
             raise "Unknown direction: #{direction.inspect}"
         end
 
-        asset_dir = File.join(__dir__, "assets")
-        asset_gen = File.join(asset_dir, "#{asset_name}.gen_json")
-        props = JSON.load(File.read asset_gen)
+        props = asset_properties(asset_name, size: size)
 
         partial("image-asset", locals: {
             asset: props,
@@ -47,5 +45,11 @@ module PostHelpers
             figureclasses: figure_classes,
             caption: caption,
         })
+    end
+
+    def asset_properties(asset_name, size: :thumb)
+        asset_dir = File.join(__dir__, "..", "assets")
+        asset_gen = File.join(asset_dir, "#{asset_name}.gen_json")
+        props = JSON.load(File.read asset_gen)
     end
 end
