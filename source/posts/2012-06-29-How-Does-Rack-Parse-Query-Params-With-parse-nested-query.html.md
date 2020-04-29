@@ -5,9 +5,9 @@ disqus_id: "http://codefol.io/posts/9"
 ---
 What turns URL params like <code>http://site.com/people?name=bobo</code> into <code>{ :name => "bobo" }</code> in Ruby?
 
-And what turns extra-weird Rails or Sinatra params like <code>/path?people[][name]=bobo&people[][first_love]=cheese</code>?
+And what turns extra-weird Rails or Sinatra params like <code>/path?people[][name]=bobo&people[][first_love]=cheese</code> into hashes and arrays?
 
-<h2>What the Hell is that?</h2>
+<h2>What the Hell is That?</h2>
 
 Googling "rails query param names with square brackets" doesn't help much. And Rails doesn't make it easy to find docs for this.
 
@@ -17,7 +17,7 @@ Rails uses <a href="http://rack.github.com">Rack</a> to parse them, so it's (mos
 
 <h2> What Does the Code Say? </h2>
 
-Rack is really poorly documented. But the query param code is short, so instead of my usual <a href="http://rebuilding-rails.com">&quot;rebuild it&quot;</a> approach, let's go right to <a href="https://github.com/rack/rack/blob/master/lib/rack/utils.rb">the source - Rack::Utils.parse\_nested\_query</a>:
+Rack is really poorly documented. But the query param code is short, so instead of my <a href="http://rebuilding-rails.com">usual &quot;rebuild it&quot;</a> approach, let's go right to <a href="https://github.com/rack/rack/blob/master/lib/rack/utils.rb">the source - Rack::Utils.parse\_nested\_query</a>:
 
 ``` ruby
 def parse_nested_query(qs, d = nil)
@@ -96,18 +96,18 @@ Athanor:rulers noah$ irb
 1.9.3p125 :003?>   Rack::Utils.parse_nested_query(params)
 1.9.3p125 :004?>   end
  => nil 
-1.9.3p125 :005 > p("p[]=a&p[]=b&p[]=c")
- => {"p"=>["a", "b", "c"]} 
-1.9.3p125 :006 > p("p[][a]=a&p[][b]=b&p[][c]=c")
- => {"p"=>[{"a"=>"a", "b"=>"b", "c"=>"c"}]}
+1.9.3p125 :005 > p("d[]=a&d[]=b&d[]=c")
+ => {"d"=>["a", "b", "c"]}
+1.9.3p125 :006 > p("d[][a]=a&d[][b]=b&d[][c]=c")
+ => {"d"=>[{"a"=>"a", "b"=>"b", "c"=>"c"}]}
 ```
 
 Looks pretty good. Let's try skipping the first open brackets:
 
 ```ruby
-1.9.3p125 :007 > p("p[x]=1&p[y]=2")
- => {"p"=>{"x"=>"1", "y"=>"2"}} 
-1.9.3p125 :008 > p("p[123]=bobo")
+1.9.3p125 :007 > p("d[x]=1&d[y]=2")
+ => {"d"=>{"x"=>"1", "y"=>"2"}}
+1.9.3p125 :008 > p("d[123]=bobo")
  => {"p"=>{"123"=>"bobo"}} 
 ```
 
