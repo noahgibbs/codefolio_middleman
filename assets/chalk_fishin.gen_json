@@ -1,0 +1,23 @@
+{
+  "orig_path": "assets/orig/chalk_fishin.png",
+  "full_path": "source/img/chalk_fishin_full.png",
+  "full_url": "/img/chalk_fishin_full.png",
+  "full_w": 800,
+  "full_h": 600,
+  "full_dims_path": "source/img/chalk_fishin_800_600.png",
+  "full_dims_url": "/img/chalk_fishin_800_600.png",
+  "aside_path": "source/img/chalk_fishin_aside.png",
+  "aside_url": "/img/chalk_fishin_aside.png",
+  "aside_w": 216,
+  "aside_h": 162,
+  "aside_dims_path": "source/img/chalk_fishin_aside_216_162.png",
+  "aside_dims_url": "/img/chalk_fishin_aside_216_162.png",
+  "thumbnail_path": "source/img/chalk_fishin_thumbnail.png",
+  "thumbnail_url": "/img/chalk_fishin_thumbnail.png",
+  "thumbnail_w": 100,
+  "thumbnail_h": 75,
+  "thumbnail_dims_path": "source/img/chalk_fishin_thumbnail_100_75.png",
+  "thumbnail_dims_url": "/img/chalk_fishin_thumbnail_100_75.png",
+  "file": "chalk_fishin.png",
+  "alt": "A person sleeps with an ignored fishing pole at their feet and a hat over their face."
+}
