@@ -20,10 +20,12 @@
 
 <figure class="<%= figureclasses %>">
     <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" : "" %> <%= height ? "height='#{height}'" : "" %> />
-    <% if caption %>
-        <figcaption class="caption-text"><%= caption %></figcaption> 
-    <% end %>
-    <% if credit_markup %>
-        <div class="image_credit"><%= credit_markup %></div>
+
+    <% if caption || credit_markup %>
+      <figcaption class="caption-text">
+        <%= caption ? caption : "" %>
+        <%= (caption && credit_markup) ? "<br/>" : "" %>
+        <%= credit_markup ? credit_markup : "" %>
+      </figcaption>
     <% end %>
 </figure>

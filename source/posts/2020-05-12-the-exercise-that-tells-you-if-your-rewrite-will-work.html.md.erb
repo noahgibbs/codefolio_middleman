@@ -36,7 +36,7 @@ We'll get back to Alex and Don. But first, let's say you're considering a "Big R
 
 ***I think you're doing it for good reasons***.
 
-<%= aside_image("/posts/the-computer-science-thing/GetBetterFaster.png", alt: "A figure sits at a desk, typing and watching the sunrise (or sunset?)", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :right, caption: "Sun rise, sun set, the app's not any good yet...") %>
+<%= asset_image("get_better_faster", size: :aside, disappear_on_mobile: true, direction: :right, caption: "Sun rise, sun set, the app's not any good yet...") %>
 
 For instance, I'll bet the old codebase isn't well-divided into modules. I'll bet you have two or three subsystems that need separating off because they hardly ever change and you don't want to deploy them constantly. You have two modules that are so horribly entwined that nearly everything about them feels like it should be somewhere else. You have a giant "misc" model (the User model, right?) and then also a giant "misc" library. A huge number of methods are full of weird little exceptions and annoyances. The testing is dubious-quality and incomplete.
 
@@ -72,7 +72,7 @@ This step should be quicker if your new design is good. You should understand it
 
 ## Back to Alex
 
-<%= aside_image("/images/purple_gemstone_216_288.jpg", alt: "A pear-cut purple gemstone, standing upright on the ground.", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :left, caption: "Your design in its gem-like beauty.<br/>(Photo by <a href=\"https://unsplash.com/conscious_design\">Conscious Design</a>)") %>
+<%= asset_image("purple_gemstone", size: :aside, disappear_on_mobile: true, direction: :left, caption: "Your design in its gem-like beauty.") %>
 
 "So if the project starts to stall," I said, "then any code we wrote, we lose. It's not ready to deploy. It's not done. And who would want to come back to the wreckage of a dead project later?"
 
