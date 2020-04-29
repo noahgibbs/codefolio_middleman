@@ -1,0 +1,23 @@
+{
+  "orig_path": "assets/orig/GetBetterFaster.png",
+  "full_path": "source/img/GetBetterFaster_full.png",
+  "full_url": "/img/GetBetterFaster_full.png",
+  "full_w": 1600,
+  "full_h": 1200,
+  "full_dims_path": "source/img/GetBetterFaster_1600_1200.png",
+  "full_dims_url": "/img/GetBetterFaster_1600_1200.png",
+  "aside_path": "source/img/GetBetterFaster_aside.png",
+  "aside_url": "/img/GetBetterFaster_aside.png",
+  "aside_w": 216,
+  "aside_h": 162,
+  "aside_dims_path": "source/img/GetBetterFaster_aside_216_162.png",
+  "aside_dims_url": "/img/GetBetterFaster_aside_216_162.png",
+  "thumbnail_path": "source/img/GetBetterFaster_thumbnail.png",
+  "thumbnail_url": "/img/GetBetterFaster_thumbnail.png",
+  "thumbnail_w": 100,
+  "thumbnail_h": 75,
+  "thumbnail_dims_path": "source/img/GetBetterFaster_thumbnail_100_75.png",
+  "thumbnail_dims_url": "/img/GetBetterFaster_thumbnail_100_75.png",
+  "file": "GetBetterFaster.png",
+  "alt": "A stick figure types at a keyboard as the sun goes up (or down) in the window behind."
+}
