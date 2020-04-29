@@ -24,7 +24,7 @@ module PostHelpers
         })
     end
 
-    def asset_image(asset_name, size: :thumb, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: false)
+    def asset_image(asset_name, size: :thumbnail, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: false)
         figure_classes = ""
         if direction == :right
             figure_classes = "aside-right"
@@ -36,7 +36,7 @@ module PostHelpers
             raise "Unknown direction: #{direction.inspect}"
         end
 
-        props = asset_properties(asset_name, size: size)
+        props = asset_properties(asset_name)
 
         image_classes += ["d-none", "d-md-block"] if disappear_on_mobile
         partial("image-asset", locals: {
@@ -48,7 +48,7 @@ module PostHelpers
         })
     end
 
-    def asset_properties(asset_name, size: :thumb)
+    def asset_properties(asset_name)
         asset_dir = File.join(__dir__, "..", "assets")
         asset_gen = File.join(asset_dir, "#{asset_name}.gen_json")
         props = JSON.load(File.read asset_gen)
