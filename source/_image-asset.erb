@@ -1,5 +1,6 @@
 <%
   imageurl = asset["#{size}_dims_url"]
+  raise "No such image URL as #{imageurl.inspect}!" unless imageurl
   alt = asset["alt"]
   width = asset["#{size}_w"]
   height = asset["#{size}_h"]
