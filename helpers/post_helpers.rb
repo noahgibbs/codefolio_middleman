@@ -24,7 +24,7 @@ module PostHelpers
         })
     end
 
-    def asset_image(asset_name, size: :thumbnail, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: false)
+    def asset_image(asset_name, size:, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: false)
         figure_classes = ""
         if direction == :right
             figure_classes = "aside-right"
