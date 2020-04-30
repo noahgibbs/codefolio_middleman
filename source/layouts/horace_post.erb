@@ -24,10 +24,14 @@
                 <div class="post-meta">
                     <time class="post-date" datetime="<%= current_page.date.strftime('%Y-%m-%d') %>"><%= current_page.date.strftime('%b %e %Y') %></time>
                 </div><!-- .post-meta -->
-                <!-- <div class="post-share">
+                <div class="post-share">
                     <span class="post-share-title">Share:</span>
-                    <a target="_blank" href="https://twitter.com/share?text=<%= current_page.data.title %>&amp;url=<%= "https://codefol.io" + current_page.url %>">Twitter</a>
-                </div> --> <!-- .share-post -->
+                    <% if current_page.data.click_to_tweet %>
+                        <a target="_blank" href="<%= current_page.data.click_to_tweet %>">Twitter (ClickToTweet)</a>
+                    <% else %>
+                        <a target="_blank" href="https://twitter.com/share?text=<%= current_page.data.title %>&amp;url=<%= "https://codefol.io" + current_page.url %>">Twitter</a>
+                    <% end %>
+                </div> <!-- .share-post -->
             </footer>
             <%= partial "disqus" %>
         </article>
