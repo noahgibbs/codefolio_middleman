@@ -1,0 +1,23 @@
+{
+  "orig_path": "assets/orig/SittingCoder.png",
+  "full_path": "source/img/SittingCoder_full.png",
+  "full_url": "/img/SittingCoder_full.png",
+  "full_w": 659,
+  "full_h": 1094,
+  "full_dims_path": "source/img/SittingCoder_659_1094.png",
+  "full_dims_url": "/img/SittingCoder_659_1094.png",
+  "aside_path": "source/img/SittingCoder_aside.png",
+  "aside_url": "/img/SittingCoder_aside.png",
+  "aside_w": 130,
+  "aside_h": 216,
+  "aside_dims_path": "source/img/SittingCoder_aside_130_216.png",
+  "aside_dims_url": "/img/SittingCoder_aside_130_216.png",
+  "thumbnail_path": "source/img/SittingCoder_thumbnail.png",
+  "thumbnail_url": "/img/SittingCoder_thumbnail.png",
+  "thumbnail_w": 60,
+  "thumbnail_h": 100,
+  "thumbnail_dims_path": "source/img/SittingCoder_thumbnail_60_100.png",
+  "thumbnail_dims_url": "/img/SittingCoder_thumbnail_60_100.png",
+  "file": "SittingCoder.png",
+  "alt": "A chalk figure sits at a keyboard, confused."
+}

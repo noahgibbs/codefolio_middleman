@@ -1,0 +1,23 @@
+{
+  "orig_path": "assets/orig/FingertipFeel.png",
+  "full_path": "source/img/FingertipFeel_full.png",
+  "full_url": "/img/FingertipFeel_full.png",
+  "full_w": 1600,
+  "full_h": 1200,
+  "full_dims_path": "source/img/FingertipFeel_1600_1200.png",
+  "full_dims_url": "/img/FingertipFeel_1600_1200.png",
+  "aside_path": "source/img/FingertipFeel_aside.png",
+  "aside_url": "/img/FingertipFeel_aside.png",
+  "aside_w": 216,
+  "aside_h": 162,
+  "aside_dims_path": "source/img/FingertipFeel_aside_216_162.png",
+  "aside_dims_url": "/img/FingertipFeel_aside_216_162.png",
+  "thumbnail_path": "source/img/FingertipFeel_thumbnail.png",
+  "thumbnail_url": "/img/FingertipFeel_thumbnail.png",
+  "thumbnail_w": 100,
+  "thumbnail_h": 75,
+  "thumbnail_dims_path": "source/img/FingertipFeel_thumbnail_100_75.png",
+  "thumbnail_dims_url": "/img/FingertipFeel_thumbnail_100_75.png",
+  "file": "FingertipFeel.png",
+  "alt": "A hand drawn in chalk balances a pencil, a teapot and an umbrella on one outstretched finger."
+}
