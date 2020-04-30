@@ -24,7 +24,7 @@ module PostHelpers
         })
     end
 
-    def asset_image(asset_name, size:, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: false)
+    def asset_image(asset_name, size:, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: true)
         figure_classes = ""
         if direction == :right
             figure_classes = "aside-right"
@@ -52,5 +52,24 @@ module PostHelpers
         asset_dir = File.join(__dir__, "..", "assets")
         asset_gen = File.join(asset_dir, "#{asset_name}.gen_json")
         props = JSON.load(File.read asset_gen)
+    end
+
+    def asset_img_tag(asset_name, size:, classes: [])
+        props = asset_properties(asset_name)
+        raise "No such asset found as #{asset_name}!" unless props
+
+        image_url = props["#{size}_dims_url"]
+        raise "No such asset URL found as #{size}_dims_url!" unless image_url
+        image_width = props["#{size}_w"]
+        image_height = props["#{size}_h"]
+        image_alt = props["alt"]
+
+        tag_props = "src=\"#{escape_html(image_url)}\" "
+        tag_props += "height=\"#{image_height}\"" if image_height
+        tag_props += "width=\"#{image_width}\"" if image_width
+        tag_props += "alt=#{image_alt}" if image_alt
+        tag_props += "class=\"#{classes.join(" ")}\"" unless classes.empty?
+
+        "<img #{tag_props} />"
     end
 end

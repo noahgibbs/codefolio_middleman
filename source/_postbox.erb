@@ -9,17 +9,11 @@
             <a href="<%= post.url %>" rel="bookmark"><%= post.data.title %></a>
         </h2>
     </header><!-- .post-header -->
-    <% if post.data.featured_image_thumbnail %>
-    <a class="post-thumbnail" href="<%= post.url %>">
-        <img src="<%= post.data.featured_image_thumbnail %>"
-            alt="<%= post.data.title %>">
-    </a>
-    <% elsif post.data.featured_image %>
-    <a class="post-thumbnail" href="<%= post.url %>">
-        <img src="<%= post.data.featured_image %>"
-            alt="<%= post.data.title %>">
-    </a>
-    <% else %>
+
+    <% if post.data.featured_asset %>
+        <a class="post-thumbnail" href="<%= post.url %>">
+            <%= asset_img_tag(post.data.featured_asset, size: :aside) %>
+        </a>
     <% end %>
     <div class="post-content">
         <p><%= post.summary(300) %></p>
