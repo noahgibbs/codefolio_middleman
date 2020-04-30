@@ -18,6 +18,12 @@
   "thumbnail_h": 75,
   "thumbnail_dims_path": "source/img/fib_n_thumbnail_100_75.png",
   "thumbnail_dims_url": "/img/fib_n_thumbnail_100_75.png",
+  "hero_path": "source/img/fib_n_hero.jpg",
+  "hero_url": "/img/fib_n_hero.jpg",
+  "hero_w": 720,
+  "hero_h": 540,
+  "hero_dims_path": "source/img/fib_n_hero_720_540.jpg",
+  "hero_dims_url": "/img/fib_n_hero_720_540.jpg",
   "file": "fib_n.png",
   "alt": "The Fibonacci equation's basic recurrence, Fib(n) = Fib(n-1) + Fib(n-2)."
 }

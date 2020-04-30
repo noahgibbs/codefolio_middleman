@@ -18,6 +18,12 @@
   "thumbnail_h": 100,
   "thumbnail_dims_path": "source/img/SuperPrincess_thumbnail_75_100.png",
   "thumbnail_dims_url": "/img/SuperPrincess_thumbnail_75_100.png",
+  "hero_path": "source/img/SuperPrincess_hero.jpg",
+  "hero_url": "/img/SuperPrincess_hero.jpg",
+  "hero_w": 540,
+  "hero_h": 720,
+  "hero_dims_path": "source/img/SuperPrincess_hero_540_720.jpg",
+  "hero_dims_url": "/img/SuperPrincess_hero_540_720.jpg",
   "file": "SuperPrincess.png",
   "alt": "A teddy bear, drawn in chalk and dressed in a t-shirt and jeans."
 }

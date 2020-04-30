@@ -18,6 +18,12 @@
   "thumbnail_h": 100,
   "thumbnail_dims_path": "source/img/SittingCoder_thumbnail_60_100.png",
   "thumbnail_dims_url": "/img/SittingCoder_thumbnail_60_100.png",
+  "hero_path": "source/img/SittingCoder_hero.jpg",
+  "hero_url": "/img/SittingCoder_hero.jpg",
+  "hero_w": 434,
+  "hero_h": 720,
+  "hero_dims_path": "source/img/SittingCoder_hero_434_720.jpg",
+  "hero_dims_url": "/img/SittingCoder_hero_434_720.jpg",
   "file": "SittingCoder.png",
   "alt": "A chalk figure sits at a keyboard, confused."
 }

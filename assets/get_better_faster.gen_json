@@ -18,6 +18,12 @@
   "thumbnail_h": 75,
   "thumbnail_dims_path": "source/img/GetBetterFaster_thumbnail_100_75.png",
   "thumbnail_dims_url": "/img/GetBetterFaster_thumbnail_100_75.png",
+  "hero_path": "source/img/GetBetterFaster_hero.jpg",
+  "hero_url": "/img/GetBetterFaster_hero.jpg",
+  "hero_w": 720,
+  "hero_h": 540,
+  "hero_dims_path": "source/img/GetBetterFaster_hero_720_540.jpg",
+  "hero_dims_url": "/img/GetBetterFaster_hero_720_540.jpg",
   "file": "GetBetterFaster.png",
   "alt": "A stick figure types at a keyboard as the sun goes up (or down) in the window behind."
 }

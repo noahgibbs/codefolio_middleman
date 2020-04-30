@@ -18,6 +18,12 @@
   "thumbnail_h": 75,
   "thumbnail_dims_path": "source/img/RadioRepair_thumbnail_100_75.png",
   "thumbnail_dims_url": "/img/RadioRepair_thumbnail_100_75.png",
+  "hero_path": "source/img/RadioRepair_hero.jpg",
+  "hero_url": "/img/RadioRepair_hero.jpg",
+  "hero_w": 720,
+  "hero_h": 540,
+  "hero_dims_path": "source/img/RadioRepair_hero_720_540.jpg",
+  "hero_dims_url": "/img/RadioRepair_hero_720_540.jpg",
   "file": "RadioRepair.png",
   "alt": "A chalk figure kneeling to repair (possibly) a radio."
 }

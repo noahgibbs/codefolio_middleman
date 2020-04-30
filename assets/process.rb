@@ -100,6 +100,9 @@ Dir["assets/*.json"].each do |asset_file|
   # Create a thumbnail called FILENAME_thumb.png and a symlink to it with dimensions in the filename
   thumb_props = handle_output_size("thumbnail", asset["file"], 100, force_ext: ".png")
 
+  # Create a hero/masthead-size called FILENAME_hero.jpg for use in larger views
+  hero_props = handle_output_size("hero", asset["file"], 720, force_ext: ".jpg")
+
   generated_info = {
     orig_path: orig_filename,
 
@@ -109,7 +112,7 @@ Dir["assets/*.json"].each do |asset_file|
     full_h: full_h,
     full_dims_path: full_dims_path,
     full_dims_url: full_dims_url,
-  }.merge(aside_props).merge(thumb_props)
+  }.merge(aside_props, thumb_props, hero_props)
   ASSET_KEYS.each { |key| generated_info[key] = asset[key] if asset[key] }
   generated_text = JSON.pretty_generate(generated_info)
 
