@@ -26,7 +26,7 @@ READMORE
 
 First of all, C is a language that works like **old computers used to**, not a language that works like modern computers do. You can get the long version in the (excellent) ACM article ["C is Not a Low-Level Language"](https://queue.acm.org/detail.cfm?id=3212479), but processors no longer look like C. The C language is older than threads. It's so old it has no real recognition of concurrency. In fact, it's actively hostile to most concurrency and optimises it very poorly. That's a problem. Around 2010 we suddenly stopped being able to ignore multiple processors... But C was close to forty years old at that point, and wasn't going to make a drastic change at that age.
 
-<%= aside_image("/posts/the-computer-science-thing/FingertipFeel.png", alt: "A finger balancing a pencil, a teapot and an umbrella", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :left, caption: "It can be hard keeping a whole stack of pointers in the air in C...") %>
+<%= asset_image("fingertip_feel", size: :aside, disappear_on_mobile: true, direction: :left, caption: "It can be hard keeping a whole stack of pointers in the air in C...") %>
 
 There's another reason they tell you to learn C: so that you can use a language which, being similar to your processor, is easy to optimise to be extremely fast. That stops being true as soon as you look at processor features like concurrency and [vectorisation, or SIMD (doing the same operation on big lists of numbers all at once.)](https://en.wikipedia.org/wiki/SIMD) Those two things are, by the way, the essence of optimising a modern processor. C also makes it hard to deal with [cache line alignment](https://www.usenix.org/legacy/publications/library/proceedings/als00/2000papers/papers/full_papers/sears/sears_html/index.html), and its use of [pointer aliasing](https://en.wikipedia.org/wiki/Pointer_aliasing) means it can't assume a thing it wrote to memory is still there... Basically, C was an excellent education in how the PDP-11 computer worked in 1972, but a lot has changed since then.
 
@@ -70,7 +70,7 @@ The same people telling you that will then tell you that you need to use it for 
 
 There are many, many things wrong with this argument.
 
-<%= aside_image("/posts/single-idea-with-time-limit/RadioRepair.png", alt: "A kneeling figure repairing an electronic device, possibly a radio", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :left, caption: "This is not the most efficient way to listen to a radio program. You only do it if you care about the project.") %>
+<%= asset_image("radio_repair", size: :aside, disappear_on_mobile: true, direction: :left, caption: "This is not the most efficient way to listen to a radio program. You only do it if you care about the project.") %>
 
 Let's start with my favourite: a CPU-efficient language being "faster" starts by assuming that your problem is CPU time. But your actual problem is often memory, or network round-trips, or something else that has nothing to do with your CPU. I frequently spend my time on web programming, where network round trips trump CPU time every day of the week. A Ruby program (though not necessarily Rails) is normally much more memory-efficient than Java for the same purpose, and frequently more memory-efficient than the C you'd write in practice. In general, an interpreted language can be surprisingly memory-efficient even while burning more CPU cycles. Which one is more valuable depends on your constraints.
 
@@ -138,7 +138,7 @@ How do you pick a direction right now? I'm a big fan of [conscious coding practi
 
 ## But Then Why Do People Say&hellip;?
 
-<%= aside_image("/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/ScaresYou.png", alt: "A stick-man whistles as he passes a mean-looking giant toad", image_classes: ["chalk-background"], disappear_on_mobile: true, direction: :left, caption: "Remember, it's not bad advice if you never look directly at it...") %>
+<%= asset_image("scares_you", size: :aside, disappear_on_mobile: true, direction: :left, caption: "Remember, it's not bad advice if you never look directly at it...") %>
 
 It would be reasonable to ask, "why do people suggest that?" It's common advice, after all.
 
