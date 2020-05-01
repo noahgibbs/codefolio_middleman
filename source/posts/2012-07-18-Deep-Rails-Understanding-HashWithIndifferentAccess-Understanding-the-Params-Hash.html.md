@@ -3,15 +3,15 @@ title: "Deep Rails: Understanding HashWithIndifferentAccess, Understanding the P
 date: 2012-07-18 03:22
 disqus_id: "http://codefol.io/posts/11"
 ---
-Rails <a href="http://codefol.io/posts/How-Does-Rack-Parse-Query-Params-With-parse-nested-query">parameter parsing</a> can be hard to understand, but it goes beyond that.
+Rails <a href="/posts/How-Does-Rack-Parse-Query-Params-With-parse-nested-query">parameter parsing</a> can be hard to understand, but it goes beyond that.
 
 Just understanding the "params" object in your controller actions is a little tricky. Ever notice how params[:bob] and params["bob"] both work?  The magic type behind that is called HashWithIndifferentAccess. Yeah, it's a mouthful. I wish I were making that up, but no.
 
-There's a lot of interesting code in Rails with interesting Ruby tricks - so let's de-magic the params object, find some bugs with it and <a href="http://rebuilding-rails.com">get better at Ruby</a>, all at once.
+There's a lot of interesting code in Rails with interesting Ruby tricks - so let's de-magic the params object, find some bugs with it and <a href="https://rebuilding-rails.com">get better at Ruby</a>, all at once.
 
 <h2> The Source </h2>
 
-I like going straight to the source, so here is <a href="https://github.com/rails/rails/blob/808592bae2b83ced018f16d576d41a0059ed302a/activesupport/lib/active_support/hash_with_indifferent_access.rb">the current version of the file in ActiveSupport</a>. You can just read, or follow along on GitHub.
+I like going straight to the source, so here is <a href="https://github.com/rails/rails/blob/808592bae2b83ced018f16d576d41a0059ed302a/activesupport/lib/active_support/hash_with_indifferent_access.rb">the exact version of the file I'm looking at in ActiveSupport</a>. You can read here or follow along on GitHub.
 
 It's a nice readable 176 lines.
 
@@ -19,13 +19,13 @@ It's a nice readable 176 lines.
 
 In Rails you can say params["people"] or params[:people], and either way you get the same thing back. Simple enough, right?  Well, mostly.
 
-You can see on <a href="https://github.com/rails/rails/blob/808592bae2b83ced018f16d576d41a0059ed302a/activesupport/lib/active_support/hash_with_indifferent_access.rb#L7">line 7</a> that it inherits from Hash -- Ruby is convenient that way.
+You can see on <a href="https://github.com/rails/rails/blob/808592bae2b83ced018f16d576d41a0059ed302a/activesupport/lib/active_support/hash_with_indifferent_access.rb#L7">line 7</a> that it inherits from Hash &mdash; Ruby is convenient that way.
 
 The biggest magic is on <a href="https://github.com/rails/rails/blob/808592bae2b83ced018f16d576d41a0059ed302a/activesupport/lib/active_support/hash_with_indifferent_access.rb#L159">line 159</a>, in fact, in convert_key(). It just converts any key it sees to a string.
 
 <a href="https://github.com/rails/rails/blob/808592bae2b83ced018f16d576d41a0059ed302a/activesupport/lib/active_support/hash_with_indifferent_access.rb#L159"><img src="/images/11/line_159.png" alt="listing from line 159" /></a>
 
-So HashWithIndifferentAccess is just a regular hash, but any symbol key is converted to a string. If you put in a key that was, say, nil, nothing would change.
+So HashWithIndifferentAccess is just a regular hash, but any symbol key is converted to a string. If you put in a key that was, say, nil, nothing would change. It only converts symbols, not NilClass (which is nil's type.)
 
 <h2>Fun Ruby Tricks</h2>
 
@@ -60,4 +60,4 @@ Nothing stays the same forever. In Rails, not much stays the same for long. So h
 
 <h2>Enjoy Getting Your Hands Dirty?</h2>
 
-Do you enjoy code spelunking to learn about Ruby and Rails?  <a href="http://rebuilding-rails.com">I'm writing a book about that</a>. The first couple of chapters are free and awesome -- sign up below and download them.
+Do you enjoy code spelunking to learn about Ruby metaprogramming and the internals of Rails?  I wrote a book about that. The first couple of chapters are free and awesome -- you can <a href="https://rebuilding-rails.com">download them in exchange for your email address</a>.
