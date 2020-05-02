@@ -15,7 +15,7 @@ body {
 
 a {
     color: $color-accent;
-    text-decoration: none;
+    text-decoration: underline;
     -webkit-transition: color .3s ease;
     transition: color .3s ease;
 }
