@@ -1,18 +1,14 @@
 ---
 title: "Codefol.io, Later-Than-Latest Posts"
-pageable: true
-per_page: 10
 layout: horace_default
 comments: false
-next: false
-prev: false
 ---
 
 <div class="outer">
     <div class="post-feed-title inner">Latest Articles</div>
 
     <div class="post-feed inner-wide">
-      <% page_articles.each_with_index do |article, i|
+      <% blog.articles.each_with_index do |article, i|
            next if is_published(article)
         %>
         <%= partial "postbox", locals: { post: article } %>
