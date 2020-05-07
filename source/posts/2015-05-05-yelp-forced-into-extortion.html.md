@@ -1,6 +1,7 @@
 ---
 title: "The Tragedy of Yelp: Forced Into Extortion"
 date: 2015-05-05 14:26
+tags: entrepreneur
 ---
 If your startup does certain things, you wind up with the same business model as Yelp. It turns out you really, really don't want the same
 business model as Yelp.

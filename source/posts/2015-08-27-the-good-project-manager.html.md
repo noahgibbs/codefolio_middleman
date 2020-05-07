@@ -1,6 +1,7 @@
 ---
 title: "The Good Project Manager"
 date: 2015-08-27 23:29
+tags: career
 ---
 
 Recently, John Sonmez <a

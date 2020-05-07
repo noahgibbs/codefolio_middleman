@@ -1,6 +1,7 @@
 ---
 title: "A Ruby Troll Story"
 date: 2018-07-10 21:39
+tags: personal, rubycommunity
 ---
 
 I'm going to tell two stories about the Ruby community. One happened

@@ -1,6 +1,7 @@
 ---
 title: "Capistrano: Be Sure to Git Push!"
 date: 2014-12-11 18:18
+tags: deployment
 ---
 
 <img src="/images/cityscape.png#right" width="401" height="197" alt="Busy debugging at night..." />

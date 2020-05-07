@@ -2,6 +2,7 @@
 title: "Rack and Session Store"
 date: 2013-04-01 12:53
 disqus_id: "http://codefol.io/posts/40"
+tags: rails, rack
 ---
 A fellow asked me how he could store information per-user in Rack. This was my (brief) response:
 

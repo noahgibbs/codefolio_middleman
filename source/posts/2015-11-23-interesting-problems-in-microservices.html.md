@@ -1,6 +1,7 @@
 ---
 title: "Interesting Problems in Microservices"
 date: 2015-11-23 20:54
+tags: architecture
 ---
 
 Breaking down a giant monolithic Rails app (colloquially a "monorail") is a very hot topic right now. I'll give you the boring, accepted advice first: extract obvious bits by breaking apart obvious sub-apps, take nontrivial logic and extract it into /lib and/or external gems, take repetitive models/controllers/views and, if possible, extract those into separate Rails-specific gems ("engines") as well.

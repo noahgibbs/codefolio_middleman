@@ -1,6 +1,7 @@
 ---
 title: "What Do You Lose By Not Using Chef?"
 date: 2014-11-29 17:29:23
+tags: deployment
 ---
 
 It's easy to find <a

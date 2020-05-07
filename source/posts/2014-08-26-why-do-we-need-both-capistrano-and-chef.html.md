@@ -1,6 +1,7 @@
 ---
 title: "Do We Need Both Capistrano and Chef?"
 date: 2014-08-26 15:49
+tags: deployment
 ---
 Deployment comes with far too many tools. For instance,
 this whole set is often used together:

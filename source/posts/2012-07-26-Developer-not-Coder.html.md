@@ -2,6 +2,7 @@
 title: "Developer, not Coder"
 date: 2012-07-26 17:03
 disqus_id: "http://codefol.io/posts/16"
+tags: career
 ---
 There's a lot to developing software on a team that universities don't
 traditionally teach you. If you're already strong at theory and

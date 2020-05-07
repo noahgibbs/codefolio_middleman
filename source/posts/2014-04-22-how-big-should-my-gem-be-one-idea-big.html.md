@@ -1,6 +1,7 @@
 ---
 title: "How Big Should My Gem Be? One Idea Big."
 date: 2014-04-22 22:02
+tags: ruby
 ---
 
 <img src="/images/one_idea/sapphire.jpeg#right" alt="A large sapphire" />

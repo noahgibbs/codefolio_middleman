@@ -1,6 +1,7 @@
 ---
 title: "Ship Early, Ship Too Often"
 date: 2014-08-24 13:05
+tags: business
 ---
 
 Some famous people told me how to get superpowers. I did. They all happen to

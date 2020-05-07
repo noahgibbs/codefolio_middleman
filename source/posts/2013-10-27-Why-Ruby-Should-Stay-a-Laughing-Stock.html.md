@@ -2,6 +2,7 @@
 title: "Why Ruby Should Stay a Laughing Stock"
 date: 2013-10-27 21:50
 disqus_id: "http://codefol.io/posts/56"
+tags: ruby, rubycommunity
 ---
 Five minutes on the Internet will find you <i>somebody</i> who thinks <b>Ruby shouldn't exist and is clearly inferior</b> (try it!). Or pick a big tech company, especially an "Enterprise" company. Same thing -- <b>you'll find a Ruby-hater in five minutes</b> if you're actually trying.
 

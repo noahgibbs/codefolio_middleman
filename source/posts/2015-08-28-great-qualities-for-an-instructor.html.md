@@ -1,6 +1,7 @@
 ---
 title: "Great Qualities for an Instructor"
 date: 2015-08-28 09:19
+tags: career
 ---
 
 Recently Chad Fowler wrote a <a

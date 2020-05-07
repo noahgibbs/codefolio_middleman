@@ -2,6 +2,7 @@
 title: "Clean Ruby Code"
 date: 2012-09-10 15:48
 disqus_id: "http://codefol.io/posts/31"
+tags: ruby
 ---
 A reader asked me for quick recommendations on writing clean code. Here's what I wrote back:
 

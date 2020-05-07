@@ -2,6 +2,7 @@
 title: "The Ruby Community is a Loud, Bright, Wonderful Mess"
 date: 2013-09-26 03:27
 disqus_id: "http://codefol.io/posts/54"
+tags: ruby, rubycommunity
 ---
 Ruby and Python, so similar and so different. By which I mean, "the languages let you do the same things in most of the same ways, but the communities are utterly different."
 

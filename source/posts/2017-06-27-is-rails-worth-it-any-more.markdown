@@ -2,6 +2,7 @@
 title: "Is Rails Worth It Any More?"
 date: 2017-06-27 10:03
 mc_signup: rails
+tags: rails
 ---
 
 Folks are asking on Reddit, <a href="https://www.reddit.com/r/rails/comments/6jolzg/is_rails_worth_pursuing_anymore/">Is Rails Worth Pursuing Anymore?</a> Here's my answer:

@@ -1,6 +1,7 @@
 ---
 title: "Tech Companies: Why You Can't Hire Awesome Engineers And How To Fix It"
 date: 2015-03-05 20:08
+tags: business, entrepreneur, career
 ---
 
 Hey, tech companies. Hey, engineers working at tech companies.

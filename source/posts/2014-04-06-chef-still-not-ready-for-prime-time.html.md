@@ -1,6 +1,7 @@
 ---
 title: "Chef: Still Not Ready for Prime Time"
 date: 2014-04-06 12:01
+tags: deployment
 ---
 
 I love the idea of <a href="http://www.getchef.com">Chef</a> and <a

@@ -1,6 +1,7 @@
 ---
 title: "Deployment and Migrations"
 date: 2016-02-11 18:45
+tags: database
 ---
 
 A question you'll occasionally see: when do you run your migrations in

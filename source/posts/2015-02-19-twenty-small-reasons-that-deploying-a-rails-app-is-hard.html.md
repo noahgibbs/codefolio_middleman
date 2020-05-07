@@ -1,6 +1,7 @@
 ---
 title: "20 Small Reasons That Deploying a Rails App Is Hard"
 date: 2015-02-19 21:43
+tags: deployment, rails
 ---
 
 Are you deploying a Rails app? Here are lots of things you'll probably have to

@@ -2,6 +2,7 @@
 title: "How Does Rack Parse Query Params? With parse_nested_query"
 date: 2012-06-29 12:38
 disqus_id: "http://codefol.io/posts/9"
+tags: rails, rebuildingrails
 ---
 What turns URL params like <code>http://site.com/people?name=bobo</code> into <code>{ :name => "bobo" }</code> in Ruby?
 

@@ -1,6 +1,7 @@
 ---
 title: "When Should You Not Use Heroku?"
 date: 2014-08-19 19:00
+tags: deployment
 ---
 First off, let’s just say: Heroku is awesome. There are all kinds
 of great reasons to use it, and I would never, never claim that

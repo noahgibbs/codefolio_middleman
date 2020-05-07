@@ -1,6 +1,7 @@
 ---
 title: "Product Observations"
 date: 2014-09-01 13:34
+tags: entrepreneur
 ---
 When I create and promote fun content, I get more subscribers, more
 goodwill and more engagement.

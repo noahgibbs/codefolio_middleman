@@ -1,6 +1,7 @@
 ---
 title: "Selecting the Right Chef Cookbook: Attributes, Recipes, Data Bags"
 date: 2015-04-22 15:11
+tags: deployment
 ---
 <img src="/images/right_cookbook/old_cookbook.png#right" width="210" height="300" alt="an old Australian cookbook"></img>
 There are many <a href="http://jtimberman.housepub.org/blog/2011/09/03/guide-to-writing-chef-cookbooks/">guides

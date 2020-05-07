@@ -1,6 +1,7 @@
 ---
 title: "Ruby, Python and Freedom"
 date: 2014-05-16 16:13
+tags: ruby, rubycommunity
 ---
 <blockquote>
   <p>

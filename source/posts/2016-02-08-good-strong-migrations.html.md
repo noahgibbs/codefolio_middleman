@@ -1,6 +1,7 @@
 ---
 title: "Good Strong Migrations"
 date: 2016-02-08 18:00
+tags: database
 ---
 
 Remember that <a

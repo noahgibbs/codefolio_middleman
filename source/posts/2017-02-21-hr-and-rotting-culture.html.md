@@ -1,6 +1,7 @@
 ---
 title: "HR and Rotting Culture"
 date: 2017-02-21 11:09
+tags: career
 ---
 
 <a href="http://randsinrepose.com">Rands</a> recently wrote a post called <a href="http://randsinrepose.com/archives/your-culture-is-rotting/">"Your Culture is Rotting"</a>. The short version is that he thinks if people are nervous about HR, it's a sign of a culture problem. I partially agree - but I think being nervous about HR is perfectly normal and should be expected. It's the <i>degree</i> of nervousness. Here's what I wrote on his post:

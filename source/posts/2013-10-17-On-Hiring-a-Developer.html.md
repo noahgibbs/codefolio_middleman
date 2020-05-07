@@ -2,6 +2,7 @@
 title: "On Hiring a Developer"
 date: 2013-10-17 16:00
 disqus_id: "http://codefol.io/posts/55"
+tags: business
 ---
 I got mail from somebody with a vision for an app, wanting to know how much it would cost to build their idea.
 

@@ -2,6 +2,7 @@
 title: "My First Thousand in Product Revenue: Story and Numbers"
 date: 2012-08-06 00:32
 disqus_id: "http://codefol.io/posts/22"
+tags: entrepreneur
 ---
 <i>Want just the graphs and not a whole freaking biography? Scroll down to the bottom.</i>
 

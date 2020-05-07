@@ -2,6 +2,7 @@
 title: "Rejected by GoGaRuCo: Mocking Time.now for Faster Tests!"
 date: 2012-08-08 03:45
 disqus_id: "http://codefol.io/posts/23"
+tags: ruby
 ---
 I proposed a talk for the Golden Gate Ruby Conference, and got turned down. Usually that's it, but the excellent and classy Josh Susser offered to say why he'd turned people down (woot!). He said:
 

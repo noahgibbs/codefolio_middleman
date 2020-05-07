@@ -2,6 +2,7 @@
 title: "Starting Rails programming"
 date: 2012-05-11 23:08
 disqus_id: "http://codefol.io/posts/6"
+tags: rails
 ---
 I tutored Rails at CMU West for a bit.  They asked me for recommendations for what the students should be doing to prepare for Rails programming.
 

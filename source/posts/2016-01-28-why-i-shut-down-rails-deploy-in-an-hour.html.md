@@ -1,6 +1,7 @@
 ---
 title: "Why I Shut Down Rails-Deploy-In-An-Hour"
 date: 2016-01-28 18:42
+tags: entrepreneur
 ---
 
 Some of you may remember Rails Deploy In An Hour,

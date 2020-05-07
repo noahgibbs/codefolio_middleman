@@ -1,6 +1,7 @@
 ---
 title: "A Quick Class on Migrations"
 date: 2016-02-11 18:59
+tags: database
 ---
 
 Interested in taking your Rails migration code to the next level?

@@ -2,6 +2,7 @@
 title: "Rails Is the Wrong Tool for Your REST API"
 date: 2012-12-31 14:25
 disqus_id: "http://codefol.io/posts/34"
+tags: rails
 ---
 Rails is a heavyweight framework and it does <a href="http://guides.rubyonrails.org/security.html">a lot of awesome stuff by default</a> that only a few other frameworks provide. But most of the benefit goes <i>right</i> out the window when you’re using it to write a simple REST API. Lemme ‘splain.
 

@@ -1,6 +1,7 @@
 ---
 title: "How to Produce and Learn at the Same Time"
 date: 2014-09-07 11:15
+tags: career, business
 ---
 
 An ambitious young programmer asked me recently, "how do I balance learning

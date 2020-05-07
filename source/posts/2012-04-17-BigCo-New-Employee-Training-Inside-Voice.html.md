@@ -2,6 +2,7 @@
 title: "BigCo New Employee Training, Inside Voice"
 date: 2012-04-17 03:19
 disqus_id: "http://codefol.io/posts/3"
+tags: career, favourite
 ---
 
 <iframe src="https://anchor.fm/noah-gibbs9/embed/episodes/BigCo-New-Employee-Training---Inside-Voice-e9rd02" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>

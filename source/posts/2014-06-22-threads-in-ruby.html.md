@@ -1,6 +1,7 @@
 ---
 title: "Threads in Ruby"
 date: 2014-06-22 14:01
+tags: ruby
 ---
 Here's a video about threads in Ruby - how do you code them? What are the problems with them?
 I'm planning a few more short videos about Ruby concurrency. I don't think enough people

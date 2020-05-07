@@ -2,6 +2,7 @@
 title: "No More Requires"
 date: 2012-09-15 22:31
 disqus_id: "http://codefol.io/posts/32"
+tags: rails, rebuildingrails
 ---
 I hate all the “requires” at the front of Ruby files. I *know* what methods I'm using, but I have to write it in both places. Not exactly <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>. Rails skips them &mdash; you just use the classes you want. How can I automatically load my files like Rails does? Read on.
 

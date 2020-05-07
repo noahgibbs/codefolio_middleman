@@ -2,6 +2,7 @@
 title: "The Programmer's Secret Weapon for Code Spelunking"
 date: 2013-09-04 02:47
 disqus_id: "http://codefol.io/posts/52"
+tags: tools
 ---
 A lot of the time, it’s hard to find where Ruby has defined something. When you want to know, “what code did that?”, some languages have debugger watchpoints, Java has Eclipse, Ruby has…? What?
 

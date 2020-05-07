@@ -1,6 +1,7 @@
 ---
 title: "Fully-Loaded Engineer Hours"
 date: 2015-12-02 20:51
+tags: business, entrepreneur
 ---
 
 <a href="http://www.kalzumeus.com/2012/01/23/salary-negotiation/"

@@ -1,6 +1,7 @@
 ---
 title: "Brian Brushwood: the Day Teller Gave Me the Secret to My Career in Magic"
 date: 2017-01-12 18:23
+tags: career
 ---
 
 This isn't really my blog post -- <a href="http://shwood.squarespace.com/news/2009/9/21/14-years-ago-the-day-teller-gave-me-the-secret-to-my-career.html">it's Brian Brushwood's</a>. But as his blog slowly, visibly decays, it makes me want to keep a copy somewhere I'm sure I can find it. So, here it is:

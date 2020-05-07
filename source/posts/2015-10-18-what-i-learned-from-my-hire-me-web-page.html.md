@@ -1,6 +1,7 @@
 ---
 title: "What I Learned From My 'Hire Me' Web Page"
 date: 2015-10-18 10:48
+tags: entrepreneur, business
 ---
 
 Occasionally, you'll see people put up a <a

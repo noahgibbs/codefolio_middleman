@@ -1,6 +1,7 @@
 ---
 title: "2015 End of Year Wrap-Up"
 date: 2016-02-03 17:07
+tags: entrepreneur
 ---
 
 I might be a touch late, writing my 2015 end-of-year post in February.

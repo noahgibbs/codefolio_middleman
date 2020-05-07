@@ -2,6 +2,7 @@
 title: "Building Ruby Castles in the Clouds"
 date: 2013-03-14 19:56
 disqus_id: "http://codefol.io/posts/36"
+tags: interview
 ---
 <a href="http://sebastianmarshall.com">Sebastian Marshall</a> interviewed me recently. I think it came out great!
 

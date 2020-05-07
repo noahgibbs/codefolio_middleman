@@ -2,8 +2,9 @@
 title: "Rebuilding Rails Exercises"
 date: 2012-08-01 16:15
 disqus_id: "http://codefol.io/posts/21"
+tags: rebuildingrails
 ---
-[Update: Rebuilding Rails is finished, and yes, the exercises are in it.]
+[Update: Rebuilding Rails is finished, and yes, the exercises are in it. So are solutions to them.]
 
 A reader asked me whether the book was entirely cut and paste or if there would be exercises that required actually writing new code in <a href="http://rebuilding-rails.com">Rebuilding Rails</a>, or only cut-and-paste. Here's my response:
 

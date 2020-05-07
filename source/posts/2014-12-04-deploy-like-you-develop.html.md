@@ -1,6 +1,7 @@
 ---
 title: "Deploy Like You Develop"
 date: 2014-12-04 04:57
+tags: deployment
 ---
 A few weeks ago, I was hacking away on prototype software for my new class.
 I was doing that horrible thing where you make a few changes, hit "rebuild" and wait for five minutes to find out if you

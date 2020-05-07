@@ -2,6 +2,7 @@
 title: "Unsolvable Ruby Problems: Array#map on an Array subclass, but keep the subclass!"
 date: 2012-07-18 03:48
 disqus_id: "http://codefol.io/posts/13"
+tags: ruby
 ---
 I love looking at problems with "no solution" in languages to stretch my mind.  Here's a fun one from Ruby.
 
