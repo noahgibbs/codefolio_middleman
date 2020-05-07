@@ -2,7 +2,7 @@
 title: "What is Rack?: A Primer"
 date: 2012-07-22 23:37
 disqus_id: "http://codefol.io/posts/14"
-tags: rails, rack, rebuildingrails
+tags: rails, rack, rebuildingrails, favourite
 ---
 If you do Ruby web programming, you'll often hear about "Rack." You might hear about it from a Ruby dev you respect, and that you won't get better at Ruby web stuff until you know what's underneath.
 

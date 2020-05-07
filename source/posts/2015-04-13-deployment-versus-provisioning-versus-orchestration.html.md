@@ -1,7 +1,7 @@
 ---
 title: "What's Deployment versus Provisioning versus Orchestration?"
 date: 2015-04-13 16:38
-tags: deployment
+tags: deployment, favourite
 ---
 <img width="315" height="409" src="/images/orchestration/bad_google_search.png#right" alt="dubious search results" title="At least _you_ knew to search on deployment..."> </img>
 Hey, Ruby web developers! Having trouble asking deployment questions?

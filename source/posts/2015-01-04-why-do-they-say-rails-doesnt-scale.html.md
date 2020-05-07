@@ -1,7 +1,7 @@
 ---
 title: "Why Do They Say Rails Doesn't Scale?"
 date: 2015-01-04 19:27
-tags: rails, business
+tags: rails, business, favourite
 ---
 
 If you're new to Ruby on Rails, you may be new to the old debates (pro and con) about how <a href="https://www.quora.com/Does-Ruby-on-Rails-scale-Why-or-why-not#">"Rails doesn't scale."</a> You might wonder why people say that, or where it came from.
@@ -18,7 +18,7 @@ This isn't actually a scaling argument. But it's true that Ruby is slow. Not 50x
 
 Rails doesn't help Ruby here. A lot of the metaprogramming techniques it uses are among the slowest things Ruby does. I wrote a book about how Rails uses those techniques called <a ref="http://rebuilding-rails.com">Rebuilding Rails</a>. They're awesome, but they're not speedy.
 
-In practice, Ruby and Rails apps often "farm out" the slow stuff. The database is the traditional place to put the heavy lifting, but you'll see Redis and Cassandra used in similar ways. Want Ruby to be fast? Call to something that isn't Ruby, and is designed for speed :-)
+In practice, Ruby and Rails apps often "farm out" the slow stuff. The database is the traditional place to put the heavy lifting, but you'll see Redis and Cassandra used in similar ways. Want Ruby to be fast? Call to something that isn't Ruby, and ***is*** designed for speed :-)
 
 Pure Ruby <b>is</b> quite slow, but just as scalable as any other language or library. It doesn't get somehow slower as you add more.
 
