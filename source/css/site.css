@@ -14,3 +14,8 @@
 	background-image: url(/images/blackboard_tiled_400_500.png);
     background: #000;
 }
+
+.topic-tags {
+    font-size: 133%;
+    word-spacing: 2em;
+}

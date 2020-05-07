@@ -44,6 +44,7 @@ activate :blog do |blog|
   blog.layout = "horace_post"
 
   blog.tag_template = "tag.html"
+  blog.taglink = "tags/{tag}/index.html"
   blog.calendar_template = "calendar.html"
 
   # Enable pagination
