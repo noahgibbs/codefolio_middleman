@@ -61,10 +61,12 @@
                     <% if p.data.featured_asset %>
                         <%
                         props = asset_properties(p.data.featured_asset)
-                        thumb_url = props["thumbnail_url"]
+                        aside_dims_path = props["aside_url"]
+                        aside_w = props["aside_w"]
+                        aside_h = props["aside_h"]
                         %>
                         <a href="<%= p.url %>" class="post-thumbnail">
-                            <img src="<%= thumb_url %>" alt="<%= p.data.title %>" />
+                            <img src="<%= aside_dims_path %>" width="<%= aside_w %>" height="<%= aside_h %>" alt="<%= p.data.title %>" />
                     </a>
                     <% else %>
                       <!-- Nothing here -->
