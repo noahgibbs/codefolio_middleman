@@ -61,24 +61,6 @@ configure :development do
   activate :livereload
 end
 
-# Methods defined in the helpers block are available in templates
-helpers do
-  def is_published(article)
-     return false if article.data.front_page == false
-     return false if article.date > Time.now
-     return false unless article.published?
-     true
-  end
-  def next_published(cur)
-    return nil if cur.nil?
-    cur.blog_data.articles.select { |a| is_published(a) && a != cur }.reverse.find { |a| a.date >= cur.date }
-  end
-  def prev_published(cur)
-    return nil if cur.nil?
-    cur.blog_data.articles.select { |a| is_published(a) && a != cur }.find { |a| a.date <= cur.date }
-  end
-end
-
 # Build-specific configuration
 configure :build do
   # Minify CSS on build
