@@ -19,3 +19,7 @@
     font-size: 133%;
     word-spacing: 2em;
 }
+
+.post-footer .post-meta {
+    margin-right: 3em;
+}

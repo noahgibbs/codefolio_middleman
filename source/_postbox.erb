@@ -17,6 +17,14 @@
     <% end %>
     <div class="post-content">
         <p><%= post.summary(300) %></p>
+
+        <p class="post-tags">
+            <% post.tags.each do |tag| %>
+                <a href='<%= tag_path(tag) %>'><%= tag %></a>
+            <% end %>
+        </p>
+
         <a href="<%= post.url %>"><button class="btn btn-primary">Read more</button></a>
     </div><!-- .post-content -->
+
 </article><!-- .post -->
