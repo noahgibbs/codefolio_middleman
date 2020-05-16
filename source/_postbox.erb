@@ -12,7 +12,7 @@
 
     <% if post.data.featured_asset %>
         <a class="post-thumbnail" href="<%= post.url %>">
-            <%= asset_img_tag(post.data.featured_asset, size: :hero) %>
+            <%= asset_img_tag(post.data.featured_asset, size: :aside) %>
         </a>
     <% end %>
     <div class="post-content">
