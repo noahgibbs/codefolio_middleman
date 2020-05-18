@@ -23,3 +23,7 @@
 .post-footer .post-meta {
     margin-right: 3em;
 }
+
+.img-frame {
+    border: 2px solid black;
+}
