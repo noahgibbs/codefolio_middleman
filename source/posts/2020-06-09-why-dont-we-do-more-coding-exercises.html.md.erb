@@ -27,13 +27,13 @@ There are many kinds of coding exercises, both common and uncommon. I'll start w
 
 The most common coding exercises are what I call "algorithm of the week" exercises. They describe a simple problem, usually about maths or data structures, and you have to find an effective algorithm to solve it, then code that. Here are some classic examples:
 
-"You have a list where each element links to the next element. But if it links back into the same list, it could have a cycle, and so it could be infinitely long. How can you tell if the list I've handed you has a cycle or not?" ([example solutions](https://www.geeksforgeeks.org/detect-loop-in-a-linked-list/))
+"You have a list where each element links to the next element until the final element (usually) links to nil/null. But if it links back into the same list, it could have a cycle, and so it could be infinitely long. How can you tell if the list I've handed you has a cycle or not?" ([example solutions](https://www.geeksforgeeks.org/detect-loop-in-a-linked-list/))
 
-"Inside every string there is at least one palindrome (words that are the same if you reverse them.) In fact, every individual letter is, technically a palindrome. But how can you find the length of the longest palindrome inside a given string?" ([analysis on Wikipedia](https://en.wikipedia.org/wiki/Longest_palindromic_substring))
+"Inside every string there is at least one palindrome (words that are the same if you reverse them.) In fact, every individual letter is, technically a palindrome, as is the empty string. But how can you find the length of the longest palindrome inside a given string?" ([analysis on Wikipedia](https://en.wikipedia.org/wiki/Longest_palindromic_substring))
 
 These are an effective way to practice one very specific subskill of software development: coming up with an algorithm for an unfamiliar data-structures problem. When people criticise these exercises (and [that happens a lot](https://danluu.com/algorithms-interviews/),) they criticise them because that subskill isn't very much of what software developers actually do, day-to-day.
 
-But not only do we not do that very much, it's often a bad idea to do too much. People who are obsessed with the algorithms with the best [asymptotic complexity](https://en.wikipedia.org/wiki/Big_O_notation) often ignore the real-world math about the normal size of the data that will really happen. They also tend to ignore a lot of other important factors when treating a real-world application (full of human behaviour) as if it were an oversimplified math problem.
+But not only do we not do that very much, it's often a bad idea to do too much. People who are obsessed with the algorithms with the best [asymptotic complexity](https://en.wikipedia.org/wiki/Big_O_notation) often ignore the real-world math about the normal size of the data that the algorithm will usually handle. They also tend to ignore a lot of other important factors when treating a real-world application (full of human behaviour) as if it were an oversimplified math problem.
 
 That's not to say that algorithms problems, asymptotic complexity and analysis are bad. They aren't. But you have to avoid treating them as the whole problem &mdash; they're just one small aspect of it.
 
