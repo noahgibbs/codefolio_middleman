@@ -27,3 +27,8 @@
 .img-frame {
     border: 2px solid black;
 }
+
+img {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
