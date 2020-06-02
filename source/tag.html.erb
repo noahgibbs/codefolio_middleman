@@ -12,7 +12,7 @@ prev: false
 
     <div class="post-feed inner-wide">
       <% page_articles.each_with_index do |article, i|
-           next unless is_published(article)
+           #next unless is_published(article)
         %>
         <%= partial "postbox", locals: { post: article } %>
       <% end %>
