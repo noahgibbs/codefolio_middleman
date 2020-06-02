@@ -1,0 +1,75 @@
+---
+title: "Let's Build Course Software: Pretty It Up"
+tags: ruby, rails, letsbuild, rubymadscience
+featured_asset: radio_repair
+featured_caption: "How Hard Can it Be?"
+---
+
+[Last time]() we talked about why I'm building course software in Rails from scratch, and built out a basic skeleton of database tables and a first trivial view.
+
+Today, let's add a theme, build out the view a little more and generally make it look better. I think "Let's Build" series look better with interesting screenshots, and bare black-and-white new Rails apps don't make great screenshots.
+
+(***Scroll down to get to code and screenshots.***)
+
+## Bootstrap, TailwindCSS, and "Best": A Developers Guide to CSS
+
+You'll hear designers complain a lot about Bootstrap and similar libraries (e.g. Zurb/Foundation.) The complaint goes, "all Bootstrap apps look the same!" If you're a coder and not a designer, ***this is a good reason to use them***.
+
+Let me explain.
+
+<%= aside_image(current_page.url + "rms2_cosmo_style_page.png", alt: "The front page of RailsCasts, showing a list of videos", image_classes: ["img-frame"], direction: :right, caption: "A styling page for the Bootstrap 'Cosmo' theme.") %>
+
+Bootstrap makes the default look pretty okay. What's "pretty okay?" [Here is the styling page for a very basic free Boostrap theme.](https://bootswatch.com/cosmo/) That's what I mean by "pretty okay." If you check the HTML there, they're doing nothing much fancier than adding classes.
+
+So if you do nothing fancy, you will get output that is pretty okay.
+
+If you try to do fancy, complicated stuff, ***Bootstrap will fight you***. You may have to use "!important" at the end of some of your CSS rules. It's not a pretty scene.
+
+As a result, the less you customise Bootstrap beyond "add Bootstrap," the better it will tend to look. Your markup will be short and simple. Your rules will make sense. Swapping out themes will be easy. Redesign-before-last of my blog wound up with half the code (markup and CSS both) and looked ***far better*** afterward.
+
+It's a perfect way to handle design, assuming you don't want to do any design and you're slightly afraid of it (**I am!**)
+
+<%= aside_image(current_page.url + "rms2_salesforce_logo.jpg", alt: "The SalesForce logo - the word SalesForce in a cloud, with the word software below in a red circle-and-slash.", image_classes: ["img-frame"], direction: :right, caption: "SalesForce seems pretty pro-software, amirite?") %>
+
+Designers don't like it. The same approach applied to code would be SalesForce dot com, which literally uses a little software-in-a-circle-and-slash as their logo.
+
+Are there CSS libraries aimed more at designers? Totally. My favourite example is [TailwindCSS](https://tailwindcss.com). You literally [tag every element with exactly what you want it to look like](https://tailwindcss.com/docs/utility-first/), as though you just used inline styles everywhere.
+
+In other words, with Tailwind, the assumption is that you want full control everywhere with minimal (enforced) uniformity. They assume you know what you're doing and want not to be interfered with. Bootstrap assumes they should give you uniform defaults and make it painful to deviate from them. In terms of assumptions the two libraries are exact opposites.
+
+So for me it's Bootstrap all the way. Some day I'll have the budget to hire an actual designer and they will presumably use something else. It's as if I was a non-coder building everything in Excel &mdash; once I could hire a software engineer they wouldn't keep doing it in Excel.
+
+If Excel is programming for non-programmers, Bootstrap is design for non-designers.
+
+## Now Let's Add It
+
+I have a [Jekyll](https://jekyllrb.com/) theme I've used to restyle [Rebuilding-rails.com](https://rebuilding-rails.com) and [Software-Technique.com](https://software-technique.com)... and neither one uses Jekyll. This time I'll be adapting it to Rails. The theme is called [Creative](https://jekyllthemes.io/theme/creative-theme-jekyll) and it's a light wrapper over Bootstrap. It's also Apache-licensed, which is convenient.
+
+In this case, the theme is really simple and I'm not (yet) doing much with it. So I can [view source on this page](https://volny.github.io/creative-theme-jekyll/) and copy-and-paste into a layout. Open-source themes tend to have simple, pretty markup. So "un-Jekylling" it is pretty trivial.
+
+I ***do*** also need to grab its dependencies. Luckily the theme is on GitHub so it's easy to find [the JS files](https://github.com/volny/creative-theme-jekyll/tree/master/js) and [the CSS files](https://github.com/volny/creative-theme-jekyll/tree/master/css) in question. It's also possible to download them directly from the browser, which is what I did. I also skipped FontAwesome, which is heavyweight and needs a lot of files, but the theme only uses it for little icons.
+
+<%= aside_image(current_page.url + "rms2_big_top_header.png", alt: "A tiny topic table cowers below a gigantic top heading in a big blocky image.", image_classes: ["img-frame"], direction: :right, caption: "This is... fine?") %>
+
+It's possible to do all this using the Rails asset pipeline and fully adapt it. Right this moment I don't care, and I'll bet you don't want to read through it blow-by-blow regardless. The main advantage I'm giving up here is that Rails will make sure everything is stamped nicely to break the cache exactly often enough. For files I won't be changing, that's okay.
+
+[With that adaptation](https://github.com/noahgibbs/rubymadscience/commit/ec0c3da9f1b7c0d5e58014bfa4a1082d28019ca5), I now have that horrifying thing on the right &mdash; a gigantic top header crowds out all the content. That's less than perfect.
+
+I don't really want the header, but the navbar up-top really wants a dark background behind it. I think "Ruby Mad Science" is going to wind up with a sketchy-little-pictures aesthetic, because that's what I can draw for myself. So: sketchy little picture on a dark background, in a header for "Ruby Mad Science." I'll just hop into Affinity Designer and...
+
+Well now, this isn't great, but I think it's headed in the right direction. Also, that yellow whiteboard is eye-searing and needs to go.
+
+<%= aside_image(current_page.url + "rms2_sketchy_header.png", alt: "A sketchy header with a mad scientist, a bubbling flast and a teddy bear sits above a still-default-looking Rails app.", image_classes: ["img-frame"]) %>
+
+Now the still-default table looks bad, at least by comparison. Time to add classes and get nice default Bootstrap styling.
+
+It turns out that "alert" is a class name used by Bootstrap, so I need to change that for the alert-box snippet I copied from Discourse. That's where that extra whitespace was coming from. [And I added a few more Bootstrappy class names](https://github.com/noahgibbs/rubymadscience/commit/4c70994227c5420c3aa3853e37a7d3badab122ec). And the result is... Well, it's like Bootstrap. I'll take it.
+
+<%= aside_image(current_page.url + "rms2_looks_like_bootstrap.png", alt: "Now the table has slightly nicer spacing, styling and typography. It looks basically like any other lightly-styled Bootstrap table.", image_classes: ["img-frame"]) %>
+
+## More and Better
+
+In this post, we talked about reskinning a Rails app with Bootstrap - how, why, and what to expect from the result.
+
+In [this blog series](/tags/rubymadscience), I'll keep designing this little piece of courseware with a side of small-scale online marketing &mdash; I want to send email reminders, for instance, to help folks come back to topics-in-progress later. Want to follow along? Sign up for my email list below or subscribe with the RSS link up-top.
+
