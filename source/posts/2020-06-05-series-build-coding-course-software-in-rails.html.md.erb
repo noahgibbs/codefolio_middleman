@@ -1,5 +1,5 @@
 ---
-title: "Series: Let's Build Simple Teaching Software in Rails"
+title: "Series: Let's Build Coding Course Software in Rails"
 tags: ruby, rails, letsbuild, rubymadscience
 featured_asset: radio_repair
 featured_caption: "How Hard Can it Be?"
@@ -9,21 +9,19 @@ featured_caption: "How Hard Can it Be?"
 
 Over the years, I've accumulated a bunch of [blog posts](https://codefol.io), [YouTube videos](https://www.youtube.com/channel/UCbeP1YQVlCCYkxM0RqPHrhw), [conference talks](https://codefol.io/speaking) and so on, teaching the things I teach &mdash; [Ruby](/tags/ruby) and [Rails](/tags/rails) programming, building web frameworks, [raw coding technique](/tags/technique) and more.
 
-I ***want*** to put these together into longer classes. I've tried some obvious ways to do that: email classes, summary blog posts, email newsletter, RSS feed. I am not especially happy with the results. I get a lot of complaints that I should have things that, in fact, I ***do have*** but they're not easy to find and consume.
+I ***want*** to put these together into longer classes. I've tried some obvious ways to do that: email classes, summary blog posts, email newsletter, RSS feed. I am not especially happy with the results. I get complaints that I should have things that, in fact, I ***do have*** but they're not easy to find and consume. In the age of the Internet there is no reason to muddle through an inconvenient, patchy interface to slowly get little bits of content. People [pay for](https://rebuilding-rails.com) [my books](https://software-technique.com) because it's nicer to get a big chunk of structured learning, put together well.
 
-I get it. In the age of the Internet there is no reason to muddle through an inconvenient, patchy interface to slowly get little bits of content. People [pay for](https://rebuilding-rails.com) [my books](https://software-technique.com) because it's nicer to get a big chunk of structured learning all in one go.
+***I love to build things to find out why they're a bad idea***. Anybody here remember [Rails Deploy In An Hour](http://codefol.io/posts/why-i-shut-down-rails-deploy-in-an-hour/)?
 
-If you've been following for long, you know ***I love to build things to find out why they're a bad idea***. Anybody here remember [Rails Deploy In An Hour](http://codefol.io/posts/why-i-shut-down-rails-deploy-in-an-hour/)?
+Everybody tells you not to build your own content management system or class software. Then they spend an enormous amount of time building a horrible kludged system using third-party software that neither suits their purposes nor keeps working well. But people who did both think that building your own is ***still a worse idea.***
 
-Everybody tells you not to build your own content management system or class software. Then they spend an enormous amount of time building a horrible kludged system using third-party software that neither suits their purposes fully nor keeps working well. But people who did both think that building your own is ***still a worse idea.***
+<%= aside_image(current_page.url + "rms1_visual_inspiration.png", alt: "The front page of RailsCasts, showing a list of videos", image_classes: ["img-frame"], direction: :right, caption: "RailsCasts, one source of visual inspiration for me.") %>
 
-<%= aside_image(current_page.url + "rms1_visual_inspiration.png", alt: "A basic HTML page showing a 'hello, world' Rails app", image_classes: ["img-frame"], direction: :right, caption: "RailsCasts, one source of visual inspiration for me.") %>
-
-So: I'm going to build an experimental courseware system. If I make something usable then you (yes, you) will be able to sign up and work through some of my free (and eventually paid?) material, see what else I recommend for you and generally treat it like a Udemy-type "learn a bunch of stuff" experience. I may also have looked at the [old RailsCasts page](http://railscasts.com/) and thought, "I wish my stuff were laid out nicely like that."
+So: I'm going to build an experimental courseware system. If it turns out usable then you (yes, you) will be able to sign up and work through some of my free (and eventually paid?) material, get recommendations and generally treat it like a Udemy-type "learn a bunch of stuff" experience. I may also have looked at the [old RailsCasts page](http://railscasts.com/) and thought, "I wish my stuff were laid out nicely like that."
 
 But even if I never make something usable, I'll work through building an open-source Rails app in a series of posts. My plan is to show off interesting Rails features and show you how they're implemented.
 
-As a sidelight, courseware actually has a lot in common with growth hacking software (aka "like marketing, but with an engineer handy") &mdash; it wants to send email, track progress, show you things similar to what you seemed to like last time and so on. I've been engineering support for marketing before, back when I ran an analytics group at OnLive. But this seems like a great chance to show off what this looks like in the small if you're just one person doing your thing. So there's likely to be some marketing &quot;how to&quot; bits as I go along.
+As a sidelight, courseware actually has a lot in common with growth hacking software (aka "like marketing, but with an engineer handy") &mdash; it wants to send email, track progress, show you things similar to what you seemed to like last time and so on. I've had a job as engineering support for marketing before, back when I ran an analytics group at OnLive. But this seems like a great chance to show off what this looks like in the small if you're just one person doing your thing. So there's likely to be some marketing &quot;how to&quot; bits as I go along.
 
 ## A Simple Start
 
@@ -37,23 +35,21 @@ There are going to be two interesting kinds of data, at least at first.
 
 The first kind is learning resources &mdash; videos, blog posts, books and so on. That's a pretty limited set, tens or hundreds of items for now, maybe up to thousands if this became massively successful. It's also public information &mdash; nothing there should be private or surprising. And it's going to be pretty freeform. I may want to use a [serialised column](https://codeburst.io/json-serialized-columns-with-rails-a610a410fcdf) so that it can change frequently. Could I use Postgres-specific BSON fields and get better data size and indexing? Sure. But this is going to be tiny, I doubt it will want indexing early on, and I'd rather do something generally compatible.
 
-The second kind of data is about learners. There will be ordinary account information (how do you log in? what email is associated with this account?) and information about what learning resources are available, or have been completed. I'm going to need to be careful how I display this, because for my own use, I have a few thousand people on my email list, who have bought my books and so on &mdash; and it's not okay for me to just show their information. So I'll need both database tables and some kind of anonymysation available to take screenshots. It sounds kind of fun when I think of it that way. I could start with fake data initially. But real data tends to show interesting problems, and that's a good thing.
+The second kind of data is about learners. There will be ordinary account information (e.g. email address, hashed password) and information about what learning resources are available or have been completed. I'm going to need to be careful how I display this. I have a few thousand people on my email list or who have bought my books and it's not okay for me to just show their information. So I'll need some kind of anonymysation to take screenshots. It sounds fun when I think of it that way. I could start with fake data initially. But real data shows interesting problems and that's a good thing.
 
-I think the Minimum Viable Product here should be able to let you log in and track completion for one or more series of articles. In other words, it'll do the same kind of thing as my existing email classes (one for [Rebuilding Rails](https://rebuilding-rails.com)-type content, one for [Mastering Software Technique](https://software-technique.com),) but with tracking so people can remember how far they've gotten and optionally show off.
+The [MVP](https://en.wikipedia.org/wiki/Minimum_viable_product) here should be able to let you log in and track completion for one or more series of articles. In other words, it'll do the same kind of thing as my existing email classes (one for [Rebuilding Rails](https://rebuilding-rails.com)-type content, one for [Mastering Software Technique](https://software-technique.com),) but with tracking so people can remember how far they've gotten and optionally show off.
 
 I still have no clue how public to make this stuff. Some people would be thrilled to show off progress. Some people want no information revealed about them, ever. I ***think*** I can serve both groups pretty easily with a "show off your stuff?" opt-in, but let's see, shall we?
 
 ## Let's Write Some Code
 
-I suspect a lot of this planning won't survive early contact with a prototype, let alone any actual users. So let's make some code happen and I can start finding my mistakes.
+A lot of this planning won't survive early contact with a prototype, let alone any actual users. Let's make some code happen and I can start finding mistakes.
 
-Feel free to follow along [in the GitHub repo](https://github.com/noahgibbs/rubymadscience) if you want to go at your own speed. Or just read on!
-
-Simple stuff: [new Rails 6 app](https://github.com/noahgibbs/rubymadscience/commit/5375cf12965d7c6abd1d9df1b9858d977321657b), then add [Devise](https://github.com/heartcombo/devise), which seems to have switched from platformatec/devise to heartcombo/devise while I wasn't looking (seems legit &mdash; the 'devise' gem on RubyGems.org now shows the heartcombo repo as its homepage.)
+Simple stuff: [new Rails 6 app](https://github.com/noahgibbs/rubymadscience/commit/5375cf12965d7c6abd1d9df1b9858d977321657b), then add [Devise](https://github.com/heartcombo/devise), which seems to have switched from platformatec/devise to heartcombo/devise while I wasn't looking. Seems legit &mdash; the 'devise' gem on RubyGems.org now shows the heartcombo repo as its homepage.
 
 <%= aside_image(current_page.url + "rms1_basic_html.png", alt: "A basic HTML page showing a 'hello, world' Rails app", image_classes: ["img-frame"]) %>
 
-I ran the Devise generators ("rails generator devise User", "rails g devise:views") but otherwise kept it default. I'm sure I'll tune the app for "easy to show up and just do stuff, prefer login via GitHub or Twitter or something" later. But for now I want a simple app up and running rapidly.
+I ran the Devise generators ("rails generator devise User", "rails g devise:views") but otherwise kept Devise's settings default. I'm sure I'll tune the app for "easy to show up and just do stuff, prefer login via GitHub or Twitter or something" later. But for now I want a simple app up and running rapidly.
 
 I'm not putting contribution instructions in the README yet. It's far too early to be a good idea for other folks to submit pull requests. The app is still figuring out what it is, and so I'd have to be rude about rejecting features that don't match a vision I haven't even documented. No need for me to be preemptively rude to my friendliest possible contributors! (Also, it's very rare to get contributions until a thing is up and running okay.)
 
@@ -107,8 +103,8 @@ And with that, it's time to wrap up for this post.
 
 In this post, we put together the bare beginning of a Rails site for a learning application. We have an index of topics with JSON-serialised data about what each topic contains. There's also enough Devise-based user code to create and log in with accounts, and to see if you're logged in, though nothing is yet protected.
 
-With the simple, bare site as-is, the obvious next steps are to either make it prettier (something I definitely want to do!) or to make the Topics more elaborate. It's important for users to be able to mark sub-steps completed &mdash; that's the first interesting functionality that the app can have. And very soon I'll need to deploy this thing, which may or may not get a blog post.
+With the simple, bare site as-is, the obvious next steps are to make it prettier (something I definitely want to do!) and to make the Topics more elaborate. It's important for users to be able to mark sub-steps completed &mdash; that's the first interesting functionality that the app can have. And very soon I'll need to deploy this thing. So that should all happen in the next few blog posts.
 
-Want to see more? You can [check the rubymadscience tag](/tags/rubymadscience) on this blog. There's also an RSS feed of posts at the top, or you can subscribe to my email list below to see new RubyMadScience posts as they're published.
+Want to see more? You can [check the rubymadscience tag](/tags/rubymadscience) on this blog. There's also an RSS feed of posts at the top, or you can subscribe to my email list below. I'll definitely email the list with these posts.
 
-(If you've bought one of my books, these posts also come out ahead of time in the #prerelease-blog-posts channel of the customer Slack.)
+(And if you've bought one of my books, all blog posts show up early in the #prerelease-blog-posts channel of the included-with-purchase Slack.)
