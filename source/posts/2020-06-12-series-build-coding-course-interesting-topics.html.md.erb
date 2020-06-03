@@ -1,0 +1,112 @@
+---
+title: "Let's Build Course Software: Interesting Topics"
+tags: ruby, rails, letsbuild, rubymadscience
+featured_asset: radio_repair
+featured_caption: "How Hard Can it Be?"
+---
+
+I've been building a piece of Rails courseware, something to let people work through blog posts, videos and lessons I've written at their own speed and so on. First I [set up a simple Rails 6 app](/posts/series-build-coding-course-software-in-rails/), then I [prettied it up a bit](/posts/series-build-coding-course-pretty-it-up/).
+
+Now it's time to do something interesting with the actual lessons, which I've been calling "Topics."
+
+I'm an engineer, so I'm itching to add too much structure on top of this. Instead let's go the other way: what's the smallest thing I can do here and feel good about it?
+
+## What's It Need?
+
+<%= aside_image("/posts/series-build-coding-course-pretty-it-up/rms2_looks_like_bootstrap.png", alt: "The front page of RailsCasts, showing a list of videos", image_classes: ["img-frame"], direction: :left, caption: "We're starting with a little styling and no content yet.") %>
+
+I want a thumbnail for each Topic. I'm not sure each individual step needs it. Each one is going to need a name and a little text description. A lesson using external resources (e.g. blog posts) isn't going to stay fresh forever, so it'll need normal Rails timestamps so I can tell when it's updated.
+
+Eventually I'm going to want to refer to individual steps inside a Topic &mdash; users will want to check off pieces as they go along on a to-do list, for instance. So that means steps in the topic will need to be database objects as well.
+
+I'd like comments, but that can be Disqus - easy enough.
+
+## What Migrations are Those?
+
+Originally topics had a JSON-serialised field called "steps". I think that's getting replaced with JSON-serialised metadata and a set of step objects using an association. Let's make a migration happen:
+
+~~~ruby
+class AddStepsToTopics < ActiveRecord::Migration[6.0]
+  def change
+    create_table "steps" do |t|
+        t.string  :name, size: 255
+        t.integer :topic_id
+        t.integer :order
+        t.string  :url,  size: 4096
+        t.string  :type, size: 16
+        t.json    :extra_data
+
+        t.timestamps
+
+        t.index [:topic_id, :order]
+    end
+
+    # If we had useful data, this would need to save it. But we don't.
+    remove_column :topics, :steps, :json
+
+    # Now there's one called "extra_data" for metadata that doesn't necessarily get a column
+    add_column :topics, :extra_data, :json
+
+    add_column :topics, :name, :string, size: 1024
+    add_column :topics, :thumbnail_url, :string, size: 4096
+    add_column :topics, :comment_url, :string, size: 4096
+  end
+end
+~~~
+
+Mostly this is straightforward. The "extra\_data" fields give me somewhere to stuff random tags for type-dependent miscellany - do I want to add an "estimated reading time" only for blog posts? Or some kind of a separate embed URL for unrecognised video hosts? This is where I can put stuff like that. If it turns out that I need a given item a lot it can wind up as a real column eventually, especially if I'd ever need to index on it.
+
+Of course, for a very long time there won't be enough topics for indexing to matter. But it's good to think about these things when it's easy.
+
+A step has a topic_id so it can use "belongs\_to", and has an "order" so we can return the steps in the right order when querying them. I also added a "has\_many" in Topic and a new Step model with a "belongs\_to". With those, the old code in the controller doesn't break, though everything now has zero steps since we dropped the old data.
+
+## What's In a Topic?
+
+For this part, we're going to need some content - interesting topics that can be built out. But we can start with name, thumbnail and description. I mocked up a couple of quick topics and put their thumbnails into public/img &mdash; this is, again, routing around a perfectly good asset system that Rails uses, but I feel okay doing that for speed when a system is likely to be temporary and not suffer from doing it "wrong." These images will change rarely or never and are purely decorative. And we'll need a whole different system when/if we start adding topics to a running application server.
+
+The way I'm currently displaying it is wrong, including using a table. Time to rewrite the view.
+
+I also need to fix the two manually-created database entries &mdash; set them up with names, descriptions and thumbnails.
+
+You [can see the full diff here](https://github.com/noahgibbs/rubymadscience/commit/b2bb03d7caa9302c7fa1f85a3628b02f6a206b36), but here's the heart and soul of the new Topics index view.
+
+~~~ruby
+<%% @topics.each do |topic| %>
+<div class="topic-row">
+  <div class="topic-thumbnail">
+    <img src="<%%= topic.thumbnail_url %>"
+         width="200" height="125"
+         alt="<%%= topic.name %>" />
+  </div>
+
+  <div class="topic-text">
+    <p class="text-muted">
+        <%%= topic.updated_at.strftime("%Y-%m-%d %H:%M") %>
+        - XX comments</p>
+
+    <h3><%%= topic.name %></h3>
+
+    <p>
+      <%%= topic.desc %>
+    </p>
+
+    <a href="/topics/show?id=<%%= topic.id %>">
+        <button type="button"
+                class="btn btn-info">Have a Look</button></a>
+    <hr/>
+  </div>
+</div>
+<div class="clearfix"></div>
+<%% end %>
+~~~
+
+This isn't perfect. The name text isn't pretty, the comments text is a dummy placeholder, and I'm not enchanted with "Have a Look" as the button text. But it's a whole lot better. Here, have a look:
+
+<%= aside_image(current_page.url + "rms3_better_topics_index.png", alt: "A new topics view, showing the thumbnails and full descriptions.", image_classes: ["img-frame"]) %>
+
+It's starting to look a bit like a site you stumbled across on the internet, right? And relatively few pieces look like I Photoshopped them over a real app. The "logged in as" text is probably the only thing that looks like it just shouldn't be there. I have plans for that, but it may take me a few more blog posts to get there.
+
+## What About My Step Count?
+
+That's tolerable for topics. What about steps? You may have noticed that the "Have a Look" button takes you to a single-topic "show" action, so that's a start. Of course, the "show" action just tells you what source file it's in, so that needs work.
+
