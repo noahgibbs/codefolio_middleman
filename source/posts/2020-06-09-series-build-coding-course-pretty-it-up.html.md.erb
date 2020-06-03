@@ -5,7 +5,7 @@ featured_asset: radio_repair
 featured_caption: "How Hard Can it Be?"
 ---
 
-[Last time]() we talked about why I'm building course software in Rails from scratch, and built out a basic skeleton of database tables and a first trivial view.
+[Last time](/posts/series-build-coding-course-software-in-rails/) we talked about why I'm building course software in Rails from scratch, and built out a basic skeleton of database tables and a first trivial view.
 
 Today, let's add a theme, build out the view a little more and generally make it look better. I think "Let's Build" series look better with interesting screenshots, and bare black-and-white new Rails apps don't make great screenshots.
 
@@ -17,7 +17,7 @@ You'll hear designers complain a lot about Bootstrap and similar libraries (e.g.
 
 Let me explain.
 
-<%= aside_image(current_page.url + "rms2_cosmo_style_page.png", alt: "The front page of RailsCasts, showing a list of videos", image_classes: ["img-frame"], direction: :right, caption: "A styling page for the Bootstrap 'Cosmo' theme.") %>
+<%= aside_image(current_page.url + "rms2_cosmo_style_page.png", alt: "The Cosmo theme on Bootswatch", image_classes: ["img-frame"], direction: :right, caption: "A styling page for the Bootstrap 'Cosmo' theme.") %>
 
 Bootstrap makes the default look pretty okay. What's "pretty okay?" [Here is the styling page for a very basic free Boostrap theme.](https://bootswatch.com/cosmo/) That's what I mean by "pretty okay." If you check the HTML there, they're doing nothing much fancier than adding classes.
 
@@ -43,7 +43,7 @@ If Excel is programming for non-programmers, Bootstrap is design for non-designe
 
 ## Now Let's Add It
 
-I have a [Jekyll](https://jekyllrb.com/) theme I've used to restyle [Rebuilding-rails.com](https://rebuilding-rails.com) and [Software-Technique.com](https://software-technique.com)... and neither one uses Jekyll. This time I'll be adapting it to Rails. The theme is called [Creative](https://jekyllthemes.io/theme/creative-theme-jekyll) and it's a light wrapper over Bootstrap. It's also Apache-licensed, which is convenient.
+I have a [Jekyll](https://jekyllrb.com/) theme I've used to restyle [Rebuilding-rails.com](https://rebuilding-rails.com) and [Software-Technique.com](https://software-technique.com)... and neither one uses Jekyll. This time I'll be adapting it to Rails. The theme is called [Creative](https://startbootstrap.com/themes/creative/) and it's a light wrapper over Bootstrap. It's also Apache-licensed, which is convenient.
 
 In this case, the theme is really simple and I'm not (yet) doing much with it. So I can [view source on this page](https://volny.github.io/creative-theme-jekyll/) and copy-and-paste into a layout. Open-source themes tend to have simple, pretty markup. So "un-Jekylling" it is pretty trivial.
 
@@ -66,6 +66,8 @@ Now the still-default table looks bad, at least by comparison. Time to add class
 It turns out that "alert" is a class name used by Bootstrap, so I need to change that for the alert-box snippet I copied from Discourse. That's where that extra whitespace was coming from. [And I added a few more Bootstrappy class names](https://github.com/noahgibbs/rubymadscience/commit/4c70994227c5420c3aa3853e37a7d3badab122ec). And the result is... Well, it's like Bootstrap. I'll take it.
 
 <%= aside_image(current_page.url + "rms2_looks_like_bootstrap.png", alt: "Now the table has slightly nicer spacing, styling and typography. It looks basically like any other lightly-styled Bootstrap table.", image_classes: ["img-frame"]) %>
+
+(Bad footnote: it turns out the original version of this that I stole from Jekyllthemes is ancient, and uses Bootstrap 3 instead of Bootstrap 4. For new projects you always want recent Bootstrap. I have since fixed it. This basic approach still works fine, but make sure to copy the *right* theme files.)
 
 ## More and Better
 
