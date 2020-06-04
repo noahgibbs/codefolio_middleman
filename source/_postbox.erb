@@ -10,7 +10,9 @@
         </h2>
     </header><!-- .post-header -->
 
-    <% if post.data.featured_asset %>
+    <% if post.data.featured_youtube %>
+            <iframe width="320" height="180" src="https://www.youtube.com/embed/<%= post.data.featured_youtube %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% elsif post.data.featured_asset %>
         <a class="post-thumbnail" href="<%= post.url %>">
             <%= asset_img_tag(post.data.featured_asset, size: :hero) %>
         </a>

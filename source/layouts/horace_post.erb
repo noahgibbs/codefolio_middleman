@@ -17,6 +17,9 @@
             <div class="post-content">
                 <% if current_page.data.featured_asset %>
                   <%= asset_image(current_page.data.featured_asset, size: :aside, direction: :right, disappear_on_mobile: true, caption: current_page.data.featured_caption) %>
+                <% elsif current_page.data.featured_youtube %>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= current_page.data.featured_youtube %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
                 <% end %>
                 <%= yield %>
             </div>
