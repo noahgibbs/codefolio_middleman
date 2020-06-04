@@ -1,5 +1,7 @@
 <figure class="<%= figureclasses %>">
-    <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" : "" %> <%= height ? "height='#{height}'" : "" %> />
+    <a <%= lightbox ? "class='lightboxed'" : "" %> href='<%= escape_html(imageurl) %>' >
+      <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" :   "" %> <%= height ? "height='#{height}'" : "" %> <%= caption ? "title=#{caption.inspect}" : "" %> />
+    </a>
     <% if caption %>
         <figcaption class="caption-text"><%= caption %></figcaption> 
     <% end %>

@@ -5,14 +5,14 @@
   disqus_id = current_page.data.disqus_id ? current_page.data.disqus_id : page_url
 %>
 
-<section id="comments-area" class="comments-area">
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
     <h2 class="comments-title">Comments</h2>
     <div class="comments-inside">
         <div id="disqus_thread"></div>
     </div><!-- .comments-inside -->
-    <div id="comments-overlay" class="comments-overlay">
+    <!-- <div id="comments-overlay" class="comments-overlay">
         <a href="#" id="comments-show" class="comments-show">Show comments</a>
-    </div><!-- .comments-overlay -->
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
     <script type="text/javascript">
         var disqus_config = function () {
             // Replace PAGE_URL with your page's canonical URL variable

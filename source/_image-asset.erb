@@ -21,7 +21,9 @@
 %>
 
 <figure class="<%= figureclasses %>">
-    <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" : "" %> <%= height ? "height='#{height}'" : "" %> />
+    <div <%= lightbox ? "class='lightboxed'" : "" %> >
+      <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" : "" %> <%= height ? "height='#{height}'" : "" %> <%= caption ? "title='#{caption}'" : "" %> />
+    </div>
 
     <% if caption || credit_markup %>
       <figcaption class="caption-text">

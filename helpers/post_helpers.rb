@@ -1,5 +1,5 @@
 module PostHelpers
-    def aside_image(url, alt:, image_classes: [], width: nil, height: nil, direction: :none, caption: nil, disappear_on_mobile: false)
+    def aside_image(url, alt:, image_classes: [], width: nil, height: nil, direction: :none, caption: nil, disappear_on_mobile: false, lightbox: true)
         figure_classes = ""
         if direction == :right
             figure_classes = "aside-right"
@@ -21,10 +21,11 @@ module PostHelpers
             figureclasses: figure_classes,
             caption: caption,
             direction: direction,
+            lightbox: lightbox,
         })
     end
 
-    def asset_image(asset_name, size:, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: true)
+    def asset_image(asset_name, size:, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: true, lightbox: false)
         figure_classes = ""
         if direction == :right
             figure_classes = "aside-right"
@@ -45,6 +46,7 @@ module PostHelpers
             imageclasses: image_classes.join(" "),
             figureclasses: figure_classes,
             caption: caption,
+            lightbox: lightbox,
         })
     end
 
