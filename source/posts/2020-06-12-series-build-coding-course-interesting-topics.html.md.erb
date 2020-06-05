@@ -108,5 +108,271 @@ It's starting to look a bit like a site you stumbled across on the internet, rig
 
 ## What About My Step Count?
 
-That's tolerable for topics. What about steps? You may have noticed that the "Have a Look" button takes you to a single-topic "show" action, so that's a start. Of course, the "show" action just tells you what source file it's in, so that needs work.
+That's tolerable for topics. What about steps? You may have noticed that the "Have a Look" button takes you to a single-topic "show" action, so that's a start. But right now the "show" action just tells you what source file it's in.
 
+So let's write a show action. There's a bit of CSS that [you can see in the full commit](https://github.com/noahgibbs/rubymadscience/commit/d17872f446648de786006f294b76d3d2fdda76b8), but here's the HTML and Erb:
+
+~~~ruby
+<div class="container">
+  <h1><%%= @topic.name %></h1>
+
+  <%% steps = @topic.get_steps %>
+  <%% if steps.empty? %>
+    <p>No steps! Something is wrong with this topic!</p>
+  <%% else %>
+    <%% steps.each do |step| %>
+
+        <div class="step-row">
+          <h3><%%= step.name %></h3>
+
+          <p>
+            <a href="<%%= step.url %>" target="_blank">🔗 External link 🔗</a>
+          </p>
+
+          <div class="done-select-group">
+              <label for="<%%= step.id %>-done-select">Done?</label>
+              <select class="done-select" id="<%%= step.id %>-done-select" value="Not Implemented..." disabled="disabled">
+                <option>Not Implemented...</option>
+                <option>Not Done</option>
+                <option>Skip</option>
+                <option>Done</option>
+              </select>
+          </div>
+        </div>
+    <%% end %>
+
+  <%% end %>
+</div>
+~~~
+
+(I kind of love the fact that Ruby allows [UTF-8](https://en.wikipedia.org/wiki/UTF-8) in source files so you can just include emojis in your text and it's totally supported.)
+
+This is the simplest topic that could possibly work. It just has an external link for the step and a to-be-implemented selector for whether you've finished that step. Eventually it will make far more sense to have embedded videos, embedded blog posts where possible and generally a much prettier topic. In fact, looking at this has me convinced that we'll need step descriptions at a minimum.
+
+Also, we can't yet mark steps as "done." That has to be done for each step/user combination and we don't have any tables for that yet.
+
+I've been keeping in mind that I'd like to be able to page-cache these topics - and the logged-in user and whether each step is done make that difficult. I think those things are going to become a combination of cookies and AJAX so that the basic page is 100% identical for each user. And that's complexity that gets tied up with Webpacker, Turbolinks and a few other things. So for now, let's just assume the page will be different per-user.
+
+What do we have before we do that?
+
+<%= aside_image(current_page.url + "rms3_topic_with_steps.png", alt: "A new single-topic view showing the steps as external links and a dropdown.", image_classes: ["img-frame"]) %>
+
+## I Like It, But I Can't Mark It Done
+
+That's not bad. Let's let users mark steps as done, though. We'll need a database table to store that information. I like the idea that there may be more different "all done"-type descriptions &mdash; at least "not done" and "done" and "skipped," but I like the idea that there could be others in the future. Maybe "urgent" to get more frequent reminders? But it's cheap to make the done-ness be an integer instead of a boolean, so I'll do that. And I'd like users to be able to set a text note to themselves on each step.
+
+I'll make a table of per-user per-step rows called "user_step_items". If we wind up needing to store anything else by user/step combo, well, now we have a possible place for it. But for now "is it done?" is the only thing we need.
+
+~~~ruby
+class AddUserStepItems < ActiveRecord::Migration[6.0]
+  def change
+    create_table "user_step_items" do |t|
+        t.integer :doneness
+        t.string  :note
+        t.integer :user_id
+        t.integer :step_id
+
+        t.index [:user_id, :step_id]
+    end
+  end
+end
+~~~
+
+We'll also add a UserStepItem model that belongs\_to User and Step, and we'll say User and Step each has\_many of UserStepItem. The index is set up around querying by User or by User-and-Step, so right now step.user_step_items would be expensive. But I don't think we'll be using it for awhile, and indices are easy to add later.
+
+I'll also move the "login" message to a slightly prettier up-top location ([here's the full diff](https://github.com/noahgibbs/rubymadscience/commit/0ab253f3b177a716b52852f1300c6fa497f67e6c)).
+
+We'll need to map between integers and text for "Done". I'm going to do that in a simple way for now:
+
+~~~ruby
+class UserStepItem < ApplicationRecord
+    belongs_to :user
+    belongs_to :step
+
+    DONE_MAP = {
+        0 => "Not Done",
+        1 => "Skip",
+        2 => "Done",
+    }
+
+    def self.done_values
+        DONE_MAP.values
+    end
+
+    def self.done_as_text(int_value)
+        DONE_MAP[int_value]
+    end
+
+    def done_as_text
+        UserStepItem.done_as_text(self.doneness)
+    end
+end
+~~~
+
+Then with just a bit of messing about we can get the view to display doneness properly even if it doesn't set it yet:
+
+~~~ruby
+# app/views/topics/show.html.erb
+<div class="container">
+  <h1><%%= @topic.name %></h1>
+
+  <%% steps = @topic.get_steps %>
+  <%% if steps.empty? %>
+    <p>No steps! Something is wrong with this topic!</p>
+  <%% else %>
+    <%% steps.each do |step| %>
+        <div class="step-row">
+            <h3><%%= step.name %></h3>
+
+            <p>
+                <a href="<%%= step.url %>"
+                   target="_blank">🔗 External link 🔗</a>
+            </p>
+
+            <%% if current_user %>
+                <%% user_step_item = UserStepItem.
+                        where(user_id: current_user.id,
+                              step_id: step.id).first
+                    doneness = user_step_item ?
+                        user_step_item.done_as_text :
+                        UserStepItem.done_as_text(0)
+                %>
+                <div class="done-select-group">
+                    <label for="<%%= step.id %>-done-select">Done?</label>
+                    <%%= select_tag("#{step.id}-done-select",
+                         options_for_select(UserStepItem.done_values,
+                                            doneness),
+                                            class: "done-select",
+                                            data: { step_id: step.id }) %>
+                </div>
+            <%% else %>
+                <div class="done-select-group">
+                    <label for="<%%= step.id %>-done-select">Done?</label>
+                    <select class="done-select" disabled="disabled"
+                            id="<%%= step.id %>-done-select">
+                        <option value="">Not Logged In</option>
+                    </select>
+                </div>
+            <%% end %>
+        </div>
+    <%% end %>
+  <%% end %>
+</div>
+~~~
+
+I tested this by creating a UserStepItem manually and, yes, it displays properly. It's also possible to select items in the select but only if you're logged in. Next it needs to update.
+
+## Webpack
+
+Now it's finally time to see how Webpack and Rails 6 get along. I'll need a handler for these selectors to do some JS magic.
+
+In Rails 6, Webpack wants "packs" (JS modules) rather than old-style raw JS functions. [Having read a bit about this](https://blog.capsens.eu/how-to-write-javascript-in-rails-6-webpacker-yarn-and-sprockets-cdf990387463) I have trouble figuring out where to put things like "ready" functions or setting up handlers. Presumably they shouldn't go ***in*** the module code. Of course, "ready" functions are dubious in a [Turbolinks](https://github.com/turbolinks/turbolinks) world anyway, but we still have to set up handlers, including the one we'll need for these selectors.
+
+There's a whole [Javascript in Rails](https://edgeguides.rubyonrails.org/working_with_javascript_in_rails.html) guide, though it doesn't appear to address that question. Before packs I might have set up handlers in application.js or another JS file it called. It appears that now I set up a new module (I'm calling it steps.js) and it gets executed if I include the pack tag... directly from the view? That works, though it feels weird and inelegant.
+
+A bit of console.log testing *does* show that it loads when the view requires and not otherwise, and that inline code line console.log is executed when it's loaded. So I can use it to set up DOM handlers in a view-dependent way. They'll still be loaded after navigating to other pages (because Turbolinks) but they'll only load when needed. That's kind of neat, and arguably a better way to do it than Rails 5 and before.
+
+## Tying It All Together
+
+We're going to need a controller action to change the "done" value with an AJAX request: "rails g controller steps update_done". I then changed the action to a POST in config/routes.rb. There's probably some way to get the generator to do that...
+
+You can [see the complete diff](), but here are the important bits.
+
+I've added a simple controller action to allow updating the done-ness of a step:
+
+~~~ruby
+class StepsController < ApplicationController
+  # A quiet little AJAX action to update the done-ness of a step for a user
+  def update_done
+    user_id = current_user.id
+    step_id = params[:step_id]
+    if user_id && step_id
+        usi = UserStepItem.find_or_create_by(user_id: current_user.id, step_id: step_id)
+        usi.doneness = params[:done]
+        usi.note = params[:note]
+        saved = usi.save
+    end
+
+    if saved
+        render plain: "OK", layout: nil, status: 200
+    else
+        render plain: "Not Found", layout: nil, :status => 404
+    end
+  end
+end
+~~~
+
+Note that it uses the current logged-in user rather than a parameter for user ID, so this should be safe from anybody but a logged-in user sabotaging themselves (which would be fine.)
+
+We'll need a couple of modifications to the "show" view. At the top we'll need to add "<%%= javascript_pack_tag 'steps' %>" to make sure it gets the Steps pack (more on that soon). And then for a step for a currently logged-in user:
+
+~~~ruby
+<%% if current_user %>
+    <%% user_step_item = UserStepItem.where(user_id: current_user.id, step_id: step.id).first
+       doneness = user_step_item ? user_step_item.doneness : 0
+    %>
+    <div class="done-select-group">
+        <div class="select-error-box error" id="select-error-box-<%%= step.id %>"></div>
+        <label for="<%%= step.id %>-done-select">Done?</label>
+        <%%= select_tag("#{step.id}-done-select", options_for_select(UserStepItem.done_selector, doneness), class: "done-select", data: { step_id: step.id }) %>
+    </div>
+<%% else %>
+~~~
+
+I'm now generating the selector a little differently - the text is the English word/phrase like "Done" or "Skipped", but the value is the integer for simplicity. Sometimes we wind up going back and forth a bit...
+
+And then finally, the Javascript:
+
+~~~javascript
+// app/javascript/packs/steps.js
+$("body").on("change", "select.done-select", function() {
+    var changed_elt = $(this);
+    var step_id = changed_elt.data("step-id");
+
+    // Disable the selector until the request finishes
+    changed_elt.prop('disabled', true);
+
+    $.ajax("/steps/update_done", {
+        method: 'post',
+        data: {
+            step_id: step_id,
+            done: this.value,
+            note: "..."
+        },
+        success: function() {
+            $("#select-error-box-" + step_id).text("");
+            changed_elt.prop('disabled', false);
+        },
+        error: function() {
+            $("#select-error-box-" + step_id).text("(Server error)");
+            changed_elt.prop('disabled', false);
+        }
+    });
+});
+~~~
+
+This is the entire pack file (steps.js). The only fancy bit is that it disables the selector on change, then re-enables it after the server has handled the AJAX action (or gotten an error.)
+
+And with that, RubyMadScience has all the fancy functionality of a basic TODO list.
+
+## What's Left to Do?
+
+The app is nearly a full-featured list already. What's left to do?
+
+Many things.
+
+It would be great to have better steps - more interesting text, embedded video and text and so on. Just in general, there's a lot of polish and aesthetic work here.
+
+But the vital things to fix before it's a usable MVP are these:
+
+* Email reminders
+* Deploy it
+* I actually write the real-world topic for at least one interesting class
+
+Once those things are done, RubyMadScience is doing something that could make somebody's life a little better. It can replace the email classes I have with something better.
+
+There are ***many*** other interesting things I could add. But with those two, there's a basic workable MVP. It can help somebody.
+
+Have you been enjoying this series? It's not done yet. Email and deployment are also going to be blog posts, and likely more afterward.
+
+If you want to follow along, I recommend ***signing up for my email list below***. If email lists aren't your thing, there's [an RSS feed of posts](/feed.xml) at the top or [there's the rubymadscience tag](/tags/rubymadscience), which includes not-yet-published posts in the series...
