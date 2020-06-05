@@ -41,9 +41,9 @@
                     <% end %>
                 </div> <!-- .share-post -->
             </footer>
-            <%= partial "disqus" %>
         </article>
         <%= partial "newsletter-box" %>
+        <%= partial "disqus" %>
 
         <% if (!current_page.data.has_key?("prev") || current_page.data.prev) %>
 
