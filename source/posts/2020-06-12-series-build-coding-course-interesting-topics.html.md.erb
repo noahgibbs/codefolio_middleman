@@ -5,7 +5,7 @@ featured_asset: radio_repair
 featured_caption: "How Hard Can it Be?"
 ---
 
-I've been building a piece of Rails courseware, something to let people work through blog posts, videos and lessons I've written at their own speed and so on. First I [set up a simple Rails 6 app](/posts/series-build-coding-course-software-in-rails/), then I [prettied it up a bit](/posts/series-build-coding-course-pretty-it-up/).
+I've been building a piece of Rails courseware, something to let people work through blog posts, videos and lessons I've written at their own speed. First I [set up a simple Rails 6 app](/posts/series-build-coding-course-software-in-rails/), then I [prettied it up a bit](/posts/series-build-coding-course-pretty-it-up/).
 
 Now it's time to do something interesting with the actual lessons, which I've been calling "Topics."
 
@@ -270,7 +270,7 @@ In Rails 6, Webpack wants "packs" (JS modules) rather than old-style raw JS func
 
 There's a whole [Javascript in Rails](https://edgeguides.rubyonrails.org/working_with_javascript_in_rails.html) guide, though it doesn't appear to address that question. Before packs I might have set up handlers in application.js or another JS file it called. It appears that now I set up a new module (I'm calling it steps.js) and it gets executed if I include the pack tag... directly from the view? That works, though it feels weird and inelegant.
 
-A bit of console.log testing *does* show that it loads when the view requires and not otherwise, and that inline code line console.log is executed when it's loaded. So I can use it to set up DOM handlers in a view-dependent way. They'll still be loaded after navigating to other pages (because Turbolinks) but they'll only load when needed. That's kind of neat, and arguably a better way to do it than Rails 5 and before.
+A bit of console.log testing *does* show that it loads when the view requires and not otherwise, and that inline code like console.log is executed when it's loaded. So I can use it to set up DOM handlers in a view-dependent way. They'll still be loaded after navigating to other pages (because Turbolinks) but they'll only load when needed. That's kind of neat, and arguably a better way to do it than Rails 5 and before.
 
 ## Tying It All Together
 
@@ -367,13 +367,13 @@ But the vital things to fix before it's a usable MVP are these:
 
 * Email reminders
 * Deploy it
-* I actually write the real-world topic for at least one interesting class
+* Actually write the real-world topic for at least one interesting class
 
 Once those things are done, RubyMadScience is doing something that could make somebody's life a little better. It can replace the email classes I have with something better.
 
 There are ***many*** other interesting things I could add. But with those two, there's a basic workable MVP. It can help somebody.
 
-Have you been enjoying this series? It's not done yet. Email and deployment are also going to be blog posts, and likely more afterward.
+Have you been enjoying this series? It's not done yet. Email and real topics are also going to be blog posts, and likely more afterward.
 
 If you want to follow along, I recommend ***signing up for my email list below***. If email lists aren't your thing, there's [an RSS feed of posts](/feed.xml) at the top or [there's the rubymadscience tag](/tags/rubymadscience), which includes not-yet-published posts in the series...
 
