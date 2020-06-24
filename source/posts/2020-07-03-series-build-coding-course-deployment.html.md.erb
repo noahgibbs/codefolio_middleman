@@ -1,0 +1,121 @@
+---
+title: "Let's Build Course Software: Deployment"
+tags: ruby, rails, letsbuild, rubymadscience
+featured_asset: radio_repair
+featured_caption: "How Hard Can it Be?"
+---
+
+You can learn a lot about how much a man fears something by seeing what he will do to procrastinate instead of doing it. Paul Graham talks about "sneaking" out to get a root canal, feeling like he was getting away with it, to avoid a board meeting of his first startup.
+
+I talked last time about how much I dreaded writing email reminders.
+
+So for this post: deployment.
+
+(What if you don't want to read about deployment for fun? That's fair. But I ask you, do you want to read about ***somebody else's pain doing deployment instead of you*** for fun? Because I think that has possibilities.)
+
+## Ops and Deployment
+
+<%= aside_image("/posts/series-build-coding-course-real-teaching/rms_with_videos.png", alt: "Several steps in a code-teaching topic, including text and videos.", image_classes: ["img-frame"], caption: "The app we're deploying.", direction: :right) %>
+
+I've worked on a team with Operations folks professionally. I've also managed a team containing Ops folks. Both are excellent experiences and I recommend them highly. The Ops mindset is [very different from the usual Software Dev mindset](/posts/water-we-swim-in-software-developer-mindset/).
+
+[Provisioning](https://codefol.io/posts/deployment-versus-provisioning-versus-orchestration/) a host (getting it set up with libraries, tools and so on) is pretty solidly Operations work. Writing your app is Software Dev.
+
+Deployment is that uncomfortable middle ground where they meet and both sides would really rather have the other side do it, thanks. Operations (or DevOps) is usually less politically powerful in the company and winds up having to do it, but not always.
+
+Of course if you work by yourself like I do, you're Developer and Ops/DevOps all in one. I ***always*** lose that power struggle (and I also always win it.)
+
+## Tools and Starting Points
+
+There's plenty of competition between various provisioning and deployment tools. [Chef](https://www.chef.io) and [Puppet](https://puppet.com) and [Ansible](https://www.ansible.com) and [Salt](https://saltstack.com) for provisioning new hosts and keeping them up-to-date, [Capistrano](https://capistranorb.com) and [Mina](https://github.com/mina-deploy/mina) and heck, just plain ssh-and-git-pull for deploying your app, plus shell scripts everywhere for absolutely everything...
+
+I've worked with a lot of different tools and my needs are simple, so I Googled around to find something that was pretty close to what I needed. [ansible-rails from EmailThis](https://github.com/EmailThis/ansible-rails) had fairly recent commits, was a basically similar setup to what I wanted and didn't seem like it would need too much extra customisation. Better, it had a nice Vagrant setup for local debugging but could be adapted to push to a production environment afterward.
+
+Couldn't I find something that was a straight-up tool that could just be adapted, and my site would just be a little bit of configuration on top? Not really, no. That's the dream. But [I've learned the hard way](http://codefol.io/posts/why-i-shut-down-rails-deploy-in-an-hour/) how difficult it is to make it, and keep it, a reality. If you want genuinely simple deployment, spend a little cash on a paid service like Heroku.
+
+Could I do that? Possibly. This app isn't likely to make me any money so I'm loathe to spend much. And I had an existing tangle of bespoke one-off deployment that I had no ability to recreate that I wanted to turn into something better. Disk images and backups are okay, but it's better to be able to rebuild on top of, say, a more recent Ubuntu when you need to.
+
+And so [I forked ansible-rails](https://github.com/noahgibbs/ansible-codefolio), [started adapting it](https://github.com/noahgibbs/ansible-codefolio/commit/4b87b5deedc66f8076cec970f5e474360dfa26d4) [to my own setup](https://github.com/noahgibbs/ansible-codefolio/commit/1d8fcbba002651669b8b0f1bea6730dcdf744f66), and [began updating and fixing](https://github.com/noahgibbs/ansible-codefolio/commit/218a4119d750e3427c0537704324b2c39d2102b4) more generally. It turns out deployment bakes in a lot of assumptions that need little fixes all over.
+
+This was also my first time deploying a Rails 6 app, and my first time working with Ansible. Both were pretty okay.
+
+## Local Debugging and Vagrant Setup
+
+I love being able to test provisioning with [Vagrant](https://www.vagrantup.com/) and a local virtual machine. It's cheap! And it can't break production!
+
+It also can't get LetsEncrypt certificates and has trouble with HTTPS setup in general. Plus I do this thing where one machine hosts all my domains, and so if my URL starts with http://192.168.50.2, it has no idea which web site I think I'm trying to look at.
+
+People who do this a lot (Ops-types? Masochists? Masochistic ops-types?) already know these workarounds. For instance, I can add extra fake entries to my /private/etc/hosts on MacOS (just /etc/hosts on Linux):
+
+~~~
+192.168.50.2    codefol.io.localdev
+192.168.50.2    mst_site.localdev
+192.168.50.2    rubymadscience.localdev
+192.168.50.2    www_static.localdev
+192.168.50.2    rr_site.localdev
+~~~
+
+Now I have a bunch of domain names that don't exist in the outside world, but they all forward to my local Vagrant private IP address. There are similar tricks you can do with external services where you can put where you want them to resolve right in the domain name, then put that fake domain in your NGinX config.
+
+Both solutions are kind of gross. I favour this one.
+
+You might ask, "how and why does this work?" The answer is that since HTTP 1.1, your HTTP request includes the full URL it's looking for, including the hostname, right inside the request itself. So when your browser makes that request it can include the fake hostname you gave it. Then NGinX, running on your vagrant VM, can see the fake hostname you typed into the browser URL bar. If you had instead typed "http://192.168.50.2" then it couldn't do that. Or rather, it ***would*** do that, but the host would just be called "192.168.50.2". That doesn't help much.
+
+Incidentally, as I complain about HTTPS some of you are mouthing the words "self-signed certificate" under your breath. That makes sense &mdash; swearing helps reduce your frustration.
+
+But seriously - in that "gross solutions" tradeoff, I'd rather do most of my debugging with http than go through and turn off all the HTTPS security checks (for instance, on any REST request to my own server) so that my tools work in dev. I feel like just *not* using HTTPS for development has a lower probability of me sabotaging important HTTPS checks in a way that will deploy them to production. HTTPS where you don't require certificate verification is&hellip; problematic. And getting my self-signed certificate into all the places it needs to go (browser, various tools) is hard, error-prone, and breaks every few versions of the browser and/or OS.
+
+On the plus side I don't plan to keep debugging on a VM for long. And debugging *deployment* on a VM, while it's not fun, is much better than doing it anywhere near production.
+
+## That Jarring Jump from Testing to Reality
+
+<%= aside_image(current_page.url + "rails_generic_error_page.png", alt: "A web page with a single dialog box saying 'Sorry, but something went wrong' and that the application owner should check the logs for more information.", image_classes: ["img-frame"], caption: "This doesn't have to come from Rails at all. It may not leave any logs.", direction: :right) %>
+
+I won't make you sit through a blow-by-blow of the various problems I found and fixed or worked around. Instead, here's just the most interesting one:
+
+If you're getting a generic Rails error page telling you to check the logs? That doesn't necessarily mean the Rails logs, because you may not be hitting Rails at all. Instead, that could be NGinX returning the (Rails-flavoured) 500 error page from your app because NGinX can't connect with Rails &mdash; for instance, because your application and your web server don't agree on the location of Puma's Unix socket and can't talk to each other at all. Puma could also be dead or not running and you'd see the same.
+
+But having done that, ***it's time to actually put this on a server.*** I assume everybody else also gets nervous when it's time to spend money to get another server running, even before the (terrifying) prod switchover where you could break everything and not be able to get it working again.
+
+But, y'know, no pressure.
+
+I use Linode for my [VPS hosting](https://en.wikipedia.org/wiki/Virtual_private_server). They're pretty good. Now that things work locally, it's time for a new VPS instance.
+
+## Reality
+
+DNS is always weird when you're changing servers. It can take hours to propagate, or occasionally longer, and you won't necessarily see the same things your users do. In this case, I'm at least switching over domains that are basically disused. So if there's some difficulty, it's not a huge deal.
+
+I move the "new" domain (RubyMadScience.com) over to the new instance, along with a couple of domains I don't really use and that just sit around (angelbob.com, MadRubyScience.com).
+
+I separate out the first couple of deploy steps into their own YAML file with just the first roles. That's important - I can only connect using the deploy user once that user exists.
+
+Bizarrely, inexplicably, when I point Ansible at the new host and run the pre-provisioning step, it works fine. Even more weirdly, the deployment step following that is fine too. Even the deployment step that copies the app into place works.
+
+No clue if it's *actually* working, obviously. DNS takes forever to change over. Though actually, I can use a similar trick with hosts above to try out the new deployment:
+
+```
+104.237.154.219 codefol.io.staging
+104.237.154.219 mst_site.staging
+104.237.154.219 rubymadscience.staging
+104.237.154.219 www_static.staging
+104.237.154.219 rr_site.staging
+104.237.154.219 angelbob.com.staging
+```
+
+And&hellip; Everything shows up as the default site. Okay, so I add these new URLs to my list of URLs and&hellip;
+
+Nope. Even after running all the deployment and provisioning code again.
+
+Ah, okay. ***Now*** I believe it's deployment code.
+
+I SSH into the new host and it seems like for whatever reason, Ansible isn't updating the template block that creates all the NGinX files. Ten minutes later, it turns out I had another place I ***also*** kept URLs and I hadn't updated both. [PEBKAC](https://www.computerhope.com/jargon/p/pebkac.htm), as you might expect.
+
+Oh, and the shared puma.rb config file is being replaced with some kind of weird YAML for no obvious reason. Running the deploy again fixed it (???), which suggests there's some kid of a race condition or something that destroys the file that I haven't caught yet. I suppose I'll watch for it...
+
+## Finality
+
+<%= aside_image(current_page.url + "rms_deployed.png", alt: "Several steps in a code-teaching topic, including text and videos.", image_classes: ["img-frame"], caption: "The app we've just deployed.", direction: :right) %>
+
+And that, at last, is working. I'm sure I'll find small details to fix, but that's a fine start.
+
+That means there's a decent chance that the app, in unfinished form is [sitting right there at the URL right now](https://rubymadscience.com) if you feel like looking around. You could even make a Devise-standard account.
