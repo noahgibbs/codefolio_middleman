@@ -11,7 +11,7 @@
                 props = asset_properties(current_page.data.giant_featured_asset)
                 aside_url = props["aside_url"]
                 %>
-                <div class="post-thumbnail"><img class="featured-image img-fluid" src="<%= aside_url %>"
+                <div class="post-thumbnail"><img class="featured-image img-fluid" src="<%= aside_url.html_safe %>"
                     alt="<%= current_page.data.title %>"></div>
             <% end %>
             <div class="post-content">
@@ -69,7 +69,7 @@
                         aside_h = props["aside_h"]
                         %>
                         <a href="<%= p.url %>" class="post-thumbnail">
-                            <img src="<%= aside_dims_path %>" width="<%= aside_w %>" height="<%= aside_h %>" alt="<%= p.data.title %>" />
+                            <img src="<%= aside_dims_path.html_safe %>" width="<%= aside_w %>" height="<%= aside_h %>" alt="<%= p.data.title %>" />
                     </a>
                     <% else %>
                       <!-- Nothing here -->

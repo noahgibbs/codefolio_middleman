@@ -14,7 +14,7 @@
             <iframe width="320" height="180" src="https://www.youtube.com/embed/<%= post.data.featured_youtube %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <% elsif post.data.featured_asset %>
         <a class="post-thumbnail" href="<%= post.url %>">
-            <%= asset_img_tag(post.data.featured_asset, size: :hero) %>
+            <%= asset_img_tag(post.data.featured_asset, size: :hero).html_safe %>
         </a>
     <% end %>
     <div class="post-content">
