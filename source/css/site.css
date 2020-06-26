@@ -32,3 +32,22 @@ img {
     margin-top: 0.75em;
     margin-bottom: 0.75em;
 }
+
+.working-on-it-header img {
+    float: left;
+    margin-left: 80px;
+    margin-right: 20px;
+}
+
+.working-on-it-header {
+    background: #80FF80;
+    font-size: 150%;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    padding-right: 80px;
+}
+
+.clearfix {
+    clear: both;
+}
