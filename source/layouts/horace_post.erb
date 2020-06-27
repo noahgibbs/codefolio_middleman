@@ -1,11 +1,13 @@
 <% wrap_layout :horace_default do %>
 
+<% unless is_published(current_page) %>
 <div class="working-on-it-header">
     <img src="/images/working_on_it.png" width="100" height="100" alt="A chimpanzee in a lab coat sits looking at an old-fashioned microscope and a heavy electrical cable." />
     This article is not yet "really" published. You're welcome to read it. But it will be officially
     ready on <%= current_page.date.strftime('%b %e %Y') %>.
     <div class="clearfix"></div>
 </div>
+<% end %>
 
 <div id="content" class="site-content">
     <main id="main" class="site-main outer">
