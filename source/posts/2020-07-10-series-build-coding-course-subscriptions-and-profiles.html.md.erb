@@ -1,0 +1,124 @@
+---
+title: "Let's Build Course Software: Subscriptions and Profiles"
+tags: ruby, rails, letsbuild, rubymadscience
+featured_asset: chimp_bear_pirate_studying_objects
+featured_caption: "I'm enjoying the new thumbnails for topics a lot."
+---
+
+In [this series](/tags/rubymadscience) I've built out a Rails app from scratch, deployed it and I'm not ***too far off*** from getting it actually useful.
+
+I've also had a nice photo shoot with my stuffed animals so the site's a lot prettier.
+
+I want to build email reminders. It's the last major thing for the site. Unfortunately, there's a lot of UI that's needed for managing email reminders before I can do that. So: this week I'll build out that UI and next week we'll talk about the "email" part of email reminders.
+
+## Do I Subscribe To This Point of View?
+
+<%= aside_image(current_page.url + "rms_pretty_new_thumbs.png", alt: "RubyMadScience showing a list of topics on the front page with the new stuffed-animal topic thumbnails.", image_classes: ["img-frame"], caption: "Current progress on the deployed app which doesn't yet have email reminders.", direction: :right) %>
+
+Once you've clicked on a topic it would be nice to be able to say "subscribe to this topic and send me a regular reminder to work on it &mdash; if I'm not done yet."
+
+For that we'll want buttons.
+
+It would also be nice to see all the subscriptions in one place, preferably one place where you can say "please don't email me anything any more."
+
+It's also going to be important to validate an email address. I don't mean checking if it's syntactically valid. I mean that if somebody adds a reminder email address, we need to get approval from the holder of that address before we start spamming it.
+
+Before we email anybody anything, let's make that UI happen.
+
+## Reminder Buttons
+
+[Bootstrap has nice mutually-exclusive radio buttons](https://getbootstrap.com/docs/4.0/components/buttons/#checkbox-and-radio-buttons) that you can just tag as a group. Set one of them active, and Bootstrap will try to make sure only one is set at once. Sounds perfect to me for email reminders that can be inactive, or (only) one of daily, weekly or monthly.
+
+(I may have some more complicated date settings later, or I may not. For now I'll keep it simple.)
+
+Much like [when I started tracking progress](http://codefol.io/posts/series-build-coding-course-tracking-progress/) I'm going to need some backend infrastructure for this. I need a per-user-per-topic table, like the previous UserStepItem. I'll call it UserTopicItem, and (for now) it just hold the subscription setting.
+
+Like last time, it's basically AJAX and CRUD &mdash; basic stuff, so I won't make you sit through it. But you can see what it looks like and [the code to all this is available if you want it](https://github.com/noahgibbs/rubymadscience/commits):
+
+<%= aside_image(current_page.url + "rms_email_reminder_buttons.png", alt: "RubyMadScience showing a topic with email reminder buttons.", image_classes: ["img-frame"], caption: "Here are those buttons.") %>
+
+That's not bad. I've hooked up the JavaScript for them when clicked, the UserTopicItem on the back end and so on.
+
+Now we need a list of subscribed topics so we can un-subscribe. I'll call it profile internally, and link it from a top menu item called "My Email Reminders" so it's very clear how to find it. It's also linked from the words "Email Reminders" where you can sub/unsub for each topic.
+
+This is another nice straightforward Rails view: query the database for all of the current user's UserTopicItems. Display them with a bit of flavour text around.
+
+I'm not sure how I feel about the fact that if you unsubscribe, that topic remains in your profile. If there were too many topics it might be hard to check which ones you're actually subscribed to.
+
+And if the site had more than the three current topics, that would matter. For now I'll display it like this and it's perfectly tolerable:
+
+<%= aside_image(current_page.url + "rms_profile_page.png", alt: "A profile page, showing the one topic I'm currently subscribed to.", image_classes: ["img-frame"]) %>
+
+## Devising the Next Solution
+
+This gets us pretty far on the UI. A Sidekiq background job to send email could just query this and send the reminders at the right time.
+
+Except that somebody could easily sign up with somebody else's address and have me spam that target. I guess that's kind of a problem, huh?
+
+However, one joy of using [Devise](https://github.com/heartcombo/devise) for accounts is that there's already a pretty decent setup for this, which Devise calls ["confirmable."](https://github.com/heartcombo/devise/wiki/How-To:-Add-:confirmable-to-Users)
+
+By default, "confirmable" locks out users until they confirm their email address. That's not what I want &mdash; I want them to be able to browse topics, check off steps and even subscribe to reminders without a problem. I just don't want to ***actually email anybody*** until the email address is validated.
+
+But luckily there's a "grace period" you can configure before they have to confirm their email address. I can set it to something nice and long (two weeks? two years? two centuries?), but check for confirmation before emailing them. No sweat.
+
+(If you change Devise settings, be sure to restart your Rails server. Devise deals extensively in things that require an actual Rails restart, from migrations to initialiser changes. You can get some weird bugs if you change those things but don't restart your server.)
+
+## Better Than a Kiq in the Side
+
+Before we add actual email, we should set up [Sidekiq](https://github.com/mperham/sidekiq). Luckily that's very easy, and I've already handled the [deployment side of it](/posts/series-build-coding-course-deployment/).
+
+Sidekiq needs Redis running. On my Mac I installed it with Homebrew and set it up to run on boot. And then Sidekiq needs to be run, itself. That's as simple as opening a new console and running "sidekiq" for now - I don't want to run it all the time because, you know, it may send email if I do that so it's worth being a bit careful.
+
+But in the mean time I can test out the email code and just print to console.
+
+I want this to run at least daily to send out reminders. [Sidekiq has some lovely features to do cron-style periodic jobs](https://github.com/mperham/sidekiq/wiki/Ent-Periodic-Jobs) and they require the very expensive Enterprise license.
+
+You know what's cheaper than that? Having the job run and then reschedule itself in an hour, and I make sure to put a database transaction around updating the users. I can also make sure only one Sidekiq job is updating at once by&hellip; only running one copy of Sidekiq. It won't scale to the stars, but it doesn't need to.
+
+Here's a Sidekiq job that just prints a line and then reschedules itself:
+
+~~~ruby
+# app/workers/reminder_emails.rb
+class ReminderEmails
+    include Sidekiq::Worker
+
+    def perform
+
+        STDERR.puts "Yup, running"
+        ss = Sidekiq::ScheduledSet.new
+        ss.each { |job| job.delete if job.klass == 'ReminderEmails' }
+        ReminderEmails.perform_in(1.hour)
+    end
+end
+~~~
+
+I'll also need to schedule the job at least once in an initialiser:
+
+~~~ruby
+# config/initializers/reminder_emails_job.rb
+require "sidekiq/api"
+
+ss = Sidekiq::ScheduledSet.new
+
+# Make sure we have exactly one ReminderEmails job queued.
+# Start it quickly after boot to send off any overdue reminders.
+
+ss.each { |job| job.delete if job.klass == 'ReminderEmails' }
+ReminderEmails.perform_in(3.minutes)
+~~~
+
+Why am I deleting all other jobs of the same class? Because if I run this Rails server with multiple processes, it's going to run this for each process. That means there is absolutely a race condition where sometimes ReminderEmails is going to run multiple times, and I need to be okay with that.
+
+## On to Email!
+
+When I thought, "oh, I'll just send email reminders" I was thinking it would be a simpler undertaking. Instead, I've built out all this UI, and the beginning of Sidekiq batch jobs, and I'm not even there yet.
+
+Email reminders are also the only thing I'm doing here ***for the first time***. And hey look, my estimate was garbage. That makes sense. I've been ***coding in general*** for over thirty years, but there are still things I've done before and things I haven't, and I still have to respect which is which.
+
+Next week we'll tackle more of the actual functional bits of sending out email reminders.
+
+I ***think*** I'll have this all done by then. Then again, rewind a couple of weeks and I thought it would be a one-blog-post job for everything together. So we'll see how it goes, shall we?
+
+Want to see more about Ruby Mad Science as it happens? You can check [the rubymadscience tag on this blog](/tags/rubymadscience), including not-yet-published ones. There’s also an RSS feed of posts at the top, or you can subscribe to my email list below. I’ll definitely email the list with these posts.
+
+Or if you’ve bought one of my books, you get to read and discuss blog posts early with my readers as I finish them, in the #prerelease-blog-posts channel of the customer Slack.
