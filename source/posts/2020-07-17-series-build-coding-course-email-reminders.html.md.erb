@@ -1,0 +1,192 @@
+---
+title: "Let's Build Course Software: Email Reminders"
+tags: ruby, rails, letsbuild, rubymadscience
+featured_asset: chimp_bear_pirate_studying_objects
+featured_caption: "I'm enjoying the new thumbnails for topics a lot."
+---
+
+In [this series](/tags/rubymadscience) I've built out a Rails app from scratch, deployed it and I'm ***this close*** to getting it actually useful.
+
+Will today be that final bit to hit "useful?" I don't know as I write this, but it's getting close&hellip;
+
+Last week we built out subscription buttons, profiles for managing subscriptions and a lot of other stuff that doesn't actually ***send any email***. Let's fix that.
+
+But first let's talk a bit about email.
+
+## Transactional and Recurring Email
+
+<%= aside_image(current_page.url + "rms_pretty_new_thumbs.png", alt: "RubyMadScience showing a list of topics on the front page with the new stuffed-animal topic thumbnails.", image_classes: ["img-frame"], caption: "Current progress on the deployed app which doesn't yet have email reminders.", direction: :right) %>
+
+With email, a lot of your worries as a developer are about legality. How do I make sure I'm not annoying anybody or, worse, breaking laws in how I annoy them?
+
+One answer is to use a service like [MailChimp](https://mailchimp.com) that makes it easy and permanent for people to unsubscribe, and that tries hard to require you to meet all your legal obligations. Those services are designed for ***marketing and promotional emails, which usually have the strongest legal restrictions***. MailChimp is who I use for my [email list you see below](#bottom-newsletter-box) and they're great, especially with double opt-in. With work you can even get them to stop tracking opens, as I have for my regular newsletters but not (yet) my automations.
+
+However, that's not what I'll be using for RubyMadScience email reminders.
+
+The problem with an awesomely-responsible service like MailChimp is, what do you do when the laws on marketing emails are in conflict with site usability? If somebody hits "unsubscribe" at the bottom of one of your emails, they don't ***really*** expect that password reset will never work again. But they ***did*** just tell you to never email them again. So which do they want? Legally speaking, MailChimp says "they told you never, and that means we will never let you email them again."
+
+That's very responsible. It's also rough in terms of password resets or (for a commercial site) receipts, invoices, confirmations&hellip; Those latter things are called [Transactional Email](https://www.getvero.com/resources/guides/lifecycle-marketing/transactional-emails/), which basically means "email in response to a direct action the user just took." For instance, a request for a password reset or a receipt for a purchase or a confirmation of an action.
+
+Transactional emails are in a different legal category than marketing emails. But they're hard to tell apart. Luckily, I don't think RubyMadScience is going to be emailing anything that looks much like marketing or promotion.
+
+In fact, "hey, I asked you to email me weekly about this topic until it's finished" isn't really transactional ***or*** promotional. It's in a weird grey area. But I don't think it wants the restrictions that a newsletter tool like MailChimp would entail.
+
+By picking the all-transactional route, I'm also losing out in terms of delivery. Spam filters ***love*** the MailChimp approach where they know who's on your list, carefully get opt-in and repeatedly deal with the exact same recipients. If I thought RubyMadScience was going to be a money-making product I would look carefully at a newsletter-type service and, even if it was painful, use it for the email reminders. I would get better deliverability, better speed
+
+## Logistics: Adding Email with Sendgrid
+
+I expect RubyMadScience to start with few users. Daily/weekly/etc email reminders don't need to be delivered quickly. Even things like password resets can have a nice long time limit.
+
+That means I can use very cheap email delivery via SendGrid. I may not even exceed its free monthly tier. Free is a good price for a service I don't earn money from. If I'm ever looking at more than 12,000 emails per month, I'll find a way to make money off it. Cheap email is still good (and cheap.)
+
+Getting SendGrid to ***actually send*** took a bit of doing, though. The configuration they give for Ruby on Rails is basically right, but:
+
+* You should turn on exceptions on email send to make sure you see problems when they happen
+* You need to tell SendGrid [it's okay to send from certain addresses](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/).
+
+These things are individually quite sensible. Put together, they can easily result in all your email being silently ignored because you didn't realise what needed to happen, or that you haven't done it.
+
+I'm going to need to figure out how to keep email exceptions from being swallowed, because that's not okay. But just turning on exceptions will make transient email timeouts give 500s from my site. Also not okay. This is going to be one of those things I don't fix perfectly on the first try &mdash; I can already tell.
+
+Also, email is one of those things it's possible to ***screw up really badly in a way that makes people angry***. So, y'know, there's that.
+
+Frankly, I'm glad there aren't more of you reading this. My own obscurity is probably my best protection from over-engineering right now. I ***want*** to build a huge gated outgoing email-trap to let me do full review before anything gets sent. But that's only a danger if anybody ever uses the service, so onwards I go.
+
+The courage of a software developer is in building features thinking, "somebody will test this before it goes out." The courage of a QA engineer is in thinking, "somebody else wrote this, I just have to record any problems I find," and the courage of an Ops engineer is in thinking, "I'm just babysitting the awful thing somebody else wrote." Between them they can often be entirely fearless through a whole feature-release cycle, just by everybody getting to blame somebody else.
+
+One problem here is that nobody else could possibly be to blame for any feature I write, test, release and maintain for myself.
+
+## Reasonable Caution
+
+What I ***can*** do is to record when I send email, estimate when I'm ***going*** to send email, and get all of this out of the User model into something (potentially) more robust.
+
+That means I'll want some models.
+
+I'd like to record email sends. Recording one email per database row seems, uh, dubious to me. But this is a tiny service with basically no users so I don't need to make it massively efficient yet either.
+
+But I worry. So I [looked up how Postgresql stores its strings](https://www.postgresql.org/docs/10/datatype-character.html). So now I know I'm worrying for nothing because I thought it worked like MySQL. And it doesn't. So I can store even very large lists of emailed users without screwing up my database caching.
+
+So then I need a type (a short string) indexed so I can search on it for specific events. I'd like a user ID so I can get events clearly related to a given user. And I should have a JSON-serialised data field, because [structured logging is a very good thing](https://docs.timber.io/guides/structured-logging-best-practices).
+
+~~~bash
+Noahs-MBP-2:rubymadscience noah$ rails g model Event type:string user_id:integer data:string
+Running via Spring preloader in process 44002
+      invoke  active_record
+      create    db/migrate/20200702142816_create_events.rb
+      create    app/models/event.rb
+      invoke    test_unit
+      create      test/models/event_test.rb
+      create      test/fixtures/events.yml
+~~~
+
+Earlier I said "models," plural. Events can record sending emails, but what else did I want?
+
+A record of emails ***to be sent***. I'd like to be able to review them. Even more important, I'd like to notice when there are errors in sending. Sidekiq will do some percentage of that, but I'd like the option of managing it myself. So pending emails need some kind of queue as well. Yes, [a database is often a lousy queue](http://mikehadlow.blogspot.com/2012/04/database-as-queue-anti-pattern.html) &mdash; but I have a very low-volume service and this will need rebuilding before long regardless.
+
+I feel mixed about this. It adds a bunch of complexity, which I'm trying to avoid in the first version. But I've had at least one person sign up for an account on my deployed domain even before the app works, so I have to assume ***somebody*** is going to give me information I could use to accidentally spam them. That means some control over outgoing email is an urgent need.
+
+And 'control' means 'delay,' too. If I can see emails before they go out, that means I'm intentionally waiting to send them. This is going to take several attempts before it feels good.
+
+And that means I'm free to do it imperfectly up-front. So I'll start with a simple model with a record of an upcoming email send, and another JSON-serialised data field for extra tags as I need them:
+
+~~~ bash
+Noahs-MBP-2:rubymadscience noah$ rails g model ReminderToSend user_id:integer when:datetime topics:string data:string
+Running via Spring preloader in process 46213
+      invoke  active_record
+      create    db/migrate/20200702145322_create_reminder_to_sends.rb
+      create    app/models/reminder_to_send.rb
+      invoke    test_unit
+      create      test/models/reminder_to_send_test.rb
+      create      test/fixtures/reminder_to_sends.yml
+~~~
+
+Excellent. I can write a simple Sidekiq job to make rows in this table from people's reminder settings. I'd *like* to make sure that daily and monthly jobs arrive in the same email and that the behaviour is generally sane&hellip; and now that I'm working out what all that means, let's do the simple thing first. Here's the simple thing:
+
+~~~ruby
+# No reason that the User email reminder logic can't live
+# a simple, separate PORO.
+
+# For now, this assumes all sends happen at roughly the same time of
+# day, so we can mostly count in whole days. Convenient!
+#
+# Can that condition fail? Absolutely. Bounced mail and server downtime
+# are just the first two reasons that come to mind.
+module ReminderCalculator
+    # Pass in a hash 'topics' of the form:
+    #    "topic_name" => {
+    #        frequency: "weekly",      # Or "daily", "monthly" or "none"
+    #        last_reminder: Time.now,  # Whenever last reminder was for this topic
+    #    }
+    def topics_to_remind(topics_hash, send_time)
+        topics = topics_hash.dup
+        topics.delete_if { |k, v| v[:frequency] == "none" }
+
+        topics_to_remind = topics.keys.select do |topic_name|
+            topic = topics[topic_name]
+            approx_next_reminder = if topic[:frequency] == "daily"
+                topic[:last_reminder].advance(days: 1, hours: -2)
+            elsif topic[:frequency] == "weekly"
+                topic[:last_reminder].advance(weeks: 1, hours: -2)
+            elsif topic[:frequency] == "monthly"
+                topic[:last_reminder].advance(months: 1, hours: -2)
+            else
+                raise "Unknown frequency #{topic[:frequency].inspect} for topic #{topic_name.inspect}!"
+            end
+
+            # Return true for this topic name if it's time to send again
+            approx_next_reminder <= send_time
+        end
+    end
+
+    # This takes a list of topic_ids and returns only
+    # those which, after step_completions, still have at
+    # least one unfinished step.
+
+    # This method looks up Topics by ID, which I feel a
+    # little odd about. The rationale is that it avoids
+    # database objects, but Topic is loaded from a file.
+    # That's true, and test-relevant, but it also mixes
+    # levels of abstraction. Separating this logic from
+    # its models has been messy and could likely be done
+    # better.
+    def unfinished_topics(topic_ids, step_completions)
+        topic_steps = {}
+        topic_ids.each do |topic_id|
+            topic = Topic.find(topic_ids)
+            topic_steps[topic_id] = {}
+            topic.steps.each do |step|
+                topic_steps[topic_id][step.id] = false
+            end
+        end
+
+        step_completions.each do |completion|
+            topic_steps[completion.topic_id][completion.step_id] = true
+        end
+
+        # Choose only those topic IDs that have at least one unfinished step
+        unfinished = topic_steps.keys.select do |topic_id|
+            topic_steps[topic_id].any? { |step_id, is_done| is_done == false }
+        end
+
+        unfinished # That's the name of the variable - this method works fine.
+    end
+end
+~~~
+
+There's also a little glue code in user.rb to tie this in. I'll spare you [unless you specifically want to see it](https://github.com/noahgibbs/rubymadscience/commit/3811d62df5ac5dbcc5be5dcf66ce9618f84c01ca). Also, it [wants the UserStepItem to have a topic_id to index on,](https://github.com/noahgibbs/rubymadscience/commit/484b36f294a868b3561c1b69a7c2c0d38122efb8), but that's not hard.
+
+## Isn't Software Development Supposed to be Instant?
+
+Is it just me or is this post pretty long? I wasn't sure I'd be able to get everything done in one more blog post, and putting everything together seems to be taking awhile.
+
+It often does. The "last 10%" of the work is often a big chunk of the total effort since, by nature, it contains most everything I didn't bother to plan up-front.
+
+(All else aside, I'm going to have to actually write and format that reminder email.)
+
+So let's bring this post to a close, with the intention that RubyMadScience will be properly usable by the end of next post.
+
+That always feels impossible, every time I write it, until it's true.
+
+Want to see more about Ruby Mad Science as it happens? You can check [the rubymadscience tag on this blog](/tags/rubymadscience), including not-yet-published ones. There’s also an RSS feed of posts at the top, or you can subscribe to my email list below. I’ll definitely email the list with these posts.
+
+Or if you’ve bought one of my books, you get to read and discuss blog posts early with my readers as I finish them, in the #prerelease-blog-posts channel of the customer Slack.

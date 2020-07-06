@@ -63,6 +63,12 @@ But luckily there's a "grace period" you can configure before they have to confi
 
 (If you change Devise settings, be sure to restart your Rails server. Devise deals extensively in things that require an actual Rails restart, from migrations to initialiser changes. You can get some weird bugs if you change those things but don't restart your server.)
 
+Of course, Devise has a few oddities in its controller and views. It doesn't seem to work as-generated, though it's not hard to fix up once I've actually tried things like confirming my email address. This is going to entail some actual testing, though &mdash; not only have I not checked a lot of edge cases, I don't trust myself not to accidentally re-break them in the future.
+
+One more thing.
+
+Of course, when your big worry with testing is that you'll re-break it, you can also use an old strategy: add tests as you see things break. The trick is having the discipline to actually do it.
+
 ## Better Than a Kiq in the Side
 
 Before we add actual email, we should set up [Sidekiq](https://github.com/mperham/sidekiq). Luckily that's very easy, and I've already handled the [deployment side of it](/posts/series-build-coding-course-deployment/).
@@ -108,6 +114,10 @@ ReminderEmails.perform_in(3.minutes)
 ~~~
 
 Why am I deleting all other jobs of the same class? Because if I run this Rails server with multiple processes, it's going to run this for each process. That means there is absolutely a race condition where sometimes ReminderEmails is going to run multiple times, and I need to be okay with that.
+
+(By "be okay with that" I mean "write the job as a series of database transactions so it doesn't cause trouble." But you knew that, right?)
+
+The timing for this may be interesting. I don't particularly want to run it constantly. It would be nice to have predictability about when reminders go out. I don't want to make it finely-configurable because that's complicated. So I suspect it's going to be one big, quick batch job, approximately daily.
 
 ## On to Email!
 
