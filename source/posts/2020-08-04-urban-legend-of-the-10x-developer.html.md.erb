@@ -1,0 +1,122 @@
+---
+title: "The Urban Legend of the 10X Developer"
+tags: career
+---
+
+You'll often hear folks claim that it's well-researched that some developers are ten times (or twenty-seven times! Or more!) as productive as the median developer. They often refer these gifted folks as "10x developers."
+
+The "well-researched" part is garbage. Completely wrong. There are some studies, and they're terrible.
+
+But is there perhaps some truth to the idea? Let's talk about that.
+
+And what would "some truth to it" mean? That depends on how you define "productivity." So let's look at some definitions.
+
+## "Well-Researched?"
+
+You may be one of [today's lucky 10,000](https://xkcd.com/1053/) to learn about [Laurent Bossavit's "The Leprechauns of Software Engineering."](https://leanpub.com/leprechauns) It's a thoroughly excellent ebook that I recommend highly.
+
+It turns out that we, as software engineers, tend to believe that we've researched a few specific things about software engineering and that we know those things scientifically. We're nearly always wrong about that. For instance:
+
+* The "10x Developer" thing has only a couple of empirical papers that actually even try to measure, and they do a bad job of that
+* That "changes get exponentially more expensive to fix" based on time-after-writing never had any empirical data behind it, ever
+* "Waterfall" as a project management methodology was basically stood up as a strawman for Agile folks to knock over, but it ***did*** basically exist and was used at least somewhat
+
+But I can stop spoiling it for you. It's worth your time to read it.
+
+In any case, the early studies that found "10x productivity" developers studied different kinds of developers in different environments with minimal controls and far too few developers being sampled. The research is terrible if you want to base any real work on it.
+
+"Leprechauns" goes even further, and basically thinks our field ***cannot*** measure this. The claim sounds outlandish, but I think he's basically right. Until we're willing to define "productivity," which is very hard, we're not going to be able to define a good study around it.
+
+And the horrible quality of the existing studies is a warning to us: designing a bad study doesn't teach us anything useful.
+
+## Productivity? That's Lines Per Day, Right?
+
+Also, are we trying to say that ***at similar experience levels*** there are 10x differences between different developers? Or between similar developers in different circumstances? Are we trying to say that there is a 10x difference between one developer on their second week and the same developer in their thirtieth year? Mostly, more experienced developers do different tasks and approach them in different ways, so are we trying to say that there is a 10x difference in a similar task, but where the developer can pick ***what functionality*** to implement? Because if so, we're not going to be able to design a good research study for that. Ever.
+
+So: studies don't actually say this, partly because coding productivity is *really* hard to design a reasonable study for. Also because most software engineering research is terrible. Also we have a tendency to cite previous papers as saying things they don't.
+
+Are you thinking, "that can't be that hard?" If so, I ***strongly recommend*** you read The Leprechauns of Software Engineering. He's put a lot of effort into tracking previous attempts to show the problems with them. He's also put a lot of effort into formulating definitions of "productivity" to show how hard it is to show that what you're measuring should measure that idea of productivity. Basically, if you don't know what your definition is, you'll tend to wind up multiple steps away from anything sensible, in a way that leaves your measurement as complete nonsense.
+
+## What Can We Say? Money?
+
+All right, let's take it as a given that measuring productivity is really hard. What can we say?
+
+There are some traditional measures of productivity. They're bad, but they're a long-established kind of bad. What can we do with that?
+
+One is money. The amount of money a piece of work sells for (either by an employee or a company) has very little to do with the quantity or quality of that work. So: don't conflate money with either how hard somebody works or how well they work. But can't we just measure money?
+
+We can.
+
+It's clear that there is a far greater than 10x difference between the amount of money being made by the highest- and lowest-paid programmers. That's true if look at employees: early Google employees made many millions, random senior programmers make far less than 1/10th as much. It's true if you look at founders: the median founder loses money while a few founders make many millions of US dollars. It's true of freelancers, where the same developer may go from $40/hour to $400/hour or more over a surprisingly short time.
+
+Of course, low-quality code often makes a lot of money. Money isn't a very good measurement of anything but money. There's a great Stephen King quote I can't find &mdash; he was asked by somebody how he could be a bestselling author when his writing was so bad. He said, roughly, "listen to your own question. It's best-***selling*** author, not best-***writing*** author."
+
+In the tech realm, the early Wordpress code was pretty clearly ***not*** good code. I don't mean "it was in PHP." I mean it was insecure, inefficient and inconsistent in interfaces. It was, however, astoundingly popular and made a lot of folks a lot of money. Excellent code is often small, so measuring how many lines or how much functionality it has is often missing the point. ***Well-chosen*** functionality is usually the point, and that's often more in the realm of design or product (or occasionally random chance) than of engineering.
+
+Money mostly measures money.
+
+For all the same reasons, popularity mostly measures popularity. There is clearly far more than a 10x difference between the median-popularity and most-popular software, even if you measure developer-by-developer or hour-by-hour.
+
+But we knew that, and it's not what we actually want to measure.
+
+## Impact?
+
+Can you show a 10X ***impact***? Not really, no. I mean, you can easily show that some developers have ***no*** impact. I worked for a year on DVR firmware that never shipped, and two years on a phone operating system no carrier ever bought. There are many similar stories. So in some sense, if you deployed a web app around 2005 you were an infinite number of times more productive than I was that year.
+
+But "impact" shares the same problems as "money" and "popularity" - it's easy to show that a staggeringly huge difference exists, but that difference is almost completely detached from how hard or how well the developer actually worked.
+
+Frequently it's completely random.
+
+## What Would 10x Look Like?
+
+Part of the reason we want to point at "10x developers" at all is that we've worked with developers that seem to write better projects, a lot faster than others. We have a gut-level intuition that some developers are far more productive than the average.
+
+We just don't know a good way to quantify that. And if we can't quantify it, we can't test our gut-level intuition and see if it's true or not.
+
+Indeed, some people are sure it's a mirage. "A 10x developer is just a regular developer on a good team with a supportive environment." "A 10x developer is writing code with so much technical debt the rest of his team is down to 0.1x trying to clean it all up."
+
+There's no research for ***that*** idea of a 10x Developer either. But it's not hard to imagine a world where it's true. If we can't test any of the variations of 10x Developer then we can't rule them out.
+
+I, personally, hope I can significantly improve as a developer over my career. It would be nice to think that I'm more useful now than I was 30 years ago. But if we want something as wishful thinking, we should be suspicious of it.
+
+When we look at a meaningless Rorschach Blot Test, the things we crave will mysteriously appear.
+
+## What We Can't Measure
+
+I believe there exists something along the lines of a 10x Developer. I have a mental concept of it. It might even have some kind of truth behind it, though it's hard to tell.
+
+To explain that concept to a non-developer, I might say:
+
+"There are software developers who seem to create useful software quickly. They don't need much managing. They often ignore managers in favour of producing what's actually needed. They usually have a good read on company politics, but they work in a position where they don't need to do much of it. They're well-trusted, and are often brought in to rescue a team whose project is bogged down."
+
+And it strikes me, as I write that, how much of it is about the organisation trusting the developer. Much of it is about ignoring structure and rules that, at that moment, would get in the way. A developer usually needs skill and talent to get that trust, but the continuing productivity is about ***continuing to have the trust of their employer***. Just having skill and talent often won't do it.
+
+In other words, I've come to a personal definition that is very similar to "a 10x developer is a solid, ordinary developer with good organisational support."
+
+Indeed, if you [read between the lines of many existing descriptions](https://randsinrepose.com/archives/free-electron/) you'll see that a lot of it is about organisational support there, too. It's just written by people who think that if you're good enough technically, the organisation will let you apply your skill where it will make a difference. That hasn't been my experience, personally.
+
+That's not to say that "anybody could be one." I think actual "solid, ordinary" developers who can do good work on many different types of projects are rare and underrated. But they're not magic unicorns. They're about as rare as good plumbers, good mechanics or good doctors. You wouldn't expect to find one every time you hire a professional. But you'd also expect to be able to find one with some time, work and patience. They may already be booked solid, of course.
+
+## Happy Tomatoes and Junkyard Roses
+
+And it's not even that a solid, ordinary developer could be a 10x Developer at ***every*** company. The more awful the company, the harder it is to be a 10x developer without a lot of favour from the managers and executives. A healthy organisation will give a competent developer some leeway on less-important rules. If you need some extra hours of [20% time](https://en.wikipedia.org/wiki/20%25_Project) to build a skunkworks project, a healthy organisation (say, old Google) will usually be thrilled to let you do it. A less-emotionally-secure organisation (say, [current Google](https://www.businessinsider.com/google-20-percent-time-policy-2015-4)) doesn't want you to self-manage. It can be threatening to the managers. An organisation with a more [command-and-control style](https://en.wikipedia.org/wiki/Command_and_control) doesn't have room for a 10x developer if that means they get to choose how they work.
+
+And so being an excellent developer in a less-secure organisation is more about getting a popular or powerful manager to favour you, or about sneaking around to get things done in a way that isn't actually allowed.
+
+The worse the organisation, the more of being a 10x developer requires dealing well with that bad environment. Sometimes a "developer with good organisational support" isn't a happy tomato plant in rich pH-balanced soil. Sometimes they're a junkyard rose that can grow anywhere.
+
+Which means a "real" 10x developer &mdash; one who would be a 10x developer nearly anywhere &mdash; is necessarily somebody who deals well with horrible, politics-laden environments. I suspect most of them become consultants, where that skill pays extremely well.
+
+It also suggests that 10x developers aren't necessarily any more likely to strike it rich in a startup. "I can thrive no matter how bad the environment" may lead to professional advancement, but if the people around you can't thrive then the startup probably dies. You can easily get another startup job if you're remembered well. But your options are still worthless. Being a 10X developer would mostly buy you job security rather than unreasonable prosperity.
+
+This tracks with my experience of such developers. I *do* sometimes meet amazing developers who struck it rich. But I meet far more rich developers who were okay-or-better and happened to be in the right place at the right time. Being an amazing developer almost always means you can make a great salary at a giant company, but doesn't seem to give a huge leg-up at a startup. It ***might*** possibly, arguably do so if that engineer is also a founder.
+
+## Okay, I'm Back From the Loo - What Did I Miss?
+
+There's no real research showing that 10X-productivity developers exist. But many of us would like to believe it. That's another reason to be distrustful.
+
+If you measure in money or popularity then you can easily show a 10x difference, but it's not very satisfying.
+
+Organisational support lets a developer do a lot more. A lot of stories of 10X developers have their roots in "well supported by the company" situations. Is that a "real" 10x developer? Hard to say.
+
+A developer who could "always" be 10X would need to be scarily resilient to bad management. There's a lot of that in the world. It's not clear that being one of those would be good for the developer ***or*** the company.
