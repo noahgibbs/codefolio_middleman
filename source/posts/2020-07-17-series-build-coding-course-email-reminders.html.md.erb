@@ -7,7 +7,7 @@ featured_caption: "I'm enjoying the new thumbnails for topics a lot."
 
 In [this series](/tags/rubymadscience) I've built out a Rails app from scratch, deployed it and I'm ***this close*** to getting it actually useful.
 
-Will today be that final bit to hit "useful?" I don't know as I write this, but it's getting close&hellip;
+Will today be that final bit to hit "useful?" I don't know as I write this, but it's getting closer&hellip;
 
 Last week we built out subscription buttons, profiles for managing subscriptions and a lot of other stuff that doesn't actually ***send any email***. Let's fix that.
 
@@ -56,49 +56,7 @@ The courage of a software developer is in building features thinking, "somebody 
 
 One problem here is that nobody else could possibly be to blame for any feature I write, test, release and maintain for myself.
 
-## Reasonable Caution
-
-What I ***can*** do is to record when I send email, estimate when I'm ***going*** to send email, and get all of this out of the User model into something (potentially) more robust.
-
-That means I'll want some models.
-
-I'd like to record email sends. Recording one email per database row seems, uh, dubious to me. But this is a tiny service with basically no users so I don't need to make it massively efficient yet either.
-
-But I worry. So I [looked up how Postgresql stores its strings](https://www.postgresql.org/docs/10/datatype-character.html). So now I know I'm worrying for nothing because I thought it worked like MySQL. And it doesn't. So I can store even very large lists of emailed users without screwing up my database caching.
-
-So then I need a type (a short string) indexed so I can search on it for specific events. I'd like a user ID so I can get events clearly related to a given user. And I should have a JSON-serialised data field, because [structured logging is a very good thing](https://docs.timber.io/guides/structured-logging-best-practices).
-
-~~~bash
-Noahs-MBP-2:rubymadscience noah$ rails g model Event type:string user_id:integer data:string
-Running via Spring preloader in process 44002
-      invoke  active_record
-      create    db/migrate/20200702142816_create_events.rb
-      create    app/models/event.rb
-      invoke    test_unit
-      create      test/models/event_test.rb
-      create      test/fixtures/events.yml
-~~~
-
-Earlier I said "models," plural. Events can record sending emails, but what else did I want?
-
-A record of emails ***to be sent***. I'd like to be able to review them. Even more important, I'd like to notice when there are errors in sending. Sidekiq will do some percentage of that, but I'd like the option of managing it myself. So pending emails need some kind of queue as well. Yes, [a database is often a lousy queue](http://mikehadlow.blogspot.com/2012/04/database-as-queue-anti-pattern.html) &mdash; but I have a very low-volume service and this will need rebuilding before long regardless.
-
-I feel mixed about this. It adds a bunch of complexity, which I'm trying to avoid in the first version. But I've had at least one person sign up for an account on my deployed domain even before the app works, so I have to assume ***somebody*** is going to give me information I could use to accidentally spam them. That means some control over outgoing email is an urgent need.
-
-And 'control' means 'delay,' too. If I can see emails before they go out, that means I'm intentionally waiting to send them. This is going to take several attempts before it feels good.
-
-And that means I'm free to do it imperfectly up-front. So I'll start with a simple model with a record of an upcoming email send, and another JSON-serialised data field for extra tags as I need them:
-
-~~~ bash
-Noahs-MBP-2:rubymadscience noah$ rails g model ReminderToSend user_id:integer when:datetime topics:string data:string
-Running via Spring preloader in process 46213
-      invoke  active_record
-      create    db/migrate/20200702145322_create_reminder_to_sends.rb
-      create    app/models/reminder_to_send.rb
-      invoke    test_unit
-      create      test/models/reminder_to_send_test.rb
-      create      test/fixtures/reminder_to_sends.yml
-~~~
+## Turning Subscriptions Into Reminders
 
 Excellent. I can write a simple Sidekiq job to make rows in this table from people's reminder settings. I'd *like* to make sure that daily and monthly jobs arrive in the same email and that the behaviour is generally sane&hellip; and now that I'm working out what all that means, let's do the simple thing first. Here's the simple thing:
 
@@ -138,8 +96,8 @@ module ReminderCalculator
         end
     end
 
-    # This takes a list of topic_ids and returns only
-    # those which, after step_completions, still have at
+    # This takes a list of topic_ids and returns a mapping
+    # of those which, after step_completions, still have at
     # least one unfinished step.
 
     # This method looks up Topics by ID, which I feel a
@@ -149,43 +107,105 @@ module ReminderCalculator
     # levels of abstraction. Separating this logic from
     # its models has been messy and could likely be done
     # better.
-    def unfinished_topics(topic_ids, step_completions)
+
+    # Step_completions is a list of items that look like
+    # UserStepItems - they have accessors for topic_id and
+    # step_id, and if passed in are assumed to correspond
+    # to "yes, this step is complete (or skipped.)"
+    def next_step_by_topic_id(topic_ids, step_completions)
         topic_steps = {}
         topic_ids.each do |topic_id|
-            topic = Topic.find(topic_ids)
+            topic = Topic.find(topic_id)
             topic_steps[topic_id] = {}
             topic.steps.each do |step|
-                topic_steps[topic_id][step.id] = false
+                topic_steps[topic_id][step.id] = true
             end
         end
 
         step_completions.each do |completion|
-            topic_steps[completion.topic_id][completion.step_id] = true
+            topic_steps[completion.topic_id].delete(completion.step_id)
         end
 
-        # Choose only those topic IDs that have at least one unfinished step
-        unfinished = topic_steps.keys.select do |topic_id|
-            topic_steps[topic_id].any? { |step_id, is_done| is_done == false }
+        next_by_topic_id = {}
+        topic_steps.each do |topic_id, unfinished_steps|
+            unless unfinished_steps.empty?
+                first_unfinished, t = *unfinished_steps.first
+                next_by_topic_id[topic_id] = first_unfinished
+            end
         end
 
-        unfinished # That's the name of the variable - this method works fine.
+        next_by_topic_id
+    endend
+~~~
+
+There's also a little glue code in user.rb to tie this in. I'll spare you [unless you specifically want to see it](https://github.com/noahgibbs/rubymadscience/blob/master/app/models/user.rb). Also, it [wants the UserStepItem to have a topic_id to index on,](https://github.com/noahgibbs/rubymadscience/commit/484b36f294a868b3561c1b69a7c2c0d38122efb8), but that's not hard.
+
+## Finally, ActionMailer
+
+<%= aside_image(current_page.url + "rms_mailer_preview.png", alt: "A RubyMadScience reminder email showing a couple of topics with next steps.", image_classes: ["img-frame"], caption: "That's not elaborate, but it's not awful.", direction: :right) %>
+
+It's nice to calculate these things. But how do we send mail? First, [ActionMailer has very good documentation](https://guides.rubyonrails.org/action_mailer_basics.html) to start from.
+
+So I've created a mailer called TopicReminderMailer and an action called merged_reminder. It's "merged" because the daily, weekly and monthly all go in one email.
+
+I [added the nontrivial logic](https://github.com/noahgibbs/rubymadscience/commit/91ee1465eb704fe08d096e0d7f7d870caf551bba) to the mailer, and Rails will cheerfully show a live preview if you build a preview action (you can see one to the right there.)
+
+And while I was very tempted to add a lot more tracking, I've suppressed that urge for now. I'm pretty sure I'm procrastinating by engineering. It's time to stop that and push something out the door.
+
+Once we have the mailer and the calculation, it's not hard to add a snippet to the Sidekiq job to put them together&hellip; Although it's not quite as easy as I thought, and it took me a little debugging to get to this point:
+
+~~~ruby
+class ReminderEmails
+    include Sidekiq::Worker
+
+    def perform
+        User.all.each do |u|
+            remind_steps = u.next_steps_to_remind_at_time(Time.now)
+            next if remind_steps.empty?
+            UserTopicItem.transaction do
+                remind_steps.keys.each do |topic_id|
+                    ut = UserTopicItem.where(user_id: u.id, topic_id: topic_id).first
+                    ut.last_reminder = Time.now
+                    ut.save!
+                end
+                TopicReminderMailer.with(remind_topics: remind_steps, user_id: u.id).merged_reminder.deliver
+            end
+        end
+
+        ReminderEmails.perform_in(1.hour)
     end
 end
 ~~~
 
-There's also a little glue code in user.rb to tie this in. I'll spare you [unless you specifically want to see it](https://github.com/noahgibbs/rubymadscience/commit/3811d62df5ac5dbcc5be5dcf66ce9618f84c01ca). Also, it [wants the UserStepItem to have a topic_id to index on,](https://github.com/noahgibbs/rubymadscience/commit/484b36f294a868b3561c1b69a7c2c0d38122efb8), but that's not hard.
+This won't last forever. Or very long. In fact, it will cheerfully page through every user on the site on every Sidekiq job. If I outgrow a few thousand users, this will get very slow&hellip; though not ***so slow*** that anybody would be able to tell by their email reminders.
+
+In keeping with the spirit of getting something workable out the door, this does just fine. And this is one of many, many opportunities for more polish later.
+
+## Is That It?
+
+This is pretty close to workable. It's also a huge pain to test. I can subscribe to some daily tasks, but then I'm waiting to get emailed, and then get emailed again to make sure the reminders are working right.
+
+(There's a lot of debugging that I do behind the scenes. If it would make for a boring blog post, I skip writing about it. But [it's in the repository](https://github.com/noahgibbs/rubymadscience/commits/main).)
+
+Sounds like it's time for a much-more-frequent email reminder that only shows up in the UI in development. I don't mind it ***existing*** in production if you'd have to build your own AJAX requests to subscribe to it. I just don't want anybody hitting the "spam me and never stop" button by accident.
+
+And with that, and a bit more testing and debugging, I have it sending me reminders from my development server.
 
 ## Isn't Software Development Supposed to be Instant?
 
-Is it just me or is this post pretty long? I wasn't sure I'd be able to get everything done in one more blog post, and putting everything together seems to be taking awhile.
+Is it just me or is [this series](/tags/rubymadscience) pretty long? I wasn't sure I'd be able to get everything done in one more blog post, and putting everything together seems to be taking awhile.
 
 It often does. The "last 10%" of the work is often a big chunk of the total effort since, by nature, it contains most everything I didn't bother to plan up-front.
 
-(All else aside, I'm going to have to actually write and format that reminder email. And finish up the Sidekiq job. And some of the autogenerated Devise code is broken, but I won't make you read through that part.)
-
-So let's bring this post to a close, with the intention that RubyMadScience will be properly usable by the end of next post.
+And finally, after six weeks (as I write this) of effort, I have what I consider an MVP.
 
 That always feels impossible, every time I write it, until it's true.
+
+Now I just need to start putting the application in places where it sees real-world use. ***Then*** I'll know how far short this falls of "actually useful, really, in the real world."
+
+In other words, expect more posts about this. The rate will probably slow down from here on out, though.
+
+<hr/>
 
 Want to see more about Ruby Mad Science as it happens? You can check [the rubymadscience tag on this blog](/tags/rubymadscience), including not-yet-published ones. There’s also an RSS feed of posts at the top, or you can subscribe to my email list below. I’ll definitely email the list with these posts.
 
