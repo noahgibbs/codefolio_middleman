@@ -1,11 +1,13 @@
 ---
 title: "The Urban Legend of the 10X Developer"
 tags: career
+featured_asset: chimp_keyboard
+featured_caption: "Compared to this guy you may be a hundred-x developer but the real ninja rockstar was the friends he made along the way."
 ---
 
 You'll often hear folks claim that it's well-researched that some developers are ten times (or twenty-seven times! Or more!) as productive as the median developer. They often refer these gifted folks as "10x developers."
 
-The "well-researched" part is garbage. Completely wrong. There are some studies, and they're terrible.
+The "well-researched" part is garbage. Completely wrong. There are some studies and they're terrible.
 
 But is there perhaps some truth to the idea? Let's talk about that.
 
@@ -13,15 +15,17 @@ And what would "some truth to it" mean? That depends on how you define "producti
 
 ## "Well-Researched?"
 
+<%= aside_image(current_page.url + "leprechauns_cover.png", alt: "The cover of Laurent Bossavit's book 'The Leprechauns of Software Engineering.'", image_classes: ["img-frame"], caption: "It's a wonderful, depressing read.", direction: :right) %>
+
 You may be one of [today's lucky 10,000](https://xkcd.com/1053/) to learn about [Laurent Bossavit's "The Leprechauns of Software Engineering."](https://leanpub.com/leprechauns) It's a thoroughly excellent ebook that I recommend highly.
 
 It turns out that we, as software engineers, tend to believe that we've researched a few specific things about software engineering and that we know those things scientifically. We're nearly always wrong about that. For instance:
 
 * The "10x Developer" thing has only a couple of empirical papers that actually even try to measure, and they do a bad job of that
-* That "changes get exponentially more expensive to fix" based on time-after-writing never had any empirical data behind it, ever
-* "Waterfall" as a project management methodology was basically stood up as a strawman for Agile folks to knock over, but it ***did*** basically exist and was used at least somewhat
+* That "changes get exponentially more expensive to fix" based on time-after-writing never had any empirical data behind it and is based on miscopying a theory
+* "Waterfall" as a project management methodology ***did*** basically exist and was used, but the "definitive" paper wasn't made popular until its enemies did
 
-But I can stop spoiling it for you. It's worth your time to read it.
+But I can stop spoiling the book for you. It's worth your time to read it.
 
 In any case, the early studies that found "10x productivity" developers studied different kinds of developers in different environments with minimal controls and far too few developers being sampled. The research is terrible if you want to base any real work on it.
 
@@ -30,6 +34,8 @@ In any case, the early studies that found "10x productivity" developers studied 
 And the horrible quality of the existing studies is a warning to us: designing a bad study doesn't teach us anything useful.
 
 ## Productivity? That's Lines Per Day, Right?
+
+<%= asset_image("chimp_with_lab_glass", size: :aside, disappear_on_mobile: true, direction: :left, caption: "He almost has this 'productivity' thing figured out.") %>
 
 Also, are we trying to say that ***at similar experience levels*** there are 10x differences between different developers? Or between similar developers in different circumstances? Are we trying to say that there is a 10x difference between one developer on their second week and the same developer in their thirtieth year? Mostly, more experienced developers do different tasks and approach them in different ways, so are we trying to say that there is a 10x difference in a similar task, but where the developer can pick ***what functionality*** to implement? Because if so, we're not going to be able to design a good research study for that. Ever.
 
