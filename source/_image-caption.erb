@@ -1,8 +1,8 @@
 <figure class="<%= figureclasses %>">
     <a <%= lightbox ? "class='lightboxed'" : "" %> href='<%= escape_html(imageurl) %>' >
-      <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" :   "" %> <%= height ? "height='#{height}'" : "" %> <%= caption ? "title=#{caption.inspect}" : "" %> />
+      <img src="<%= escape_html(imageurl) %>" class="<%= imageclasses %>" alt="<%= escape_html(alt) %>" <%= width ? "width='#{width}'" :   "" %> <%= height ? "height='#{height}'" : "" %> <%= caption ? "title=\"#{escape_html(caption)}\"" : "" %> />
     </a>
     <% if caption %>
-        <figcaption class="caption-text"><%= caption %></figcaption> 
+        <figcaption class="caption-text"><%= caption.html_safe %></figcaption> 
     <% end %>
 </figure>
