@@ -6,3 +6,23 @@ layout: dgd_page
 Ah, DGD. It stands for "Dworkin's Generic Driver," and it stands for something like eight years of my life as a young developer that I will never get back.
 
 It was fun. And I was young and stupid. But still, fun.
+
+DGD was descended ideologically from LPMUD, a style of MUD (1980s-era multiplayer text game) that used a C-like dialect for its internal language. All the ease of writing C for authoring, combined with poor documentation and never getting any respect, because MUDs!
+
+DGD's dialect of LPC (LPMUD language) was both too weird to be easy for other LPMUD admins to use, and too simplified-looking for "real" C programmers. Basically, it was guaranteed to never be considered for its technical merits, regardless.
+
+That's a shame, because it actually had some surprising technical merits.
+
+## Technical Merits
+
+DGD had a weird-at-the-time runtime model which these days we'd call "evented." It has a lot in common with NodeJS, for instance.
+
+The idea is that the code runs in very short time-slices, and DGD has built-in facilities to guarantee the code can't run very long, or use very much memory, before it's forcibly interrupted. That's important because a lot of system-level activity happens ***between*** these slices, so they shouldn't run too long.
+
+One of the most amazing (and weirdest) things about DGD was ***atomic functions***. That is, functions that worked like a database transaction. If there was an exception partway through it, it would roll back everything the function had done. ***Everything***. Global variable writes, network and file I/O, ***everything***.
+
+How, you might ask? Because network and file I/O happen ***in between slices***. You could ***schedule*** network writes or file writes, but they'd go out after your timeslice finished, so they can be "undone" any time before that. You could ask for a network read, but the bytes came in before the slice started and you can't "really" read new ones. Reading is easy to undo via buffering anyway. It's writes that are hard.
+
+DGD also allowed fully recompiling any of your objects, fully live. Recompiling your objects ***also*** happened in between slices. So inside any given DGD function you'll always get a single, consistent version of the object. But they can quietly change between slices, and then react ***to that recompilation***, but they do it in the following timeslice.
+
+You can imagine a retro-future where DGD succeeded massively and was used for giant, long-running systems that stayed constantly live. It never happened. But like the 1960s retro-future of The Jetsons, it's a glorious ideal and a fun idea that would never have actually worked.
