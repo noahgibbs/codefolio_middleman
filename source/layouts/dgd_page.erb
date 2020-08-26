@@ -1,0 +1,10 @@
+<% wrap_layout :horace_default do %>
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <h1><%= current_page.data.title || "Codefol.io on DGD" %></h1>
+            <%= yield %>
+        </article>
+    </main>
+</div>
+<% end %>

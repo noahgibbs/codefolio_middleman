@@ -1,0 +1,113 @@
+---
+title: "Getting Started with Raw DGD from Scratch"
+layout: dgd_page
+---
+
+DGD is very, very old-school in how it's set up. If you know your compile tools and you're feeling adventurous, you can set it up from scratch.
+
+I wrote this mainly as a sort of personal exercise to explain the old world to somebody who wasn't there at the time. I can't imagine many people would actually ***want*** to do this. Also, there should be some description of how to do this, even if it's a bad idea (and it is.)
+
+## Download DGD and Set Up Your Directories
+
+[DGD development happens on GitHub](https://github.com/dworkin/dgd).
+
+You can [download the latest DGD from GitHub](https://github.com/dworkin/dgd/downloads). For this example I'm using version 1.4.18. Go ahead and download it. It's 455 KB, so you could do it over an old modem and it still wouldn't take long.
+
+Now you're going to need to set up some directories. I recommend making a directory somewhere called "dgd" which will hold all the pieces. Then you're going to move that file you downloaded (dgd-1.4.18.tar.gz) into the dgd directory.
+
+Now you'll unpack it. You can double-click the archive on a Mac. But we're going to be doing a lot of console work, so you should probably open a console, go into that dgd directory (using "cd", old-style) and type something like "tar zxvf dgd-1.4.18.tar.gz". You're getting ready to dive into LPC, the language of massively-multiplayer text games from the 80s, so savour that old-school flavour.
+
+You now have a directory called "dgd" inside your other directory called "dgd." So if I talk about a directory called "dgd/dgd", that's the one. Got it?
+
+## Build the Driver (the Native App)
+
+Inside dgd/dgd, pop into "src" and type "make install". If you have all the appropriate tools for compiling C code installed, that will output a wall-O-text and create a file called dgd/dgd/bin/driver. If you're not sure if it worked, look in dgd/dgd/bin and see if there's a "driver" file. There should be.
+
+(What if you don't have the appropriate tools installed to compile C code? I'm going to be annoying and not tell you how, I'm afraid. If you don't, there's a 95% chance that you are not going to enjoy setting up your own DGD stuff from scratch, and you should find a different method, or a person to help you.)
+
+That file is what the rest of the world calls a "language interpreter" for DGD, or just "the DGD app," kind of like how you use a program called "ruby" to run your Ruby code. But 1980s LPMUDs called it a driver, and so it's named "driver." Now you know.
+
+## Grab a copy of Kernellib
+
+DGD doesn't have anything game-like built in. It's just a language. It's like how Python doesn't come with any usable programs. Those are written ***in*** Python, but they don't come ***with*** Python.
+
+The Kernellib isn't particularly game-like either, but it's a step closer. It's a kind of standard library and management system on top of DGD. You're not required to use it &mdash; many DGD games didn't! But a lot of the features that make DGD technically interesting are very hard to use without it. The games that don't use kernellib often don't allow you to recompile all your objects live, for instance.
+
+You'll need to grab a copy of kernellib. It does *not* have releases to download. You're welcome.
+
+Instead you're going to clone it with Git from inside the "dgd" (but not "dgd/dgd") directory:
+
+    git clone git@github.com:shentino/kernellib.git
+
+Now you have a dgd/kernellib directory.
+
+## Setting Up Your Not-a-Game with Kernellib
+
+You'll need to make a new directory for your thing-that-uses-kernellib. I'm going to call mine "ktest_mud". It's not really a MUD, but calling it one is traditional.
+
+Make a new empty ktest_mud directory inside the "dgd" directory, right next to "dgd/dgd". We're going to copy bits of the kernel library into it, because that's how kernellib rolls. If you're planning to keep an up-to-date kernellib and use latest (WHY GOD WHY) then you could symlink it instead, but I'm not going to enable that behaviour by describing it.
+
+To copy in those directories, from inside your ktest_mud directory:
+
+    cp -r ../kernellib/src/include include
+    cp -r ../kernellib/src/kernel kernel
+
+## Your Configuration File
+
+The kernellib ships with a configuration file, called dgd/kernellib/kernel.dgd. Copy it to mud.dgd:
+
+    cp ../kernellib/kernel.dgd mud.dgd
+
+You'll also need to open it in the editor and change the "directory" path to the absolute path of your ktest_mud directory. To find that absolute directory, type "pwd" from inside ktest_mud. Here's what mine looks like:
+
+    directory   = "/Users/noah/localsrc/dgd/ktest_mud";/* base directory (MUST be absolute) */
+
+## Running the MUD
+
+You can get it up and running at "hello, world" quality now. If you named your config file "mud.dgd" then you can run the driver from ktest_mud:
+
+    ../dgd/bin/driver
+
+You should see some text:
+
+    Aug 26 11:29:49 ** DGD 1.4.18
+    Aug 26 11:29:49 ** Initializing...
+    Aug 26 11:29:49 ** Initialization complete.
+
+It's up and running!
+
+## Connecting to the MUD
+
+If you don't have a telnet client installed, you should probably fix that. On a Mac with Homebrew you can "brew install telnet". I'm sure there's telnet available for any modern Linux distribution as well, though sane people should probably stop doing that.
+
+Once you have it, "telnet localhost 6047" should get you a DGD login:
+
+    Trying ::1...
+    Connected to localhost.
+    Escape character is '^]'.
+    
+    DGD 1.4.18 (telnet)
+    
+    login:
+
+Log in as "admin" and pick a new password:
+
+    login: admin
+    Pick a new password:
+    Retype new password:
+    Password changed.
+    # help
+    No command: help
+
+There are commands available. "Help" is not one of them.
+
+    # ls
+    /usr/admin: No such file or directory.
+    # pwd
+    /usr/admin
+
+You can quit by typing "quit" or by forcibly quitting your telnet client.
+
+## Next Steps
+
+You're not actually reading this because you want to get a clean start on DGD. I'm just having fun with you. You don't need me to tell you what the next step is.
