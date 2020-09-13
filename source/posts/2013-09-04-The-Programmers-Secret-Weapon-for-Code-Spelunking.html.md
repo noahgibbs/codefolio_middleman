@@ -12,7 +12,7 @@ Ruby isn’t terribly friendly to IDEs. Dynamic method definition, highly config
 
 In Ruby, my go-to solution is command-line code search. I’ve used <a href="http://beyondgrep.com">Ack</a> for many years. While recursive find would take seconds or minutes, Ack would take well under ten seconds, consistently. It’s very fast, recursive, uses Perl-compatible regexps, very fast, lets you search by language, very fast, doesn’t require an IDE or project file and did I mention very fast? I used it constantly until about April.
 
-And then I found Ag ("https://github.com/ggreer/the_silver_searcher"). It is THREE TIMES as fast as Ack. You know that jaw-hits-floor moment? When I first searched for something in a large code tree with Ag… It was <a href="http://www.nngroup.com/articles/response-times-3-important-limits/">faster than fast -- instant</a>. I hit the return key and the output was just there. As fast as the next prompt popped up, so did a page and a half of search results.
+And then I found Ag ("https://github.com/ggreer/the\_silver\_searcher"). It is THREE TIMES as fast as Ack. You know that jaw-hits-floor moment? When I first searched for something in a large code tree with Ag… It was <a href="http://www.nngroup.com/articles/response-times-3-important-limits/">faster than fast -- instant</a>. I hit the return key and the output was just there. As fast as the next prompt popped up, so did a page and a half of search results.
 
 <a href="http://www.nngroup.com/articles/response-times-3-important-limits/"><img src="/images/52/usability_screen.png#left" style="border: 2px solid black;" /></a>
 
