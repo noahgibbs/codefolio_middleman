@@ -1,0 +1,88 @@
+---
+title: "What Can You Do with Rack Middleware?"
+tags: career
+featured_asset: how_to_solve_it
+featured_caption: "But Does It Solve My Problem?"
+---
+
+[Rack](https://github.com/rack/rack) is Ruby's standard web interface. Rails uses it, Sinatra uses it, basically every Ruby web server and framework use it.
+
+And Rack adds "middleware," pieces of software that you can build an app out of. They see requests and responses, and they can modify both. Middleware is so powerful that Rails is basically made entirely out of it &mdash; thin layers examining and modifying request data. Rails uses 21 pieces of middleware in production and 28 in development, and that's not counting internal middleware stacks like the one in every Rails controller.
+
+Okay... But "inspect and modify requests and responses" sounds incredibly general. What can you ***actually do*** with Rack middleware?
+
+## Monitor and Log Incoming Requests
+
+Whether it's analytics software like [Rack::Monitor](https://github.com/pka/rack-monitor) or [Rackamole](http://www.rubyinside.com/rackamole-rack-based-monitoring-for-your-ruby-web-apps-2918.html) (admittedly obsolete), or something you wrote to count certain types of request, middleware can monitor and log requests on the way in.
+
+This category is uncommon in the wild, because the next two categories have mostly replaced it.
+
+## Filter and Validate Incoming Requests
+
+Of course, you don't have to only count. You can filter requests (e.g. with [Rack-Attack](https://github.com/rack/rack-attack)) or check authorisation and reject invalid requests with an HTTP 403 Forbidden (like [Rack::Auth::Basic](https://github.com/rack/rack/blob/master/lib/rack/auth/basic.rb).)
+
+You can even fix up problems - [here's an article about fixing up badly-formed XML in custom Rack middleware](https://tanzu.vmware.com/content/blog/sanitizing-post-params-with-custom-rack-middleware). It's both an example of modifying incoming requests ***and an example of app-specific middleware***. Middleware doesn't have to be something generic. It can do one thing for one specific app in one specific way.
+
+## Monitor and Record Paired Incoming Data with Outgoing
+
+Often you need to see both the way in and the way out for what you need. Timing a request? That's both incoming and outgoing. Checking how much memory it uses? Same.
+
+Examples of this include [Honeycomb-Beeline](https://docs.honeycomb.io/getting-data-in/beelines/) (observability), [Rack-Mini-Profiler](https://github.com/MiniProfiler/rack-mini-profiler) (HTTP performance), [Scout](https://scoutapm.com/), [Skylight](https://www.skylight.io/) and [NewRelic](https://www.newrelic.com) (whole-app performance.)
+
+## Handle the Request
+
+Sometimes middleware will just straight-up ***handle*** the request rather than observing or filtering.
+
+Middleware can return static data with [Rack::Static](https://github.com/rack/rack/blob/master/lib/rack/static.rb) or [Rack::File](https://github.com/rack/rack/blob/master/lib/rack/file.rb). [Rack::Backstage](https://www.rubydoc.info/github/rack/rack-contrib/master/Rack/Backstage) returns a maintenance message if a particular file is present.
+
+And even [Rack::Cache](https://github.com/rtomayko/rack-cache), which can check a service like MemCacheD and return the result, is basically handling the request.
+
+## Compression
+
+So far we haven't really talked about transforming the request body itself. You can do that with compression, for instance by conditionally applying GZip or similar.
+
+[Middleware can do that](https://thoughtbot.com/blog/content-compression-with-rack-deflater).
+
+## Interrupt the Request
+
+Middleware can always examine the request "in turn" as the request enters or the response leaves. But middleware can also ***interrupt*** the request, for instance by setting a timeout.
+
+This isn't safe to do in every case, which is why there's not a standard "Rack::Timeout" middleware built in. But if you happen to know it's safe to do for your app (or some reqeusts), middleware can certainly do it.
+
+## Deal with Interruptions
+
+Conversely, some middleware ***deals*** with interruptions. [Honeybadger](https://www.honeybadger.io/) watches for server errors (exceptions) and logs them to its service. [Rack::ShowExceptions](https://www.rubydoc.info/gems/rack/Rack/ShowExceptions) is automatically included in development mode. It catches exceptions and prints out that nice error screen that you see when Sinatra has an uncaught-by-you exception.
+
+## Look Up Data for Inner Layers
+
+Sometimes Rack middleware looks up and attaches data to be used by more middleware, later on.
+
+Rack has a cookie parser and a query-param parser, both of which set data on the request to be used later. It's common to set a request ID for distributed tracing in middleware. And you can look up data for each request from external services - based on the authenticated user, for instance, or looking up database info based on a request cookie. Rails database-backed cookies do roughly that.
+
+## Decide Between Multiple Inner Layers
+
+Of course, there doesn't have to be just ***one*** middleware stack. Sometimes you can go to different inner layers, depending.
+
+[Rack::Cascade](https://www.rubydoc.info/gems/rack/Rack/Cascade) tries possible middlewares until one succeeds. [Rack::URLMap](https://www.rubydoc.info/gems/rack/Rack/URLMap) is a more traditional pick-a-next-layer-based-on-the-URL router. The Rails (or [Rulers](https://rebuilding-rails.com)) router is basically the same thing but more complicated.
+
+## Add Headers
+
+Rack middleware can set headers. There's common middleware to [set the content type](https://www.rubydoc.info/gems/rack/Rack/ContentType) or [set the content length](https://www.rubydoc.info/gems/rack/Rack/ContentLength), for instance. Setting cookies does this as well.
+
+Some middleware sets debug-type information in headers, like how long a request took to render or which application server handled that request. You can do the same in HTML output, but that's not usually done via middleware.
+
+## Scrubbing Information
+
+Middleware can also remove information that shouldn't be included. Authentication middleware can (and should) remove token and password headers before passing them to the inner layers. Outgoing middleware can look for suspicious patterns in output and remove them if they look too much like passwords or user data.
+
+Certain data like credit reports is specifically legally protected - you have to keep track of exactly who asks to see them, and who actually does. Middleware can help make sure you're not showing things where you shouldn't, if that data has recognisable patterns in it that you could catch (like, say, social security numbers.)
+
+You can find a similar service in Andrew Kane's [LogStop gem](https://github.com/ankane/logstop) if you're looking to recognise and prevent particular entities in your HTTP responses.
+
+## That Feels Like a Lot
+
+I'm sure I haven't covered every possible use of middleware. But this should give you a great start on asking, "what can I do with middleware?" or "can middleware solve this problem for me?"
+
+Have you enjoyed this article? It's most of chapter 8, from the 12-chapter video workshop from [Rebuilding Rails](https://rebuilding-rails.com). RR is my book/class about understanding Rails by building your own Rails-like framework. I'd love to send you free chapters if you'll trade me your email below.
+
+This article doesn't tell you ***how*** to write that middleware, but the ebook and video chapter 8 both do.
