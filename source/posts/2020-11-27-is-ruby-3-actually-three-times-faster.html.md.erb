@@ -1,0 +1,88 @@
+---
+title: "Is Ruby 3 Actually Three Times Faster?"
+tags: career
+featured_asset: radio_repair
+featured_caption: "We're Still Mid-Upgrade"
+---
+
+Ruby 3x3 announced that Ruby 3.0 would be three times as fast as Ruby 2.0. It was an audacious goal, especially for [a language released in 1995](https://en.wikipedia.org/wiki/Ruby_(programming_language)).
+
+Ruby 3 is due to be released in less than a month. They're hard at work on some of the features, but non-JIT performance is pretty close to release speed. If they pull another 5%-10% speed increase at the last minute (which did happen once) it'll be surprising. The current performance is basically the "real" Ruby 3 performance.
+
+So&hellip; Did it happen? Is Ruby 3 really three times the speed?
+
+The answer is a little complicated, but overall it's yes.
+
+Now: let's hit the ***real*** answer and the details. That's the fun part.
+
+## Who's This Guy?
+
+Why listen to me? Well, I wrote [one of the two official Ruby 3 benchmarks](https://github.com/noahgibbs/rails_ruby_bench). I [worked for AppFolio on Ruby 3](https://engineering.appfolio.com/appfolio-engineering/2016/6/3/ruby-fellow-hired) for three years. I keep track of this stuff pretty closely. But mostly I think you'll find that the explanation stands pretty well on its own. You can listen and then verify.
+
+I've been working on this question for years, and I'm going to link liberally to other articles I wrote about it, for [AppFolio](https://engineering.appfolio.com) and on [FastRuby](https://fastruby.io/blog) and maybe elsewhere. Let's see where the question takes us.
+
+## What's Performance, Exactly?
+
+A language doesn't have one speed. When somebody says "language X is 2.5 times as fast as language Y," that's always an approximation. They both run "sleep" at exactly the same speed, but they may be using the exact same regexp library. But maybe variable assignment is way faster in one language than the other, and it's better at optimising away stack variables.
+
+In other words, performance is a million little things that are faster&hellip; or they're slower or they're the same. We take an average and hand-wave. That's okay. It's how humans deal with complicated things.
+
+Benchmarks are all lies because of this. Little operations make for dramatic benchmarks, and big operations make (if you're lucky) representative "workload benchmarks." We can't make a benchmark ***not*** lie. We can only pick our favourite lie.
+
+## What's Our Favourite Lie?
+
+Here are two favourite lies, embodied by my benchmark (Rails Ruby Bench) and [Mame-san's](https://twitter.com/mametter) benchmark, [OptCarrot](https://github.com/mame/optcarrot).
+
+One favourite lie is this: performance means Rails performance. How is Ruby 3's Rails performance?
+
+It turns out it [hasn't changed significantly since Ruby 2.6](https://engineering.appfolio.com/appfolio-engineering/2019/12/27/ruby-270s-rails-ruby-bench-speed-is-unchanged-from-260). It also turns out [it ***got far, far better*** from Ruby 2.0 to 2.6](https://engineering.appfolio.com/appfolio-engineering/2019/3/7/ruby-speed-roundup-20-through-26).
+
+We don't know the exact final performance of Ruby 3.0. Watch for a benchmark from me in January! But it's going to look a lot like Ruby 2.6.
+
+And that means a large Rails app's performance has increased by over 70% since Ruby 2.0.
+
+Let's be clear: ***that's a lot.***
+
+That's total end-to-end performance to handle HTTP requests in parallel. It uses the same exact Ruby code with the same exact SQL queries, attached to Redis and Postgres and real service with a [real big open-source Rails app](https://github.com/discourse/discourse) that people actually use.
+
+In other words, ***the Ruby part of that performance has increased by a lot more than 70%***, because everything that isn't Ruby is the exact same.
+
+A lot of a Rails app isn't Ruby time. It's waiting for the database. It's waiting for the disk. The web server is serving static files. A Rails app does a lot of non-Ruby stuff, and it should.
+
+A Rails app wasn't going to triple in speed. It's doing too much non-Ruby stuff. Realistically, the Ruby part hasn't tripled in speed. I don't have exact numbers, but it would be fair to estimate around 2.5x. It would be very hard to get an accurate only-the-Ruby-parts number, for all kinds of good reasons.
+
+Still, 2.5x is very, very good.
+
+Ractors (a new Ruby 3 concurrency primitive) will also pave the way for later speedups if Rails takes advantage of them. Like threads, it'll take time and changes to the framework. And right now, [Ractors' performance is underwhelming](https://www.fastruby.io/blog/ruby/performance/how-fast-are-ractors.html). But they're also a not-yet-released new feature, so there's a lot of room to improve.
+
+## Our Other Favourite Lie
+
+Other than Rails performance, what matters?
+
+One other answer is "straight-line CPU performance on a CPU-intensive benchmark." And for that we'll turn to OptCarrot, an [excellent Ruby 3 benchmark](https://engineering.appfolio.com/appfolio-engineering/2017/9/22/optcarrot-an-excellent-cpu-benchmark-for-ruby-3x3). It runs a headless Nintendo (NES) emulator as fast as it can, which is a fun way to measure.
+
+Rails didn't benefit from [Ruby's new-ish opt-in JIT system](https://engineering.appfolio.com/appfolio-engineering/2019/7/18/jit-and-rubys-mjit). MJIT is [a complicated beast](https://engineering.appfolio.com/appfolio-engineering/2019/7/19/how-mjit-generates-c-from-ruby-a-deep-dive) with interesting trade-offs. If you turn it on, Rails Ruby Bench gets slower, not faster.
+
+But OptCarrot is exactly what MJIT was designed for and it does really well with it.
+
+Ruby 3.0 recently broke 3x performance with JIT. We're there. Assuming they can keep performance that good for the actual release, Ruby 3.0 manages 3x the frames that Ruby 2.0 did.
+
+The answer to this section is a straightforward "yes."
+
+Note that JIT does ***not*** "make Ruby three times faster." It's that Ruby 3.0, which is already a lot faster than Ruby 2.0, is three times as fast ***as Ruby 2.0*** with JIT turned on. It's fast without JIT, but not a full three times the speed of Ruby 2.0.
+
+Make sense?
+
+## What's the Score, Then?
+
+It's been nearly eight years since Ruby 2.0. There have been a lot of performance changes. The generational garbage collection in Ruby 2.4 is ***hugely*** faster than the much simpler 2.0 GC. [BootSnap](https://github.com/Shopify/bootsnap) has made bootup in Rails far faster. If you remember back to Ruby 1.8.7 in 2008, Ruby has more-than-doubled in speed to Ruby 2.0, and then tripled again for Ruby 3.0. The OptCarrot results are more like 10x from Ruby 1.8.7 to Ruby 3. A 10x speedup in 10 years? Not bad for a language that just turned 25.
+
+It's been a long trip. And that's without going into the other two parts of Ruby 3 &mdash; concurrency and type safety, both of which are major efforts of their own.
+
+Is Ruby 3 really three times the speed of eight-years-ago Ruby? Day-to-day, yes, it absolutely is. The Rails speedup is more like double than triple in practice since a lot of Rails time isn't Ruby. But double isn't bad! And CPU-intensive code is now solidly three times the speed.
+
+You can judge the concurrency and type-safety of Ruby 3 for yourself. But I'm going to call the performance goal a solid win.
+
+Sure, we have to wait a month. Ruby 3 will actually be released on 25th December of 2020. But all the signs are good.
+
+You can also play with [Ruby 3.0.0-preview1](https://www.ruby-lang.org/en/news/2020/09/25/ruby-3-0-0-preview1-released/) right now, and I'm sure there will be at least one more before the final release.
