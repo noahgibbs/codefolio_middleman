@@ -6,14 +6,14 @@ tags: rails, rebuildingrails
 ---
 I hate all the “requires” at the front of Ruby files. I *know* what methods I'm using, but I have to write it in both places. Not exactly <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>. Rails skips them &mdash; you just use the classes you want. How can I automatically load my files like Rails does? Read on.
 
-Ruby has method_missing. When you call a method that doesn’t exist on an object, Ruby tries calling “method_missing” instead. That lets you make “invisible” methods with unusual names.
+Ruby has method\_missing. When you call a method that doesn’t exist on an object, Ruby tries calling “method\_missing” instead. That lets you make “invisible” methods with unusual names.
 
-Ruby also has const_missing, which does the same thing for constants that don’t exist. Class names in Ruby are just constants. Hmm...
+Ruby also has const\_missing, which does the same thing for constants that don’t exist. Class names in Ruby are just constants. Hmm...
 
-## const_missing and You
+## const\_missing and You
 
-First, let’s see how const_missing works.
-Put this into a file called test_const_missing.rb and run it:
+First, let’s see how const\_missing works.
+Put this into a file called test\_const\_missing.rb and run it:
 
 ``` ruby
 # test_const_missing.rb
@@ -53,11 +53,11 @@ end
 Bobo.new.print_bobo
 ```
 
-Now try running it again. It prints Bobo! as you’d hope. So we just need to return something from const_missing, and that’s what the unloaded constant acts like.
+Now try running it again. It prints Bobo! as you’d hope. So we just need to return something from const\_missing, and that’s what the unloaded constant acts like.
 
 Hey, that’s exactly what Rails does!
 
-## CamelCase and snake_case
+## CamelCase and snake\_case
 
 There’s one hitch, though. When you use a constant like BadAppleController, it’s not loading a file named BadAppleController.rb. It’s loading bad\_apple\_controller.rb. So we’ll need to convert from one to the other.
 
@@ -82,7 +82,7 @@ I stole and lightly modified this from ActiveSupport in Rails. I’m not going t
 
 You have all the pieces. You can catch a class not existing. You can convert a class name to a filename. You already know the rest -- it's basic. So let’s add automagic constant loading.
 
-Open up test_const_missing.rb:
+Open up test\_const\_missing.rb:
 
 ``` ruby
 # Okay, one more require...
