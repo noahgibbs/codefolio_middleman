@@ -59,9 +59,9 @@ Hey, that’s exactly what Rails does!
 
 ## CamelCase and snake_case
 
-There’s one hitch, though. When you use a constant like BadAppleController, it’s not loading a file named BadAppleController.rb. It’s loading bad_apple_controller.rb. So we’ll need to convert from one to the other.
+There’s one hitch, though. When you use a constant like BadAppleController, it’s not loading a file named BadAppleController.rb. It’s loading bad\_apple\_controller.rb. So we’ll need to convert from one to the other.
 
-<a href="http://en.wikipedia.org/wiki/CamelCase">CamelCase</a> is the name for alternating capital and lowercase letters to show where words begin and end. The other way is called <a href="http://en.wikipedia.org/wiki/Snake_case">snake_case</a> when you use lowercase_and_underscores.
+<a href="http://en.wikipedia.org/wiki/CamelCase">CamelCase</a> is the name for alternating capital and lowercase letters to show where words begin and end. The other way is called <a href="http://en.wikipedia.org/wiki/Snake_case">snake\_case</a> when you use lowercase\_and\_underscores.
 
 Since we know we need to do that conversion, let’s add a method to do it.
 
