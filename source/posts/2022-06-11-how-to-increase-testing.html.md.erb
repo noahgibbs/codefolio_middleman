@@ -1,0 +1,44 @@
+---
+title: "How Do I Increase Testing of My Codebase?"
+tags: ruby, rails
+featured_asset: radio_repair
+featured_caption: "Just need to fiddle with this a little more..."
+---
+
+Awhile back [a fellow asked me](https://twitter.com/Dhavalsingh7/status/1484133161940361223) the best way to increase test coverage at the small startup he works at.
+
+It's an excellent question.
+
+Specifically, he asked:
+
+<blockquote>
+"What's the best way to go about increasing the unit test coverage of a codebase at a small scale startup? What procedure do you guys follow to make sure unit tests are being written as much as possible?
+
+In my case it's less than 40% rn. I want to increase it a till atleast 60% for now. Few services have almost 0%.  I have some ideas like picking up one( existing) API per developer per sprint and obviously write new ones as they come to begin with. Any help would be appreciated!
+
+One of the main reasons i want to do this is we are upgrading our Rails services which have very low test coverage which is very discouraging since a lot of manual testing bandwidth of the QA team will go into it and in general this low % has always bugged me."
+</blockquote>
+
+## First...
+
+The very first thing to do is get a coverage tool and run it in your CI pipeline -- figure out what your current test coverage is, and make sure it's immediately visible to anybody who looks. That signals that coverage is important, and signals are important, especially early on.
+
+Coverage percentage is an okay metric in your current situation, where there's just not much coverage. But once you get to 90%+, it's just too game-able, so you're trying more to prevent future breakage. Keep in mind that once you have some coverage, it's no longer about the percent.
+
+## Friends in High Places
+
+It's not bad to dedicate more developer time directly to it. Just keep in mind that devs are watching the managers, product managers, executives and so on to see if *they* act like it's important.
+
+If you do have support from those folks, it's even more effective to *require* that each bug fix comes with a test. When somebody files an issue, a dev writes a failing test that demonstrates the issue. Then the test gets merged with the fix. This concentrates coverage on things that actually break. That's a really good thing.
+
+## QA?
+
+As a nice side effect, when QA brings you a problem and you file a bug, you'll be writing a test that *should* catch that in the future, slightly reducing reliance on manual testing. You can't and shouldn't completely eliminate it, but...
+
+it's really nice if you can automate the stuff they have to do over and over. Their jobs (and yours) should get more *interesting* as a result of good automated testing, where the routine stuff is just caught instantly, automatically, cheaply and without users seeing it.
+
+Another possible source of good tests: go talk to QA, see what completely-routine stuff they have to do, and see if you can automate *that*. They likely have some of the most effective testing at your org right now, and some will be cheap to automate.
+
+## Conclusion
+
+Focus on components with low coverage that rarely cause user-visible bugs will often be a waste. Try to put the effort into whatever parts of your app the users *see* problems from. That's hard, but good to keep in the back of your mind.
