@@ -1,0 +1,103 @@
+---
+title: "Turning a Quick Ruby Prototype Into the Real Thing"
+tags: architecture, technique
+featured_asset: professor
+featured_caption: "Pleased to Meet You..."
+published: false
+---
+
+I was talking with some folks lately about how Rails is amazing and unmatched for prototyping web apps. If you're dealing with high market risk, you want to build a lot of prototypes, fast, at low quality, with the assumption that 90%+ of them will be thrown away because nobody will buy them. That's one of the places Rails shines most.
+
+If you're going to throw your app away because there are no customers, it doesn't matter how solidly you build it.
+
+And then after you get product/market fit, or at least an interesting number of customers, you rewrite it better. Maybe in Ruby, maybe in something else.
+
+Often the company gets sold: a little company builds fast and sloppy, sells to a bigger company, and then the bigger company rebuilds in their favourite tech stack. They probably have senior engineers who have built products for their market before. Maybe the little app turns into a customer base and a thin layer of CSS styling on the BigCo's app. The little company may go away completely and ***just*** sell their customer list. That's... fine.
+
+But what if you don't sell out? Or what if you're on a team at the big company, and you want to rebuild the prototype to be ***good***?
+
+How do you evolve your prototype-quality Ruby app into a viable high-quality app that will last?
+
+## The Situation
+
+If your team did well, your old app architecture should look bad. Lots of technical debt all over. Lots of sloppy partly-done solutions. The code itself may be badly-written and full of stuff nobody wants to touch.
+
+How can that mean the team did well?
+
+Sandi Metz, author of Practical Object-Oriented Design in Ruby, talks about "Omega messes." An "Omega mess" is a sloppy, ugly design in a system ***that you won't touch again***. A mess in your code costs you effort every time you touch it, which is why technical debt often charges you a lot of interest... ***if it's in code you modify often***.
+
+If it's in code you never touch again and it works well enough, the later cost is... zero. If you're constantly throwing away chunks of the app because nobody wanted to buy it, the odds of never touching the code again are pretty high. Your custom email templating engine can just sink like the Titanic (*sigh*).
+
+A skilled prototyping team isn't going to build everything to a high standard at first. They'll build just enough to get by, and improve it when &mdash; and ***if*** &mdash; they ever touch it again. It's a form of [YAGNI](https://martinfowler.com/bliki/Yagni.html), the Extreme Programming principle that you don't build things before you need them, in case your design changes.
+
+A design that's reacting to early customers will change ***all the time***.
+
+## The Big Rewrite: Don't
+
+<blockquote>A complex system that works is invariably found to have evolved from a simple system that worked. The inverse proposition also appears to be true: A complex system designed from scratch never works and cannot be made to work. You have to start over, beginning with a working simple system.“ —  John Gall</blockquote>
+
+There are lots of [great reasons ***not*** to rewrite the whole app](https://codefol.io/posts/the-exercise-that-tells-you-if-your-rewrite-will-work/). In general, you don't want to do that unless the initial prototype is beyond terrible ***and*** you don't have the authors still working with you. There's a lot you can save from an old working version, even a really bad one.
+
+Over time you're going to rewrite most of your app, at least if you're building one of those Silicon Valley Moonshot-style businesses - if you're doubling constantly, you'll rewrite chunks of your app regularly.
+
+But if it's not time yet, try to avoid rewriting. And try to never do a full rewrite of everything.
+
+As the quote above suggests, a full rewrite is a slow and painful thing &mdash; you'll have to cut your functionality way back and slowly build back up. That costs you most of the momentum you got from that prototype app.
+
+Instead, start from your prototype and evolve forward.
+
+## But It's Bad!
+
+Michael Feathers wrote a book called [Working Effectively with Legacy Code](https://www.goodreads.com/book/show/44919.Working_Effectively_with_Legacy_Code). It's a very solid, very straightforward book about how to take a shaky codebase with limited tests, and turn it into a solid codebase with great tests.
+
+There's nothing that stops you from using it on ***your own codebase that you wrote***. There's nothing magical about using it for other people's code.
+
+The book recommends adding enough tests you can make changes. Then you can add new tests, which allow you to add new features. You go from a bad-quality fragile codebase to a solid, smoothly-running codebase by fixing one problem at a time.
+
+That's also how you scale. Scaling tests are a thing. Start with simple load testing and add more interesting scale-up tests. It's not that scaling up fixes all problems. But it ***does*** tend to point out major weaknesses in your app, systems you'll need to change or rewrite. To fix one problem at a time, you'll need to find those problems.
+
+## So I Need an HTTP Retry Library?
+
+There are libraries and techniques that can add resilience to your apps. Shopify's [Semian](https://github.com/Shopify/semian) and Netflix's [Hystrix](https://github.com/Netflix/Hystrix) are good, and both borrow liberally from Michael Nygard's excellent book [Release It!](https://www.oreilly.com/library/view/release-it/9781680500264/). All of this can be useful.
+
+But blindly dumping in libraries or techniques won't tend to fix your problems. Building fault-tolerant software is hard. ***Testing*** fault-tolerant software is even harder. And if you don't test it, you need to assume it doesn't work.
+
+So: you'll need to get good at building tests that fix the problems your app has. Resilience techniques and libraries may be part of how you get those tests to pass, eventually. But the vital part is the testing.
+
+What kind of testing?
+
+Load testing. Unit testing. Integration testing. Tests for particular known or suspected failures. All the usual suspects. [Fuzz testing](https://en.wikipedia.org/wiki/Fuzzing), if your domain allows for it.
+
+## Can I Just Tell the Team: Make It Good?
+
+The team that just built the lousy prototype ***might*** be exactly the right people to improve it. Or they might not.
+
+A lot of engineering teams know the difference between building a prototype to check product/market fit and building a long-lasting app that they'll have to maintain. They may have been bothering you the whole time to pay down technical debt and improve code quality.
+
+Or not. They might just enjoy prototyping, and want to pass it along to a maintenance team as soon as possible. That can happen too.
+
+You probably need to sit down with your team and tell them, "good news, ladies and lads! We're successful. Now the project changes completely." And then it's time to see who's up for this very different job, and who isn't. There's nothing wrong with loving prototypes best. They've just built a very successful one for you. And that may be what they want to keep doing.
+
+Or they may have been itching the whole time to build something more solid. I can't tell you which your team is. You'll need to ask them. A skilled team ***can*** switch over to more testing and scale-up instead of simple feature-building. But definitely see if this is what they ***want*** to be doing.
+
+You may need to hire somebody more experienced at this point, somebody who has been through scale-up problems and incremental rewrites before. Take a good look around your team: are they up to this? If it were me, I'd ask them about that, too. A team usually has a pretty good idea of whether they're up for a particular project.
+
+## But It's Bad!
+
+You might be in a really bad situation where the old app architecture is impossible to separate into pieces. That could happen, in theory.
+
+But in practice, an experienced software architect has seen this kind of thing before, and has a bag of tricks to deal with it. Can you make most of the HTML static and write a new backend app under it? Even better, can you do that separation and then start from the old app? Or maybe there are just a few pieces you ***can*** separate, but then it gets easier to remove just a few more. Or perhaps you can add a new library or service, and start switching over app components to use it, one at a time.
+
+You ***could*** be in a position where you don't have an experienced enough engineer to do a good job of it for your specific app. You can solve that problem by hiring. Or by promoting, in some cases. Or by doing a big risky rewrite. Or by bringing in the right consultant. Lots of ways.
+
+But all of these problems are, in one way or another, standard software problems. And your basic approach is the same as for anything else: write good tests, divide and conquer, keep good backups and so on. A sloppily-written app with a lot of technical debt isn't a bizarre special case that nobody has ever seen before. It's bog-standard, and we've all worked on them.
+
+Your app may be more of a pain in the butt than any app ever seen before. But what are the odds? A lot of people have written a lot of sloppy code over the years. These days, most of it's saveable.
+
+## Yo, Where My Easy Answers At?
+
+This stuff is complicated. It depends on your project, on your team, and all kinds of other things about your situation. Luckily, it's a happy problem &mdash; if you hadn't succeeded, you wouldn't care about rewriting and scaling up your app!
+
+I don't know great books on this stuff. Universities don't really teach it. You can find books with particular stories of scaling up particular companies and apps. It helps, but there's not a general formula. I certainly had to learn it on the ground, as it happened.
+
+Luckily these are pretty standard problems, with pretty standard solutions. You can read, write, debug and hire your way through them.
