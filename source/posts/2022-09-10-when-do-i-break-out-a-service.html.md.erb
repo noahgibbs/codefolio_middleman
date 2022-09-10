@@ -1,0 +1,35 @@
+---
+title: "When Do I Break Out a Service?"
+tags: business, ruby, rails
+featured_asset: chimp_bear_pirate_studying_objects
+featured_caption: "How Many Is That, Then?"
+front_page: false
+---
+
+A [gentleman on Twitter](https://twitter.com/Treybastian/status/1568519755929198593) suggested that to make a new SaaS app, you should do these things:
+
+* Keep it Simple, Stupid
+* Start with Nextjs or Remix app and a database
+* Can't do something in JavaScript or Typescript?
+* Break it out into a separate service
+* DO NOT over architecture your app
+
+This is pretty good advice. I tend to favour more Ruby and less Javascript, but the basic principles are true in any language. Keep your app and your framework simple and flexible. Do as little as you can get away with. When something threatens that simplicity, separate it into a new thing.
+
+So let's talk about that last bit: separate it into a new thing.
+
+I've talked about [what a bad idea "turn it all into microservices"](https://codefol.io/posts/the-exercise-that-tells-you-if-your-rewrite-will-work/) is. And I still think that.
+
+So how come I'm saying "write it all as microservices?"
+
+Here's the trick: I'm not. I ***really*** like his test above. He doesn't say "if you can separate it, separate it." That's often bad advice.
+
+Instead, he says that if you can't do it in JS or TypeScript, separate it. That's much better advice. You'll notice I rephrased it as "when something threatens [your app's] simplicity."
+
+Your app stays simple when it's "one idea big." As long as there's a strong overarching theme of what it is and what it does, it's not too hard to think about or talk about. When it starts getting big and sprawling, you need more than one sentence (or a lot of the word "and") to describe it, and that's when it gets harder.
+
+In Rails, you make an app that follows The Rails Way. That's really hard if you start adding new services, or anything that doesn't act like an HTTP server. Those want to get out of your Rails app and into some other service. ***That*** is what threatens your simplicity.
+
+When he says "can't do something in JavaScript or Typescript?" he doesn't literally mean *can't*. [Turing Completeness](https://en.wikipedia.org/wiki/Turing_completeness) means that you can do essentially everything the computer can do in those languages. He means "when it starts to hurt." [That's also what I mean](https://codefol.io/posts/Use-Rails-Until-It-Hurts-But-Not-for-APIs/).
+
+Don't just blindly separate everything into services. But ***do*** separate out pieces that don't fit. If you can separate off a service and ***both*** the app and the service are cleaner and more coherent separately, they belong apart. A new SaaS wants to be nice and simple, and to have a clean 'theme.' That means it's extra-likely that pieces that don't fit should be separate services.
