@@ -1,0 +1,197 @@
+---
+title: "The Hundred-Year Language"
+tags: technique, ruby
+featured_asset: chalk_calendar
+featured_caption: "Calendar pages blowing in the wind..."
+front_page: false
+---
+
+A certain kind of software developer&mdash;or more often, businessperson&mdash; likes to talk about a hundred-year programming language, or even a hundred-year framework.
+
+That's a pretty audacious thing to say. I mean, software development is [roughly 65 years old](https://codefol.io/posts/the-forty-year-programmer/) by now. Frameworks are younger yet. Deciding that your language or framework is going to make it to a hundred years is quite a statement.
+
+You can read [Paul Graham pontificating](http://www.paulgraham.com/hundred.html) about it. He means something different: he means a language whose ***descendants*** will still be with us in 100 years, in more-or-less recognisable form. He cares more about programming paradigms and features than I do.
+
+I'd like to know: what languages will still be around and basically usable in 100 years?
+
+It's popular to say things like "for a language to still be usable in a hundred years, it needs to have good performance." How would you evaluate a claim like that? How would you even start?
+
+That's not a rhetorical question. Let's start evaluating.
+
+## What Can the Oldest Languages Tell Us?
+
+If we have 65 years of history, we have ***no*** examples of a hundred-year programming language. But we have some 60-and-more-year programming languages. What can we tell from our oldest examples?
+
+Once a language becomes popular, it rarely dies but often mutates. Fortran2008 doesn't look exactly like Fortran77 or original Fortran (1957.) But there's a pretty continuous chain of sensibilities. It has a lot in common. It's recognisable. It has a continuous programming community. Fortran has always been popular in the scientific and mathematical communities, and it still is. Fortran remains the main language for programming supercomputers, for instance, where you're paying far too much for high performance and you need a language that is as fast as possible. Fortran is significantly faster than C, for instance. That need and that developer community have continued to move Fortran forward.
+
+So that's interesting: when we say a hundred-year language, we don't really mean a continuity of syntax or features. We're looking at a continuous ***programming community***. Perl is an interesting example of this: Perl version 6 (now called Raku) was intended to make ***massive*** changes to the language, and it did. But it took many years. And so Perl 5 split off as a separate community, while Perl 6 was left to mostly make its way as a new language. If the big Perl 6 rewrite had happened quickly, we'd certainly have still called it the Perl community. Perl 1 and 2 looked pretty different from Perl 5, and ***nobody*** argues that we shouldn't call Perl 1 and Perl 5 the same language. Unlike with Perl 6, it had a pretty continuous programming community. The schism in users (developers) is what makes some people say Perl 6 is effectively a different language.
+
+Another old language is LISP, which has many, many descendants. They've never been huge, but collectively they show no sign of going away. LISP isn't dead, though many small dialects of it are. The bigger dialects (e.g. CommonLISP) have their own momentum, and aren't really gone either. So: we don't always mean a programming community. You could maybe argue that, for instance, if Clojure became huge that LISP was still dead. But mostly people don't mean the very specific original LISP when they say LISP. Like Perl 1, its descendants have changed massively, but are still very recognisable as the same basic language. More importantly, it's not that hard to pick up a new LISP dialect if you know an old one. They have a lot in common with each other, which allows them to quickly and fluidly share a developer community.
+
+## How Can Languages Die?
+
+What's 'dead'? Mostly I mean 'dead' the way that Latin is dead. There are small, isolated communities of academic and religious Latin speakers. But it's not the day-to-day language of any significant number of people.
+
+The [Wikipedia page on the history of programming languages](https://en.wikipedia.org/wiki/History_of_programming_languages) is worth a read-through, if you haven't.
+
+Algol (1958) is just about dead. It has descendants, but they don't look very much like Algol. So: that's one way a language can die. It can be eaten entirely by better descendants, who take away its entire user base. The ["Algol Family"](https://wiki.c2.com/?AlgolFamily) of languages include distant relatives like Perl and less-used offshoots like Delphi. But they also include C, C++, Visual BASIC and Java. These are wildly popular languages which have long ago cannibalised Algol's entire developer community. C in particular was early, extremely popular, and meant there wasn't much reason to continue using Algol.
+
+Some languages never really got established. FLOW-MATIC was Grace Hopper's first language before she wrote COBOL. It influenced COBOL but it was never much used on its own. Many now-dead languages were like this: few users, not much community.
+
+You could include a lot of "proto-languages" if you wanted to. FLOW-MATIC turned into COBOL, so its tiny user community became COBOL users. And that's how a lot of languages die: they join another language and their community become's that language's community.
+
+"Forerunners" and proto-languages don't have to be designed by the same people FACT (1959) is considered a COBOL forerunner now, in that it influenced the design and its community became COBOL programmers instead. But that wasn't a Grace Hopper project. Different people, but the community turned into COBOL programmers. So it's not about who ***wrote*** the language either. It's about where the community of users goes.
+
+In the same way, C was named after BCPL. BCPL users (there weren't that many) became C users. But BCPL was written by Martin Richards, not one of the C authors. It's about the user community, not the language authors or the features.
+
+## What Does Dead Mean?
+
+Before we go farther, I should address an obvious, somewhat-stupid usage of the word "dead" as regards programming languages.
+
+Programming languages are written by humans, to humans. They are a human language and a human culture. They happen to also make functional computer programs. They are as susceptible to trends as any other human language or culture.
+
+When you hear [somebody say "Rails is dead"](https://codefol.io/posts/what-do-they-mean-when-they-ask-if-rails-is-dead/), you may be certain they do not mean "no programs are still running Rails" or "no companies are still using Rails" or "no new projects are written in Rails." All those things are manifestly, clearly, simply untrue.
+
+They mean "Rails is now no longer 'hot' and you should learn something else instead." They may mean there are fewer jobs in Rails than in some other language, framework or technology. They might mean something else is better-respected among startup founders. In one way or another, they do not mean that Rails is unused or unusable. They mean that it is no longer "hot."
+
+For everything we are discussing now, we may safely ignore this usage. Entirely. Any language that's over about 25 years old is no longer new, hot and heavily-hyped. An absolute, ***100% requirement*** for a 100-year language is to be, by this definition, dead.
+
+## What Weakens Languages?
+
+Languages don't die all at once. They waste away, as the last few daily users die off, or find some other day-to-day language.
+
+They get weaker and weaker until they're basically dead, and then entirely dead.
+
+What makes languages weaker?
+
+One thing is splitting the community. Perl 5 and Raku are both much, much weaker after the split. Python's transition from version 2 to 3 was hard, and cost it mindshare. Ruby's transition from 1.8 to 1.9 was similar, if not quite as slow and dramatic. When you do something that splits the community, your community gets weaker. In extreme cases like Perl, your community becomes small enough it can possibly die off.
+
+That's one reason languages tend to be killed by their own descendants. Why stay with Algol when C exists? Why stay with FLOW-MATIC if the author has moved on to making COBOL? A descendant of the same language is often very attractive to that language's community.
+
+More importantly, language communities tend to leave in favour of something else that solves their same problems. Developers move from Perl to Ruby or Python, languages that solve similar problems in similar ways. There's a constant tension between Python and R for statistics, because both solve useful problems for statisticians. Not many people adopt a language for its own sake. They have problems that need solving, and the language solves them.
+
+That's not just a problem when a new competitor arises. It's also a problem when an old solution stops working well. Ruby and Rails had a reputation as a phenomenally easy web-programming stack compared to old Java frameworks like JBoss. But more recent versions of Rails need to harden more and more of the framework against security threats, which has made deployment harder. Heroku stopped offering a free plan and there's not an obvious replacement. So: Rails now has a worse deployment story than it used to have. There is a very real reduction in Rails' ability to solve some problems for some users. This weakens the framework, and also weakens Ruby, which benefits from Rails' user community.
+
+Languages are weakened if they stop solving a problem as well as they did, or if a competitor shows up who solves the problem better.
+
+## What Strengthens a Language?
+
+If a language has to solve problems for users, that indicates that the problem matters.
+
+Niches strengthen a language. The R language is great for statistics, and has a strong niche in that community. You wouldn't write an operating system with it, and everybody involved is okay with that.
+
+Java is the most recent popular general-purpose language. Everything afterward has been a niche language of one kind or another. Python excels at math and scientific and AI programming, while Ruby handles request/HTML-style complex web applications. JavaScript is the unchallenged owner of in-browser programming and a few server-side niches that are related. Fortran, once general-purpose, now lives on in supercomputing and certain highly-mathematical applications. C retreats to a niche in operating systems and drivers, now banished from general application programming.
+
+Niches are powerful.
+
+I'm not going to say "Java is the final general-purpose language, ever." That seems far too strong a declaration based on 65 years of history. Java's 27-year run doesn't tell us that no other popular general-purpose language will exist. It just tells us that they'll be fairly rare.
+
+That makes sense. Niches are very powerful, and you have to avoid them to be a really general-purpose language. Even Java has some significant restrictions on where you'd use it, e.g. high memory usage makes it dubious for small embedded processors. It may be that "general-purpose" is a description that will go away, eroded by many and various niches.
+
+Or not. All of this is recent history, so calling it permanent would be silly. We don't know yet.
+
+A niche means, though, that the language has focus and purpose. It's powerful because it tells its user community who it helps, and how it helps them. That's also what you need for the community around a book or a product or many other things.
+
+It makes sense that programming languages have the same requirement.
+
+## So Is Performance Necessary for a Hundred-Year Language?
+
+I said we'd evaluate whether performance is a requirement for a hundred-year language.
+
+So let's evaluate.
+
+Fortran, one of the oldest thriving languages, lives and dies on performance. So that's a check mark in the "yes" column.
+
+LISP, another of the oldest, doesn't care a whit about it and thrives on flexibility and ease of implementation. So there's one in the "no" column.
+
+But of course it isn't a vote. Instead, Fortran's entire purpose, the focus of its user community, is performance. LISP's focus is on flexibility and expressiveness.
+
+Is performance necessary? That depends. Is that what the language is about? Is that what its focus is?
+
+Performance isn't a bad thing. But if you asked the Fortran community, "do you need more simplicity in your compiler implementation?" they would say "don't care." The LISP community may not ***say*** they don't care about performance, but they also don't avoid low-performance interesting interpreters. The question isn't "is high performance good?" The question is "where does it rank on your priority list?"
+
+BASH, the command-line shell, has pretty bad performance and always has. That's not what it's selling. Instead, its community wants compatibility and stability and ease of use and for it to readily get out of the way. If you made a massively high-performance bash implementation, a few people would use it. At least, they'd use it ***unless it compromised one of those other goals***. So our hypothetical high-performance BASH is probably dead in the water because "being universally available" and "being 100% compatible" are so important to its community.
+
+## Can't Priorities Change?
+
+You could argue that just because something wasn't a priority for early users doesn't mean it isn't a priority ***right now***. Maybe Ruby or Python's first versions could be very slow, but maybe some of their current users care about performance far more than expressiveness. Perhaps PHP was initially about ease of deployment, but its current savvy base of Laravel users may want a cleaner, more expressive core language and be willing to sacrifice some compatibility and availability for it?
+
+That's not impossible.
+
+The problem is the continuity of your community. It's very hard to drive off one community and then attract another. Too much old information about you is now incorrect. Bad information attracts people you don't want and repels people who want your current focus. So: ***changing*** what you offer is one of the most dangerous things a language can possibly do. It's the cause of the community splits we talked about earlier.
+
+You can make small changes. A bit of extra performance won't drive anybody off. But at some point, you hit tradeoffs.
+
+Ruby has started being used by more large companies. Overall that's a good thing. But it's also an inflection point, a place where our tradeoffs change. Do we reduce expressiveness, because unrestrained expressiveness causes trouble with bigger teams? Maybe. And if it works, it increases the size and longevity of Ruby's developer community. But changes like this are some of the greatest risks of dying that languages take.
+
+Incidentally, that's one reason that Ruby-optimisation projects like YJIT and TruffleRuby mostly ***do not*** push to restrict what Ruby can do. Extra performance is nice, but expressiveness is why Ruby won early on. Performance is great ***if it does not compromise expressiveness***.
+
+## Faster, Slower
+
+That worry about priorities is also why Python took such a long, painful time over the Python 2 -> Python 3 transition. Python makes very slow, deliberate changes with excellent backwards compatibility. On the rare occasions where it breaks backwards compatibility, it's taken as a sort of betrayal by the user base. Ruby had an easier time because Ruby doesn't promise as much backwards compatibility. Ruby's promise is more like, "we keep a fair bit of backwards compatibility, mostly, but things are going to break sometimes when we want to make the language better and you're going to just deal with that." And Python wins the math/science community that needs programs to run 20 years later, and Ruby wins the web programming community, where the standards change every 5 years regardless. That's not a coincidence.
+
+Incidentally, this doesn't mean "Ruby is right and Python is wrong," nor does it mean the opposite. It's not that "better for web" is good and "better for math and science" is bad. This is another way to say how powerful niches are: if you're okay being good for one thing and bad for another, you can be ***really*** good for that one thing, and beat a general-purpose language that isn't amazing at either one.
+
+The language that wins the web niche benefits from being fast-changing, like Ruby. The language that wins the math/science niche benefits from being slow-changing, like Python.
+
+It's not impossible that a single language could be so good it could win both. But it would have to compete with a faster-changing descendants of itself ***and*** a slower-changing descendants of itself eventually, so you'd expect it to be hard to bridge that gap.
+
+Incidentally, that's how it worked with Perl. Long ago, Perl was the only scripting language going. It's still quite good for summarizing big lumps of text files. But now it's competing with Ruby, a faster-changing descendant and with Python, a slower-changing descendant. Ruby took over a web niche that was Perl's to lose.
+
+That's not limited to scripting languages. C++ changes much faster than C, for all kinds of reasons. C has benefited from slow change in some domains. How often do driver-writers change languages? They like their stability. C++ has benefited from faster change in other domains, like application programming. That's not the only difference between C and C++ by a long shot. But it's an important one.
+
+## The Elephant in the Room
+
+Here's a language we haven't talked much about yet: COBOL. There aren't many COBOL programmers, and they almost entirely maintain old code. And yet many millions of lines of COBOL keep vast amounts of bank infrastructure running. It's been in place, mostly unchanged, for decades. In places that got rid of COBOL, they usually did it by mechanically translating from COBOL to another language (Java, basically always.)
+
+In terms of lines of code running, COBOL is enormously alive and vigorous. If all the COBOL code evaporated tomorrow, the whole international banking system would collapse instantly.
+
+In terms of people who use it for new projects, COBOL is nearly dead. Very, very few new COBOL projects are written.
+
+So is it alive or dead? Mostly dead.
+
+There's not a large COBOL developer community. People are transitioning off of it. COBOL is what happens if you ***never*** change your tradeoffs, and eventually your user community doesn't care about what you provide. To change is to risk dying, either a little or a lot. To never change is to certainly die, eventually.
+
+Isn't it just that COBOL is old? Not really. COBOL is just slightly younger than Fortran, and Fortran is surprisingly healthy and vigorous within its niche.
+
+Mostly, this is a reminder that "this language can't go away, it's used by Company X" only gets you so far. C++ is used extensively by Google, but it needs to not let that be its only reason to survive. Ruby is used by Shopify, but that can only be so much of its longevity.
+
+You need new users, new promises, new blood.
+
+## How Do Promises Age?
+
+One of C's old promises was to act like a PDP-11 computer. It still does that, but that's not anybody's priority any more. Oddly, early LISP did a similar thing, which is why ["head of list"/"tail of list" is still named "car"/"cdr", after machine registers on the ancient IBM 704](https://en.wikipedia.org/wiki/CAR_and_CDR#704_macros).
+
+These are old languages. These features can be thought of as old promises.
+
+LISP originally needed a bit of performance to make its mathematical expressiveness workable. Eventually processors got faster and that was dropped &mdash; car and cdr are definitely not simple register accesses in modern LISP implementations, and nobody cares. It wasn't an important promise to their community, as long as performance was acceptable. And "acceptable" was, for the time, pretty lenient. CommonLISP, for instance, was vastly slower than C, and mostly that was fine.
+
+You might think C would have a harder time with the same changes. If C promises to be like the processor, what does it do when the processor changes? Newer processors use [SIMD instructions](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data) such as Intel SSE instructions. Those do large-array operations, and they're pretty core to doing large tasks speedily. C never really added any kind of abstraction for them. C still looks mostly like a PDP-11, which had no such thing.
+
+But often we don't understand which promises are important to our developer community. C doesn't need to be the very fastest language. Otherwise problems like [pointer aliasing](https://cvw.cac.cornell.edu/vector/coding_aliasing) would have driven its early users into the arms of Fortran, a faster language without that problem.
+
+C was a fast enough, enjoyable enough language that provided a nice balance between power and performance. And frankly, it had fewer competitors during its heyday, so it could worry less about its promises and its niche. Modern C in its modern niche (operating systems, device drivers, low-level systems programming) is about control more than performance. Its performance has to be acceptable, but it's primarily about exact bitwise layouts. If it drops a few CPU cycles here and there, there are plenty more to spare. And so pointer aliasing doesn't result in device drivers being written in Fortran.
+
+Promises ***do*** change over the years. They have to. It's not a matter of avoiding all change. It's a matter of managing it.
+
+How much do promises change? C is from 1972, 50 years ago. All the changes it has been through over the years get it halfway there. It's hale and hearty yet. I think it'll make it.
+
+## So How Do You Last 100 Years?
+
+What if you want your language to last 100 years? What if you're in a language community you like, or you're a language designer? What would you do to design a hundred-year language, a monument to the ages?
+
+You can't just focus on the language features and syntax. The English language keeps picking up new vocabulary, and that's neither its greatest strength nor its greatest weakness. The important, continuous part is the community of speakers. We care about the vocabulary only in terms of that community.
+
+The same is true of Java or Fortran or Ruby or whatever language you like.
+
+To keep a language healthy, you need to know what you're promising them. Why are they here? That's what has to stay true. Some parts of that promise are complicated: is a specific new feature a good thing or a bad thing? Some parts of the promise are trivial, because sometimes you're in conflict with a core reason your audience is here. In Fortran, they don't value expressiveness over speed. In Ruby, they do. In Rust, memory safety ranks near the very top of the priority list. In C, being able to mess with memory in weird ways is valued more than safety.
+
+None of these priority lists are wrong. They define niches.
+
+It also means you need to be careful "breaking out of your niche." Your niche is your strength. Leave it carefully, and somewhat timidly. There is every sign that languages will be ***more*** focused on niches in the future, not less.
+
+It also means you have to be careful when following Henry Ford's various famous bits of advice. "If I asked them what they wanted, they'd have said a faster horse." "They can have any colour they want as long as it's black." Sometimes you can be visionary and give your community something they didn't think to ask for. But if they say they ***don't*** want something, remember you're in dangerous territory. For every Henry Ford in the world, there are an awful lot of people who aren't Henry Ford and guess wrong.
+
+The important part here is to ask, "what are our promises?" Think about how well those promises age. Will people need what you're providing in 100 years? What did they need 100 years ago?
+
+I'm not suggesting any of this is easy. But it's important to realise just how long 100 years is.
