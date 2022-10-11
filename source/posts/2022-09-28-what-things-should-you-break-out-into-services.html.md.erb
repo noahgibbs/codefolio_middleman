@@ -1,0 +1,37 @@
+---
+title: "What Things Should You Break Out Into Services?"
+tags: rails
+featured_asset: radio_repair
+featured_caption: "This piece comes right out!"
+front_page: false
+---
+After a [previous post](https://codefol.io/posts/when-do-i-break-out-a-service/) I was [asked for some examples](https://twitter.com/codewithjulie/status/1570040390488821761): what types of things do you take out of your Rails app, especially a new one, to make a new service? For general rules read that post. But for some specifics, this is the post.
+
+I gave a Twitter-length answer on Twitter. This has a bit more elaboration.
+
+Some of these are *always* a good idea to split off. Some of them are mostly a good idea for small, new applications when you're trying to keep them laser-focused.
+
+## What Kinds of Things Should You Split Off?
+
+**Email:** email-related tasks are often better split off. The app can generate a "hey, notify them" entry in a queue or database and another service handles it. Emails can take a surprising amount of time, unpredictably, to send. You may want to monitor or resend. All this yells "task queue" or "separate service." You certainly don't want to do it in the middle of an HTTP request.
+
+**Media and A/V:** if you're transcoding video, cropping and converting site-avatar images or otherwise processing audio, pictures or video, that's heavy lifting for your processor and/or disk. It's nice to be able to get that ***out*** of your Rails app. In fact, you'd like a lot of it to be multicore, which isn't always good for a task queue. And you probably don't want it doing that much disk I/O on your app servers. So if possible, just put it onto a separate host, running something other than your Rails app. That can be a task queue or a separate service.
+
+**Non-Realtime Responses like Reporting**: you've seen those web sites where you ask for something &mdash; a report or a big download, for instance &mdash; and the site tells you it'll have it for you later, so keep checking back/waiting? Processing that kind of thing can often make a good separate service. Again, first get it out of your HTTP request.
+A lot of non-realtime stuff wants to be separate from a Rails server, since a Rails server wants to do something in response to a request and then stop. Other stuff like that might include generating reports or other 'real work' measured in minutes or hours.
+
+**Touching an External Service**: if you're using an external API, especially one that can be slow or unreliable, you're often better wrapping it. And in many cases, there's enough external logic for it that you're better off wrapping it in an external service. For instance if you download a geoIP database regularly, that doesn't have to be part of your app. Sometimes marketing and analytics code can consume data from your app, but not live there. If the app doesn't need it to immediately respond before the HTTP response goes out, you're often better extracting it. This is especially true if you need much logic around it to preprocess requests or handle results.
+
+**Things that want Retrying or Multiple Round Trips**: like the previous category, the idea is to take things that might be unreliable, and things you don't control, out of the app's critical path. Fraud and spam detection can be flaky and give somewhat random results. You may want to preprocess their output before you use it, which adds extra logic, time and retries. That sort of thing is often useful to extract.
+
+**Cron Jobs and Other Non-HTTP-Triggered Work: a job that runs at a specific time of day or is otherwise not tied to HTTP requests is often not as tightly tied into your application logic. See if it can be extracted. This kind of thing already breaks the Rails paradigm a bit, so it's good to see if you can simply move it to somewhere that fits better.
+
+**Anything Less-Central to Your App**: a small, new app benefits from having a coherent core. You want to look over the logic and say, "oh, okay, I get it." It should be clear what it does. It should be clear what the application's scope is. A common thread here is: if it's not central to what the app does, consider extracting it. And old, sprawling app with years of history is hard to modify. It picks up its own momentum. You want to avoid that for as long as possible. While your app is young and still finding its niche and community, try to keep it quick and nimble.
+
+## When Do You Not Split?
+
+If anything in a category like this *is* central to what your app does, such as email for an app that mostly just sends email, then it makes sense to keep it there. None of these are absolute "must-extract" rules. They're just a good place to look for where to trim off bits that aren't the core and spirit of your application.
+
+Of course, if something other than HTTP *is* the core of your app, keep in mind that you can do it the other way: you can break off the whole app into a non-Rails service, and keep the Rails app as a thin layer that calls to that service. This pattern is common for very-multiplatform apps where you'll have a native desktop app, multiple mobile apps and then an HTTP app too. You want them all to behave similarly so you make the central server the "real" app and the others are just front ends to it.
+
+None of these *has* to be split off. But these are patterns that can be useful at one time or another.
