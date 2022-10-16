@@ -1,0 +1,109 @@
+---
+title: "Keeping Multiple Representations in Your Head"
+tags: ruby
+featured_asset: ascii_faces_study
+featured_caption: "It's like there's two of me!"
+front_page: false
+---
+
+Sometimes when you're reading a murder mystery, you'll want to think about two different scenarios: what if the butler did it, vs what if it was the wealthy socialite? What would be different? What evidence might they leave?
+
+This is also a core skill for senior-and-up software engineers. It's obvious why you'd use it for debugging, and we'll talk about that. But it's even more useful for initial development to keep multiple representations of the same thing in your head. Sometimes you're trying to figure out how likely one situation is versus another. But often it's about ***both*** being true, and using the two-or-more representations fluidly.
+
+When is it useful? How can you tell you need it? Why do I think so?
+
+Let's talk about that.
+
+## Mathematicians and Rodents
+
+Here's an evergreen argument in software engineering: do you need to be good at math to be good at coding?
+
+Clearly not. A lot of people who are terrible at math are great at coding.
+
+Okay, but does it ***help*** to be good at math? That's a stickier question.
+
+My answer: yes and no. The specific mechanics ***of*** math are only useful for a few situations in writing code. It used to be needed for a lot more of what we did &mdash; I remember pointer arithmetic on arrays in inner loops, and I do not remember it fondly. But these days, a lot less of what a coder does ***is*** math.
+
+So then... not helpful? I'd say ***not directly***.
+
+Instead, math is one of the obvious ways that people learn to ***keep multiple representations in their head*** where ***all the representations are true***. In math, you might know four of five different ways to solve the same problem. Aside from any mistakes you make, they're probably all valid and applicable. If you do them right, they should give the same answer.
+
+In fact, in more advanced math problems like calculus, it's likely that you'll use several of the approaches to get partial answers and put those partial answers together. Because all of the approaches are true, and most of them get you some progress, but none of them are enough by itself.
+
+Is this starting to sound more like writing software yet?
+
+An advanced mathematician knows a lot more ways to approach problems, and all of those methods are sometimes-true. So a mathematician approaches a problem the way a rat approaches a locked container full of food. He can try a little of this and a little of that, and see what starts to work. If he's not making progress in one way, he tries another. The written-down solution may be one of the ways he already knows, or a hybrid of several of them.
+
+That's a lot like how I code.
+
+## Debugging
+
+Let's gnaw from a different angle for a minute, as we think this through.
+
+I mentioned murder mysteries up above. And debugging is a bit like that &mdash; what if I did something wrong in my array logic, so the wrong things are in my central lists of data? What would that look like? How would I check it? Where in my program do I put things in there, or take them out?
+
+Then I can see if that happened, like checking whether the butler was in the study at 4pm.
+
+I can also put more vague or more specific situations in my mind. "Maybe the butler killed him with an axe at 4pm in the study." "Maybe the butler hated him, and was looking for a way to kill him." "Maybe ***somebody*** killed him in the study." The vague situations are really a lot of situations at once. If ***somebody*** was in the study, when? What signs would they leave?
+
+This is like debugging. And like debugging, it's not really checking if two or three different things are true. It's checking for whole ***categories*** of problems. It's imagining your code being ***just slightly different*** in one way or another and thinking, "what would change, and have I ever seen it do that?"
+
+By far my best moments of "code whisperer" intuition come from thinking, "what if I'd done this one thing ***just slightly differently?***" and then realising the code has been doing that the whole time.
+
+## Architecture
+
+When you think about software architecture, the stories tend to be about somebody having lots of previous experience and bringing it to new projects. And sure, that happens. Sometimes an architect will mostly copy a previous design, and sometimes that's the right answer.
+
+But the wonder of watching a really skilled architect in motion is seeing her put together structures that have never existed, sifting and discarding. "Obviously Cassandra is a great match, but we'd need a non-JVM library and shims around our core structures." "If we used GraphQL here we could get the project moving quickly, then optimise specific queries when we know what they are."
+
+That involves experience, definitely. But it also involves keeping a lot of different 'pictures' in your head of possible systems, mentally tallying points for some systems and demerits for others as you sift the total overall system in your head: its structure, limits, requirements, and possibilities.
+
+Some of the intuition here is general: "we'll have an easier time if we match C# with Microsoft-based devices," or "we need a rock-solid audit trail, so a central Kafka bus could work." But a lot of it comes from trying out different structures in your head to foresee problems. A ***really*** good architect may stop to hammer out a prototype using a promising system she doesn't know well, just to get a basic feel for it.
+
+Architecture is an alternation between conjuring new representations in the air, and dismissing the ones that don't work.
+
+Developing software gets more like architecture, the more you do it. You think of the system you want to design, and you think of it being four or five or fifty different ways before you settle on one.
+
+## "Say the Line!"
+
+This is part of why senior engineers say "it depends." Early in your career, you learn which technologies are good and which are bad. But it doesn't stay that simple for long.
+
+A technology is good where it fits and bad where it doesn't. And the longer you work, the more complex your understanding of "where it fits." A technology that ***never*** seems good is nearly always one you don't understand well enough.
+
+A [fairly complete breakdown of even the biggest, least-specific issues](https://codefol.io/posts/when-should-you-not-use-rails/) is already hard to write and needs experience to properly understand. More often, as a senior engineer, 90% or more of your useful understanding is locked up in intuition and experience and war stories &mdash; very hard to "just hand off" to another engineer. Until you've been at it awhile, it's hard to even explain. The very best engineers are the ones who can fluidly switch between their intuition (a powerful, fast representation) and something they can consciously explain (a slower representation for others' consumption.)
+
+And suddenly we're back to multiple representations.
+
+This is what "vision" often is, as well. You don't hire a visionary to have them write a fun essay about what's possible, and then fire them and keep the essay.
+
+Okay, if you're not Microsoft you don't do that. But let's say you're not.
+
+The idea is that there's something locked up in their head, an idea of something amazing, and they can't get the whole thing out. Maybe they can't even fully answer questions about it.
+
+But you have them write a little, so all of you can understand a bit of it and help a bit. And the plan is that they develop this idea &mdash; this bag of multiple representations &mdash; over time, both developing it in their own head and communicating it better to the framework of people around them.
+
+This should sound a lot like a very senior software role. "Visionary" is too glamorous a title, but the basic idea is similar. You have a useful idea and now you need to communicate it over time, as you develop it in your head.
+
+## But What If I Don't Like Murder Mysteries? Or Mathematical Rodents?
+
+I'm not going to tell you that this is the ***only*** way to do it. But I'll say that the vast majority of excellent more-senior-than-senior developers I've met are good at this skill.
+
+There are a lot of different flavours of it, though.
+
+Some of them are good at writing checklists and essays. It's a fantastic skill if you're trying to train a whole organisation in security or a similar cross-cutting concern. And multiple representations are vital because different parts of the organisation have very different security needs. If they don't yet, they will as the org grows.
+
+Some of them are good at having the idea, expressing it as code, and then driving the adoption of that code based on its benefits. This, too, can be highly useful. "Our org needs a unified HTTP client, so I'll start talking to our people who use those," sort of thing. For them, a lot of the multi-representation happens while designing the library, but is done by the time it's widely deployed. And in this, too, you need to plan for divergence from your vision over time. You can't please everybody forever.
+
+Some are good at landing in a new situation and quickly accumulating different views of it, to produce a better solution than they currently have. That can be a technical solution, a social solution or both. This, too, requires sifting through a lot of different (all basically correct) views of the same situation.
+
+And even the least-people-oriented still have to keep a lot of partially-conflicting older code in their head, and the points of view represented by different parts of the system and times-of-authoring. While very senior engineers quickly start to have to tackle people problems, even the non-people problems are all about multiple representations of the system.
+
+## How Do I Get Better At It?
+
+There's some value in reading, including literal mystery novels. There's value in any of the activities I mention above: writing about code for people, writing libraries to fill a specific need, showing up in a situation and rearchitecting/rewriting, doing quick code archaeology on a new project. You can also start with something simpler, such as debugging large systems or writing specialised systems that represent a not-in-code system in code (e.g. math, but also most business logic of any kind.)
+
+Any of these will help you hold multiple representations in your head at once.
+
+I would mostly recommend doing more of whatever you want to be excellent at. When we talk about a very-senior skill, it helps to know where you're headed. If you don't already know where you're headed, try a little and see what you enjoy!
+
+You may also have good luck [looking at staff engineer archetypes](https://staffeng.com/guides/staff-archetypes) for a similar list of "who needs this skill?"
