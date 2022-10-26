@@ -37,9 +37,9 @@ A simple GET request like this is finished when a blank line gets sent after the
 
 ## What's In a POST?
 
-If you have a form in a web page, a POST is usually what happens when you hit 'Submit'. It's common but not required, to POST back to the same URL the form is on, so your browser (or API client) will GET the URL and then POST to the same one.
+If you have a form in a web page, a POST is usually what happens when you hit 'Submit'. A GET is normally for retrieving a file, but a POST is normally for sending data back to the server.
 
-What's different about a POST?
+What's different about how HTTP encodes a POST?
 
 For starters, it has a special Content-Type header. For simple POST bodies, it will have the value 'application/x-www-form-urlencoded'. That lets the server know that after the headers and the extra newline, there's form data coming. So a POST request would look more like this:
 
