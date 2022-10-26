@@ -1,0 +1,113 @@
+---
+title: "What Does a Web Request Actually Contain?"
+tags: web
+featured_asset: chimp_bear_pirate_studying_objects
+featured_caption: "Yes, But What's Inside?"
+front_page: false
+---
+
+If you're a web developer, you're no doubt familiar with HTTP requests. It's when you fetch a file from the server, right?
+
+It's also when you send information ***back to*** the server, including submitting a form or uploading a file.
+
+You may have seen some examples of HTTP requests. It may have looked a bit like this:
+
+~~~
+GET /some-url HTTP/1.1
+Host: my-host.my-domain.com
+User-Agent: curl/7.79.1
+Accept: */*
+~~~
+
+That's a nice simple one. So what does that mean? And what's in a web request, in general?
+
+## Let's Start Simple
+
+That first line looks different from the others. It's a bit special. It starts with the [HTTP request method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) (a.k.a. HTTP verb,) something like GET or POST or PUT or HEAD. Then it has the URL, which was "/some-url" up above. And finally it has the HTTP version, from really old ones like [HTTP/0.9](https://www.w3.org/Protocols/HTTP/AsImplemented.html) to nice new ones like [HTTP/2.0](https://en.wikipedia.org/wiki/HTTP/2).
+
+You'll notice that the URL does ***not*** contain the hostname. So a URL like "http://jojos-bagels.com/search?with=sesame" would have a URL of "/search?with=sesame". The host (like "jojos-bagel.com") winds up on that "Host:" line.
+
+There isn't always a Host line. It's actually possible to just send the first line and an extra newline and call it a day if you're writing your own HTTP client. And many servers will allow this, with perhaps a certain amount of grumbling.
+
+The lines after the first one are [Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers). Each line has some letters and maybe dashes, a colon, then a space and the value. So in the example above the header lines start with 'Host', 'User-Agent' and 'Accept'. There are lots of known headers, and you can send your own custom ones. The request above is quite simple, with only a few headers. Browsers send ***much*** more complicated ones, as a rule.
+
+Also, some of you are wondering how you know when a request is finished. This is all sent via [TCP/IP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol), a stream-based protocol, so there could always be more bytes that were delayed. How can you tell?
+
+A simple GET request like this is finished when a blank line gets sent after the headers. A more interesting request like a POST or a multi-part upload sends different headers to let the server know there's more coming.
+
+## What's In a POST?
+
+If you have a form in a web page, a POST is usually what happens when you hit 'Submit'. It's common but not required, to POST back to the same URL the form is on, so your browser (or API client) will GET the URL and then POST to the same one.
+
+What's different about a POST?
+
+For starters, it has a special Content-Type header. For simple POST bodies, it will have the value 'application/x-www-form-urlencoded'. That lets the server know that after the headers and the extra newline, there's form data coming. So a POST request would look more like this:
+
+~~~
+POST /some-url HTTP/1.1
+Host: my-host.my-domain.com
+User-Agent: curl/7.79.1
+Accept: */*
+Content-Length: 38
+Content-Type: application/x-www-form-urlencoded
+
+two=oneplusone&three=oneplusoneplusone
+~~~
+
+There are a few new things here. There's that special Content-Type. HTTP POSTs encode form data very simply, with parameter names and values. Very straightforward. There's also a Content-Length, which is 38 in the example above. If you were to count the letters, including the ampersand, in the form data you'd also get 38. That's on purpose, of course.
+
+In fact the POST is using ***both*** a separator and a length. After the first line (separated by a newline) are the headers, which end with a double-newline, and after that you have the POST body (also called a "payload",) which is as long as the Content-Length says. So that's two separators and a length.
+
+Knowing when to stop parsing in stream-based protocols can get complicated, as you're seeing.
+
+## A Weird Thing: GET vs POST Parameters
+
+Up above, I said the parameters would get passed in the URL, like "search?with=sesame". Yet here we have this new weird form data thing, which ***also*** seems to be full of parameters. So which is it?
+
+Both. The GET passes parameters in the URL, while POST (and often PUT, PATCH and if you want, others) pass the parameters in the form data.
+
+Is there any reason we'd care? Yes, it turns out.
+
+In a few cases you may want to pass a LOT of parameter data. Pretend you had a big table with twenty or more columns and you wanted to pass a bunch of data about how to sort them, ranges of values for them or something like that. You could easily pass thousands of characters of data.
+
+Thousands of characters isn't a lot of data, though. It takes far less than a second to send it with a good network. Why do we care?
+
+Because [many browsers put a limit on the URL length, and so do most servers](https://stackoverflow.com/questions/2659952/maximum-length-of-http-get-request). So you can actually put together more parameters than the browser will send to the server. If that happens you'll get an error of some kind, probably one you're not expecting.
+
+Unless you use a POST.
+
+Web frameworks often want to abstract away these little details. If you use Rails, you may not have to think about GET and POST passing parameters differently. Rails just handles it for you. 99% of the time, there's not a reason in the world for you to care.
+
+And then, there's 1% of the time that you do something funny, like passing 10,000 bytes of parameters. And then a POST will work fine, and a GET will fail completely in a cryptic way.
+
+## Another Weird Thing: Special Header Names
+
+Sometimes you want to send custom headers. It's common to pass them with API requests, or to your server. Pretend you're working with a junior web developer, and they realise this is fun. They pass custom parameters from their API client to their Rails app all the time as a way to avoid extra parameters.
+
+After all, they've heard that there's a limit to parameter data, but not to header data. So we should send everything as headers, right?
+
+They've been doing this for a few months and everything worked fine. Until their latest 'just a tiny change', where they changed the header name from 'Machine' to the much more web-sounding 'Host'. They just changed it in the client and the server code and deployed. Nothing's going to break if you just change one string, right?
+
+And suddenly everything's screwy. You can revert the change, but what went wrong?
+
+You, of course, already know what went wrong. Sending a 'Host' header means something very specific to the HTTP protocol, and so that string is not like the others. Our hypothetical junior web developer had no idea.
+
+It's a good thing you read this blog post, right?
+
+In general, [naming custom headers is a bit tricky](https://stackoverflow.com/questions/3561381/custom-http-headers-naming-conventions) and there are some odd historical precedents. It used to be recommended to start all your custom header names with "X-", for instance, to avoid this problem. That's how you get names like ["X-Forwarded-For"](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) and so on.
+
+## So Now I Know It All?
+
+I've shown you some of the HTTP request structure, and mentioned a few bits of trivia that can trip up developers. That's cool.
+
+Do you know it all now? Not so much.
+
+First, this post only describes requests. There are responses, which get sent back. There are many, many more headers that we haven't talked about.
+
+But it's more than that. I'm not trying to convince you to memorise every piece of HTTP trivia (please don't!)
+
+Instead, you want to have a good feel for the important pieces and how they fit together. It's also good to know about common weird failure cases, like the GET/POST differences above. I personally believe that you get good at something by building it. The HTTP protocol shouldn't sound ***too*** difficult (and it isn't.) If you're interested, I'm actually [writing a book about how to build all this](https://rebuilding-http.com), including a lot more than just requests.
+
+If you're a web programmer, it's important to know the layers that you're working on top of. It's like water that you're floating on. Once you know what's down there, you can take a dip and check it out when you need to. I like fun bits of trivia. But I'll also show you how to dump the contents of web requests, and you'll see what it all means.
+
+I always want to know what it all means. I feel like a senior engineer gets that way by knowing which weird corners to peek into. Don't you?
