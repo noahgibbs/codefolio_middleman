@@ -25,7 +25,7 @@ That's a nice simple one. So what does that mean? And what's in a web request, i
 
 That first line looks different from the others. It's a bit special. It starts with the [HTTP request method](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) (a.k.a. HTTP verb,) something like GET or POST or PUT or HEAD. Then it has the URL, which was "/some-url" up above. And finally it has the HTTP version, from really old ones like [HTTP/0.9](https://www.w3.org/Protocols/HTTP/AsImplemented.html) to nice new ones like [HTTP/2.0](https://en.wikipedia.org/wiki/HTTP/2).
 
-You'll notice that the URL does ***not*** contain the hostname. So a URL like \"http://jojos-bagels.com/search?with=sesame\" would have a URL of "/search?with=sesame". The host (like \"jojos-bagels.com\") winds up on that "Host:" line.
+You'll notice that the URL does ***not*** contain the hostname. So a URL like "ht<area>tp://jojos-bagels.com/search?with=sesame" would have a URL of "/search?with=sesame". The host (like "jo<area>jos-bagels.com") winds up on that "Host:" line.
 
 There isn't always a Host line. It's actually possible to just send the first line and an extra newline and call it a day if you're writing your own HTTP client. And many servers will allow this, with perhaps a certain amount of grumbling.
 
