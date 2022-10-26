@@ -31,9 +31,9 @@ There isn't always a Host line. It's actually possible to just send the first li
 
 The lines after the first one are [Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers). Each line has some letters and maybe dashes, a colon, then a space and the value. So in the example above the header lines start with 'Host', 'User-Agent' and 'Accept'. There are lots of known headers, and you can send your own custom ones. The request above is quite simple, with only a few headers. Browsers send ***much*** more complicated ones, as a rule.
 
-Also, some of you are wondering how you know when a request is finished. This is all sent via [TCP/IP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol), a stream-based protocol, so there could always be more bytes that were delayed. How can you tell?
+Also, some of you are wondering how you know when a request is finished. This is all sent via [TCP/IP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol), a byte-stream-based protocol. So there might always be more bytes that were delayed. Just reading from the socket never tells you "the message is done, now you can process it." How can you tell?
 
-A simple GET request like this is finished when a blank line gets sent after the headers. A more interesting request like a POST or a multi-part upload sends different headers to let the server know there's more coming.
+A simple GET request like this is finished when a blank line gets sent after the headers. So two blank lines in a row means the headers are done. A more interesting request like a POST or a multi-part upload sends a special header to let the server know there's another part coming after the headers are done. And I'm ignoring multi-part requests for this post, but more complicated requests ***do*** exist.
 
 ## What's In a POST?
 
