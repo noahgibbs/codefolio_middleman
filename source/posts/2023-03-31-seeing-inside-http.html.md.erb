@@ -1,0 +1,66 @@
+---
+title: "Seeing Inside HTTP"
+tags: ruby, rails
+featured_asset: how_to_solve_it
+featured_caption: "I'm sure it's in here somewhere..."
+published: false
+---
+
+If you work in Ruby, you probably deal with HTTP a lot. There are various ways to
+see into the actual HTTP requests and debug them. I'd love to mention a few of them to you.
+
+Why do you care?
+
+If everything goes perfectly, you don't. It's debugging. So if you never write any bugs, you're fine.
+
+In case you write bugs like I do, let's talk debugging.
+
+READMORE
+
+(By the way: these are just quick methods, not a full dive into any of them. If you want more detail, you can Google about it. Also [I wrote a book about that](https://rebuilding-http.com) if you like implementing this stuff in Ruby code.)
+
+## Seeing Into HTTP
+
+I assume your first line of debugging is the Chrome devtools. They're pretty good.
+
+<!-- img src="../2023-seeing-inside-http/chrome_http_inspector.png" width="1480" height="946" -->
+
+<img class="img-fluid" src="../2023-seeing-inside-http/chrome_http_inspector.png" width="1480" height="946" alt="The Chrome Inspector, showing the HTTP request properties for a blog post" >
+
+As you can see there, they'll show you the HTTP request status, the headers, the response headers and lots of other good stuff. For a random request that's quite good. And in a browser, where a single page has hundreds of requests, I don't know that you could do much better.
+
+That gives you pretty limited control of what you send, though. When you care about what you send, you're probably already using Curl.
+
+## Curl
+
+Curl is a command-line tool to send HTTP requests of all descriptions. It can do just about anything that HTTP can do, from custom HTTP request methods to file uploads to different data encodings.
+
+Curl will also give you a ***lot*** of debug information if you ask it to.
+curl --header "Accept: text/javascript"
+You can start with -v, something like "curl -v -H 'Accept: text/plain' http://myserver.mydomain.com", which will print out what it sends and receives.
+
+You can also use --trace or --trace-ascii to have it write the request to a file in your choice of ASCII or hexadecimal: "curl --trace mytrace.txt https://theserver.domain.io".
+
+The man page is surprisingly good, especially the examples throughout. And of course it's very, very Googleable.
+
+## Netcat
+
+Sometimes you don't want to ***send*** HTTP, sometimes you want to receive it. In those cases you can set up a trivial network server and see what gets sent *to* it.
+
+You'll usually want to type something like "nc -l localhost 4321", which starts a listening server on localhost port 4321. Then when you send it a request, you can see everything that gets sent. It's a great way to examine your HTTP requests in plain text. Of course, it doesn't help with HTTPS.
+
+There's one more fun trick to netcat: you can type a response and it will get sent back. You wouldn't bother with a complicated HTTP response, but it can be a great way to send back an error and see what happens.
+
+## WEBrick
+
+Ruby's simplest server, which was built into Ruby itself until recently, is a solid choice for understanding and debugging. The code is [available and surprisingly readable](https://github.com/ruby/webrick) if you're curious how HTTP is implemented (and again, [my book](https://rebuilding-http.com) can help a lot with that.) But you can also set up WEBrick to serve local files.
+
+Here's a link to the one-line version of that code, courtesy of gautamk: https://gist.github.com/gautamk/3186111
+
+It ***can*** be heavily customised, though my excellent audience can often write their own little web apps if they need them. You folks are impressive.
+
+## But What About...?
+
+This is a ***really*** simple roundup of go-to tools, just for quick reference. I've barely scratched the surface, ignoring [proxy servers](https://mitmproxy.org/), [Rack](https://github.com/rack/rack) and all its tools and so much more...
+
+But sometimes you're googling "debug HTTP" because you've forgotten how to even start. And here's this article!
