@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Getting Started with Raw DGD from Scratch</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/dgd/raw_dgd_from_scratch/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        <div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <h1>Getting Started with Raw DGD from Scratch</h1>
+            <p>DGD is very, very old-school in how it&rsquo;s set up. If you know your compile tools and you&rsquo;re feeling adventurous, you can set it up from scratch.</p>
+
+<p>I wrote this mainly as a sort of personal exercise to explain the old world to somebody who wasn&rsquo;t there at the time. I can&rsquo;t imagine many people would actually <strong><em>want</em></strong> to do this. Also, there should be some description of how to do this, even if it&rsquo;s a bad idea (and it is.)</p>
+
+<h2>Download DGD and Set Up Your Directories</h2>
+
+<p><a href="https://github.com/dworkin/dgd">DGD development happens on GitHub</a>.</p>
+
+<p>You can <a href="https://github.com/dworkin/dgd/downloads">download the latest DGD from GitHub</a>. For this example I&rsquo;m using version 1.4.18. Go ahead and download it. It&rsquo;s 455 KB, so you could do it over an old modem and it still wouldn&rsquo;t take long.</p>
+
+<p>Now you&rsquo;re going to need to set up some directories. I recommend making a directory somewhere called &ldquo;dgd&rdquo; which will hold all the pieces. Then you&rsquo;re going to move that file you downloaded (dgd-1.4.18.tar.gz) into the dgd directory.</p>
+
+<p>Now you&rsquo;ll unpack it. You can double-click the archive on a Mac. But we&rsquo;re going to be doing a lot of console work, so you should probably open a console, go into that dgd directory (using &ldquo;cd&rdquo;, old-style) and type something like &ldquo;tar zxvf dgd-1.4.18.tar.gz&rdquo;. You&rsquo;re getting ready to dive into LPC, the language of massively-multiplayer text games from the 80s, so savour that old-school flavour.</p>
+
+<p>You now have a directory called &ldquo;dgd&rdquo; inside your other directory called &ldquo;dgd.&rdquo; So if I talk about a directory called &ldquo;dgd/dgd&rdquo;, that&rsquo;s the one. Got it?</p>
+
+<h2>Build the Driver (the Native App)</h2>
+
+<p>Inside dgd/dgd, pop into &ldquo;src&rdquo; and type &ldquo;make install&rdquo;. If you have all the appropriate tools for compiling C code installed, that will output a wall-O-text and create a file called dgd/dgd/bin/driver. If you&rsquo;re not sure if it worked, look in dgd/dgd/bin and see if there&rsquo;s a &ldquo;driver&rdquo; file. There should be.</p>
+
+<p>(What if you don&rsquo;t have the appropriate tools installed to compile C code? I&rsquo;m going to be annoying and not tell you how, I&rsquo;m afraid. If you don&rsquo;t, there&rsquo;s a 95% chance that you are not going to enjoy setting up your own DGD stuff from scratch, and you should find a different method, or a person to help you.)</p>
+
+<p>That file is what the rest of the world calls a &ldquo;language interpreter&rdquo; for DGD, or just &ldquo;the DGD app,&rdquo; kind of like how you use a program called &ldquo;ruby&rdquo; to run your Ruby code. But 1980s LPMUDs called it a driver, and so it&rsquo;s named &ldquo;driver.&rdquo; Now you know.</p>
+
+<h2>Grab a copy of Kernellib</h2>
+
+<p>DGD doesn&rsquo;t have anything game-like built in. It&rsquo;s just a language. It&rsquo;s like how Python doesn&rsquo;t come with any usable programs. Those are written <strong><em>in</em></strong> Python, but they don&rsquo;t come <strong><em>with</em></strong> Python.</p>
+
+<p>The Kernellib isn&rsquo;t particularly game-like either, but it&rsquo;s a step closer. It&rsquo;s a kind of standard library and management system on top of DGD. You&rsquo;re not required to use it &mdash; many DGD games didn&rsquo;t! But a lot of the features that make DGD technically interesting are very hard to use without it. The games that don&rsquo;t use kernellib often don&rsquo;t allow you to recompile all your objects live, for instance.</p>
+
+<p>You&rsquo;ll need to grab a copy of kernellib. It does <em>not</em> have releases to download. You&rsquo;re welcome.</p>
+
+<p>Instead you&rsquo;re going to clone it with Git from inside the &ldquo;dgd&rdquo; (but not &ldquo;dgd/dgd&rdquo;) directory:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>git clone git@github.com:shentino/kernellib.git
+</code></pre></div>
+<p>Now you have a dgd/kernellib directory.</p>
+
+<h2>Setting Up Your Not-a-Game with Kernellib</h2>
+
+<p>You&rsquo;ll need to make a new directory for your thing-that-uses-kernellib. I&rsquo;m going to call mine &ldquo;ktest_mud&rdquo;. It&rsquo;s not really a MUD, but calling it one is traditional.</p>
+
+<p>Make a new empty ktest_mud directory inside the &ldquo;dgd&rdquo; directory, right next to &ldquo;dgd/dgd&rdquo;. We&rsquo;re going to copy bits of the kernel library into it, because that&rsquo;s how kernellib rolls. If you&rsquo;re planning to keep an up-to-date kernellib and use latest (WHY GOD WHY) then you could symlink it instead, but I&rsquo;m not going to enable that behaviour by describing it.</p>
+
+<p>To copy in those directories, from inside your ktest_mud directory:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cp -r ../kernellib/src/include include
+cp -r ../kernellib/src/kernel kernel
+</code></pre></div>
+<h2>Your Configuration File</h2>
+
+<p>The kernellib ships with a configuration file, called dgd/kernellib/kernel.dgd. Copy it to mud.dgd:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>cp ../kernellib/kernel.dgd mud.dgd
+</code></pre></div>
+<p>You&rsquo;ll also need to open it in the editor and change the &ldquo;directory&rdquo; path to the absolute path of your ktest<em>mud directory. To find that absolute directory, type &ldquo;pwd&rdquo; from inside ktest</em>mud. Here&rsquo;s what mine looks like:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>directory   = "/Users/noah/localsrc/dgd/ktest_mud";/* base directory (MUST be absolute) */
+</code></pre></div>
+<h2>Running the MUD</h2>
+
+<p>You can get it up and running at &ldquo;hello, world&rdquo; quality now. If you named your config file &ldquo;mud.dgd&rdquo; then you can run the driver from ktest_mud:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>../dgd/bin/driver
+</code></pre></div>
+<p>You should see some text:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Aug 26 11:29:49 ** DGD 1.4.18
+Aug 26 11:29:49 ** Initializing...
+Aug 26 11:29:49 ** Initialization complete.
+</code></pre></div>
+<p>It&rsquo;s up and running!</p>
+
+<h2>Connecting to the MUD</h2>
+
+<p>If you don&rsquo;t have a telnet client installed, you should probably fix that. On a Mac with Homebrew you can &ldquo;brew install telnet&rdquo;. I&rsquo;m sure there&rsquo;s telnet available for any modern Linux distribution as well, though sane people should probably stop doing that.</p>
+
+<p>Once you have it, &ldquo;telnet localhost 6047&rdquo; should get you a DGD login:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+
+DGD 1.4.18 (telnet)
+
+login:
+</code></pre></div>
+<p>Log in as &ldquo;admin&rdquo; and pick a new password:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>login: admin
+Pick a new password:
+Retype new password:
+Password changed.
+# help
+No command: help
+</code></pre></div>
+<p>There are commands available. &ldquo;Help&rdquo; is not one of them.</p>
+<div class="highlight"><pre class="highlight plaintext"><code># ls
+/usr/admin: No such file or directory.
+# pwd
+/usr/admin
+</code></pre></div>
+<p>You can quit by typing &ldquo;quit&rdquo; or by forcibly quitting your telnet client.</p>
+
+<h2>Next Steps</h2>
+
+<p>You&rsquo;re not actually reading this because you want to get a clean start on DGD. I&rsquo;m just having fun with you. You don&rsquo;t need me to tell you what the next step is.</p>
+
+        </article>
+    </main>
+</div>
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

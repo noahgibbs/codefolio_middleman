@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>A Simple Coding Study</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/a-simple-coding-exercise/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">A Simple Coding Study</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                <p>It&rsquo;s fun to write about different ways to practice coding. But &ldquo;how to practice&rdquo; only gets you so far - at some point you have to actually do the practice.</p>
+
+<p>There are a lot of neat programming exercises in the world. This is an example of one I call a &ldquo;coding study&rdquo;, and I think it fits <a href="https://codefol.io/posts/what-you-learn-by-repeating-exercises/">my definition of a good exercise</a>.</p>
+
+<p>A coding study is like an artist&rsquo;s life study, but for code. You&rsquo;d normally pick your own design. But this is meant as a simple introduction, so I&rsquo;ll suggest a little more than usual.</p>
+
+<p>The theme today: ivy on a window. I&rsquo;ll refer to the picture below repeatedly in this post - have a look, then scroll back here as needed or save a copy locally.</p>
+
+<p>One hard thing about exercises is that you need different habits for them than for production code: <a href="https://codefol.io/posts/you-learn-the-most-with-throwaway-prototypes/">you&rsquo;re not trying to write polished, production code</a>. Instead, you&rsquo;re trying to learn as fast as possible. So at the end, I&rsquo;ll talk about some intentionally weird things I do in this code and why.</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;a-simple-coding-exercise&#x2F;window_ivy_1008_756.jpg#wide' >
+      <img src="&#x2F;posts&#x2F;a-simple-coding-exercise&#x2F;window_ivy_1008_756.jpg#wide" class="" alt="Up-close picture of ivy growing on a windowsill, houses visible through the window"   title="Ivy on my windowsill" />
+    </a>
+        <figcaption class="caption-text">Ivy on my windowsill</figcaption> 
+</figure>
+
+<p></p>
+
+<h2>The Definition</h2>
+
+<figure class="aside-right">
+    <div  >
+      <img src="/img/OldComputer_aside_216_162.png" class="d-none d-md-block" alt="An ancient computer, possibly some kind of Apple II" width='216' height='162' title='When you see a fellow print out lots of monochrome ASCII art, you learn a lot about his aesthetics.' />
+    </div>
+
+      <figcaption class="caption-text">
+        When you see a fellow print out lots of monochrome ASCII art, you learn a lot about his aesthetics.
+        
+        
+      </figcaption>
+</figure>
+
+<p>For this blog post, I&rsquo;ll spell out one specific way to turn the picture above into an interesting coding exercise &mdash; though <a href="/posts/what-you-learn-by-repeating-exercises/">I&rsquo;m actually a big fan of trying multiple ways to maximise learning</a>.</p>
+
+<p>When I look at that picture, and the window next to me in Inverness where I took it, I notice a few interesting things about the ivy. First, it has a strong left-right-left back and forth look to each strand, punctuated by a little leaf. I think that&rsquo;s fun, so I&rsquo;ll emphasise that as something I&rsquo;m playing with. I think the way the leaves start large at the bottom but get smaller higher up is fun, but I&rsquo;m planning to use ASCII-art display for this to keep the complexity down, so I&rsquo;m not sure if I&rsquo;ll do that. And I like the way that each strand goes sideways for a little while before turning upward gradually. That&rsquo;s also a bit hard to express in code, in a good way.</p>
+
+<p>That gives me set of features that are each slightly annoying to express in code, which means I&rsquo;m likely to learn something interesting. Perfect.</p>
+
+<p>If you were to come back to this task (&ldquo;generate an ivy structure and express it as ASCII art&rdquo;), you might pick different features of the picture as interesting &mdash; for instance, I&rsquo;m ignoring the way the ivy grows little bunches of tiny rootlets, and the crossing of many lower-down sources of ivy, and I&rsquo;m not paying attention to the lighting. All those are potentially interesting. But I started with the first few interesting things <em>I</em> saw. You could pick a different set.</p>
+
+<p>For those familiar with <a href="https://software-technique.com">coding studies</a>, I&rsquo;m using Ruby and ASCII art display (the Tool) to do the above (the Task) in order to play with the interaction of those dynamics in a simulation (the Purpose.) I&rsquo;ve written this out before writing any code, since <a href="https://codefol.io/posts/single-idea-with-time-limit/">you should record your idea before doing the exercise</a>.</p>
+
+<h2>The Beginning</h2>
+
+<p>For an exercise, it&rsquo;s really useful to start simple and work in stages. I don&rsquo;t need any kind of fancy display to play with ivy-growth dynamics so I&rsquo;ll just print my results as <a href="https://en.wikipedia.org/wiki/ASCII_art">ASCII art</a>.</p>
+
+<p>So I&rsquo;ll start with a grid in memory and print it out. Let&rsquo;s start with a simple ivy growing left-right, upward.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">grid</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">9</span><span class="p">).</span><span class="nf">map</span> <span class="p">{</span> <span class="p">[</span><span class="s2">" "</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span> <span class="p">}</span>  <span class="c1"># 10 lines of 30 spaces each</span>
+<span class="n">tips</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span> <span class="ss">y: </span><span class="mi">9</span><span class="p">,</span> <span class="ss">x: </span><span class="mi">15</span><span class="p">,</span> <span class="ss">dir: </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">8</span> <span class="p">}</span> <span class="p">]</span>
+
+<span class="n">still_growing</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">while</span> <span class="n">still_growing</span>
+  <span class="n">still_growing</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="n">tips</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tip</span><span class="o">|</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="n">still_growing</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="n">pic</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span>
+    <span class="k">else</span>
+      <span class="n">pic</span> <span class="o">=</span> <span class="s2">"/"</span>
+    <span class="k">end</span>
+
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">pic</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Print the grid</span>
+<span class="n">grid</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">line</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+<p>That&rsquo;s not too bad. It should start low and grow left and right, back and forth. I set a maximum height to keep it from growing off the top of the &lsquo;screen&rsquo;, though I could have skipped that. Here&rsquo;s what it looks like:</p>
+
+<p><img src="/posts/a-simple-coding-exercise/ivy_1.png"></img></p>
+
+<p>I actually skipped several ways to do this more simply. For instance, I could have hardcoded <em>one</em> tip instead of having an array first - that would be fine. I could have skipped still_growing and having a height. I <em>could</em> have started without even alternating left-right. Pick your level of comfort and start there. But I&rsquo;m not going to make all you blog readers sit through every step!</p>
+
+<p>I also saved a copy of the code after this. If you&rsquo;re not using source control for your coding exercises, it&rsquo;s good to save a copy periodically, which is easy. If you <em>are</em> using source control, that&rsquo;s great too.</p>
+
+<p>I said I was interested in the left-right motion of the ivy, so that&rsquo;s fun. I also said I was interested in the leaves and how they started large and got smaller. So let&rsquo;s add that.</p>
+
+<p>A few minutes in, here&rsquo;s what I have for that:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">grid</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">9</span><span class="p">).</span><span class="nf">map</span> <span class="p">{</span> <span class="p">[</span><span class="s2">" "</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span> <span class="p">}</span>  <span class="c1"># 10 lines of 30 spaces each</span>
+<span class="n">tips</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span> <span class="ss">y: </span><span class="mi">9</span><span class="p">,</span> <span class="ss">x: </span><span class="mi">15</span><span class="p">,</span> <span class="ss">dir: </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">8</span> <span class="p">}</span> <span class="p">]</span>
+
+<span class="n">still_growing</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">while</span> <span class="n">still_growing</span>
+  <span class="n">still_growing</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="n">tips</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tip</span><span class="o">|</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="n">still_growing</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">7</span>
+      <span class="n">leaf</span> <span class="o">=</span> <span class="s2">"(_)"</span>
+    <span class="k">elsif</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">4</span>
+      <span class="n">leaf</span> <span class="o">=</span> <span class="s2">" O "</span>
+    <span class="k">else</span>
+      <span class="n">leaf</span> <span class="o">=</span> <span class="s2">" o "</span>
+    <span class="k">end</span>
+
+    <span class="n">stem</span> <span class="o">=</span> <span class="s2">"__"</span>
+
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="n">trunk</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span>
+      <span class="n">leaf_offset</span> <span class="o">=</span> <span class="o">+</span><span class="mi">2</span>
+      <span class="n">stem_offset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+    <span class="k">else</span>
+      <span class="n">trunk</span> <span class="o">=</span> <span class="s2">"/"</span>
+      <span class="n">leaf_offset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+      <span class="n">stem_offset</span> <span class="o">=</span> <span class="o">+</span><span class="mi">1</span>
+    <span class="k">end</span>
+
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">trunk</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">stem_offset</span><span class="p">]</span> <span class="o">=</span> <span class="n">stem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">stem_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">stem</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">leaf_offset</span><span class="p">]</span> <span class="o">=</span> <span class="n">leaf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">leaf_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">leaf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">leaf_offset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">leaf</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Print the grid</span>
+<span class="n">grid</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">line</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+<p>That&rsquo;s a lot more lines. Let&rsquo;s talk about what changed.</p>
+
+<p>First off, I picked an ASCII-art leaf based on the height - which in this case means height <em>remaining</em>, so it&rsquo;s largest near the bottom of a frond of ivy, and smallest near the top, just like the leaves.</p>
+
+<p>I also have a stem. And I renamed &ldquo;pic&rdquo; to &ldquo;trunk&rdquo; &mdash; to remind myself what it is. I then have a fairly annoying chunk of code to copy two characters of stem and three of leaf into place at a particular offset. Would it be better to come up with more complicated logic to handle arbitrary-length strings? Probably not, no, since this worked quickly &mdash; I&rsquo;ll discuss that later in the post.</p>
+
+<p>The numbers for the offsets are a bit &ldquo;magical&rdquo; because I tried something reasonable and didn&rsquo;t like how it looked, then messed with them a bit. Here&rsquo;s what they look like if you just try plus or minus two for them:</p>
+
+<p><img src="/posts/a-simple-coding-exercise/ivy_2_bad.png"></img></p>
+
+<p>Not great, is it? And that&rsquo;s part of keeping things loose and playing with the code. Start simple and build.</p>
+
+<p>Here&rsquo;s what it looked like after I changed the offsets a bit:</p>
+
+<p><img src="/posts/a-simple-coding-exercise/ivy_2_better.png"></img></p>
+
+<p>I like this version a lot better.</p>
+
+<p>Now, I said I also wanted to play with the fact that the ivy moves sideways a bit. And I had it in the back of my mind that perhaps I&rsquo;d have multiple of them branch out from a single lower trunk, which you can see on the picture up above. In fact, it&rsquo;s not a bad idea to look at the ivy again at this point &mdash; I have a few times as I work, to see if I like the picture of it that I&rsquo;m making.</p>
+
+<p>So: let&rsquo;s try to get a nice payoff from that loop we&rsquo;ve been dragging around since the beginning. I try that&hellip; And then fail, actually, and realise my initial technique on this doesn&rsquo;t work. So I revert back to an earlier copy of my code and start from it again. That&rsquo;s fine.</p>
+
+<p>After a few minutes, here&rsquo;s what I wind up with:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">grid</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">12</span><span class="p">).</span><span class="nf">map</span> <span class="p">{</span> <span class="p">[</span><span class="s2">" "</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span> <span class="p">}</span>  <span class="c1"># 10 lines of 30 spaces each</span>
+<span class="n">tips</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="ss">y: </span><span class="mi">12</span><span class="p">,</span> <span class="ss">x: </span><span class="mi">8</span><span class="p">,</span> <span class="ss">dir: </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="ss">speed: </span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">7</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="ss">y: </span><span class="mi">12</span><span class="p">,</span> <span class="ss">x: </span><span class="mi">15</span><span class="p">,</span> <span class="ss">dir: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">speed: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">10</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="ss">y: </span><span class="mi">12</span><span class="p">,</span> <span class="ss">x: </span><span class="mi">20</span><span class="p">,</span> <span class="ss">dir: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">speed: </span><span class="mi">3</span><span class="p">,</span> <span class="ss">height: </span><span class="mi">8</span> <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">still_growing</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">while</span> <span class="n">still_growing</span>
+  <span class="n">still_growing</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="n">tips</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">tip</span><span class="o">|</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="n">still_growing</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">7</span>
+      <span class="n">leaf</span> <span class="o">=</span> <span class="s2">"(_)"</span>
+    <span class="k">elsif</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">4</span>
+      <span class="n">leaf</span> <span class="o">=</span> <span class="s2">" O "</span>
+    <span class="k">else</span>
+      <span class="n">leaf</span> <span class="o">=</span> <span class="s2">" o "</span>
+    <span class="k">end</span>
+
+    <span class="n">stem</span> <span class="o">=</span> <span class="s2">"__"</span>
+
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="n">trunk</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\\</span><span class="s2">"</span>
+      <span class="n">leaf_offset</span> <span class="o">=</span> <span class="o">+</span><span class="mi">2</span>
+      <span class="n">stem_offset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+    <span class="k">else</span>
+      <span class="n">trunk</span> <span class="o">=</span> <span class="s2">"/"</span>
+      <span class="n">leaf_offset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+      <span class="n">stem_offset</span> <span class="o">=</span> <span class="o">+</span><span class="mi">1</span>
+    <span class="k">end</span>
+
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]]</span> <span class="o">=</span> <span class="n">trunk</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">stem_offset</span><span class="p">]</span> <span class="o">=</span> <span class="n">stem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">stem_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">stem</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">leaf_offset</span><span class="p">]</span> <span class="o">=</span> <span class="n">leaf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">leaf_offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">leaf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]][</span><span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+</span> <span class="n">leaf_offset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">leaf</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:x</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:speed</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:speed</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+      <span class="n">tip</span><span class="p">[</span><span class="ss">:speed</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">elsif</span> <span class="n">tip</span><span class="p">[</span><span class="ss">:speed</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="n">tip</span><span class="p">[</span><span class="ss">:speed</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">end</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:height</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">tip</span><span class="p">[</span><span class="ss">:dir</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Print the grid</span>
+<span class="n">grid</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">line</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+<p>What changed? I used three tips, not just one. I added a &ldquo;speed&rdquo; to each one to have it drift left or right as it climbed. I had that speed decrease &mdash; looking at the ivy, they tend toward just being up-down, and just have a sideways drift toward the bottom and I wanted mine to do that too.</p>
+
+<p>I also added a bit to the height. This was fun, and I wanted slightly taller, larger ivy. And I got it. Here&rsquo;s what this code prints:</p>
+
+<p><img src="/posts/a-simple-coding-exercise/ivy_big.png"></img></p>
+
+<p>So, success! I&rsquo;ve explored what I wanted to explore, and explained the exercise to you. This probably took me between 30 and 45 minutes all told, and I learned a bit &mdash; the first attempt at &ldquo;speed,&rdquo; in particular, reminded me of some things <em>not</em> to do. Failures tend to teach more than successes, as long as you do both quickly.</p>
+
+<h2>Weird Things About Small, Fast Exercises</h2>
+
+<p>You probably noticed a few things I did &ldquo;wrong,&rdquo; or just in unexpected ways, above. Let&rsquo;s talk about that.</p>
+
+<p>Obviously I was writing in a hurry. That&rsquo;s mostly because I was writing this to play with the structure of the ivy - anything in the code that wasn&rsquo;t about that, I pretty much ignored. Careful library to spacially place rectangle-shaped ASCII art? Nope, that would be as large as the code I wrote for this whole post. Careful representation of position and size? Nope, that would also have taken long enough that it wouldn&rsquo;t be worth it.</p>
+
+<p>That&rsquo;s why you see cut-and-paste code when there are five characters to copy into place - two assignments for one thing and three for another isn&rsquo;t enough reason to add complexity with a loop. And why the &ldquo;if&rdquo; statements never get collapsed into a math problem meant to represent the leaf placement &mdash; that leaf placement isn&rsquo;t really the point, so a simple, arbitrary-looking &ldquo;if&rdquo; is perfect. There are a few specific things that are the <em>point</em> of the exercise, and everything else gets as little attention as possible.</p>
+
+<p>If you have a small, bounded exercise that you&rsquo;re planning to learn from but not share with anybody else, you should be very suspicious of abstractions, &ldquo;helpers,&rdquo; method definitions, and even most forms of good practice and clean code. Most of us are told about how to write clean code in a professional setting, with guidelines like &ldquo;code is read far more often than it is written&rdquo; and &ldquo;write it to communicate with a human, who could be you in six months.&rdquo; This code won&rsquo;t be re-read often, and it will be long-abandoned in six months. Unless you&rsquo;re specifically exploring something about one particular abstraction or about readability as your <a href="https://codefol.io/posts/single-idea-with-time-limit/">one single idea</a> for this code, you should skip them.</p>
+
+<figure class="aside-right">
+    <div  >
+      <img src="/img/StudyOnFloor_aside_216_162.png" class="d-none d-md-block" alt="A chalk figure sprawled on the floor reading books." width='216' height='162' title='You&#x27;d think a whole industry full of bookish people would do more study and practice, wouldn&#x27;t you?' />
+    </div>
+
+      <figcaption class="caption-text">
+        You&rsquo;d think a whole industry full of bookish people would do more study and practice, wouldn&rsquo;t you?
+        
+        
+      </figcaption>
+</figure>
+
+<p>That&rsquo;s also why I emphasise &ldquo;save a copy of your code&rdquo; over &ldquo;source control.&rdquo; In a professional setting, you should always use source control. When it&rsquo;s you on your own, the overhead may be more than is worth it. It&rsquo;s up to you. And it&rsquo;s important to be thinking about the tradeoff &mdash; does this piece of professionalism help me here more than it costs me? You&rsquo;re building an alternate set of habits to use for maximum learning, not maximum polished, usable code.-</p>
+
+<p>There are times and places to practice normal professional programming discipline &mdash; at work, on open-source projects or on long-term hobby projects. Most of us never really escape that setting. And so we never learn the things that are hard to learn outside of them.</p>
+
+<p>I&rsquo;m doing my best to explore and explain some of the interesting space for coding exercises that exists <em>outside</em> of those boundaries. If you think that&rsquo;s interesting, please sign up for my email list or <a href="https://software-technique.com">have a look at my book about software technique</a>. I think there&rsquo;s a lot of room for us to collectively get better at this. I hope you do too.</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2019-11-12">Nov 12 2019</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/technique/'>technique</a>
+                        <a href='/tags/codingstudy/'>codingstudy</a>
+                        <a href='/tags/favourite/'>favourite</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/a-simple-coding-exercise';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/a-simple-coding-exercise';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/wait-let-me-explain-my-theory-what-steve-martin-taught-me/">Wait, Let Me Explain My Theory! What Steve Martin Taught Me About Writing Software</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                        </p>
+                    </header>
+                        <a href="/posts/wait-let-me-explain-my-theory-what-steve-martin-taught-me/" class="post-thumbnail">
+                            <img src="/img/fib_n_aside.png" width="216" height="162" alt="Wait, Let Me Explain My Theory! What Steve Martin Taught Me About Writing Software" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/">There's No Such Thing as Knowing Your Computer 'All the Way to the Bottom'</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                        <a href="/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/" class="post-thumbnail">
+                            <img src="/img/OldComputer_aside.png" width="216" height="162" alt="There's No Such Thing as Knowing Your Computer 'All the Way to the Bottom'" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/coding-study-video-ascii-art-faces/">Coding Study Video: ASCII Art Faces</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/codingstudy/'>codingstudy</a>
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/video/'>video</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/water-we-swim-in-software-developer-mindset/">The Water We Swim In: The Software Developer's Mindset</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                        <a href="/posts/water-we-swim-in-software-developer-mindset/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="The Water We Swim In: The Software Developer's Mindset" />
+                    </a>
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

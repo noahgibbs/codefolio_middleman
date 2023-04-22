@@ -1,0 +1,1 @@
+!function(o){"use strict";o("body");o(document).ready(function(){o(".post-content").fitVids(),o("#top-button").on("click",function(t){o("html, body").animate({scrollTop:0}),t.preventDefault()});new SimpleLightbox("a.lightboxed",{});o("a.lightboxed").on("error.simplelightbox",function(o){console.log("SimpleLightbox error: ",o)})})}(jQuery);

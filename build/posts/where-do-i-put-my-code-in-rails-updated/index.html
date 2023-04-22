@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Where Do I Put My Code In Rails (Updated)</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/where-do-i-put-my-code-in-rails-updated/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">Where Do I Put My Code In Rails (Updated)</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                <p>Lots of you loved my <a href="http://codefol.io/posts/Where-Do-I-Put-My-Code">old post</a> on this. Thanks! But thanks to many fine questions,
+especially by <a href="https://twitter.com/bsgreenb">one guy on Twitter</a>, it&rsquo;s time for an update! And also, naturally,
+the same things you loved last time. I&rsquo;m not <i>heartless</i>.</p>
+
+<p>Sometimes you’re <i>sure</i> that’s not the right place for that piece of code, but where <i>does</i> it go? &ldquo;Refactor&rdquo; is only a good answer if you know how to fix it.</p>
+
+<p>In a Rails application, what kind of code goes where?</p>
+
+<h3>Models</h3>
+
+<p>For code about your database or <a
+href="http://c2.com/cgi/wiki?DomainObject">domain objects</a>, the
+model is your first stop in Rails. Models are powerful, easy to test,
+reusable across applications and more like non-Rails code than most of
+Rails &ndash; familiar, even if you don’t know Rails yet.</p>
+
+<p>If there&rsquo;s a good way to put the code in your model, that&rsquo;s usually a
+safe bet and a good idea.</p>
+
+<p>Write tests for them too, of course! The model is also the easiest
+part of Rails to test.</p>
+
+<p>With models, also remember that there&rsquo;s no requirement that they be
+based on ActiveRecord. It&rsquo;s fine for them to use a different data
+store (e.g. Redis, Cassandra, files.) It&rsquo;s also fine for them to only
+exist in memory, or be loaded from a service API (e.g. Stripe) or
+created and sent to one (e.g. a MailGun mailer.)</p>
+
+<h3>Controllers</h3>
+
+<p>It’s easy to put lots of code in your controllers, but it’s <a
+href="http://weblog.jamisbuck.org/2006/10/18/skinny-controller-fat-model">almost
+always a mistake</a>. Business logic for your app should get out of
+the controller and into the model as quickly as possible. Logic about
+how things are shown to the user should go into the view or the view
+helpers. In general, the controller should be a tiny, thin glue layer
+putting together your other components.</p>
+
+<p>A controversial but often good idea is to set exactly one instance
+variable in your controller to use in your view. That enforces
+single-purpose controller actions and single-purpose views&hellip; Which
+can be good or bad.</p>
+
+<p>It also sometimes encourages dubious workarounds like serving a single
+&ldquo;background&rdquo; page that only loads a lot of AJAX requests, each one
+single-purpose, from the server. That&rsquo;s architecturally clean, but can
+also be very slow. More to the point, it&rsquo;s kind of a weird thing to
+force because it&rsquo;s &ldquo;clean.&rdquo;</p>
+
+<h3>Views</h3>
+
+<p>Having lots of logic in your views is a huge anti-pattern. Don’t do
+it. It’s hard to test, it’s hard to find, it’s hard to write
+sandwiched in between the HTML&hellip; Just don’t.</p>
+
+<p>Instead, your views should contain HTML, variables that turn into
+HTML, and calls to helper methods that generate HTML &mdash; or
+whatever your final output format is. There should be no logic in
+there <i>to</i> test. No conditionals, minimal loops, no non-display
+methods. If you add an output format, there should be no code to
+repeat because all the interesting data transforms already happened,
+and no other output format cares about your HTML-only helpers. Right?</p>
+
+<p>You&rsquo;ll see loops used semi-frequently for lists, including lists of
+Partials (see later on.) That&rsquo;s basically okay, but not great. The
+less logic, the better. Logic doesn&rsquo;t just move code into a
+hard-to-test place. It also encourages the next programmer (like you
+in the future) to do it wrong too.</p>
+
+<h3>Mailers</h3>
+
+<p>In Rails, Mailers are basically views that output email instead of
+HTML. That means that in terms of testing, code organization and
+helpers, they basically work the same way.</p>
+
+<p>There&rsquo;s some argument about this, and Rails code organization for
+mailers varies a bit. But when working it out, try to mostly think of
+it as a different view with the same kind of controller action and
+most things work themselves out.</p>
+
+<h3>Partials</h3>
+
+<p>If you have a repeated chunk of HTML that gets used multiple places,
+such as blog-style comments, forms for frequent objects or decorations
+around a page column, it can make sense to embed them in a <a
+href="https://richonrails.com/articles/partials-in-ruby-on-rails">Partial</a>.</p>
+
+<p>See the <a
+href="http://guides.rubyonrails.org/layouts_and_rendering.html">Rails
+documentation for Partials</a> for details, but they even allow lists
+of objects to render the partial repeatedly (see &ldquo;rendering
+collections&rdquo; at the link above), which can eliminate pesky loops from
+your view code. Partials can nest other view code or other partials as
+well.</p>
+
+<p>The big time <em>not</em> to use Partials when it seems like you should is
+for the very top-level organization of the page. For that, use a <a
+href="http://guides.rubyonrails.org/layouts_and_rendering.html">Layout</a>.</p>
+
+<h3>Helpers</h3>
+
+<p>Rails &ldquo;helpers&rdquo; are very specifically view helpers. They’re
+automatically included in views, but <i>not</i> in controllers or
+models. That’s on purpose.</p>
+
+<p>Code in the application helper is included in all the views in your
+application. Code in other helpers is included in the corresponding
+view. If you find yourself writing big loops, method calls or other
+logic in the view but it’s clearly display logic, move it into a
+method in the helper.</p>
+
+<p>Do you need something like a &ldquo;controller helper&rdquo; or &ldquo;model helper&rdquo;?
+You can put it in a parent class if that makes sense. Or you can put
+it into the /lib directory, or any of the alternate places for
+lib-type code (see below.)</p>
+
+<h3>Presenters</h3>
+
+<p>A sometimes-pattern in Rails applications is presenters &ndash; view-specific
+objects that are created by the controller to be passed to the view.</p>
+
+<p>This is another variation on the &ldquo;controller should only return one
+thing&rdquo; idea above &ndash; what if you return one complex, view-specific
+thing that encapsulates many different database models that you
+queried? Is that sufficiently &ldquo;one thing?&rdquo;</p>
+
+<p>It&rsquo;s an interesting question. But it <em>does</em> make it really easy to
+encapsulate all your view logic together, so that&rsquo;s nice.</p>
+
+<p>A presenter can be an excellent way to extract a big chunk of logic
+used to format several different models together when it&rsquo;s not feeling
+like view helpers are a clean solution. You can put them into the view
+helpers directories, or under lib, or make a new subdirectory under
+app for them &ndash; if you do that last one, make sure to <a
+href="http://codefol.io/posts/No-More-Requires">add it to the Rails
+search path</a> so that you don&rsquo;t have to require them all explicitly.</p>
+
+<h3>The /lib Directory</h3>
+
+<p>Every Rails app starts with a /lib directory, but not much explanation
+of it.</p>
+
+<p>Remember that helpers are specifically view helpers? What if you
+wanted a controller helper? Or a model helper? Sometimes you can use
+a parent controller or parent model, but that’s not always the best
+choice.</p>
+
+<p>If you want to write a helper module for non-view logic, the /lib
+directory is usually the best place to put it. For example, logging
+code or some kinds of error handling may be a cross-cutting concern
+like that.</p>
+
+<p>Also, if you&rsquo;re putting everything in the ApplicationController or
+ApplicationHelper, those can get big. Consider factoring some of that
+code out into helpers, or into modules in /lib.</p>
+
+<p>Stuff in /lib isn’t <a
+href="http://codefol.io/posts/No-More-Requires">automagically included
+for you</a> like controllers and models. So you&rsquo;ll need to explicitly
+require the file like you do in non-Rails Ruby, not just use the name
+of the class.</p>
+
+<p>Shared Ruby objects like app-specific Exception types can also go
+here.</p>
+
+<h3>Services</h3>
+
+<p>Often your Rails application will use Services. That can mean an
+external third-party service (e.g. MailGun, a hosted datastore, or
+HoneyBadger to catch exceptions.)</p>
+
+<p>In the simplest cases, there&rsquo;s a gem and you can just use it. That&rsquo;s fine.</p>
+
+<p>In the pretty simple cases, there&rsquo;s an obvious way to tie the service in,
+such as an error catcher registering itself from an initializer under
+config/initializers.</p>
+
+<p>If you&rsquo;ll be dealing with some explicit object from the service, use a
+model. This can be an object in an external data store
+(e.g. Cassandra column groups, Redis hashes.)</p>
+
+<p>Sometimes you&rsquo;ll deal with a service through a wrapper object
+(e.g. the Gibbon API for MailChimp, or the OpenTok wrapper for
+WebRTC.) In those cases, the wrapper object can go in a gem, or in the
+/lib directory or (better) in a service object under app/service.</p>
+
+<p>Sometimes an external service will produce objects or events. You have
+to be careful &ndash; sitting around and receiving events will block your
+Rails worker, which can be murder on the response time for a user
+waiting in a browser.</p>
+
+<p>Rails actions are really designed for one-and-done handling where you
+receive a request and quickly produce a response to it. In general,
+this works best when you convert incoming events to HTTP requests or
+some similar thing Rails can respond to quickly. And the opposite
+direction (start a long-running process) works best when Rails can
+farm that out to an external server. See job queues like DelayedJob
+for a great example of how to do this.</p>
+
+<p>Services vary a lot, is what I&rsquo;m saying, and may sometimes not be a
+great match for how Rails does things. Rails is specifically designed
+around HTTP, and isn&rsquo;t the best application architecture if you have
+some not-really-HTTP features like long-running connections,
+bidirectional traffic, tight response-time requirements or the need to
+always have a browser talk to the same stateful server. Rails is
+really poorly designed to act as a World of Warcraft server, for
+instance.</p>
+
+<h3>Gems</h3>
+
+<p>Sometimes you have reusable pieces in your application. A controller
+or model might be needed by multiple different Rails apps. A
+particular piece of logic for logging or display might be useful to a
+lot of different folks. You might even find <a
+href="https://github.com/voxdolo/decent_exposure">a different way of
+doing things</a> that most Rails apps would benefit from.</p>
+
+<p>These are all cases where you want to create a new gem and have your
+applications use it instead of sharing a directory of code.</p>
+
+<p>(Obviously, you&rsquo;ll also use a lot of third-party gems. I&rsquo;m not even
+counting those right now.)</p>
+
+<p><a href="http://railscasts.com/episodes/245-new-gem-with-bundler">These
+days it’s really easy to create a new gem</a>, so don’t be
+intimidated. If you haven’t worked through the first free chapter of
+Rebuilding Rails, this may be a good time to do it &mdash; it’ll show
+you how to quickly, easily create and use a new gem.</p>
+
+<p>(Brandon Hilkert also has <a href="http://brandonhilkert.com/books/build-a-ruby-gem/">a whole book on the subject</a>!)</p>
+
+<h3>Assets</h3>
+
+<p>Often you’re not even writing Ruby code. Instead, it may be Sass,
+Scss, JavaScript or CoffeeScript. In that case, it generally belongs
+under app/assets.</p>
+
+<h3>Third-Party (&ldquo;vendor&rdquo;) Code</h3>
+
+<p>Sometimes you&rsquo;ll embed third-party code into your app, especially for
+older Rails apps. The name Rails uses for such things is &ldquo;vendor&rdquo;,
+which often goes in the path for assets (e.g. jQuery or D3) or gems if
+you copy them locally or libraries &mdash; often under lib/vendor or a
+similar path.</p>
+
+<p>When you use Bundler to package gems into your app for deployment, it
+defaults to using a path with &ldquo;vendor&rdquo; in it for the same reason.</p>
+
+<p>The best is not to include third-party code directly in your app,
+usually by keeping it in gems. But if you need or want to for some
+reason, include &ldquo;vendor&rdquo; in the path to let people know that&rsquo;s what
+you&rsquo;re doing. Also, don&rsquo;t just edit code in a vendor path. As the name
+suggests, keep it in a form that could be downloaded from elsewhere.</p>
+
+<h3>Sanitizing Input</h3>
+
+<p>Views (output) have a strong structure with views and view
+helpers. And some input from the user can be checked with JavaScript,
+though you should never depend on that for security &ndash; savvy users can
+skip the JavaScript completely and access your Rails server directly.</p>
+
+<p>So where do you put server-side code to validate or sanitize input?</p>
+
+<p>If it&rsquo;s simple, the controller is fine. A params[:input].strip is fine
+right in the controller. As it grows, though, that can fatten up your
+nice skinny controllers &mdash; not a good thing.</p>
+
+<p>When it gets larger, you can refactor it into a controller parent
+class in some cases, but usually a module in /lib. Rarely it might
+want to be a gem. See the /lib section above for more ideas.</p>
+
+<p>Forms are a specific case of this: you want server-side form
+validation as well as JavaScript-side form validation. The latter can
+often go in the view code, but the former winds up in controllers (if
+it&rsquo;s simple) or separate objects, usually in /lib (if it&rsquo;s
+complicated) or in a gem (if it&rsquo;s reusable.)</p>
+
+<h3>Jobs and Tasks</h3>
+
+<p>Rake tasks are generally put into lib/tasks. That&rsquo;s great for tasks
+you&rsquo;ll run from the command line. You&rsquo;ll generally have one or more
+&ldquo;topic&rdquo; Ruby files organizing your tasks &ndash; the database-related tasks
+in one, the payment-related tasks in another, the email-related tasks
+in a third file and so on. Rake allows and encourages multiple tasks
+per namespace and multiple namespaces per file. <a
+href="http://edelpero.svbtle.com/everything-you-always-wanted-to-know-about-writing-good-rake-tasks-but-were-afraid-to-ask">Here&rsquo;s
+a pretty good article on organizing Rake tasks</a>.</p>
+
+<p>Job Queue jobs (e.g. DelayedJob, Resque, Sidekiq, Sucker Punch) are
+usually put into classes, one file per class. That can clutter things
+up a bit. You can also, surprisingly often, make those be rake tasks
+as well. In those cases, don&rsquo;t feel limited to one task per file when
+it could just be a whole file of &ldquo;forward these ten job types to these
+ten rake tasks.&rdquo;</p>
+
+<h3>Tests</h3>
+
+<p>I&rsquo;m not a huge authority on Rails testing. I&rsquo;ll start by pointing you
+<a href="https://robots.thoughtbot.com/rails-test-types-and-the-testing-pyramid">at this
+excellent post on ThoughtBot about Rails testing and test types</a>,
+which I refer to occasionally.</p>
+
+<p>In general, tests come in multiple flavors &mdash; unit tests are very
+specific in what they test, don&rsquo;t find integration bugs, are cheap to
+read, write and run and should immediately isolate exactly what the
+problem is. On the far other side of the spectrum, integration tests
+test <i>everything</i>, are very expensive to read, write and run and
+they often only give you a pretty vague idea of what went wrong.</p>
+
+<p>Other tests form a spectrum between them, or just off one side or the
+other. That spectrum, in Rails, runs something like:</p>
+
+<ul>
+<li>Non-Railsy unit tests for plain Ruby objects</li>
+<li>Rails Model tests that mock (fake) all the database access</li>
+<li>Rails Model tests</li>
+<li>Rails Controller tests that don&rsquo;t render views</li>
+<li>Rails Controller tests that check your actual view HTML</li>
+<li>Rails Integration tests</li>
+<li>Cucumber JavaScript tests using Capybara</li>
+<li>Cucumber JavaScript tests using Selenium (driving a real browser)</li>
+<li>&ldquo;Smoke tests&rdquo; using REST libraries that you point at a maybe-not-even-local server</li>
+</ul>
+
+<p>Obviously I have not described every possible test configuration, but
+I hope it&rsquo;s pretty clear what direction the spectrum runs.</p>
+
+<p>I don&rsquo;t have a strong opinion for how many of which tests you should
+have for which projects. Feel free to ask somebody else if you just
+want a strong opinion. I tend to think &ldquo;it depends hugely on the
+project.&rdquo; Doing a UI-heavy Rails app with mostly JavaScript? I&rsquo;d learn
+more toward the &ldquo;integration&rdquo; end of the spectrum. Writing a small,
+tight, API server that only serves JSON? Consider mostly unit tests
+with one or two big integration or smoke tests.</p>
+
+<p>If you do this for awhile, you&rsquo;ll get a feel for what you like. Also
+for what tests catch production problems fast. Just remember that unit
+tests are cheaper, more exact, and catch fewer problems while
+integration tests are the opposite. And don&rsquo;t be afraid to have tests
+from several different points along the spectrum.</p>
+
+<h3>Concerns, Exceptions and a Conclusion</h3>
+
+<p>Rails has a very specific, very unusual setup. I think it’s a good
+idea for small apps, but only <a
+href="http://evan.tiggerpalace.com/articles/2012/11/21/use-rails-until-it-hurts">use
+Rails until it hurts</a>. If your application gets too big or
+complicated, the Rails code organization may hurt more than it helps
+you.</p>
+
+<p>There are several &ldquo;grow out of Rails&rdquo; approaches to apply alternate
+architectures to the framework. From <a
+href="https://www.agileplannerapp.com/blog/building-agile-planner/refactoring-with-hexagonal-rails">Hexagonal
+Rails</a> to <a href="http://objectsonrails.com/">Objects on Rails</a>
+to the more general <a href="http://www.clean-ruby.com/">Clean
+Ruby</a> DCI approach. I won’t tell you which to use, but I’ll tell
+you that you’re better off starting with plain, simple Rails and
+growing out of it.</p>
+
+<p>Most Rails apps, and even more Rails controllers, don’t need to get
+all that big. They often don’t need to change much. Why go
+complicated when simple is working great?</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2016-02-25">Feb 25 2016</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/rails/'>rails</a>
+                        <a href='/tags/rebuildingrails/'>rebuildingrails</a>
+                        <a href='/tags/favourite/'>favourite</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/where-do-i-put-my-code-in-rails-updated';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/where-do-i-put-my-code-in-rails-updated';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-software-in-rails/">Series: Let's Build Coding Course Software in Rails</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-software-in-rails/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Series: Let's Build Coding Course Software in Rails" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/twenty-small-reasons-that-deploying-a-rails-app-is-hard/">20 Small Reasons That Deploying a Rails App Is Hard</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/deployment/'>deployment</a>
+                                <a href='/tags/rails/'>rails</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/there-are-two-times-in-your-career-that-your-coding-skill-holds-you-back/">The Two Times in Your Career that Your Coding Skill Holds You Back</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/career/'>career</a>
+                                <a href='/tags/rebuildingrails/'>rebuildingrails</a>
+                        </p>
+                    </header>
+                        <a href="/posts/there-are-two-times-in-your-career-that-your-coding-skill-holds-you-back/" class="post-thumbnail">
+                            <img src="/img/ScaresYou_aside.png" width="216" height="162" alt="The Two Times in Your Career that Your Coding Skill Holds You Back" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/Digging-Into-the-Rails-Source/">Digging Into the Rails Source</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/rebuildingrails/'>rebuildingrails</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/the-computer-science-thing/">How to Stop Being Afraid of 'The Computer Science Thing'</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                        <a href="/posts/the-computer-science-thing/" class="post-thumbnail">
+                            <img src="/img/dragon_aside.png" width="216" height="162" alt="How to Stop Being Afraid of 'The Computer Science Thing'" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/yelp-forced-into-extortion/">The Tragedy of Yelp: Forced Into Extortion</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/entrepreneur/'>entrepreneur</a>
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/brian-brushwood-and-tellers-secret-to-a-career-in-magic/">Brian Brushwood: the Day Teller Gave Me the Secret to My Career in Magic</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/career/'>career</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/a-quick-class-on-migrations/">A Quick Class on Migrations</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/database/'>database</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

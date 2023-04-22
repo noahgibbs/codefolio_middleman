@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Let's Build Course Software: Subscriptions and Profiles</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/series-build-coding-course-subscriptions-and-profiles/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">Let's Build Course Software: Subscriptions and Profiles</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/chimp_bear_pirate_studying_objects_aside_216_135.png" class="d-none d-md-block" alt="A pirate puppet, a chimpanzee in scrubs and a teddy bear in safety goggles and lab coat study wooden blocks, a purple lucite ball and various small cables and electronics on a small wicker table." width='216' height='135' title='I&#x27;m enjoying the new thumbnails for topics a lot.' />
+    </div>
+
+      <figcaption class="caption-text">
+        I'm enjoying the new thumbnails for topics a lot.
+        
+        
+      </figcaption>
+</figure>
+
+                <p>In <a href="/tags/rubymadscience">this series</a> I&rsquo;ve built out a Rails app from scratch, deployed it and I&rsquo;m not <strong><em>too far off</em></strong> from getting it actually useful.</p>
+
+<p>I&rsquo;ve also had a nice photo shoot with my stuffed animals so the site&rsquo;s a lot prettier.</p>
+
+<p>I want to build email reminders. It&rsquo;s the last major thing for the site. Unfortunately, there&rsquo;s a lot of UI that&rsquo;s needed for managing email reminders before I can do that. So: this week I&rsquo;ll build out that UI and next week we&rsquo;ll talk about the &ldquo;email&rdquo; part of email reminders.</p>
+
+<h2>Do I Subscribe To This Point of View?</h2>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_pretty_new_thumbs.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_pretty_new_thumbs.png" class="img-frame" alt="RubyMadScience showing a list of topics on the front page with the new stuffed-animal topic thumbnails."   title="Current progress on the deployed app which doesn&#x27;t yet have email reminders." />
+    </a>
+        <figcaption class="caption-text">Current progress on the deployed app which doesn&rsquo;t yet have email reminders.</figcaption> 
+</figure>
+
+<p>Once you&rsquo;ve clicked on a topic it would be nice to be able to say &ldquo;subscribe to this topic and send me a regular reminder to work on it &mdash; if I&rsquo;m not done yet.&rdquo;</p>
+
+<p>For that we&rsquo;ll want buttons.</p>
+
+<p>It would also be nice to see all the subscriptions in one place, preferably one place where you can say &ldquo;please don&rsquo;t email me anything any more.&rdquo;</p>
+
+<p>It&rsquo;s also going to be important to validate an email address. I don&rsquo;t mean checking if it&rsquo;s syntactically valid. I mean that if somebody adds a reminder email address, we need to get approval from the holder of that address before we start spamming it.</p>
+
+<p>Before we email anybody anything, let&rsquo;s make that UI happen.</p>
+
+<h2>Reminder Buttons</h2>
+
+<p><a href="https://getbootstrap.com/docs/4.0/components/buttons/#checkbox-and-radio-buttons">Bootstrap has nice mutually-exclusive radio buttons</a> that you can just tag as a group. Set one of them active, and Bootstrap will try to make sure only one is set at once. Sounds perfect to me for email reminders that can be inactive, or (only) one of daily, weekly or monthly.</p>
+
+<p>(I may have some more complicated date settings later, or I may not. For now I&rsquo;ll keep it simple.)</p>
+
+<p>Much like <a href="http://codefol.io/posts/series-build-coding-course-tracking-progress/">when I started tracking progress</a> I&rsquo;m going to need some backend infrastructure for this. I need a per-user-per-topic table, like the previous UserStepItem. I&rsquo;ll call it UserTopicItem, and (for now) it just hold the subscription setting.</p>
+
+<p>Like last time, it&rsquo;s basically AJAX and CRUD &mdash; basic stuff, so I won&rsquo;t make you sit through it. But you can see what it looks like and <a href="https://github.com/noahgibbs/rubymadscience/commits">the code to all this is available if you want it</a>:</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_email_reminder_buttons.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_email_reminder_buttons.png" class="img-frame" alt="RubyMadScience showing a topic with email reminder buttons."   title="Here are those buttons." />
+    </a>
+        <figcaption class="caption-text">Here are those buttons.</figcaption> 
+</figure>
+
+<p>That&rsquo;s not bad. I&rsquo;ve hooked up the JavaScript for them when clicked, the UserTopicItem on the back end and so on.</p>
+
+<p>Now we need a list of subscribed topics so we can un-subscribe. I&rsquo;ll call it profile internally, and link it from a top menu item called &ldquo;My Email Reminders&rdquo; so it&rsquo;s very clear how to find it. It&rsquo;s also linked from the words &ldquo;Email Reminders&rdquo; where you can sub/unsub for each topic.</p>
+
+<p>This is another nice straightforward Rails view: query the database for all of the current user&rsquo;s UserTopicItems. Display them with a bit of flavour text around.</p>
+
+<p>I&rsquo;m not sure how I feel about the fact that if you unsubscribe, that topic remains in your profile. If there were too many topics it might be hard to check which ones you&rsquo;re actually subscribed to.</p>
+
+<p>And if the site had more than the three current topics, that would matter. For now I&rsquo;ll display it like this and it&rsquo;s perfectly tolerable:</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_profile_page.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_profile_page.png" class="img-frame" alt="A profile page, showing the one topic I&#x27;m currently subscribed to."    />
+    </a>
+</figure>
+
+<h2>Devising the Next Solution</h2>
+
+<p>This gets us pretty far on the UI. A Sidekiq background job to send email could just query this and send the reminders at the right time.</p>
+
+<p>Except that somebody could easily sign up with somebody else&rsquo;s address and have me spam that target. I guess that&rsquo;s kind of a problem, huh?</p>
+
+<p>However, one joy of using <a href="https://github.com/heartcombo/devise">Devise</a> for accounts is that there&rsquo;s already a pretty decent setup for this, which Devise calls <a href="https://github.com/heartcombo/devise/wiki/How-To:-Add-:confirmable-to-Users">&ldquo;confirmable.&rdquo;</a></p>
+
+<p>By default, &ldquo;confirmable&rdquo; locks out users until they confirm their email address. That&rsquo;s not what I want &mdash; I want them to be able to browse topics, check off steps and even subscribe to reminders without a problem. I just don&rsquo;t want to <strong><em>actually email anybody</em></strong> until the email address is validated.</p>
+
+<p>But luckily there&rsquo;s a &ldquo;grace period&rdquo; you can configure before they have to confirm their email address. I can set it to something nice and long (two weeks? two years? two centuries?), but check for confirmation before emailing them. No sweat.</p>
+
+<p>(If you change Devise settings, be sure to restart your Rails server. Devise deals extensively in things that require an actual Rails restart, from migrations to initialiser changes. You can get some weird bugs if you change those things but don&rsquo;t restart your server.)</p>
+
+<p>Of course, Devise has a few oddities in its controller and views. It doesn&rsquo;t seem to work as-generated, though it&rsquo;s not hard to fix up once I&rsquo;ve actually tried things like confirming my email address. This is going to entail some actual testing, though &mdash; not only have I not checked a lot of edge cases, I don&rsquo;t trust myself not to accidentally re-break them in the future.</p>
+
+<p>One more thing.</p>
+
+<p>Of course, when your big worry with testing is that you&rsquo;ll re-break it, you can also use an old strategy: add tests as you see things break. The trick is having the discipline to actually do it.</p>
+
+<h2>Better Than a Kiq in the Side</h2>
+
+<p>Before we add actual email, we should set up <a href="https://github.com/mperham/sidekiq">Sidekiq</a>. Luckily that&rsquo;s very easy, and I&rsquo;ve already handled the <a href="/posts/series-build-coding-course-deployment/">deployment side of it</a>.</p>
+
+<p>Sidekiq needs Redis running. On my Mac I installed it with Homebrew and set it up to run on boot. And then Sidekiq needs to be run, itself. That&rsquo;s as simple as opening a new console and running &ldquo;sidekiq&rdquo; for now - I don&rsquo;t want to run it all the time because, you know, it may send email if I do that so it&rsquo;s worth being a bit careful.</p>
+
+<p>But in the mean time I can test out the email code and just print to console.</p>
+
+<p>I want this to run at least daily to send out reminders. <a href="https://github.com/mperham/sidekiq/wiki/Ent-Periodic-Jobs">Sidekiq has some lovely features to do cron-style periodic jobs</a> and they require the very expensive Enterprise license.</p>
+
+<p>You know what&rsquo;s cheaper than that? Having the job run and then reschedule itself in an hour, and I make sure to put a database transaction around updating the users. I can also make sure only one Sidekiq job is updating at once by&hellip; only running one copy of Sidekiq. It won&rsquo;t scale to the stars, but it doesn&rsquo;t need to.</p>
+
+<p>Here&rsquo;s a Sidekiq job that just prints a line and then reschedules itself:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># app/workers/reminder_emails.rb</span>
+<span class="k">class</span> <span class="nc">ReminderEmails</span>
+    <span class="kp">include</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Worker</span>
+
+    <span class="k">def</span> <span class="nf">perform</span>
+
+        <span class="no">STDERR</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"Yup, running"</span>
+        <span class="n">ss</span> <span class="o">=</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">ScheduledSet</span><span class="p">.</span><span class="nf">new</span>
+        <span class="n">ss</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">job</span><span class="o">|</span> <span class="n">job</span><span class="p">.</span><span class="nf">delete</span> <span class="k">if</span> <span class="n">job</span><span class="p">.</span><span class="nf">klass</span> <span class="o">==</span> <span class="s1">'ReminderEmails'</span> <span class="p">}</span>
+        <span class="no">ReminderEmails</span><span class="p">.</span><span class="nf">perform_in</span><span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>I&rsquo;ll also need to schedule the job at least once in an initialiser:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># config/initializers/reminder_emails_job.rb</span>
+<span class="nb">require</span> <span class="s2">"sidekiq/api"</span>
+
+<span class="n">ss</span> <span class="o">=</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">ScheduledSet</span><span class="p">.</span><span class="nf">new</span>
+
+<span class="c1"># Make sure we have exactly one ReminderEmails job queued.</span>
+<span class="c1"># Start it quickly after boot to send off any overdue reminders.</span>
+
+<span class="n">ss</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">job</span><span class="o">|</span> <span class="n">job</span><span class="p">.</span><span class="nf">delete</span> <span class="k">if</span> <span class="n">job</span><span class="p">.</span><span class="nf">klass</span> <span class="o">==</span> <span class="s1">'ReminderEmails'</span> <span class="p">}</span>
+<span class="no">ReminderEmails</span><span class="p">.</span><span class="nf">perform_in</span><span class="p">(</span><span class="mi">3</span><span class="p">.</span><span class="nf">minutes</span><span class="p">)</span>
+</code></pre></div>
+<p>Why am I deleting all other jobs of the same class? Because if I run this Rails server with multiple processes, it&rsquo;s going to run this for each process. That means there is absolutely a race condition where sometimes ReminderEmails is going to run multiple times, and I need to be okay with that.</p>
+
+<p>(By &ldquo;be okay with that&rdquo; I mean &ldquo;write the job as a series of database transactions so it doesn&rsquo;t cause trouble.&rdquo; But you knew that, right?)</p>
+
+<p>The timing for this may be interesting. I don&rsquo;t particularly want to run it constantly. It would be nice to have predictability about when reminders go out. I don&rsquo;t want to make it finely-configurable because that&rsquo;s complicated. So I suspect it&rsquo;s going to be one big, quick batch job, approximately daily.</p>
+
+<h2>On to Email!</h2>
+
+<p>When I thought, &ldquo;oh, I&rsquo;ll just send email reminders&rdquo; I was thinking it would be a simpler undertaking. Instead, I&rsquo;ve built out all this UI, and the beginning of Sidekiq batch jobs, and I&rsquo;m not even there yet.</p>
+
+<p>Email reminders are also the only thing I&rsquo;m doing here <strong><em>for the first time</em></strong>. And hey look, my estimate was garbage. That makes sense. I&rsquo;ve been <strong><em>coding in general</em></strong> for over thirty years, but there are still things I&rsquo;ve done before and things I haven&rsquo;t, and I still have to respect which is which.</p>
+
+<p>Next week we&rsquo;ll tackle more of the actual functional bits of sending out email reminders.</p>
+
+<p>I <strong><em>think</em></strong> I&rsquo;ll have this all done by then. Then again, rewind a couple of weeks and I thought it would be a one-blog-post job for everything together. So we&rsquo;ll see how it goes, shall we?</p>
+
+<p>Want to see more about Ruby Mad Science as it happens? You can check <a href="/tags/rubymadscience">the rubymadscience tag on this blog</a>, including not-yet-published ones. There’s also an RSS feed of posts at the top, or you can subscribe to my email list below. I’ll definitely email the list with these posts.</p>
+
+<p>Or if you’ve bought one of my books, you get to read and discuss blog posts early with my readers as I finish them, in the #prerelease-blog-posts channel of the customer Slack.</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2020-07-10">Jul 10 2020</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/ruby/'>ruby</a>
+                        <a href='/tags/rails/'>rails</a>
+                        <a href='/tags/letsbuild/'>letsbuild</a>
+                        <a href='/tags/rubymadscience/'>rubymadscience</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/series-build-coding-course-subscriptions-and-profiles';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/series-build-coding-course-subscriptions-and-profiles';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-email-reminders/">Let's Build Course Software: Email Reminders</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-email-reminders/" class="post-thumbnail">
+                            <img src="/img/chimp_bear_pirate_studying_objects_aside.png" width="216" height="135" alt="Let's Build Course Software: Email Reminders" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-deployment/">Let's Build Course Software: Deployment</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-deployment/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Let's Build Course Software: Deployment" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/what-do-they-mean-when-they-ask-if-rails-is-dead/">What Do They Mean When They Ask if Rails is Dead?</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/video/'>video</a>
+                                <a href='/tags/career/'>career</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

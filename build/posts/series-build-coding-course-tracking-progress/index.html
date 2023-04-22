@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Let's Build Course Software: Tracking Progress</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/series-build-coding-course-tracking-progress/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">Let's Build Course Software: Tracking Progress</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/RadioRepair_aside_216_162.png" class="d-none d-md-block" alt="A chalk figure kneeling to repair (possibly) a radio." width='216' height='162' title='How Hard Can it Be?' />
+    </div>
+
+      <figcaption class="caption-text">
+        How Hard Can it Be?
+        
+        
+      </figcaption>
+</figure>
+
+                <p>In <a href="/tags/rubymadscience">this series</a> I&rsquo;m building courseware (teaching software) to let folks go through lessons in a better way than the simple email classes I use now.</p>
+
+<p>It&rsquo;s getting close to the point where random users could benefit from it. What&rsquo;s it&rsquo;s missing now are email reminders, being deployed (available to use), and&hellip; actual content.</p>
+
+<p>Actual content tends to drive more features, though. So in today&rsquo;s article I&rsquo;ll take some lessons I&rsquo;ve already written and start adapting them to this format, and build out new app features to support that.</p>
+
+<h2>Where is the App Now?</h2>
+
+<p>Right now, RubyMadScience has Topics, which are organised into an ordered list of Steps. There&rsquo;s an arbitrary JSON object, one on each Topic and one on each Step. So the data for Topics and Steps is pretty freeform. We can also mark completion with &ldquo;Not Done&rdquo;, &ldquo;Done&rdquo; or &ldquo;Skipped&rdquo;, and it&rsquo;s easy to add more &ldquo;Done&rdquo;-states. Here&rsquo;s what a topic looks like right now:</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms_3_final.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms_3_final.png" class="img-frame" alt="The single-topic view of steps with external links and task completion."    />
+    </a>
+</figure>
+
+<p>It&rsquo;s a start. Now let&rsquo;s make it look better.</p>
+
+<p>As an aside, somebody mentioned <a href="https://thoughtbot.com/upcase">Upcase</a> to me after this series started. It&rsquo;s nice! That&rsquo;s definitely the kind of thing I&rsquo;m hoping to do. It also reminds me that a lot of the use of this is the content, not the form. Upcase has excellent form already, but I&rsquo;m not fond of the way they organise some of the content, and I&rsquo;d want different content for myself.</p>
+
+<h2>Ruby on Rails Internals</h2>
+
+<p>I have an old series of &ldquo;Rails Internals&rdquo; blog posts. It&rsquo;d be nice for people to be able to read through them at their own pace rather than having to wait a specific number of days in between. I suspect &ldquo;some number of blog posts, read them and mark them complete&rdquo; is going to be a major use-case for RubyMadScience. It&rsquo;s also fairly simple. So let&rsquo;s start there.</p>
+
+<p>Technically the screenshot above shows a &ldquo;maybe good enough&rdquo; implementation of that - a link to each blog post that opens it in a new window. A selector that sends an AJAX request for updating the &ldquo;done-ness.&rdquo; What more do I want? Okay, I want to change that medium blue background on each step. But aside from that, what do I want?</p>
+
+<p>For starters, I want it to feel like a reasonable, natural progression to move forward. Right now the site isn&rsquo;t doing anything for that. As a nice first step, I think I&rsquo;ll change the step&rsquo;s background dynamically when it gets checked off. So when you select a &ldquo;doneness,&rdquo; you&rsquo;ll get a different color. Also I&rsquo;ll make everything paler. The current blue is too intense.</p>
+
+<p>That means that when the server has accepted a new doneness value, I need to set up a value that the CSS can use to change the color. Here&rsquo;s the code for changing done-ness, with a new twist:</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="c1">// steps.js</span>
+<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">body</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">change</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">select.done-select</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">changed_elt</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">step_id</span> <span class="o">=</span> <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="dl">"</span><span class="s2">step-id</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">set_value</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+
+    <span class="c1">// Disable the selector until the request finishes</span>
+    <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="dl">"</span><span class="s2">/steps/update_done</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">post</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">step_id</span><span class="p">:</span> <span class="nx">step_id</span><span class="p">,</span>
+            <span class="na">done</span><span class="p">:</span> <span class="nx">set_value</span><span class="p">,</span>
+            <span class="na">note</span><span class="p">:</span> <span class="dl">"</span><span class="s2">...</span><span class="dl">"</span>
+        <span class="p">},</span>
+        <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#select-error-box-</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">step_id</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">""</span><span class="p">);</span>
+            <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+            <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">parents</span><span class="p">(</span><span class="dl">"</span><span class="s2">.step-row</span><span class="dl">"</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="dl">"</span><span class="s2">data-server-value</span><span class="dl">"</span><span class="p">,</span> <span class="nx">set_value</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="na">error</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#select-error-box-</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">step_id</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">"</span><span class="s2">(Server error)</span><span class="dl">"</span><span class="p">);</span>
+            <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+            <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">parents</span><span class="p">(</span><span class="dl">"</span><span class="s2">.step-row</span><span class="dl">"</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="dl">"</span><span class="s2">data-server-value</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">error</span><span class="dl">"</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>I can use that data-server-value attribute on the row div to change the color. Here&rsquo;s how that looks in topics.scss:</p>
+<div class="highlight"><pre class="highlight css"><code><span class="nc">.step-row</span><span class="o">[</span><span class="nt">data-server-value</span><span class="o">=</span><span class="s1">"0"</span><span class="o">]</span> <span class="p">{</span>
+    <span class="nl">background</span><span class="p">:</span> <span class="m">#F5FBFF</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.step-row</span><span class="o">[</span><span class="nt">data-server-value</span><span class="o">=</span><span class="s1">"1"</span><span class="o">]</span> <span class="p">{</span>
+    <span class="nl">background</span><span class="p">:</span> <span class="m">#F5FFFB</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.step-row</span><span class="o">[</span><span class="nt">data-server-value</span><span class="o">=</span><span class="s1">"2"</span><span class="o">]</span> <span class="p">{</span>
+    <span class="nl">background</span><span class="p">:</span> <span class="m">#E0E0E0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.step-row</span><span class="o">[</span><span class="nt">data-server-value</span><span class="o">=</span><span class="s1">"error"</span><span class="o">]</span> <span class="p">{</span>
+    <span class="nl">background</span><span class="p">:</span> <span class="m">#FFFBF8</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>I could also have set a class, but a &ldquo;data&rdquo; field with the right value makes more sense to me than converting the data value to a class name.</p>
+
+<p><a href="https://github.com/noahgibbs/rubymadscience/commit/9abcd3b0b0a0b829db1fefab315e5962cac59a92">You can see the whole commit here</a> if you&rsquo;d like more detail.</p>
+
+<p>Here&rsquo;s what it looks like now:</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-tracking-progress&#x2F;rms4_colored_steps.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-tracking-progress&#x2F;rms4_colored_steps.png" class="img-frame" alt="Steps, now with variable-colour backgrounds according to done-ness."    />
+    </a>
+</figure>
+
+<p>I like that. I feel like changing the background color of the step helps the whole page &ldquo;flow&rdquo; a bit. Of course, it would be nicer if there were a cleaner-feeling way to check off a task as &ldquo;done&rdquo; rather than using a selector.</p>
+
+<h2>Cleaner Flow</h2>
+
+<p>I feel like the normal case should be &ldquo;read/watch then click done&rdquo; with a sort of backup choice for doing anything more complicated - reverting something that had been done, marking a step as &ldquo;skipped&rdquo; or adding a note.</p>
+
+<p>So let&rsquo;s have some kind of a &ldquo;mark this step done&rdquo; button as the primary UI, with an alternate UI for doing anything else.</p>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-tracking-progress&#x2F;rms4_first_mark_done_button.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-tracking-progress&#x2F;rms4_first_mark_done_button.png" class="img-frame" alt="A step with a big orange &#x27;mark done&#x27; button added."    />
+    </a>
+</figure>
+
+<p>Hrm. First, I tried adding a big &ldquo;mark done&rdquo; button (see right) that only appears for steps that are &ldquo;not done&rdquo; and then disappears when used. That feels abrupt and a little weird. It probably makes more sense to just enable and disable the button.</p>
+
+<p>I&rsquo;m also noticing, as I test, that I&rsquo;m worried about alternate modes. Does this still work when the user isn&rsquo;t logged in? That means it&rsquo;s time for some basic testing. Good! I try not to add many tests when behaviour is still highly fluid. But now there&rsquo;s enough stability that simple tests, probably including Javascript tests, could make a lot of sense. I work fast and loose early on, but it&rsquo;s a balancing act. A mature project with users needs far more rigour. The trick is adding just enough of it at just the right times. &ldquo;When it hurts&rdquo; is a good heuristic. The current lack of tests is starting to hurt.</p>
+
+<p>I also wound up writing a handler method for the button that&rsquo;s almost, but not quite, exactly like the one for the selector. That&rsquo;s not great either. So: time for a combined handler and an disabled-not-hidden button (you can <a href="https://github.com/noahgibbs/rubymadscience/commit/58cfd63c31c03890b81d6320d91bf6a97c0c04eb">see the full commit here</a>.)</p>
+
+<p>The combined handler code is below. I like the handler itself. The two setup functions are so nearly identical that I could clearly move more into the shared part of the function. I&rsquo;ll do that in a later commit without making you read every line. For now, this works well.</p>
+
+<p>(There&rsquo;s also a tiny change in the full commit to add the Step ID as data on the &lsquo;mark done&rsquo; button so the handler can get it easily.)</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">row_update_handler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">row_jq_object</span><span class="p">,</span> <span class="nx">step_id</span><span class="p">,</span> <span class="nx">set_value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">row_elt</span> <span class="o">=</span> <span class="nx">row_jq_object</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">button_elt</span> <span class="o">=</span> <span class="nx">row_elt</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="dl">"</span><span class="s2">.mark-done-button</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">selector_elt</span> <span class="o">=</span> <span class="nx">row_elt</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="dl">"</span><span class="s2">select.done-select</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="nx">button_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">"</span><span class="s2">disabled</span><span class="dl">"</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nx">selector_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">"</span><span class="s2">disabled</span><span class="dl">"</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="dl">"</span><span class="s2">/steps/update_done</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">post</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">step_id</span><span class="p">:</span> <span class="nx">step_id</span><span class="p">,</span>
+            <span class="na">done</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="na">note</span><span class="p">:</span> <span class="dl">""</span>
+        <span class="p">},</span>
+        <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#select-error-box-</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">step_id</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">""</span><span class="p">);</span>
+            <span class="nx">selector_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+            <span class="nx">button_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="nx">set_value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="nx">row_elt</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="dl">"</span><span class="s2">data-server-value</span><span class="dl">"</span><span class="p">,</span> <span class="nx">set_value</span><span class="p">);</span>
+            <span class="nx">selector_elt</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">set_value</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="na">error</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#select-error-box-</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">step_id</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">"</span><span class="s2">(Server error)</span><span class="dl">"</span><span class="p">);</span>
+            <span class="nx">selector_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+            <span class="nx">row_elt</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="dl">"</span><span class="s2">data-server-value</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">error</span><span class="dl">"</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">body</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">change</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">select.done-select</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">changed_elt</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">step_id</span> <span class="o">=</span> <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="dl">"</span><span class="s2">step-id</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">set_value</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">row_obj</span> <span class="o">=</span> <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">parents</span><span class="p">(</span><span class="dl">"</span><span class="s2">.step-row</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="nx">row_update_handler</span><span class="p">(</span><span class="nx">row_obj</span><span class="p">,</span> <span class="nx">step_id</span><span class="p">,</span> <span class="nx">set_value</span><span class="p">);</span>
+
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">body</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">click</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">.mark-done-button</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">button_elt</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">step_id</span> <span class="o">=</span> <span class="nx">button_elt</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="dl">"</span><span class="s2">step-id</span><span class="dl">"</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">row_obj</span> <span class="o">=</span> <span class="nx">button_elt</span><span class="p">.</span><span class="nx">parents</span><span class="p">(</span><span class="dl">"</span><span class="s2">.step-row</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="nx">row_update_handler</span><span class="p">(</span><span class="nx">row_obj</span><span class="p">,</span> <span class="nx">step_id</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// set_value is 2, or "Done"</span>
+
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div>
+<h2>Real Content</h2>
+
+<p>I like the current workflow for hitting &lsquo;done&rsquo;, and I feel like real content needs to be the next step. More polish at this point would feel premature.</p>
+
+<p>What does this look like with real blog posts inside?</p>
+
+<p>I add another step to the &ldquo;Rails Internals&rdquo; topic by hand, in the console and I rapidly realise that this is no way to create content. I&rsquo;m not sure if I want to take topics <em>out</em> of the database (though I could,) but I&rsquo;m sure I don&rsquo;t want to write them this way. I spend ten minutes thinking about a sync scheme to write in JSON files and sync them to the database automatically before realising that there is now no chance that putting Topics in the database makes sense until I&rsquo;ve grown my (hand-written) content to at least 1000x the current size.</p>
+
+<p>Luckily, this won&rsquo;t be hard to change yet.</p>
+
+<p>You know what this looks like? Chapter 5 of Rebuilding Rails, where I created non-database models. I think I&rsquo;m going to do that again, roughly.</p>
+
+<p>Of course, this post is pretty long already. See you next week for that?</p>
+
+<p>(Want to keep following this series? You can sign up for my email list below. There&rsquo;s an RSS link up-top. There&rsquo;s a <a href="/tags/rubymadscience">blog tag</a> specifically for the series. Pick your favourite.)</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2020-06-19">Jun 19 2020</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/ruby/'>ruby</a>
+                        <a href='/tags/rails/'>rails</a>
+                        <a href='/tags/letsbuild/'>letsbuild</a>
+                        <a href='/tags/rubymadscience/'>rubymadscience</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/series-build-coding-course-tracking-progress';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/series-build-coding-course-tracking-progress';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-real-teaching/">Let's Build Course Software: Real Teaching and File-Based Models</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-real-teaching/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Let's Build Course Software: Real Teaching and File-Based Models" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-interesting-topics/">Let's Build Course Software: Interesting Topics</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-interesting-topics/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Let's Build Course Software: Interesting Topics" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/coding-study-video-ascii-art-faces/">Coding Study Video: ASCII Art Faces</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/codingstudy/'>codingstudy</a>
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/video/'>video</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Codefol.io</title>
+  <subtitle>Ruby and Rails Stuff</subtitle>
+  <id>http://codefol.io/</id>
+  <link href="http://codefol.io/"/>
+  <link href="http://codefol.io/atom.xml" rel="self"/>
+  <updated>2023-03-31T00:00:00+00:00</updated>
+  <author>
+    <name>Noah Gibbs</name>
+  </author>
+  <entry>
+    <title>Seeing Inside HTTP</title>
+    <link rel="alternate" href="http://codefol.io/posts/seeing-inside-http/"/>
+    <id>http://codefol.io/posts/seeing-inside-http/</id>
+    <published>2023-03-31T00:00:00+00:00</published>
+    <updated>2023-03-31T13:55:28+00:00</updated>
+    <author>
+      <name>Noah Gibbs</name>
+    </author>
+    <content type="html">&lt;p&gt;If you work in Ruby, you probably deal with HTTP a lot. There are various ways to
+see into the actual HTTP requests and debug them. I&amp;rsquo;d love to mention a few of them to you.&lt;/p&gt;
+
+&lt;p&gt;Why do you care?&lt;/p&gt;
+
+&lt;p&gt;If everything goes perfectly, you don&amp;rsquo;t. It&amp;rsquo;s debugging. So if you never write any bugs, you&amp;rsquo;re fine.&lt;/p&gt;
+
+&lt;p&gt;In case you write bugs like I do, let&amp;rsquo;s talk debugging.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;(By the way: these are just quick methods, not a full dive into any of them. If you want more detail, you can Google about it. Also &lt;a href="https://rebuilding-http.com"&gt;I wrote a book about that&lt;/a&gt; if you like implementing this stuff in Ruby code.)&lt;/p&gt;
+
+&lt;h2&gt;Seeing Into HTTP&lt;/h2&gt;
+
+&lt;p&gt;I assume your first line of debugging is the Chrome devtools. They&amp;rsquo;re pretty good.&lt;/p&gt;
+
+&lt;!-- img src="../2023-seeing-inside-http/chrome_http_inspector.png" width="1480" height="946" --&gt;
+
+&lt;p&gt;&lt;img class="img-fluid" src="../2023-seeing-inside-http/chrome_http_inspector.png" width="1480" height="946" alt="The Chrome Inspector, showing the HTTP request properties for a blog post" &gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see there, they&amp;rsquo;ll show you the HTTP request status, the headers, the response headers and lots of other good stuff. For a random request that&amp;rsquo;s quite good. And in a browser, where a single page has hundreds of requests, I don&amp;rsquo;t know that you could do much better.&lt;/p&gt;
+
+&lt;p&gt;That gives you pretty limited control of what you send, though. When you care about what you send, you&amp;rsquo;re probably already using Curl.&lt;/p&gt;
+
+&lt;h2&gt;Curl&lt;/h2&gt;
+
+&lt;p&gt;Curl is a command-line tool to send HTTP requests of all descriptions. It can do just about anything that HTTP can do, from custom HTTP request methods to file uploads to different data encodings.&lt;/p&gt;
+
+&lt;p&gt;Curl will also give you a &lt;strong&gt;&lt;em&gt;lot&lt;/em&gt;&lt;/strong&gt; of debug information if you ask it to.
+curl &amp;ndash;header &amp;ldquo;Accept: text/javascript&amp;rdquo;
+You can start with -v, something like &amp;ldquo;curl -v -H &amp;lsquo;Accept: text/plain&amp;rsquo; http://myserver.mydomain.com&amp;rdquo;, which will print out what it sends and receives.&lt;/p&gt;
+
+&lt;p&gt;You can also use &amp;ndash;trace or &amp;ndash;trace-ascii to have it write the request to a file in your choice of ASCII or hexadecimal: &amp;ldquo;curl &amp;ndash;trace mytrace.txt https://theserver.domain.io&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;The man page is surprisingly good, especially the examples throughout. And of course it&amp;rsquo;s very, very Googleable.&lt;/p&gt;
+
+&lt;h2&gt;Netcat&lt;/h2&gt;
+
+&lt;p&gt;Sometimes you don&amp;rsquo;t want to &lt;strong&gt;&lt;em&gt;send&lt;/em&gt;&lt;/strong&gt; HTTP, sometimes you want to receive it. In those cases you can set up a trivial network server and see what gets sent &lt;em&gt;to&lt;/em&gt; it.&lt;/p&gt;
+
+&lt;p&gt;You&amp;rsquo;ll usually want to type something like &amp;ldquo;nc -l localhost 4321&amp;rdquo;, which starts a listening server on localhost port 4321. Then when you send it a request, you can see everything that gets sent. It&amp;rsquo;s a great way to examine your HTTP requests in plain text. Of course, it doesn&amp;rsquo;t help with HTTPS.&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s one more fun trick to netcat: you can type a response and it will get sent back. You wouldn&amp;rsquo;t bother with a complicated HTTP response, but it can be a great way to send back an error and see what happens.&lt;/p&gt;
+
+&lt;h2&gt;WEBrick&lt;/h2&gt;
+
+&lt;p&gt;Ruby&amp;rsquo;s simplest server, which was built into Ruby itself until recently, is a solid choice for understanding and debugging. The code is &lt;a href="https://github.com/ruby/webrick"&gt;available and surprisingly readable&lt;/a&gt; if you&amp;rsquo;re curious how HTTP is implemented (and again, &lt;a href="https://rebuilding-http.com"&gt;my book&lt;/a&gt; can help a lot with that.) But you can also set up WEBrick to serve local files.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s a link to the one-line version of that code, courtesy of gautamk: https://gist.github.com/gautamk/3186111&lt;/p&gt;
+
+&lt;p&gt;It &lt;strong&gt;&lt;em&gt;can&lt;/em&gt;&lt;/strong&gt; be heavily customised, though my excellent audience can often write their own little web apps if they need them. You folks are impressive.&lt;/p&gt;
+
+&lt;h2&gt;But What About&amp;hellip;?&lt;/h2&gt;
+
+&lt;p&gt;This is a &lt;strong&gt;&lt;em&gt;really&lt;/em&gt;&lt;/strong&gt; simple roundup of go-to tools, just for quick reference. I&amp;rsquo;ve barely scratched the surface, ignoring &lt;a href="https://mitmproxy.org/"&gt;proxy servers&lt;/a&gt;, &lt;a href="https://github.com/rack/rack"&gt;Rack&lt;/a&gt; and all its tools and so much more&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;But sometimes you&amp;rsquo;re googling &amp;ldquo;debug HTTP&amp;rdquo; because you&amp;rsquo;ve forgotten how to even start. And here&amp;rsquo;s this article!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Isn't There One Final Machine Language?</title>
+    <link rel="alternate" href="http://codefol.io/posts/isnt-there-one-final-machine-language/"/>
+    <id>http://codefol.io/posts/isnt-there-one-final-machine-language/</id>
+    <published>2022-12-23T00:00:00+00:00</published>
+    <updated>2022-12-29T23:51:42+00:00</updated>
+    <author>
+      <name>Noah Gibbs</name>
+    </author>
+    <content type="html">&lt;p&gt;There&amp;rsquo;s an old lightning talk from RubyConf 2019 that I love, about how &lt;a href="https://www.youtube.com/watch?v=XIzw4zQPbcY"&gt;there&amp;rsquo;s no such thing as knowing your computer &amp;ldquo;all the way to the bottom.&amp;rdquo;&lt;/a&gt; At no point does it stop being a stack of leaky abstractions.&lt;/p&gt;
+
+&lt;p&gt;An unsuspecting fellow emailed me in response, asking, &amp;ldquo;yes, but isn&amp;rsquo;t there one, final machine language at the bottom?&amp;rdquo; I don&amp;rsquo;t even think he was serious, he was just being snarky. But I&amp;rsquo;ve gotten that response from people who mean it too many times, and I wrote back a mini-novel.&lt;/p&gt;
+
+&lt;p&gt;Sorry, man.&lt;/p&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;There &lt;em&gt;is&lt;/em&gt;, most certainly, a machine language. And I meet people who would argue precisely that. Here&amp;rsquo;s the thing: for a given processor type, there is an &amp;lsquo;absolute&amp;rsquo; such language. But there are leaks in the abstraction. The spec-version isn&amp;rsquo;t exactly how it&amp;rsquo;s implemented for a given model of processor.&lt;/p&gt;
+
+&lt;p&gt;So we go deeper. Instead of the AARCH64v2 spec, which is inexact, we move to the spec for the AWS Graviton2 processor, which has weird quirks and differences in speed and errors in implementation. Unfortunately, there are still leaks in that abstraction, even if our knowledge of that model were perfect (and it isn&amp;rsquo;t): for instance, an individual processor is made by an excellent, but imperfect, process. As a result a processor, especially a large processor, contains tiny physical deviations from the ideal. Those deviations (tiny errors in the manufacture of transistors) can cause tiny deviations in how they act. There is an extensive verification process (proprietary to the manufacturer, not described in full detail to the public, but we can assume it imperfectly based on how other manufacturers do it and what they publish), and it catches a very high percentage (but not 100%) of all errors.&lt;/p&gt;
+
+&lt;p&gt;And of course, even the published spec is full of instances of &amp;ldquo;we&amp;rsquo;re leaving that dusty corner of madness alone.&amp;rdquo; How precisely do you need to maintain a specific voltage, to be sure there are only as many bit-flip errors as usual? Eh, let&amp;rsquo;s publish a number and assume nobody will ever try, and if they get there accidentally we&amp;rsquo;ll say, &amp;ldquo;well, we never said you could do that.&amp;rdquo; And if it happens in a certain percentage of &amp;ldquo;valid&amp;rdquo; cases, how likely is it that anybody will ever prove, with certainty, that that can happen? If it does, we&amp;rsquo;ll have the PR department issue a bland non-apology.&lt;/p&gt;
+
+&lt;p&gt;But this process, in addition to the leaks we can account for, has other leaks: the individual processor also ages, which means every individual transistor has a continuing risk of hardware failure, always. Processors are well-shielded, but not perfectly shielded, from cosmic and magnetic radiation. The designed paths of our processor silicon are resistant, but not 100% resistant, to all the various sorts of environmental noise. We have a variety of hardware checks (processor checksums, error-correcting RAM) meant to catch this problem a very high percentage of the time where it is hardware-detectable. A very high percentage is, alas, not 100%, so larger-scale software processes are often written to account for the more pernicious kinds of hardware failure (wrong results rather than simple no-result cases) because, at larger scales, one actually hits those cases. One of my employers, a video analytics company, hit bad packets that had been mangled but nonetheless passed the TCP/IP checksum, &lt;em&gt;very frequently&lt;/em&gt; because at large enough scale that will happen many times a day. Google is in a similar situation with error-correcting RAM, and sees (shipped, production) processor bugs with remarkable frequency. They are different from the rest of us in that they have so much scale they can &lt;em&gt;track down the specific bug&lt;/em&gt; instead of assuming, as the rest of us do, that it&amp;rsquo;s our fault and/or the computer is haunted. Of course, for the parts we can see, it&amp;rsquo;s our fault or somebody&amp;rsquo;s fault or the computer is haunted. But if you could get rid of all &lt;em&gt;those&lt;/em&gt; problems, there are others that remain, and at Google&amp;rsquo;s size you can often see the pattern of them in the &amp;lsquo;random&amp;rsquo; waves of failures that other people never notice.&lt;/p&gt;
+
+&lt;p&gt;It is not merely that we have human errors from hardware designers down at that level. It is that &lt;em&gt;every&lt;/em&gt; level, from the relatively controllable (in the Pentium FDIV bug, one bit was wrong in a giant lookup table, so certain multiplications were off by one bit) to the utterly mind-bending (carefully shield the &amp;lsquo;unused&amp;rsquo; bits of your processor, because patterns in electricity will create random bit-flips at a distance) has things we genuinely &lt;em&gt;cannot&lt;/em&gt; fix in the mixture. It is merely that, as you descend a level deeper into the madness you can see a different set of them.&lt;/p&gt;
+
+&lt;p&gt;At no point, not all the way down to quantum physics, does it become fully regular with no strange parts that defy human understanding, not even if you use raw machine code, not even if you know all published specs of your processor, not even if you do a full set of manufacturer-style verification tests on your specific and individual processor. At every level, you apply a process to make it &lt;em&gt;more&lt;/em&gt; likely, but not &lt;em&gt;fully&lt;/em&gt; likely, that you&amp;rsquo;ll catch most of what&amp;rsquo;s going on. And you do it by zooming in until the set of things under your supposed control now includes a lot of parts that are weird, or wrong, or designed incorrectly, or a complex tradeoff with no right answer that was hidden from you, or literally beyond the collective human ability to understand or (most likely of all) a blend of these which, until you zoom in even further, is simply marked &amp;ldquo;it&amp;rsquo;s complicated&amp;rdquo; or (far more likely) marked incorrectly as something simple.&lt;/p&gt;
+
+&lt;p&gt;Isn&amp;rsquo;t &amp;ldquo;raw machine code&amp;rdquo; the bottom? Or maybe &amp;ldquo;raw machine code for one specific processor model&amp;rdquo; or &amp;ldquo;raw machine code for my unique individual processor?&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;Well, those are places where a person might choose to stop thinking about the problem, if they wished. All three of them, and many similar places besides.&lt;/p&gt;
+
+&lt;p&gt;I have this debate periodically with people. Inevitably, the ones who want to keep arguing, give some variant of &amp;ldquo;yes, but that&amp;rsquo;s the level where I want to stop thinking about it&amp;rdquo; or &amp;ldquo;beyond that it&amp;rsquo;s too hard for my use case,&amp;rdquo; with the unspoken addendum that I&amp;rsquo;m rude to point out the leaks in &lt;em&gt;their&lt;/em&gt; abstractions.&lt;/p&gt;
+
+&lt;p&gt;Great. They need to stop acting like that makes them more noble than a programmer who gets down to C, or PHP, or Ruby, or shellscripts and says &amp;ldquo;yes, but that&amp;rsquo;s the level where I want to stop thinking about it.&amp;rdquo; There is no true, correct, bottom level where the abstractions stop leaking.&lt;/p&gt;
+
+&lt;p&gt;Or if there is, theoretical physicists are far from reaching it.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Ruby and the Future of Programming</title>
+    <link rel="alternate" href="http://codefol.io/posts/ruby-and-the-future-of-programming/"/>
+    <id>http://codefol.io/posts/ruby-and-the-future-of-programming/</id>
+    <published>2022-12-23T00:00:00+00:00</published>
+    <updated>2022-12-29T23:45:53+00:00</updated>
+    <author>
+      <name>Noah Gibbs</name>
+    </author>
+    <content type="html">&lt;p&gt;On Mastodon, &lt;a href="https://ruby.social/@fullstackruby/109558447163489186"&gt;FullStack Ruby asks&lt;/a&gt;:&lt;/p&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;It&amp;rsquo;s a strange sort of environment to be living in as a Ruby programmer.&lt;/p&gt;
+
+&lt;p&gt;On the one hand, so much momentum behind low-level &amp;ldquo;systems&amp;rdquo; programming languages with strong, static typing.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, the &amp;ldquo;future of programming&amp;rdquo; is guiding the education of machine learning models, or whatever.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;QUESTION&lt;/b&gt;: What&amp;rsquo;s the future of expressive, dynamic languages with great reflection, metaprogramming, and DSL creation abilities? Why can&amp;rsquo;t &lt;em&gt;that&lt;/em&gt; be the future of programming? 😵‍💫&lt;/p&gt;
+
+&lt;p&gt;Inquiring minds…&lt;/p&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;It&amp;rsquo;s a great question. Rust &lt;strong&gt;&lt;em&gt;does&lt;/em&gt;&lt;/strong&gt; have a lot of momentum with its great sales pitch of &amp;ldquo;systems programming, without the risk of seg faults and memory errors.&amp;rdquo; Machine learning, with things like CoPilot and ChatGPT, is a different future being promised, and also massively hot and hyped.&lt;/p&gt;
+
+&lt;p&gt;So where is there room for Ruby?&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s what I wrote.&lt;/p&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;I feel like Ruby is an approach to expressiveness in programming. As far as what we are to the future of programming, we&amp;rsquo;re more in the category of Scratch, or spreadsheets, or even some language-verification tools.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re not trying to push the machine to its performance limits &amp;ndash; mostly uninterested in that question. We&amp;rsquo;re pushing &lt;em&gt;expressiveness&lt;/em&gt; as hard as possible, which improves the experience of authoring, and who can do it.&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s a future there, but it&amp;rsquo;s farther off.&lt;/p&gt;
+
+&lt;p&gt;I see some writing about &lt;em&gt;that&lt;/em&gt; future, but it&amp;rsquo;s often folks like &lt;a href="http://worrydream.com/"&gt;Bret Victor&lt;/a&gt; or &lt;a href="https://ncase.me/"&gt;Nicky Case&lt;/a&gt; talking about forming mental models and bringing code-like interactivity into how you communicate around a problem.&lt;/p&gt;
+
+&lt;p&gt;Bret&amp;rsquo;s not using Ruby, but I definitely find a lot of common ground with his essays like &lt;a href="http://worrydream.com/LadderOfAbstraction/"&gt;Up and Down the Ladder of Abstraction&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;And as with all &amp;ldquo;future of programming&amp;rdquo; stuff, it&amp;rsquo;s important to understand that Ruby can&amp;rsquo;t be the final form.&lt;/p&gt;
+
+&lt;p&gt;I have some thoughts about things that should be true about the final form, and some of them basically exclude Ruby&amp;hellip; But we should expect that, right? Ruby is &lt;em&gt;old&lt;/em&gt;. Just as you can&amp;rsquo;t easily adapt C to match Rust&amp;rsquo;s safety guarantees, when we (finally, eventually) get languages with some of the characteristics we&amp;rsquo;ll need for great long-term authoring and expressiveness, it&amp;rsquo;ll need features &lt;strong&gt;&lt;em&gt;nobody&lt;/em&gt;&lt;/strong&gt; currently has.&lt;/p&gt;
+
+&lt;p&gt;Partly we just need to remember that &lt;a href="https://codefol.io/posts/the-forty-year-programmer/"&gt;programming is young&lt;/a&gt;. I&amp;rsquo;ve been a programmer for more than half of the time there have been programmers. There are people still working in the field who date back to basically the beginning.&lt;/p&gt;
+
+&lt;p&gt;Things are still changing fast. Changes to expressiveness move at human speeds. How many thousand years did broad literacy take to spread?&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s early days yet for interactive artefacts of expressiveness.&lt;/p&gt;
+
+&lt;p&gt;At the risk of quoting Bret again, &lt;a href="https://www.youtube.com/watch?v=agOdP2Bmieg"&gt;&lt;strong&gt;&lt;em&gt;here&lt;/em&gt;&lt;/strong&gt; is what noodling about &lt;em&gt;that&lt;/em&gt; future looks like&lt;/a&gt;. I&amp;rsquo;ll be shocked if it&amp;rsquo;s in good shape in less than fifty years, and two hundred is more likely. &lt;/p&gt;
+
+&lt;p&gt;When you &lt;a href="https://codefol.io/posts/what-do-they-mean-when-they-ask-if-rails-is-dead/"&gt;ask about &amp;ldquo;momentum&amp;rdquo; about being the future of programming, you&amp;rsquo;re talking short-term trends&lt;/a&gt; &amp;ndash; whether we think of the future as The Jetsons or Brazil or whatever.&lt;/p&gt;
+
+&lt;p&gt;Most of what Ruby is amazing at is long-term stuff. Rails was a great example, and I don&amp;rsquo;t think it&amp;rsquo;ll be the last. But those don&amp;rsquo;t show up every 3-5 years and sustain a hype cycle.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>How Do You Set Long-Term Professional Goals?</title>
+    <link rel="alternate" href="http://codefol.io/posts/how-to-set-long-term-professional-goals/"/>
+    <id>http://codefol.io/posts/how-to-set-long-term-professional-goals/</id>
+    <published>2022-11-10T00:00:00+00:00</published>
+    <updated>2022-12-29T23:45:53+00:00</updated>
+    <author>
+      <name>Noah Gibbs</name>
+    </author>
+    <content type="html">&lt;p&gt;I got a lovely email from Gustavo Carvalho, in Brazil. It&amp;rsquo;s a professional question, not so much a technical question. I&amp;rsquo;m fine with those.&lt;/p&gt;
+
+&lt;p&gt;He wrote:&lt;/p&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;Did you ever set long-term professional goals? If so, how did you approach it? How did you set it up?&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m having a really hard time thinking about it, especially when I need to think about the steps to achieve it.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve set up something like: &amp;ldquo;Be a better Ruby/Rails developer&amp;rdquo;, &amp;ldquo;Be a great problem solver&amp;rdquo; or &amp;ldquo;Get promoted to Senior Software Engineer&amp;rdquo;, but I found them to be so vague and hard to break down into smaller steps.&lt;/p&gt;
+
+&lt;p&gt;I started then asking myself &amp;ldquo;why do I want to be a better Ruby/Rails developer?&amp;rdquo; or &amp;ldquo;what is my goal in being a great problem solver?&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Funny enough, while writing this email it seems I started to make the right questions. When I set &amp;ldquo;where do I want to be in x years&amp;rdquo; I just need to change the question to &amp;ldquo;why do I want to be there? How?&amp;rdquo;. But even so, when I jump in to write about it, tons of thoughts start to flood my mind, and then I don&amp;rsquo;t even know where I want to be in the next 5 - 10 years.&lt;/p&gt;
+
+&lt;p&gt;Sorry for this weird email out of nowhere, but when I was writing my long-term goals down your name came to my mind: &amp;ldquo;Hmm&amp;hellip; I wonder if Noah experienced something like that in his career&amp;hellip; Why not ask him?&amp;rdquo;. So here I am.&lt;/p&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;Here&amp;rsquo;s roughly what I wrote back:&lt;/p&gt;
+
+&lt;p&gt;These are very reasonable questions to have. And yeah, I definitely do the same thing.&lt;/p&gt;
+
+&lt;p&gt;It sounds like you&amp;rsquo;ve figured a lot out while writing. As you say, turning it into something more specific tends to help a lot. Vague goals &amp;ndash; dreams, really &amp;ndash; are a starting place, not an ending.&lt;/p&gt;
+
+&lt;p&gt;For myself, it&amp;rsquo;s usually about the what and the why. Do I want to make more money? That&amp;rsquo;s doable, and I can plan around it. Do I want to be more listened-to? My job can&amp;rsquo;t usually do that, but my hobbies can, and I can plan around that too.&lt;/p&gt;
+
+&lt;p&gt;I spent a long time &lt;a href="https://www.youtube.com/watch?v=uTXmZssW9q0"&gt;trying to get to &amp;ldquo;the next level&amp;rdquo; after senior engineer&lt;/a&gt;, back when staff/principal wasn&amp;rsquo;t as well-known a thing. And I basically wandered around the senior-and-above org chart, trying one thing and then another. I was an architect, a tech lead, a manager and a few other things. The &amp;ldquo;get to the next level&amp;rdquo; part wasn&amp;rsquo;t spelled out well, and so I had trouble with it. But each smaller sub-goal was doable, and I basically did them by switching role and/or company one after another.&lt;/p&gt;
+
+&lt;p&gt;I wanted to keep working on open source software for a living but making good money. In some ways I stumbled into that. But I did it multiple times so perhaps I know something useful about it. Partly: keep your eyes open. If you know what you want then you know where to look, and you&amp;rsquo;ll know it if you see it. I&amp;rsquo;m looking for open-source work, so I often say, &amp;ldquo;what companies produce interesting open-source software? Who at those companies works on it? Do they do it on company time?&amp;rdquo; and similar. It&amp;rsquo;s the same idea as &amp;ldquo;if you want to be a director/manager/CEO/etc, go see how the current people got there.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;Also keep in mind the similar-but-different question, &amp;ldquo;what would need to be true for this to happen?&amp;rdquo; If I was going to get paid to work on open-source, somebody would have to believe I was competent to do it. How would I help them believe it? What made &lt;em&gt;me&lt;/em&gt; believe that about people in similar positions already? Writing my book was really good&amp;hellip; and I also turned it into a few other things like giving more talks, getting paid for a few workshops, a reasonably successful Twitter following. It&amp;rsquo;s not that any of these things was necessarily huge by itself. But by having small, specific goals I could keep adding little interesting things. I also knew what small projects would count as &amp;ldquo;interesting.&amp;rdquo; Amy Hoy calls this &amp;ldquo;stacking the bricks.&amp;rdquo; It&amp;rsquo;s a good way to think of it. Figure out what counts as a &amp;ldquo;brick&amp;rdquo; &amp;ndash; as small progress toward your own specific goal.&lt;/p&gt;
+
+&lt;p&gt;At the moment I feel like I have most of what a professional job can give me. I make good money, and the only way to increase it much would be to move to a bigger company. And Shopify&amp;rsquo;s not that small. I have an excellent reputation, and a lot of it is independent of my employer. In fact it kind of goes the other way: if I want a better reputation inside Shopify, the path goes through getting better-known &lt;em&gt;outside&lt;/em&gt; Shopify.&lt;/p&gt;
+
+&lt;p&gt;So what &lt;em&gt;am&lt;/em&gt; I doing? I&amp;rsquo;m big enough that the Ruby community is starting to be too small. I still love it. But I&amp;rsquo;m already on the short list of well-known people. It&amp;rsquo;s no good trying to wrestle my way a few more places to a slightly better position. It&amp;rsquo;s time to be looking &lt;em&gt;outside&lt;/em&gt; that community too, where there&amp;rsquo;s an enormous amount of space and headroom.&lt;/p&gt;
+
+&lt;p&gt;Why do I care? A few reasons. I&amp;rsquo;d like to be sufficiently well-known that I can make great money doing weird stuff. The career path that folks like Bret Victor and Alan Kay have, for instance &amp;ndash; I tend to think of it as &amp;ldquo;mad scientist.&amp;rdquo; Or &amp;ldquo;skunkworks engineer&amp;rdquo; would be another variation on the same idea. And I want &lt;em&gt;that&lt;/em&gt; because I love directing myself, and because I want to talk to the other people who do that. Those are the peers I want, and they&amp;rsquo;ll need a reason to think I&amp;rsquo;m worth talking to. So I&amp;rsquo;m doing the work. YJIT is a great step in that direction, but not enough by itself. Rebuilding Rails was a great step. Mastering Software Technique, great step. Some recent talks that are &lt;em&gt;not&lt;/em&gt; all tech, great step.&lt;/p&gt;
+
+&lt;p&gt;So what&amp;rsquo;s the next concrete step? Well, right now that means writing something that&amp;rsquo;s less specifically about Ruby. The book I&amp;rsquo;m halfway through writing is called &lt;a href="https://rebuilding-http.com"&gt;Rebuilding HTTP&lt;/a&gt;. It&amp;rsquo;s very clear how I&amp;rsquo;ll market it to my Ruby folks, and it&amp;rsquo;s written in Ruby (at least, the first edition is only Ruby!). But understanding HTTP has enormous appeal &lt;em&gt;outside&lt;/em&gt; the Ruby community. Rebuilding Rails is about as big as it&amp;rsquo;s getting in Ruby-land, to within a 2x-10x multiple. But HTTP is a thousand times as big, or more. I won&amp;rsquo;t get to 1000x this year or next year, but I don&amp;rsquo;t have to. I&amp;rsquo;ll grow a lot faster with that much headroom.&lt;/p&gt;
+
+&lt;p&gt;As Obi-Wan put it, the &lt;a href="https://www.youtube.com/watch?v=535Zy_rf4NU"&gt;first step into a larger world&lt;/a&gt;. I&amp;rsquo;m pretty constantly stepping into larger worlds. It&amp;rsquo;s been a &lt;a href="https://codefol.io/posts/the-forty-year-programmer/"&gt;great path over the years&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So: clear, specific goals. Know what you want and why you want it. Keep your eyes open for opportunities. Keep doing things, large and small, on your own.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Keeping Multiple Representations in Your Head</title>
+    <link rel="alternate" href="http://codefol.io/posts/keeping-multiple-representations-in-your-head/"/>
+    <id>http://codefol.io/posts/keeping-multiple-representations-in-your-head/</id>
+    <published>2022-10-16T00:00:00+00:00</published>
+    <updated>2022-11-01T20:30:08+00:00</updated>
+    <author>
+      <name>Noah Gibbs</name>
+    </author>
+    <content type="html">&lt;p&gt;Sometimes when you&amp;rsquo;re reading a murder mystery, you&amp;rsquo;ll want to think about two different scenarios: what if the butler did it, vs what if it was the wealthy socialite? What would be different? What evidence might they leave?&lt;/p&gt;
+
+&lt;p&gt;This is also a core skill for senior-and-up software engineers. It&amp;rsquo;s obvious why you&amp;rsquo;d use it for debugging, and we&amp;rsquo;ll talk about that. But it&amp;rsquo;s even more useful for initial development to keep multiple representations of the same thing in your head. Sometimes you&amp;rsquo;re trying to figure out how likely one situation is versus another. But often it&amp;rsquo;s about &lt;strong&gt;&lt;em&gt;both&lt;/em&gt;&lt;/strong&gt; being true, and using the two-or-more representations fluidly.&lt;/p&gt;
+
+&lt;p&gt;When is it useful? How can you tell you need it? Why do I think so?&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s talk about that.&lt;/p&gt;
+
+&lt;h2&gt;Mathematicians and Rodents&lt;/h2&gt;
+
+&lt;p&gt;Here&amp;rsquo;s an evergreen argument in software engineering: do you need to be good at math to be good at coding?&lt;/p&gt;
+
+&lt;p&gt;Clearly not. A lot of people who are terrible at math are great at coding.&lt;/p&gt;
+
+&lt;p&gt;Okay, but does it &lt;strong&gt;&lt;em&gt;help&lt;/em&gt;&lt;/strong&gt; to be good at math? That&amp;rsquo;s a stickier question.&lt;/p&gt;
+
+&lt;p&gt;My answer: yes and no. The specific mechanics &lt;strong&gt;&lt;em&gt;of&lt;/em&gt;&lt;/strong&gt; math are only useful for a few situations in writing code. It used to be needed for a lot more of what we did &amp;mdash; I remember pointer arithmetic on arrays in inner loops, and I do not remember it fondly. But these days, a lot less of what a coder does &lt;strong&gt;&lt;em&gt;is&lt;/em&gt;&lt;/strong&gt; math.&lt;/p&gt;
+
+&lt;p&gt;So then&amp;hellip; not helpful? I&amp;rsquo;d say &lt;strong&gt;&lt;em&gt;not directly&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Instead, math is one of the obvious ways that people learn to &lt;strong&gt;&lt;em&gt;keep multiple representations in their head&lt;/em&gt;&lt;/strong&gt; where &lt;strong&gt;&lt;em&gt;all the representations are true&lt;/em&gt;&lt;/strong&gt;. In math, you might know four of five different ways to solve the same problem. Aside from any mistakes you make, they&amp;rsquo;re probably all valid and applicable. If you do them right, they should give the same answer.&lt;/p&gt;
+
+&lt;p&gt;In fact, in more advanced math problems like calculus, it&amp;rsquo;s likely that you&amp;rsquo;ll use several of the approaches to get partial answers and put those partial answers together. Because all of the approaches are true, and most of them get you some progress, but none of them are enough by itself.&lt;/p&gt;
+
+&lt;p&gt;Is this starting to sound more like writing software yet?&lt;/p&gt;
+
+&lt;p&gt;An advanced mathematician knows a lot more ways to approach problems, and all of those methods are sometimes-true. So a mathematician approaches a problem the way a rat approaches a locked container full of food. He can try a little of this and a little of that, and see what starts to work. If he&amp;rsquo;s not making progress in one way, he tries another. The written-down solution may be one of the ways he already knows, or a hybrid of several of them.&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s a lot like how I code.&lt;/p&gt;
+
+&lt;h2&gt;Debugging&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s gnaw from a different angle for a minute, as we think this through.&lt;/p&gt;
+
+&lt;p&gt;I mentioned murder mysteries up above. And debugging is a bit like that &amp;mdash; what if I did something wrong in my array logic, so the wrong things are in my central lists of data? What would that look like? How would I check it? Where in my program do I put things in there, or take them out?&lt;/p&gt;
+
+&lt;p&gt;Then I can see if that happened, like checking whether the butler was in the study at 4pm.&lt;/p&gt;
+
+&lt;p&gt;I can also put more vague or more specific situations in my mind. &amp;ldquo;Maybe the butler killed him with an axe at 4pm in the study.&amp;rdquo; &amp;ldquo;Maybe the butler hated him, and was looking for a way to kill him.&amp;rdquo; &amp;ldquo;Maybe &lt;strong&gt;&lt;em&gt;somebody&lt;/em&gt;&lt;/strong&gt; killed him in the study.&amp;rdquo; The vague situations are really a lot of situations at once. If &lt;strong&gt;&lt;em&gt;somebody&lt;/em&gt;&lt;/strong&gt; was in the study, when? What signs would they leave?&lt;/p&gt;
+
+&lt;p&gt;This is like debugging. And like debugging, it&amp;rsquo;s not really checking if two or three different things are true. It&amp;rsquo;s checking for whole &lt;strong&gt;&lt;em&gt;categories&lt;/em&gt;&lt;/strong&gt; of problems. It&amp;rsquo;s imagining your code being &lt;strong&gt;&lt;em&gt;just slightly different&lt;/em&gt;&lt;/strong&gt; in one way or another and thinking, &amp;ldquo;what would change, and have I ever seen it do that?&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;By far my best moments of &amp;ldquo;code whisperer&amp;rdquo; intuition come from thinking, &amp;ldquo;what if I&amp;rsquo;d done this one thing &lt;strong&gt;&lt;em&gt;just slightly differently?&lt;/em&gt;&lt;/strong&gt;&amp;rdquo; and then realising the code has been doing that the whole time.&lt;/p&gt;
+
+&lt;h2&gt;Architecture&lt;/h2&gt;
+
+&lt;p&gt;When you think about software architecture, the stories tend to be about somebody having lots of previous experience and bringing it to new projects. And sure, that happens. Sometimes an architect will mostly copy a previous design, and sometimes that&amp;rsquo;s the right answer.&lt;/p&gt;
+
+&lt;p&gt;But the wonder of watching a really skilled architect in motion is seeing her put together structures that have never existed, sifting and discarding. &amp;ldquo;Obviously Cassandra is a great match, but we&amp;rsquo;d need a non-JVM library and shims around our core structures.&amp;rdquo; &amp;ldquo;If we used GraphQL here we could get the project moving quickly, then optimise specific queries when we know what they are.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;That involves experience, definitely. But it also involves keeping a lot of different &amp;lsquo;pictures&amp;rsquo; in your head of possible systems, mentally tallying points for some systems and demerits for others as you sift the total overall system in your head: its structure, limits, requirements, and possibilities.&lt;/p&gt;
+
+&lt;p&gt;Some of the intuition here is general: &amp;ldquo;we&amp;rsquo;ll have an easier time if we match C# with Microsoft-based devices,&amp;rdquo; or &amp;ldquo;we need a rock-solid audit trail, so a central Kafka bus could work.&amp;rdquo; But a lot of it comes from trying out different structures in your head to foresee problems. A &lt;strong&gt;&lt;em&gt;really&lt;/em&gt;&lt;/strong&gt; good architect may stop to hammer out a prototype using a promising system she doesn&amp;rsquo;t know well, just to get a basic feel for it.&lt;/p&gt;
+
+&lt;p&gt;Architecture is an alternation between conjuring new representations in the air, and dismissing the ones that don&amp;rsquo;t work.&lt;/p&gt;
+
+&lt;p&gt;Developing software gets more like architecture, the more you do it. You think of the system you want to design, and you think of it being four or five or fifty different ways before you settle on one.&lt;/p&gt;
+
+&lt;h2&gt;&amp;ldquo;Say the Line!&amp;rdquo;&lt;/h2&gt;
+
+&lt;p&gt;This is part of why senior engineers say &amp;ldquo;it depends.&amp;rdquo; Early in your career, you learn which technologies are good and which are bad. But it doesn&amp;rsquo;t stay that simple for long.&lt;/p&gt;
+
+&lt;p&gt;A technology is good where it fits and bad where it doesn&amp;rsquo;t. And the longer you work, the more complex your understanding of &amp;ldquo;where it fits.&amp;rdquo; A technology that &lt;strong&gt;&lt;em&gt;never&lt;/em&gt;&lt;/strong&gt; seems good is nearly always one you don&amp;rsquo;t understand well enough.&lt;/p&gt;
+
+&lt;p&gt;A &lt;a href="https://codefol.io/posts/when-should-you-not-use-rails/"&gt;fairly complete breakdown of even the biggest, least-specific issues&lt;/a&gt; is already hard to write and needs experience to properly understand. More often, as a senior engineer, 90% or more of your useful understanding is locked up in intuition and experience and war stories &amp;mdash; very hard to &amp;ldquo;just hand off&amp;rdquo; to another engineer. Until you&amp;rsquo;ve been at it awhile, it&amp;rsquo;s hard to even explain. The very best engineers are the ones who can fluidly switch between their intuition (a powerful, fast representation) and something they can consciously explain (a slower representation for others&amp;rsquo; consumption.)&lt;/p&gt;
+
+&lt;p&gt;And suddenly we&amp;rsquo;re back to multiple representations.&lt;/p&gt;
+
+&lt;p&gt;This is what &amp;ldquo;vision&amp;rdquo; often is, as well. You don&amp;rsquo;t hire a visionary to have them write a fun essay about what&amp;rsquo;s possible, and then fire them and keep the essay.&lt;/p&gt;
+
+&lt;p&gt;Okay, if you&amp;rsquo;re not Microsoft you don&amp;rsquo;t do that. But let&amp;rsquo;s say you&amp;rsquo;re not.&lt;/p&gt;
+
+&lt;p&gt;The idea is that there&amp;rsquo;s something locked up in their head, an idea of something amazing, and they can&amp;rsquo;t get the whole thing out. Maybe they can&amp;rsquo;t even fully answer questions about it.&lt;/p&gt;
+
+&lt;p&gt;But you have them write a little, so all of you can understand a bit of it and help a bit. And the plan is that they develop this idea &amp;mdash; this bag of multiple representations &amp;mdash; over time, both developing it in their own head and communicating it better to the framework of people around them.&lt;/p&gt;
+
+&lt;p&gt;This should sound a lot like a very senior software role. &amp;ldquo;Visionary&amp;rdquo; is too glamorous a title, but the basic idea is similar. You have a useful idea and now you need to communicate it over time, as you develop it in your head.&lt;/p&gt;
+
+&lt;h2&gt;But What If I Don&amp;rsquo;t Like Murder Mysteries? Or Mathematical Rodents?&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;m not going to tell you that this is the &lt;strong&gt;&lt;em&gt;only&lt;/em&gt;&lt;/strong&gt; way to do it. But I&amp;rsquo;ll say that the vast majority of excellent more-senior-than-senior developers I&amp;rsquo;ve met are good at this skill.&lt;/p&gt;
+
+&lt;p&gt;There are a lot of different flavours of it, though.&lt;/p&gt;
+
+&lt;p&gt;Some of them are good at writing checklists and essays. It&amp;rsquo;s a fantastic skill if you&amp;rsquo;re trying to train a whole organisation in security or a similar cross-cutting concern. And multiple representations are vital because different parts of the organisation have very different security needs. If they don&amp;rsquo;t yet, they will as the org grows.&lt;/p&gt;
+
+&lt;p&gt;Some of them are good at having the idea, expressing it as code, and then driving the adoption of that code based on its benefits. This, too, can be highly useful. &amp;ldquo;Our org needs a unified HTTP client, so I&amp;rsquo;ll start talking to our people who use those,&amp;rdquo; sort of thing. For them, a lot of the multi-representation happens while designing the library, but is done by the time it&amp;rsquo;s widely deployed. And in this, too, you need to plan for divergence from your vision over time. You can&amp;rsquo;t please everybody forever.&lt;/p&gt;
+
+&lt;p&gt;Some are good at landing in a new situation and quickly accumulating different views of it, to produce a better solution than they currently have. That can be a technical solution, a social solution or both. This, too, requires sifting through a lot of different (all basically correct) views of the same situation.&lt;/p&gt;
+
+&lt;p&gt;And even the least-people-oriented still have to keep a lot of partially-conflicting older code in their head, and the points of view represented by different parts of the system and times-of-authoring. While very senior engineers quickly start to have to tackle people problems, even the non-people problems are all about multiple representations of the system.&lt;/p&gt;
+
+&lt;h2&gt;How Do I Get Better At It?&lt;/h2&gt;
+
+&lt;p&gt;There&amp;rsquo;s some value in reading, including literal mystery novels. There&amp;rsquo;s value in any of the activities I mention above: writing about code for people, writing libraries to fill a specific need, showing up in a situation and rearchitecting/rewriting, doing quick code archaeology on a new project. You can also start with something simpler, such as debugging large systems or writing specialised systems that represent a not-in-code system in code (e.g. math, but also most business logic of any kind.)&lt;/p&gt;
+
+&lt;p&gt;Any of these will help you hold multiple representations in your head at once.&lt;/p&gt;
+
+&lt;p&gt;I would mostly recommend doing more of whatever you want to be excellent at. When we talk about a very-senior skill, it helps to know where you&amp;rsquo;re headed. If you don&amp;rsquo;t already know where you&amp;rsquo;re headed, try a little and see what you enjoy!&lt;/p&gt;
+
+&lt;p&gt;You may also have good luck &lt;a href="https://staffeng.com/guides/staff-archetypes"&gt;looking at staff engineer archetypes&lt;/a&gt; for a similar list of &amp;ldquo;who needs this skill?&amp;rdquo;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>What Does a Web Request Actually Contain?</title>
+    <link rel="alternate" href="http://codefol.io/posts/what-does-a-web-request-actually-contain/"/>
+    <id>http://codefol.io/posts/what-does-a-web-request-actually-contain/</id>
+    <published>2022-10-16T00:00:00+00:00</published>
+    <updated>2022-11-01T20:30:08+00:00</updated>
+    <author>
+      <name>Noah Gibbs</name>
+    </author>
+    <content type="html">&lt;p&gt;If you&amp;rsquo;re a web developer, you&amp;rsquo;re no doubt familiar with HTTP requests. It&amp;rsquo;s when you fetch a file from the server, right?&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s also when you send information &lt;strong&gt;&lt;em&gt;back to&lt;/em&gt;&lt;/strong&gt; the server, including submitting a form or uploading a file.&lt;/p&gt;
+
+&lt;p&gt;You may have seen some examples of HTTP requests. It may have looked a bit like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;GET /some-url HTTP/1.1
+Host: my-host.my-domain.com
+User-Agent: curl/7.79.1
+Accept: */*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That&amp;rsquo;s a nice simple one. So what does that mean? And what&amp;rsquo;s in a web request, in general?&lt;/p&gt;
+
+&lt;h2&gt;Let&amp;rsquo;s Start Simple&lt;/h2&gt;
+
+&lt;p&gt;That first line looks different from the others. It&amp;rsquo;s a bit special. It starts with the &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods"&gt;HTTP request method&lt;/a&gt; (a.k.a. HTTP verb,) something like GET or POST or PUT or HEAD. Then it has the URL, which was &amp;ldquo;/some-url&amp;rdquo; up above. And finally it has the HTTP version, from really old ones like &lt;a href="https://www.w3.org/Protocols/HTTP/AsImplemented.html"&gt;HTTP/0.9&lt;/a&gt; to nice new ones like &lt;a href="https://en.wikipedia.org/wiki/HTTP/2"&gt;HTTP/2.0&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You&amp;rsquo;ll notice that the URL does &lt;strong&gt;&lt;em&gt;not&lt;/em&gt;&lt;/strong&gt; contain the hostname. So a URL like &amp;ldquo;ht&lt;area&gt;tp://jojos-bagels.com/search?with=sesame&amp;rdquo; would have a URL of &amp;ldquo;/search?with=sesame&amp;rdquo;. The host (like &amp;ldquo;jojos-bagels&lt;area&gt;.com&amp;rdquo;) winds up on that &amp;ldquo;Host:&amp;rdquo; line.&lt;/p&gt;
+
+&lt;p&gt;There isn&amp;rsquo;t always a Host line. It&amp;rsquo;s actually possible to just send the first line and an extra newline and call it a day if you&amp;rsquo;re writing your own HTTP client. And many servers will allow this, with perhaps a certain amount of grumbling.&lt;/p&gt;
+
+&lt;p&gt;The lines after the first one are &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers"&gt;Headers&lt;/a&gt;. Each line has some letters and maybe dashes, a colon, then a space and the value. So in the example above the header lines start with &amp;lsquo;Host&amp;rsquo;, &amp;lsquo;User-Agent&amp;rsquo; and &amp;lsquo;Accept&amp;rsquo;. There are lots of known headers, and you can send your own custom ones. The request above is quite simple, with only a few headers. Browsers send &lt;strong&gt;&lt;em&gt;much&lt;/em&gt;&lt;/strong&gt; more complicated ones, as a rule.&lt;/p&gt;
+
+&lt;p&gt;Also, some of you are wondering how you know when a request is finished. This is all sent via &lt;a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol"&gt;TCP/IP&lt;/a&gt;, a byte-stream-based protocol. So there might always be more bytes that were delayed. Just reading from the socket never tells you &amp;ldquo;the message is done, now you can process it.&amp;rdquo; How can you tell?&lt;/p&gt;
+
+&lt;p&gt;A simple GET request like this is finished when a blank line gets sent after the headers. So two blank lines in a row means the headers are done. A more interesting request like a POST or a multi-part upload sends a special header to let the server know there&amp;rsquo;s another part coming after the headers are done. And I&amp;rsquo;m ignoring multi-part requests for this post, but more complicated requests &lt;strong&gt;&lt;em&gt;do&lt;/em&gt;&lt;/strong&gt; exist.&lt;/p&gt;
+
+&lt;h2&gt;What&amp;rsquo;s In a POST?&lt;/h2&gt;
+
+&lt;p&gt;If you have a form in a web page, a POST is usually what happens when you hit &amp;lsquo;Submit&amp;rsquo;. A GET is normally for retrieving a file, but a POST is normally for sending data back to the server.&lt;/p&gt;
+
+&lt;p&gt;What&amp;rsquo;s different about how HTTP encodes a POST?&lt;/p&gt;
+
+&lt;p&gt;For starters, it has a special Content-Type header. For simple POST bodies, it will have the value &amp;lsquo;application/x-www-form-urlencoded&amp;rsquo;. That lets the server know that after the headers and the extra newline, there&amp;rsquo;s form data coming. So a POST request would look more like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;POST /some-url HTTP/1.1
+Host: my-host.my-domain.com
+User-Agent: curl/7.79.1
+Accept: */*
+Content-Length: 38
+Content-Type: application/x-www-form-urlencoded
+
+two=oneplusone&amp;amp;three=oneplusoneplusone
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;There are a few new things here. There&amp;rsquo;s that special Content-Type. HTTP POSTs encode form data very simply, with parameter names and values. Very straightforward. There&amp;rsquo;s also a Content-Length, which is 38 in the example above. If you were to count the letters, including the ampersand, in the form data you&amp;rsquo;d also get 38. That&amp;rsquo;s on purpose, of course.&lt;/p&gt;
+
+&lt;p&gt;In fact the POST is using &lt;strong&gt;&lt;em&gt;both&lt;/em&gt;&lt;/strong&gt; a separator and a length. After the first line (separated by a newline) are the headers, which end with a double-newline, and after that you have the POST body (also called a &amp;ldquo;payload&amp;rdquo;,) which is as long as the Content-Length says. So that&amp;rsquo;s two separators and a length.&lt;/p&gt;
+
+&lt;p&gt;Knowing when to stop parsing in stream-based protocols can get complicated, as you&amp;rsquo;re seeing.&lt;/p&gt;
+
+&lt;h2&gt;A Weird Thing: GET vs POST Parameters&lt;/h2&gt;
+
+&lt;p&gt;Up above, I said the parameters would get passed in the URL, like &amp;ldquo;search?with=sesame&amp;rdquo;. Yet here we have this new weird form data thing, which &lt;strong&gt;&lt;em&gt;also&lt;/em&gt;&lt;/strong&gt; seems to be full of parameters. So which is it?&lt;/p&gt;
+
+&lt;p&gt;Both. The GET passes parameters in the URL, while POST (and often PUT, PATCH and if you want, others) pass the parameters in the form data.&lt;/p&gt;
+
+&lt;p&gt;Is there any reason we&amp;rsquo;d care? Yes, it turns out.&lt;/p&gt;
+
+&lt;p&gt;In a few cases you may want to pass a LOT of parameter data. Pretend you had a big table with twenty or more columns and you wanted to pass a bunch of data about how to sort them, ranges of values for them or something like that. You could easily pass thousands of characters of data.&lt;/p&gt;
+
+&lt;p&gt;Thousands of characters isn&amp;rsquo;t a lot of data, though. It takes far less than a second to send it with a good network. Why do we care?&lt;/p&gt;
+
+&lt;p&gt;Because &lt;a href="https://stackoverflow.com/questions/2659952/maximum-length-of-http-get-request"&gt;many browsers put a limit on the URL length, and so do most servers&lt;/a&gt;. So you can actually put together more parameters than the browser will send to the server. If that happens you&amp;rsquo;ll get an error of some kind, probably one you&amp;rsquo;re not expecting.&lt;/p&gt;
+
+&lt;p&gt;Unless you use a POST.&lt;/p&gt;
+
+&lt;p&gt;Web frameworks often want to abstract away these little details. If you use Rails, you may not have to think about GET and POST passing parameters differently. Rails just handles it for you. 99% of the time, there&amp;rsquo;s not a reason in the world for you to care.&lt;/p&gt;
+
+&lt;p&gt;And then, there&amp;rsquo;s 1% of the time that you do something funny, like passing 10,000 bytes of parameters. And then a POST will work fine, and a GET will fail completely in a cryptic way.&lt;/p&gt;
+
+&lt;h2&gt;Another Weird Thing: Special Header Names&lt;/h2&gt;
+
+&lt;p&gt;Sometimes you want to send custom headers. It&amp;rsquo;s common to pass them with API requests, or to your server. Pretend you&amp;rsquo;re working with a junior web developer, and they realise this is fun. They pass custom parameters from their API client to their Rails app all the time as a way to avoid extra parameters.&lt;/p&gt;
+
+&lt;p&gt;After all, they&amp;rsquo;ve heard that there&amp;rsquo;s a limit to parameter data, but not to header data. So we should send everything as headers, right?&lt;/p&gt;
+
+&lt;p&gt;They&amp;rsquo;ve been doing this for a few months and everything worked fine. Until their latest &amp;lsquo;just a tiny change&amp;rsquo;, where they changed the header name from &amp;lsquo;Machine&amp;rsquo; to the much more web-sounding &amp;lsquo;Host&amp;rsquo;. They just changed it in the client and the server code and deployed. Nothing&amp;rsquo;s going to break if you just change one string, right?&lt;/p&gt;
+
+&lt;p&gt;And suddenly everything&amp;rsquo;s screwy. You can revert the change, but what went wrong?&lt;/p&gt;
+
+&lt;p&gt;You, of course, already know what went wrong. Sending a &amp;lsquo;Host&amp;rsquo; header means something very specific to the HTTP protocol, and so that string is not like the others. Our hypothetical junior web developer had no idea.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s a good thing you read this blog post, right?&lt;/p&gt;
+
+&lt;p&gt;In general, &lt;a href="https://stackoverflow.com/questions/3561381/custom-http-headers-naming-conventions"&gt;naming custom headers is a bit tricky&lt;/a&gt; and there are some odd historical precedents. It used to be recommended to start all your custom header names with &amp;ldquo;X-&amp;rdquo;, for instance, to avoid this problem. That&amp;rsquo;s how you get names like &lt;a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For"&gt;&amp;ldquo;X-Forwarded-For&amp;rdquo;&lt;/a&gt; and so on.&lt;/p&gt;
+
+&lt;h2&gt;So Now I Know It All?&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;ve shown you some of the HTTP request structure, and mentioned a few bits of trivia that can trip up developers. That&amp;rsquo;s cool.&lt;/p&gt;
+
+&lt;p&gt;Do you know it all now? Not so much.&lt;/p&gt;
+
+&lt;p&gt;First, this post only describes requests. There are responses, which get sent back. There are many, many more headers that we haven&amp;rsquo;t talked about.&lt;/p&gt;
+
+&lt;p&gt;But it&amp;rsquo;s more than that. I&amp;rsquo;m not trying to convince you to memorise every piece of HTTP trivia (please don&amp;rsquo;t!)&lt;/p&gt;
+
+&lt;p&gt;Instead, you want to have a good feel for the important pieces and how they fit together. It&amp;rsquo;s also good to know about common weird failure cases, like the GET/POST differences above. I personally believe that you get good at something by building it. The HTTP protocol shouldn&amp;rsquo;t sound &lt;strong&gt;&lt;em&gt;too&lt;/em&gt;&lt;/strong&gt; difficult (and it isn&amp;rsquo;t.) If you&amp;rsquo;re interested, I&amp;rsquo;m actually &lt;a href="https://rebuilding-http.com"&gt;writing a book about how to build all this&lt;/a&gt;, including a lot more than just requests.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;re a web programmer, it&amp;rsquo;s important to know the layers that you&amp;rsquo;re working on top of. It&amp;rsquo;s like water that you&amp;rsquo;re floating on. Once you know what&amp;rsquo;s down there, you can take a dip and check it out when you need to. I like fun bits of trivia. But I&amp;rsquo;ll also show you how to dump the contents of web requests, and you&amp;rsquo;ll see what it all means.&lt;/p&gt;
+
+&lt;p&gt;I always want to know what it all means. I feel like a senior engineer gets that way by knowing which weird corners to peek into. Don&amp;rsquo;t you?&lt;/p&gt;
+</content>
+  </entry>
+</feed>

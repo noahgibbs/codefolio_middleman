@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Let's Build Course Software: Interesting Topics</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/series-build-coding-course-interesting-topics/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">Let's Build Course Software: Interesting Topics</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/RadioRepair_aside_216_162.png" class="d-none d-md-block" alt="A chalk figure kneeling to repair (possibly) a radio." width='216' height='162' title='How Hard Can it Be?' />
+    </div>
+
+      <figcaption class="caption-text">
+        How Hard Can it Be?
+        
+        
+      </figcaption>
+</figure>
+
+                <p>I&rsquo;ve been building a piece of Rails courseware, something to let people work through blog posts, videos and lessons I&rsquo;ve written at their own speed. First I <a href="/posts/series-build-coding-course-software-in-rails/">set up a simple Rails 6 app</a>, then I <a href="/posts/series-build-coding-course-pretty-it-up/">prettied it up a bit</a>.</p>
+
+<p>Now it&rsquo;s time to do something interesting with the actual lessons, which I&rsquo;ve been calling &ldquo;Topics.&rdquo;</p>
+
+<p>I&rsquo;m an engineer, so I&rsquo;m itching to add too much structure on top of this. Instead let&rsquo;s go the other way: what&rsquo;s the smallest thing I can do here and feel good about it?</p>
+
+<h2>What&rsquo;s It Need?</h2>
+
+<figure class="aside-left">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-pretty-it-up&#x2F;rms2_looks_like_bootstrap.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-pretty-it-up&#x2F;rms2_looks_like_bootstrap.png" class="img-frame" alt="The front page of RailsCasts, showing a list of videos"   title="We&#x27;re starting with a little styling and no content yet." />
+    </a>
+        <figcaption class="caption-text">We&rsquo;re starting with a little styling and no content yet.</figcaption> 
+</figure>
+
+<p>I want a thumbnail for each Topic. I&rsquo;m not sure each individual step needs it. Each one is going to need a name and a little text description. A lesson using external resources (e.g. blog posts) isn&rsquo;t going to stay fresh forever, so it&rsquo;ll need normal Rails timestamps so I can tell when it&rsquo;s updated.</p>
+
+<p>Eventually I&rsquo;m going to want to refer to individual steps inside a Topic &mdash; users will want to check off pieces as they go along on a to-do list, for instance. So that means steps in the topic will need to be database objects as well.</p>
+
+<p>I&rsquo;d like comments, but that can be Disqus - easy enough.</p>
+
+<h2>What Migrations are Those?</h2>
+
+<p>Originally topics had a JSON-serialised field called &ldquo;steps&rdquo;. I think that&rsquo;s getting replaced with JSON-serialised metadata and a set of step objects using an association. Let&rsquo;s make a migration happen:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AddStepsToTopics</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mf">6.0</span><span class="p">]</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="s2">"steps"</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">string</span>  <span class="ss">:name</span><span class="p">,</span> <span class="ss">size: </span><span class="mi">255</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">integer</span> <span class="ss">:topic_id</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">integer</span> <span class="ss">:order</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">string</span>  <span class="ss">:url</span><span class="p">,</span>  <span class="ss">size: </span><span class="mi">4096</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">string</span>  <span class="ss">:type</span><span class="p">,</span> <span class="ss">size: </span><span class="mi">16</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">json</span>    <span class="ss">:extra_data</span>
+
+        <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span>
+
+        <span class="n">t</span><span class="p">.</span><span class="nf">index</span> <span class="p">[</span><span class="ss">:topic_id</span><span class="p">,</span> <span class="ss">:order</span><span class="p">]</span>
+    <span class="k">end</span>
+
+    <span class="c1"># If we had useful data, this would need to save it. But we don't.</span>
+    <span class="n">remove_column</span> <span class="ss">:topics</span><span class="p">,</span> <span class="ss">:steps</span><span class="p">,</span> <span class="ss">:json</span>
+
+    <span class="c1"># Now there's one called "extra_data" for metadata that doesn't necessarily get a column</span>
+    <span class="n">add_column</span> <span class="ss">:topics</span><span class="p">,</span> <span class="ss">:extra_data</span><span class="p">,</span> <span class="ss">:json</span>
+
+    <span class="n">add_column</span> <span class="ss">:topics</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">size: </span><span class="mi">1024</span>
+    <span class="n">add_column</span> <span class="ss">:topics</span><span class="p">,</span> <span class="ss">:thumbnail_url</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">size: </span><span class="mi">4096</span>
+    <span class="n">add_column</span> <span class="ss">:topics</span><span class="p">,</span> <span class="ss">:comment_url</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">size: </span><span class="mi">4096</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Mostly this is straightforward. The &ldquo;extra_data&rdquo; fields give me somewhere to stuff random tags for type-dependent miscellany - do I want to add an &ldquo;estimated reading time&rdquo; only for blog posts? Or some kind of a separate embed URL for unrecognised video hosts? This is where I can put stuff like that. If it turns out that I need a given item a lot it can wind up as a real column eventually, especially if I&rsquo;d ever need to index on it.</p>
+
+<p>Of course, for a very long time there won&rsquo;t be enough topics for indexing to matter. But it&rsquo;s good to think about these things when it&rsquo;s easy.</p>
+
+<p>A step has a topic_id so it can use &ldquo;belongs_to&rdquo;, and has an &ldquo;order&rdquo; so we can return the steps in the right order when querying them. I also added a &ldquo;has_many&rdquo; in Topic and a new Step model with a &ldquo;belongs_to&rdquo;. With those, the old code in the controller doesn&rsquo;t break, though everything now has zero steps since we dropped the old data.</p>
+
+<h2>What&rsquo;s In a Topic?</h2>
+
+<p>For this part, we&rsquo;re going to need some content - interesting topics that can be built out. But we can start with name, thumbnail and description. I mocked up a couple of quick topics and put their thumbnails into public/img &mdash; this is, again, routing around a perfectly good asset system that Rails uses, but I feel okay doing that for speed when a system is likely to be temporary and not suffer from doing it &ldquo;wrong.&rdquo; These images will change rarely or never and are purely decorative. And we&rsquo;ll need a whole different system when/if we start adding topics to a running application server.</p>
+
+<p>The way I&rsquo;m currently displaying it is wrong, including using a table. Time to rewrite the view.</p>
+
+<p>I also need to fix the two manually-created database entries &mdash; set them up with names, descriptions and thumbnails.</p>
+
+<p>You <a href="https://github.com/noahgibbs/rubymadscience/commit/b2bb03d7caa9302c7fa1f85a3628b02f6a206b36">can see the full diff here</a>, but here&rsquo;s the heart and soul of the new Topics index view.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="o">&lt;</span><span class="sx">% @topics.each </span><span class="k">do</span> <span class="o">|</span><span class="n">topic</span><span class="o">|</span> <span class="sx">%&gt;
+&lt;div class="topic-row"&gt;</span>
+  <span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"topic-thumbnail"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">img</span> <span class="n">src</span><span class="o">=</span><span class="s2">"&lt;%= topic.thumbnail_url %&gt;"</span>
+         <span class="n">width</span><span class="o">=</span><span class="s2">"200"</span> <span class="n">height</span><span class="o">=</span><span class="s2">"125"</span>
+         <span class="n">alt</span><span class="o">=</span><span class="s2">"&lt;%= topic.name %&gt;"</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="sr">/div&gt;
+
+  &lt;div class="topic-text"&gt;
+    &lt;p class="text-muted"&gt;
+        &lt;%= topic.updated_at.strftime("%Y-%m-%d %H:%M") %&gt;
+        - XX comments&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;&lt;</span><span class="sx">%= topic.name %&gt;&lt;/h3&gt;
+
+    &lt;p&gt;
+      &lt;%=</span> <span class="n">topic</span><span class="p">.</span><span class="nf">desc</span> <span class="sx">%&gt;
+    &lt;/p&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">"/topics/show?id=&lt;%= topic.id %&gt;"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">button</span> <span class="n">type</span><span class="o">=</span><span class="s2">"button"</span>
+                <span class="k">class</span><span class="o">=</span><span class="s2">"btn btn-info"</span><span class="o">&gt;</span><span class="no">Have</span> <span class="n">a</span> <span class="no">Look</span><span class="o">&lt;</span><span class="sr">/button&gt;&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">hr</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="sr">/div&gt;
+&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"clearfix"</span><span class="o">&gt;&lt;</span><span class="sr">/div&gt;
+&lt;% end %&gt;
+</span></code></pre></div>
+<p>This isn&rsquo;t perfect. The name text isn&rsquo;t pretty, the comments text is a dummy placeholder, and I&rsquo;m not enchanted with &ldquo;Have a Look&rdquo; as the button text. But it&rsquo;s a whole lot better. Here, have a look:</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms3_better_topics_index.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms3_better_topics_index.png" class="img-frame" alt="A new topics view, showing the thumbnails and full descriptions."    />
+    </a>
+</figure>
+
+<p>It&rsquo;s starting to look a bit like a site you stumbled across on the internet, right? And relatively few pieces look like I Photoshopped them over a real app. The &ldquo;logged in as&rdquo; text is probably the only thing that looks like it just shouldn&rsquo;t be there. I have plans for that, but it may take me a few more blog posts to get there.</p>
+
+<h2>What About My Step Count?</h2>
+
+<p>That&rsquo;s tolerable for topics. What about steps? You may have noticed that the &ldquo;Have a Look&rdquo; button takes you to a single-topic &ldquo;show&rdquo; action, so that&rsquo;s a start. But right now the &ldquo;show&rdquo; action just tells you what source file it&rsquo;s in.</p>
+
+<p>So let&rsquo;s write a show action. There&rsquo;s a bit of CSS that <a href="https://github.com/noahgibbs/rubymadscience/commit/d17872f446648de786006f294b76d3d2fdda76b8">you can see in the full commit</a>, but here&rsquo;s the HTML and Erb:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;&lt;</span><span class="sx">%= @topic.name %&gt;&lt;/h1&gt;
+
+  &lt;% steps =</span> <span class="vi">@topic</span><span class="p">.</span><span class="nf">get_steps</span> <span class="sx">%&gt;
+  &lt;% if steps.empty? %&gt;</span>
+    <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">No</span> <span class="n">steps!</span> <span class="no">Something</span> <span class="n">is</span> <span class="n">wrong</span> <span class="n">with</span> <span class="n">this</span> <span class="n">topic!</span><span class="o">&lt;</span><span class="sr">/p&gt;
+  &lt;% else %&gt;
+    &lt;% steps.each do |step| %&gt;
+
+        &lt;div class="step-row"&gt;
+          &lt;h3&gt;&lt;%= step.name %&gt;&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+
+          <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">"&lt;%= step.url %&gt;"</span> <span class="n">target</span><span class="o">=</span><span class="s2">"_blank"</span><span class="o">&gt;</span><span class="err">🔗</span> <span class="no">External</span> <span class="n">link</span> <span class="err">🔗</span><span class="o">&lt;</span><span class="sr">/a&gt;
+          &lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+
+          <span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"done-select-group"</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">"&lt;%= step.id %&gt;-done-select"</span><span class="o">&gt;</span><span class="no">Done</span><span class="p">?</span><span class="o">&lt;</span><span class="sr">/label&gt;
+              &lt;select class="done-select" id="&lt;%= step.id %&gt;-done-select" value="Not Implemented..." disabled="disabled"&gt;
+                &lt;option&gt;Not Implemented...&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">option</span><span class="o">&gt;</span><span class="no">Not</span> <span class="no">Done</span><span class="o">&lt;</span><span class="sr">/option&gt;
+                &lt;option&gt;Skip&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">option</span><span class="o">&gt;</span><span class="no">Done</span><span class="o">&lt;</span><span class="sr">/option&gt;
+              &lt;/se</span><span class="n">lect</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="sr">/div&gt;
+        &lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+
+  <span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+<span class="o">&lt;</span><span class="sr">/div&gt;
+</span></code></pre></div>
+<p>(I kind of love the fact that Ruby allows <a href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a> in source files so you can just include emojis in your text and it&rsquo;s totally supported.)</p>
+
+<p>This is the simplest topic that could possibly work. It just has an external link for the step and a to-be-implemented selector for whether you&rsquo;ve finished that step. Eventually it will make far more sense to have embedded videos, embedded blog posts where possible and generally a much prettier topic. In fact, looking at this has me convinced that we&rsquo;ll need step descriptions at a minimum.</p>
+
+<p>Also, we can&rsquo;t yet mark steps as &ldquo;done.&rdquo; That has to be done for each step/user combination and we don&rsquo;t have any tables for that yet.</p>
+
+<p>I&rsquo;ve been keeping in mind that I&rsquo;d like to be able to page-cache these topics - and the logged-in user and whether each step is done make that difficult. I think those things are going to become a combination of cookies and AJAX so that the basic page is 100% identical for each user. And that&rsquo;s complexity that gets tied up with Webpacker, Turbolinks and a few other things. So for now, let&rsquo;s just assume the page will be different per-user.</p>
+
+<p>What do we have before we do that?</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms3_topic_with_steps.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms3_topic_with_steps.png" class="img-frame" alt="A new single-topic view showing the steps as external links and a dropdown."    />
+    </a>
+</figure>
+
+<h2>I Like It, But I Can&rsquo;t Mark It Done</h2>
+
+<p>That&rsquo;s not bad. Let&rsquo;s let users mark steps as done, though. We&rsquo;ll need a database table to store that information. I like the idea that there may be more different &ldquo;all done&rdquo;-type descriptions &mdash; at least &ldquo;not done&rdquo; and &ldquo;done&rdquo; and &ldquo;skipped,&rdquo; but I like the idea that there could be others in the future. Maybe &ldquo;urgent&rdquo; to get more frequent reminders? But it&rsquo;s cheap to make the done-ness be an integer instead of a boolean, so I&rsquo;ll do that. And I&rsquo;d like users to be able to set a text note to themselves on each step.</p>
+
+<p>I&rsquo;ll make a table of per-user per-step rows called &ldquo;user<em>step</em>items&rdquo;. If we wind up needing to store anything else by user/step combo, well, now we have a possible place for it. But for now &ldquo;is it done?&rdquo; is the only thing we need.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">AddUserStepItems</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="p">[</span><span class="mf">6.0</span><span class="p">]</span>
+  <span class="k">def</span> <span class="nf">change</span>
+    <span class="n">create_table</span> <span class="s2">"user_step_items"</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">integer</span> <span class="ss">:doneness</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">string</span>  <span class="ss">:note</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">integer</span> <span class="ss">:user_id</span>
+        <span class="n">t</span><span class="p">.</span><span class="nf">integer</span> <span class="ss">:step_id</span>
+
+        <span class="n">t</span><span class="p">.</span><span class="nf">index</span> <span class="p">[</span><span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:step_id</span><span class="p">]</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>We&rsquo;ll also add a UserStepItem model that belongs_to User and Step, and we&rsquo;ll say User and Step each has_many of UserStepItem. The index is set up around querying by User or by User-and-Step, so right now step.user<em>step</em>items would be expensive. But I don&rsquo;t think we&rsquo;ll be using it for awhile, and indices are easy to add later.</p>
+
+<p>I&rsquo;ll also move the &ldquo;login&rdquo; message to a slightly prettier up-top location (<a href="https://github.com/noahgibbs/rubymadscience/commit/0ab253f3b177a716b52852f1300c6fa497f67e6c">here&rsquo;s the full diff</a>).</p>
+
+<p>We&rsquo;ll need to map between integers and text for &ldquo;Done&rdquo;. I&rsquo;m going to do that in a simple way for now:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">UserStepItem</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+    <span class="n">belongs_to</span> <span class="ss">:user</span>
+    <span class="n">belongs_to</span> <span class="ss">:step</span>
+
+    <span class="no">DONE_MAP</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">0</span> <span class="o">=&gt;</span> <span class="s2">"Not Done"</span><span class="p">,</span>
+        <span class="mi">1</span> <span class="o">=&gt;</span> <span class="s2">"Skip"</span><span class="p">,</span>
+        <span class="mi">2</span> <span class="o">=&gt;</span> <span class="s2">"Done"</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">done_values</span>
+        <span class="no">DONE_MAP</span><span class="p">.</span><span class="nf">values</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">done_as_text</span><span class="p">(</span><span class="n">int_value</span><span class="p">)</span>
+        <span class="no">DONE_MAP</span><span class="p">[</span><span class="n">int_value</span><span class="p">]</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">done_as_text</span>
+        <span class="no">UserStepItem</span><span class="p">.</span><span class="nf">done_as_text</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="nf">doneness</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Then with just a bit of messing about we can get the view to display doneness properly even if it doesn&rsquo;t set it yet:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># app/views/topics/show.html.erb</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;&lt;</span><span class="sx">%= @topic.name %&gt;&lt;/h1&gt;
+
+  &lt;% steps =</span> <span class="vi">@topic</span><span class="p">.</span><span class="nf">get_steps</span> <span class="sx">%&gt;
+  &lt;% if steps.empty? %&gt;</span>
+    <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="no">No</span> <span class="n">steps!</span> <span class="no">Something</span> <span class="n">is</span> <span class="n">wrong</span> <span class="n">with</span> <span class="n">this</span> <span class="n">topic!</span><span class="o">&lt;</span><span class="sr">/p&gt;
+  &lt;% else %&gt;
+    &lt;% steps.each do |step| %&gt;
+        &lt;div class="step-row"&gt;
+            &lt;h3&gt;&lt;%= step.name %&gt;&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+
+            <span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">"&lt;%= step.url %&gt;"</span>
+                   <span class="n">target</span><span class="o">=</span><span class="s2">"_blank"</span><span class="o">&gt;</span><span class="err">🔗</span> <span class="no">External</span> <span class="n">link</span> <span class="err">🔗</span><span class="o">&lt;</span><span class="sr">/a&gt;
+            &lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+
+            <span class="o">&lt;</span><span class="sx">% if </span><span class="n">current_user</span> <span class="sx">%&gt;
+                &lt;% user_step_item = UserStepItem.
+                        where(user_id: current_user.id,
+                              step_id: step.id).first
+                    doneness = user_step_item ?
+                        user_step_item.done_as_text :
+                        UserStepItem.done_as_text(0)
+                %&gt;</span>
+                <span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"done-select-group"</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">"&lt;%= step.id %&gt;-done-select"</span><span class="o">&gt;</span><span class="no">Done</span><span class="p">?</span><span class="o">&lt;</span><span class="sr">/label&gt;
+                    &lt;%= select_tag("</span><span class="si">#{</span><span class="n">step</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="sr">-done-select",
+                         options_for_select(UserStepItem.done_values,
+                                            doneness),
+                                            class: "done-select",
+                                            data: { step_id: step.id }) %&gt;
+                &lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="sx">% else </span><span class="o">%&gt;</span>
+                <span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"done-select-group"</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">"&lt;%= step.id %&gt;-done-select"</span><span class="o">&gt;</span><span class="no">Done</span><span class="p">?</span><span class="o">&lt;</span><span class="sr">/label&gt;
+                    &lt;select class="done-select" disabled="disabled"
+                            id="&lt;%= step.id %&gt;-done-select"&gt;
+                        &lt;option value=""&gt;Not Logged In&lt;/o</span><span class="n">ption</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="sr">/select&gt;
+                &lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span>
+        <span class="o">&lt;</span><span class="sr">/div&gt;
+    &lt;% end %&gt;
+  &lt;% end %&gt;
+&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>I tested this by creating a UserStepItem manually and, yes, it displays properly. It&rsquo;s also possible to select items in the select but only if you&rsquo;re logged in. Next it needs to update.</p>
+
+<h2>Webpack</h2>
+
+<p>Now it&rsquo;s finally time to see how Webpack and Rails 6 get along. I&rsquo;ll need a handler for these selectors to do some JS magic.</p>
+
+<p>In Rails 6, Webpack wants &ldquo;packs&rdquo; (JS modules) rather than old-style raw JS functions. <a href="https://blog.capsens.eu/how-to-write-javascript-in-rails-6-webpacker-yarn-and-sprockets-cdf990387463">Having read a bit about this</a> I have trouble figuring out where to put things like &ldquo;ready&rdquo; functions or setting up handlers. Presumably they shouldn&rsquo;t go <strong><em>in</em></strong> the module code. Of course, &ldquo;ready&rdquo; functions are dubious in a <a href="https://github.com/turbolinks/turbolinks">Turbolinks</a> world anyway, but we still have to set up handlers, including the one we&rsquo;ll need for these selectors.</p>
+
+<p>There&rsquo;s a whole <a href="https://edgeguides.rubyonrails.org/working_with_javascript_in_rails.html">Javascript in Rails</a> guide, though it doesn&rsquo;t appear to address that question. Before packs I might have set up handlers in application.js or another JS file it called. It appears that now I set up a new module (I&rsquo;m calling it steps.js) and it gets executed if I include the pack tag&hellip; directly from the view? That works, though it feels weird and inelegant.</p>
+
+<p>A bit of console.log testing <em>does</em> show that it loads when the view requires and not otherwise, and that inline code like console.log is executed when it&rsquo;s loaded. So I can use it to set up DOM handlers in a view-dependent way. They&rsquo;ll still be loaded after navigating to other pages (because Turbolinks) but they&rsquo;ll only load when needed. That&rsquo;s kind of neat, and arguably a better way to do it than Rails 5 and before.</p>
+
+<h2>Tying It All Together</h2>
+
+<p>We&rsquo;re going to need a controller action to change the &ldquo;done&rdquo; value with an AJAX request: &ldquo;rails g controller steps update_done&rdquo;. I then changed the action to a POST in config/routes.rb. There&rsquo;s probably some way to get the generator to do that&hellip;</p>
+
+<p>You can <a href="#">see the complete diff</a>, but here are the important bits.</p>
+
+<p>I&rsquo;ve added a simple controller action to allow updating the done-ness of a step:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">StepsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="c1"># A quiet little AJAX action to update the done-ness of a step for a user</span>
+  <span class="k">def</span> <span class="nf">update_done</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">current_user</span><span class="p">.</span><span class="nf">id</span>
+    <span class="n">step_id</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:step_id</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">user_id</span> <span class="o">&amp;&amp;</span> <span class="n">step_id</span>
+        <span class="n">usi</span> <span class="o">=</span> <span class="no">UserStepItem</span><span class="p">.</span><span class="nf">find_or_create_by</span><span class="p">(</span><span class="ss">user_id: </span><span class="n">current_user</span><span class="p">.</span><span class="nf">id</span><span class="p">,</span> <span class="ss">step_id: </span><span class="n">step_id</span><span class="p">)</span>
+        <span class="n">usi</span><span class="p">.</span><span class="nf">doneness</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:done</span><span class="p">]</span>
+        <span class="n">usi</span><span class="p">.</span><span class="nf">note</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:note</span><span class="p">]</span>
+        <span class="n">saved</span> <span class="o">=</span> <span class="n">usi</span><span class="p">.</span><span class="nf">save</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">saved</span>
+        <span class="n">render</span> <span class="ss">plain: </span><span class="s2">"OK"</span><span class="p">,</span> <span class="ss">layout: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">status: </span><span class="mi">200</span>
+    <span class="k">else</span>
+        <span class="n">render</span> <span class="ss">plain: </span><span class="s2">"Not Found"</span><span class="p">,</span> <span class="ss">layout: </span><span class="kp">nil</span><span class="p">,</span> <span class="ss">:status</span> <span class="o">=&gt;</span> <span class="mi">404</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Note that it uses the current logged-in user rather than a parameter for user ID, so this should be safe from anybody but a logged-in user sabotaging themselves (which would be fine.)</p>
+
+<p>We&rsquo;ll need a couple of modifications to the &ldquo;show&rdquo; view. At the top we&rsquo;ll need to add &ldquo;&lt;%= javascript<em>pack</em>tag &lsquo;steps&rsquo; %&gt;&rdquo; to make sure it gets the Steps pack (more on that soon). And then for a step for a currently logged-in user:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="o">&lt;</span><span class="sx">% if </span><span class="n">current_user</span> <span class="sx">%&gt;
+    &lt;% user_step_item = UserStepItem.where(user_id: current_user.id, step_id: step.id).first
+       doneness = user_step_item ? user_step_item.doneness : 0
+    %&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"done-select-group"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="o">=</span><span class="s2">"select-error-box error"</span> <span class="nb">id</span><span class="o">=</span><span class="s2">"select-error-box-&lt;%= step.id %&gt;"</span><span class="o">&gt;&lt;</span><span class="sr">/div&gt;
+        &lt;label for="&lt;%= step.id %&gt;-done-select"&gt;Done?&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="sx">%= select_tag("#{step.id}-done-select", options_for_select(UserStepItem.done_selector, doneness), class: "done-select", data: { step_id: step.id }) %&gt;
+    &lt;/div&gt;
+&lt;% else %&gt;
+</span></code></pre></div>
+<p>I&rsquo;m now generating the selector a little differently - the text is the English word/phrase like &ldquo;Done&rdquo; or &ldquo;Skipped&rdquo;, but the value is the integer for simplicity. Sometimes we wind up going back and forth a bit&hellip;</p>
+
+<p>And then finally, the Javascript:</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="c1">// app/javascript/packs/steps.js</span>
+<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">body</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">change</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">select.done-select</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">changed_elt</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">step_id</span> <span class="o">=</span> <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="dl">"</span><span class="s2">step-id</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="c1">// Disable the selector until the request finishes</span>
+    <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="dl">"</span><span class="s2">/steps/update_done</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">post</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">step_id</span><span class="p">:</span> <span class="nx">step_id</span><span class="p">,</span>
+            <span class="na">done</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+            <span class="na">note</span><span class="p">:</span> <span class="dl">"</span><span class="s2">...</span><span class="dl">"</span>
+        <span class="p">},</span>
+        <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#select-error-box-</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">step_id</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">""</span><span class="p">);</span>
+            <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="na">error</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#select-error-box-</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">step_id</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">"</span><span class="s2">(Server error)</span><span class="dl">"</span><span class="p">);</span>
+            <span class="nx">changed_elt</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">disabled</span><span class="dl">'</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>This is the entire pack file (steps.js). The only fancy bit is that it disables the selector on change, then re-enables it after the server has handled the AJAX action (or gotten an error.)</p>
+
+<p>And with that, RubyMadScience has all the fancy functionality of a basic TODO list.</p>
+
+<h2>What&rsquo;s Left to Do?</h2>
+
+<p>The app is nearly a full-featured list already. What&rsquo;s left to do?</p>
+
+<p>Many things.</p>
+
+<p>It would be great to have better steps - more interesting text, embedded video and text and so on. Just in general, there&rsquo;s a lot of polish and aesthetic work here.</p>
+
+<p>But the vital things to fix before it&rsquo;s a usable MVP are these:</p>
+
+<ul>
+<li>Email reminders</li>
+<li>Deploy it</li>
+<li>Actually write the real-world topic for at least one interesting class</li>
+</ul>
+
+<p>Once those things are done, RubyMadScience is doing something that could make somebody&rsquo;s life a little better. It can replace the email classes I have with something better.</p>
+
+<p>There are <strong><em>many</em></strong> other interesting things I could add. But with those two, there&rsquo;s a basic workable MVP. It can help somebody.</p>
+
+<p>Have you been enjoying this series? It&rsquo;s not done yet. Email and real topics are also going to be blog posts, and likely more afterward.</p>
+
+<p>If you want to follow along, I recommend <strong><em>signing up for my email list below</em></strong>. If email lists aren&rsquo;t your thing, there&rsquo;s <a href="/feed.xml">an RSS feed of posts</a> at the top or <a href="/tags/rubymadscience">there&rsquo;s the rubymadscience tag</a>, which includes not-yet-published posts in the series&hellip;</p>
+
+<p>(There will also be some &ldquo;offstage&rdquo; work &mdash; changes that aren&rsquo;t interesting enough to write up step-by-step. But you can always <a href="https://github.com/noahgibbs/rubymadscience/">watch the repo</a> if you enjoy that sort of thing.)</p>
+
+<p>How far did we get along the way? This far:</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms_3_final.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-interesting-topics&#x2F;rms_3_final.png" class="img-frame" alt="The single-topic view of steps with external links and task completion."    />
+    </a>
+</figure>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2020-06-12">Jun 12 2020</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/ruby/'>ruby</a>
+                        <a href='/tags/rails/'>rails</a>
+                        <a href='/tags/letsbuild/'>letsbuild</a>
+                        <a href='/tags/rubymadscience/'>rubymadscience</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/series-build-coding-course-interesting-topics';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/series-build-coding-course-interesting-topics';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-tracking-progress/">Let's Build Course Software: Tracking Progress</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-tracking-progress/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Let's Build Course Software: Tracking Progress" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-pretty-it-up/">Let's Build Course Software: Pretty It Up</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-pretty-it-up/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Let's Build Course Software: Pretty It Up" />
+                    </a>
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

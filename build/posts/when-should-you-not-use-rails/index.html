@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>When Should You NOT Use Rails?</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/when-should-you-not-use-rails/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">When Should You NOT Use Rails?</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/chimp_keyboard_aside_216_135.png" class="d-none d-md-block" alt="A chimpanzee in a white coat types at a keyboard lit by glowing LEDs." width='216' height='135' title='He&#x27;s gorgeous, yes. But is his talent natural&amp;hellip; or is it Ruby on Rails?' />
+    </div>
+
+      <figcaption class="caption-text">
+        He's gorgeous, yes. But is his talent natural&hellip; or is it Ruby on Rails?
+        
+        
+      </figcaption>
+</figure>
+
+                <p>I was <a href="https://www.codewithjason.com/rails-with-jason-podcast/noah-gibbs-3/">recently on Jason Swett&rsquo;s podcast again</a>. He&rsquo;s a great interviewer and I always have fun with him.</p>
+
+<p>By Twitter request we talked about&hellip; When would you <strong><em>not</em></strong> use Rails? It&rsquo;s a great question.</p>
+
+<p>For the entertaining version, <a href="https://www.codewithjason.com/rails-with-jason-podcast/noah-gibbs-3/">listen to the podcast</a>. For the just-the-facts extra-complete version, I&rsquo;m writing this post.</p>
+
+<h2>When Is Rails the Wrong Choice?</h2>
+
+<p>I&rsquo;ll start with a few simple, obvious times you wouldn&rsquo;t use Rails, and then I&rsquo;ll talk about some technically interesting times.</p>
+
+<p>First, and most important, is team familiarity. If your team doesn&rsquo;t already know Rails and isn&rsquo;t especially interested in learning it then Rails is the wrong choice. This should be obvious, but it still deserves first billing.</p>
+
+<p>Second, when you know some other framework fits better. I&rsquo;ll talk more below about when that is. But sometimes you have a specific concern that trumps everything else. If you need to use a Java-language machine learning library and you don&rsquo;t want to use JRuby for some reason, Rails isn&rsquo;t your framework. If you&rsquo;re writing a WordPress plugin, you&rsquo;ll be doing it in PHP. Often there&rsquo;s one specific compatibility concern that overrides everything else.</p>
+
+<p>You can also think of it as: use it where Rails&rsquo; good points hold and its bad points don&rsquo;t. So we&rsquo;ll also talk about the good and bad points.</p>
+
+<p>Separately: you&rsquo;d normally only use Rails as an HTTP server, so some tasks just aren&rsquo;t Rails-shaped.</p>
+
+<h2>When is Rails Too Much?</h2>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='https:&#x2F;&#x2F;rubymadscience.com&#x2F;img&#x2F;assistant_pirate_with_sphere_bigthumb.png' >
+      <img src="https:&#x2F;&#x2F;rubymadscience.com&#x2F;img&#x2F;assistant_pirate_with_sphere_bigthumb.png" class="img-frame" alt="A pirate puppet with an eyepatch, safety goggles and a huge scraggly mustache watches over a purple crystal ball at his feet.&#x27;"   title="He&#x27;s too much lab assistant for your lab." />
+    </a>
+        <figcaption class="caption-text">He&rsquo;s too much lab assistant for your lab.</figcaption> 
+</figure>
+
+<p>Some places not to use Rails can include:</p>
+
+<p><strong>Really Small Tasks that Won&rsquo;t Grow</strong>: if a server does very little, Rails is often too much. Not going to touch a database? Then the DB setup isn&rsquo;t helping you, is it? Just a tiny low-traffic intermediate server with no caching? A lot of Rails is more trouble than it&rsquo;s worth.</p>
+
+<p>Be careful with tasks that grow, though &mdash; making a tiny server scale up to do a lot more can be ugly. If you&rsquo;re already serving HTTP pages to a human with a web browser, consider that you may have to add features to it later. Something like <strong><em>that</em></strong> is already fairly large from the word &ldquo;go&rdquo;.</p>
+
+<p><strong>When It&rsquo;s &lsquo;Just&rsquo; an API Server</strong>: Rails has less to offer an API server that speaks JSON over the wire. A lot of its HTTP security doesn&rsquo;t matter for that case: CSRF protection is entirely about dealing with HTML and Javascript. Many kinds of XSS attacks are dependent on a browser as the weak link, or on putting unescaped user input into HTML. Redirection vulnerabilities assume automatic redirection, which APIs usually don&rsquo;t do. You can prevent SQL injection attacks with just an ORM, a simpler ORM, or even the raw Ruby MySQL and Postgres gems, which support question-mark arguments.</p>
+
+<p>Rails security really shines when you&rsquo;re navigating the bewildering world of HTML and browser security. Small projects that mostly speak a structured format read by machines will get less from Rails. Securing something like an integer ID or a hash of strings is just <em>easier</em> than ensuring your HTML contains no script tags or anything exploitable.</p>
+
+<p>Related to that is when you&rsquo;re doing in-browser rendering and Rails is &lsquo;just&rsquo; serving JSON. It&rsquo;s a weird kind of in-between case. A lot of Rails security and convenience functions no longer help you, but you&rsquo;re still doing things where internal libraries (ActiveRecord, ActiveJob, ActionMailer) can be highly useful. But if you&rsquo;re never rendering HTML on the server and you&rsquo;re very sure you never will, Rails will probably help you less.</p>
+
+<h2>When Is Rails Not Enough?</h2>
+
+<p>Rails is also designed for a small team and a medium-sized codebase. A huge team (lots of programmers) or a huge codebase (lots of controllers, models and/or lines of code) will tend to drag down the standard Rails-app structure.</p>
+
+<p>Ruby allows for a <strong><em>lot</em></strong> of <a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">non-local effects</a>. Whether that&rsquo;s monkeypatching, writing to a database or creating new types at runtime, Ruby isn&rsquo;t designed for a team of 200 programmers where you don&rsquo;t trust some of them. There are too many ways for them to cause you trouble. You can use <a href="https://sorbet.org">good tooling</a> to scale Ruby to larger teams, but even that will <a href="https://sorbet.org/docs/troubleshooting#escape-hatches">tend to have exceptions and difficulties</a>. That&rsquo;s not really Ruby&rsquo;s sweet spot.</p>
+
+<p>In most cases you can cut up a large project into smaller projects. If one Rails app is too big, you can often separate it into multiple apps, or a thinner app with more back-end services, or an app and a separate microservice, or&hellip; One way or another there is usually a way to separate out smaller pieces. Ruby strongly encourages that, as do I.</p>
+
+<p>There are also not-quite-Rails structures that can scale better. Avdi Grimm&rsquo;s (now retired) <a href="https://www.goodreads.com/book/show/13481927-objects-on-rails">Objects on Rails</a> was an attempt in that direction, as is <a href="https://medium.com/@vsavkin/hexagonal-architecture-for-rails-developers-8b1fee64a613">the Hexagonal architecture for Rails</a>, which in turn has a lot in common with the older and more general <a href="https://en.wikipedia.org/wiki/Multitier_architecture">N-tier architecture</a>.</p>
+
+<p>But at some point you might want to consider a different framework. <a href="https://hanamirb.org/">Hanami</a> is an obvious choice, designed to be less quick and nimble than Rails for getting a tiny app off the ground, but more scalable if you want to use the same code with a lot more contributors.</p>
+
+<p>I&rsquo;d still start out in Rails, personally. If you&rsquo;re building something quickly to see if anybody cares, I know of no framework that comes close to its productivity. Wait to rewrite (in a more rigid framework) until you&rsquo;re successful and you can afford the drag on your development speed.</p>
+
+<p>The other worry here can be performance. If you&rsquo;re rewriting a project that is already as large as the current Basecamp&hellip; then you&rsquo;re <a href="https://m.signalvnoise.com/only-15-of-the-basecamp-operations-budget-is-spent-on-ruby/">actually fine for performance</a>. Rails still scales <strong><em>great</em></strong> for them. But if you&rsquo;re looking at something a hundred times larger (which by definition means B2C, not B2B) then you might have a situation where your server costs are substantially greater than your engineering payroll. In that case it can make sense to slow down your engineers to pay lower server costs. To check this, see what your EC2-or-equivalent costs are <strong><em>just for your application servers</em></strong>, which are what run Rails. And check your payroll <strong><em>just for web engineers</em></strong>, which is who writes in Rails. Normally the engineering payroll is much larger and you should stick with trading cheap machine time for expensive engineering time. But at some point the balance may tip and you should consider raising your engineering payroll to cut your server costs.</p>
+
+<h2>When Does Rails Have the Wrong Assumptions?</h2>
+
+<figure class="aside-left">
+    <a class='lightboxed' href='https:&#x2F;&#x2F;rubymadscience.com&#x2F;img&#x2F;dr_bear_microscope_bigthumb.png' >
+      <img src="https:&#x2F;&#x2F;rubymadscience.com&#x2F;img&#x2F;dr_bear_microscope_bigthumb.png" class="img-frame" alt="A pirate, a bear and a chimp sit at a wicker table. The bear looks into a very old-fashioned microscope as the other two look on."   title="They&#x27;re checking the microscope for real-world use cases where Rails might be wrong." />
+    </a>
+        <figcaption class="caption-text">They&rsquo;re checking the microscope for real-world use cases where Rails might be wrong.</figcaption> 
+</figure>
+
+<p>Before checking if Rails&rsquo; assumptions are right for you, we should see what those assumptions actually are.</p>
+
+<p>Before you take my word for it, I recommend taking <a href="https://rubyonrails.org/doctrine/">David Heinemeier Hansson&rsquo;s word for it</a> in the form of The Rails Doctrine. It&rsquo;s a great document and it covers a lot of ground.</p>
+
+<p>Indeed, if you want to better understand why Rails isn&rsquo;t amazing for large, low-trust teams, you should read <a href="https://rubyonrails.org/doctrine/#provide-sharp-knives">&ldquo;Provide Sharp Knives&rdquo;</a> in the Rails Doctrine several times. A lot of Rails&rsquo; tradeoffs are entirely by design.</p>
+
+<p>Rails also has some simpler assumptions: it assumes you&rsquo;re writing an interactive app with server-rendered HTML. It assumes that security is vital (Rails trades a lot for security) but that you don&rsquo;t want to build your own custom security system in most cases. And it assumes that you either have a small, excellent team doing prototyping work (&ldquo;Provide Sharp Knives&rdquo;) or that you have a possibly-mediocre team that needs powerful built-in guidelines (<a href="https://rubyonrails.org/doctrine/#omakase">&ldquo;The Menu is Omakase.&rdquo;</a>)</p>
+
+<p>Rails also assumes you want high developer velocity at a cost of technical debt. In other words, it&rsquo;s designed for building very quickly. That makes sense when <strong><em>technical execution is not your biggest risk</em></strong>. For instance: if you&rsquo;re building a small startup, and you&rsquo;re pretty sure you can build the site but people may not buy your product, you are dominated by market risk. That&rsquo;s when Rails is perfect. You want to build very quickly. And even if you build perfectly, you&rsquo;re probably going to have to throw away the result for nontechnical reasons, like &ldquo;people don&rsquo;t want to buy it.&rdquo;</p>
+
+<p>As part of &ldquo;high dev velocity, technical debt is okay&rdquo; Rails assumes things like, &ldquo;you&rsquo;ll want to use a lot of gems&rdquo; and &ldquo;dependencies that work are fine if they speed you up.&rdquo;</p>
+
+<p>Rails assumes you don&rsquo;t mind scaling out application servers horizontally (by bringing more of them online.) It&rsquo;s designed to scale well <strong><em>if</em></strong> you can do that. Rails assumes CPU is fairly cheap and it&rsquo;s usually right about that. Relatedly, Rails assumes that the database is usually your most serious performance bottleneck, which is how web applications usually work.</p>
+
+<p>Rails also assumes you&rsquo;ll have some calculation or data transformation in your application. It assumes that it&rsquo;s okay to use some CPU because you&rsquo;ll be doing that anyway.</p>
+
+<p>(When does that last assumption matter? Let&rsquo;s talk about Evented Servers and see.)</p>
+
+<h2>What Isn&rsquo;t Rails Good At?</h2>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;when-should-you-not-use-rails&#x2F;node_js_logo.png' >
+      <img src="&#x2F;posts&#x2F;when-should-you-not-use-rails&#x2F;node_js_logo.png" class="img-frame" alt="The Node.js logo."   title="Sometimes you need it, or something like it." />
+    </a>
+        <figcaption class="caption-text">Sometimes you need it, or something like it.</figcaption> 
+</figure>
+
+<p>While Rails is great at a lot of things, there&rsquo;s one particular task that it&rsquo;s not amazing for: shim servers.</p>
+
+<p>By &ldquo;shim servers&rdquo; I mean servers that do very little calculation but integrate answers from a few other back-end services and relay the result. Imagine a server that queries two JSON services and combines the result with simple string-manipulation, for instance. It does very little calculation, but it juggles a lot of events.</p>
+
+<p>And that&rsquo;s the relevant word: &ldquo;events.&rdquo;</p>
+
+<p>There is a specific kind of app architecture embodied by Node.js and its relatives called &ldquo;Evented&rdquo; programming. It can support many thousands, or even millions, of simultaneous connections with a tiny amount of server resources. It can be both high-throughput and low-latency. Its benchmark numbers are matchless&hellip; for the cases where it works.</p>
+
+<p>Rails can&rsquo;t match Evented programming at what Evented programming is good at. Basically no framework can. There are Evented frameworks for Ruby (e.g. <a href="https://github.com/eventmachine/eventmachine">EventMachine</a>, <a href="https://github.com/socketry/async">Async</a>.) Rails is built differently.</p>
+
+<p>If Evented is so much better, why don&rsquo;t we use it for everything? Because it doesn&rsquo;t work for everything. I emphasise calculation per-request because an Evented server will fall down and die if you try to make it do very much calculation per-request. Having one server handle a million connections is no good if each connection winds up using a hundred milliseconds of CPU time &mdash; that&rsquo;s simply too many connections and the latency will be terrible.</p>
+
+<p>In other words, Rails and Node.js are different tools for different projects. If you&rsquo;re thinking, &ldquo;I should either use Rails or Node for this&rdquo; I would recommend looking deeper into your project (and/or your framework) until it&rsquo;s obvious which one is the right answer. They do different things.</p>
+
+<h2>Look, I Just Scroll to the Bottom for the Summary and Criticise It On Reddit</h2>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='http:&#x2F;&#x2F;rubymadscience.com&#x2F;img&#x2F;rails_internals_bigthumb.png' >
+      <img src="http:&#x2F;&#x2F;rubymadscience.com&#x2F;img&#x2F;rails_internals_bigthumb.png" class="img-frame" alt="A chimpanzee in a lab coat stares down at his lap, containing sections of wooden train track, and his hand holding a toy train."   title="I&#x27;m sure this is the right answer, but I &lt;b&gt;have&lt;&#x2F;b&gt; forgotten the question." />
+    </a>
+        <figcaption class="caption-text">I&rsquo;m sure this is the right answer, but I <b>have</b> forgotten the question.</figcaption> 
+</figure>
+
+<p>Rails is the wrong choice if your team doesn&rsquo;t want to use it or doesn&rsquo;t know how.</p>
+
+<p>Rails is the wrong choice in cases where a different framework is specifically better, or you have a specific library you need to be compatible with that isn&rsquo;t Rails-friendly.</p>
+
+<p>Rails might be the wrong choice if you&rsquo;re not rendering HTML on the server, especially if your project is very small and/or doesn&rsquo;t use a database.</p>
+
+<p>Rails is the wrong choice is you&rsquo;re not doing prototyping-flavoured work, preferably with a small, highly-competent team.</p>
+
+<p>Rails is the wrong choice if your dev team or your app code is too big and you can&rsquo;t subdivide the project.</p>
+
+<p>Rails is the wrong choice if your project wants an Evented server like Node.js or EventMachine.</p>
+
+<p>This article is the wrong choice if you&rsquo;d rather <a href="https://www.codewithjason.com/rails-with-jason-podcast/noah-gibbs-3/">listen to an entertaining podcast on the same topic</a>.</p>
+
+<p>If you&rsquo;re wondering when Rails is the <strong><em>right</em></strong> choice, <a href="https://rubyonrails.org/doctrine/">the Rails Doctrine</a> is a great first step.</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2020-08-06">Aug  6 2020</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/ruby/'>ruby</a>
+                        <a href='/tags/rails/'>rails</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/when-should-you-not-use-rails';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/when-should-you-not-use-rails';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/introducing-computer-science-just-the-useful-bits/">Computer Science: Just the Useful Bits</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                        </p>
+                    </header>
+                        <a href="/posts/introducing-computer-science-just-the-useful-bits/" class="post-thumbnail">
+                            <img src="/img/chimp_keyboard_aside.png" width="216" height="135" alt="Computer Science: Just the Useful Bits" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-email-reminders/">Let's Build Course Software: Email Reminders</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-email-reminders/" class="post-thumbnail">
+                            <img src="/img/chimp_bear_pirate_studying_objects_aside.png" width="216" height="135" alt="Let's Build Course Software: Email Reminders" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/free-rr-video-chapters/">Free Rebuilding Rails Video Chapters</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/career/'>career</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/urban-legend-of-the-10x-developer/">The Urban Legend of the 10X Developer</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/career/'>career</a>
+                        </p>
+                    </header>
+                        <a href="/posts/urban-legend-of-the-10x-developer/" class="post-thumbnail">
+                            <img src="/img/chimp_keyboard_aside.png" width="216" height="135" alt="The Urban Legend of the 10X Developer" />
+                    </a>
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

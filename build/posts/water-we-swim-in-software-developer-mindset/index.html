@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>The Water We Swim In: The Software Developer's Mindset</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/water-we-swim-in-software-developer-mindset/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">The Water We Swim In: The Software Developer's Mindset</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/RadioRepair_aside_216_162.png" class="d-none d-md-block" alt="A chalk figure kneeling to repair (possibly) a radio." width='216' height='162' title='It&#x27;s all about your mindset&amp;hellip;' />
+    </div>
+
+      <figcaption class="caption-text">
+        It's all about your mindset&hellip;
+        
+        
+      </figcaption>
+</figure>
+
+                <p>I&rsquo;ve been fortunate to work in DevOps and with great Ops folks in my career, including doing enough of that work to get a feel for it. The tools are fun and it&rsquo;s nice to be able to do basic tasks, but the incredible, invaluable thing was just watching how experienced OpsFolk responded to different events.</p>
+
+<p>It&rsquo;s not just the smooth, immediate way that they handle warnings and outages, though that <em>is</em> impressive. It&rsquo;s also their basic understanding that new features, even features meant for robustness and resilience, are basically trouble. It&rsquo;s not that an undisturbed system will necessarily keep working&hellip; But a system you <em>disturb</em> will invariably develop problems of some kind. Deployments tend to break things, and deploy-free weeks like holidays tend to be downtime-free.</p>
+
+<p>But the important part isn&rsquo;t the fact that they&rsquo;re right. The important part is seeing a completely different attitude toward the software we write. Our way is valid for what we do, their way is valid for what they do, but it gives us completely different principles (that is, &ldquo;unwritten rules that underlie everything we say and do&rdquo;) about software.</p>
+
+<p>Just like &ldquo;everybody <em>else</em> has an accent,&rdquo; it feels like everybody <em>else</em> has a mindset - our mindset is just &ldquo;the right thing.&rdquo; But seriously, what <em>are</em> the unwritten rules in software development?</p>
+
+<p>And it&rsquo;s not even just Ops or DevOps. There are a <em>lot</em> of mindsets in the world, and developers are just one of many.</p>
+
+<p>If we&rsquo;re the fish in the bowl, what does the water look like?</p>
+
+<p>And what would the opposite look like? If software developers get our superpowers from this mindset, what superpowers do other folks get from very different mindsets?</p>
+
+<p></p>
+
+<h2>Developers are In Love with Problems</h2>
+
+<p>In the old <a href="https://en.wikipedia.org/wiki/Tick_(comics)">The Tick comic</a>, another superhero offers to team up: &ldquo;working together, in a few months we could eliminate crime from this city completely!&rdquo; The Tick says, &ldquo;I don&rsquo;t want to <em>eliminate</em> crime! I just want to fight it.&rdquo;</p>
+
+<p>He might have made a fine software developer.</p>
+
+<p>When you show a developer an ugly, sticky problem that wants a complicated software solution, we start to salivate. In job descriptions, we brag to each other about &ldquo;interesting problems to solve.&rdquo; And when we say &ldquo;interesting,&rdquo; we mean technically difficult, not &ldquo;relevant to the world at large.&rdquo; We use different phrases for that.</p>
+
+<p>We don&rsquo;t want to <em>eliminate</em> people&rsquo;s problems that can be fixed with software. We just want to <em>fight</em> them.</p>
+
+<p>This gives us simple superpowers: motivation and skill. We love to struggle mightily against problems, and it makes us strong. It means we love to practice. We don&rsquo;t need a <em>reason</em> to solve a problem with software. We just need time and a chance to work. We <em>want</em> to solve a problem, just because it&rsquo;s there.</p>
+
+<p>What does the opposite superpower look like? Look at business folks. Show them a problem they can tiptoe around and they&rsquo;ll avoid it. Show it to <em>us</em> and we&rsquo;ll fight it. We get the skill increases from fighting a thorny problem, while they get the ability to rapidly move on to the next problem <em>without</em> a fight. They may have problems later because they didn&rsquo;t <em>really</em> solve it. <em>We</em> may have problems later because our solution is imperfect, and that adds size and complexity &mdash; <em>avoiding</em> a problem is often more reliable than <em>mostly</em> solving a problem.</p>
+
+<p>Operations folks often have a related not-like-developers superpower: a talent for using bubblegum and baling wire to jury rig a not-really-solution that works. If you&rsquo;re a developer, I don&rsquo;t need to tell you how this can go wrong. But if you&rsquo;ve done much operations, I don&rsquo;t need to tell you that the same approach can often work well enough for a long time and save a <em>lot</em> of effort. It&rsquo;s an especially good superpower if you&rsquo;re not sure your whole product or company will work out &mdash; the bubblegum and baling wire solution is often good enough to last until something <em>else</em> kills the whole current attempt and you have to rebuild.</p>
+
+<h2>Developers are Optimistic about Eventually Fixing All the Bugs</h2>
+
+<p>We don&rsquo;t necessarily believe that this next bugfix, or release, will fix all the bugs. But we believe if we keep working, we&rsquo;ll eventually get something that does the right thing. We believe it will take a large but finite amount of work to get to &ldquo;really quite good.&rdquo;</p>
+
+<p>Like the previous section, this is good for our motivation. Like the previous section, it often means we&rsquo;ll wade into trouble for the sheer love of the fight.</p>
+
+<p>We&rsquo;re not always right, of course. Some tasks are impossible &mdash; look at the <a href="https://en.wikipedia.org/wiki/Halting_problem">Halting Problem</a>. Some tasks are presumably possible but far too difficult for humans to solve yet, such as the <a href="https://en.wikipedia.org/wiki/Turing_test">Turing Test</a> or other forms of <a href="https://www.ocf.berkeley.edu/~arihuang/academic/research/strongai3.html">Strong Artificial Intelligence</a>. Sometimes we wade into something that is, from our current point of view, absolutely impossible.</p>
+
+<p>But the flip side is that we can often solve things that <em>looked</em> impossible but aren&rsquo;t. That&rsquo;s the developer superpower gained by this point of view.</p>
+
+<p>The opposite superpower, shared by OpsFolk, Business Folk and very senior developers, is avoiding fights too difficult to be winnable, at the cost of occasionally tiptoeing around a fight they <em>could</em> have won at great cost.</p>
+
+<p>You&rsquo;ll note that startups often want younger, less-experienced developers <strong>specifically for this reason</strong>. They&rsquo;re looking for problems that look impossible, but aren&rsquo;t. If you throw younger developers at the problem, they&rsquo;ll try very hard to do the probably-impossible. If you throw experienced, <a href="https://twitter.com/mipsytipsy/status/1187514192426725376">sadder-but-wiser</a> developers at the problem, they&rsquo;ll often avoid the impossible in favour of the hard-but-clearly-possible.</p>
+
+<p>Is that good? Like everything here, it depends what you&rsquo;re doing.</p>
+
+<h2>Developers Quietly Contemplate and then Turn the Model Into Code</h2>
+
+<p>Skilled developers are often masters of creating complex mental models of a problem. They&rsquo;re also very good at lateral thinking and simulating a problem in their head. Eventually they can become excellent at checking the real world to find out where their model is right or wrong.</p>
+
+<p>They can also be almost frighteningly detached, listening to complaints and problem descriptions but barely reacting as they run through their mental models and update them. This can be reassuring as you&rsquo;re designing a new system, and frustrating if you&rsquo;re trying to see if the developer understands how bad your problem with a current system is, and how much you need them to fix it.</p>
+
+<p>All of this tends to require a lot of quiet, stable, controlled time to think through the problem and examine it from many angles. That examination doesn&rsquo;t usually work if the developers have to deal with interruptions, bug-fix requests, production outages and other problems.</p>
+
+<p>So developers often work hard to avoid interruptions. That can involve a bug-fix team member to keep the rest of the team from being interrupted, or handing the work off to operations people who handle outages, or working late at night without other team members interrupting, or scheduling blocks of <a href="http://www.paulgraham.com/makersschedule.html">&ldquo;maker time&rdquo;</a> to think about a problem for a long while without communicating with other people. There are many other strategies with this end goal.</p>
+
+<p>The developer superpower is in design, building and debugging of complex systems: by intense focus, a developer can be effectively smarter, and more capable of creating interesting software systems.</p>
+
+<p>The opposite superpower, common to Operations folks, allows them to be highly interruptible and resilient, able to do their work despite annoyances and unexpected occurrences. They don&rsquo;t have to <em>like</em> it, of course. But as a rule they arrange their work-lives to handle it better. It&rsquo;s possible to arrange your work-life so you don&rsquo;t <em>have</em> to be smarter.</p>
+
+<h2>Developers Hate Repetition</h2>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='https:&#x2F;&#x2F;imgs.xkcd.com&#x2F;comics&#x2F;automation_2x.png' >
+      <img src="https:&#x2F;&#x2F;imgs.xkcd.com&#x2F;comics&#x2F;automation_2x.png" class="d-none d-md-block" alt="A graph explaining that automation should save us time and eliminate effort, but in fact no such thing occurs"   title="But surely none of this could be our fault!" />
+    </a>
+        <figcaption class="caption-text">But surely none of this could be our fault!</figcaption> 
+</figure>
+
+<p>We hate repetition, and we love automation. Sometimes I wonder if we don&rsquo;t just have seriously wandering attention &mdash; automating may be harder, but at least it&rsquo;s new. Often we&rsquo;ll try to automate a task long past the point where it will save us any time. This can be good for our skills, or for solving a larger problem for other people. It&rsquo;s usually bad as far as our own personal free time.</p>
+
+<p>We also tend to strongly favour re-use of solutions. That can be great: of course re-using something that works is a good idea, especially when it solves a real problem. Unfortunately, it can also lead to treating problems as the same even when they&rsquo;re not:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>"Hey, use this tool to solve that problem."
+"This isn't the same problem."
+"Eh, close enough."
+</code></pre></div>
+<p>It&rsquo;s one reason we often get along poorly with designers and technical writers. Designers usually need to recognise that the same basic functionality (e.g. word processing) is often used in multiple different ways, leading to multiple solutions that could be &ldquo;the same&rdquo;. And so a set of tools that are basically similar (e.g. Apple Pages, Microsoft Word and the authors&rsquo; tool Scrivener) are often treated as inefficient and repetitive when in fact the &ldquo;same&rdquo; functionality (word processing) does different things in the three cases.</p>
+
+<p>As a designer said to Bill Gates without much effect: a drinking fountain, a sink and a toilet all have to squirt water and drain water, but that doesn&rsquo;t mean that we should just use one object for all three.</p>
+
+<p>Sometimes a developer is right: using the same solution for many things can be powerful, like how the web browser has supplanted a lot of other bad interfaces. And sometimes trying to use the same solution for very different things results in a bad kind of over-efficiency, like when a spreadsheet solution keeps anybody from trying to make something better.</p>
+
+<p>The opposite sensibility, favouring repetition, gives different superpowers: a designer often favours repeating functionality so that the same thing can be tweaked slightly for slightly different use cases &mdash; like having a separate &lsquo;redundant&rsquo; camera, music player and fitness tracker even though you already own a smartphone.</p>
+
+<p>An artist favours repetition for diffrent reasons: they are trying to perfect the expression of the thing (e.g. how to paint a face) rather than do it once &ldquo;perfectly&rdquo; and stop. Thus, software developers get the &ldquo;efficiency&rdquo; superpower, designers get &ldquo;excellent suitability-for-purpose,&rdquo; and artists get both &ldquo;great skill in expression&rdquo; and &ldquo;extreme specificity to purpose.&rdquo;</p>
+
+<h2>Developers Hate Obvious Inefficiency</h2>
+
+<p>Related to automation: developers hate certain kinds (not all) of ineffiency. Why do something over six months if there&rsquo;s a way to do it in two days? You can see this in the vast array of &ldquo;Learn X Programming Language in 48 Hours&rdquo; books, when realistically you know it will take far longer to do anything useful. Similarly, there are many, many short tutorials so that we can avoid &lsquo;wasting&rsquo; a long time reading a full-length book on the problem, language or library in question. The promise of learning improbably fast makes us happy. A few of these tutorials even work well, though long study works better, as a rule.</p>
+
+<p>In some cases, this bias toward the instantaneous can be good. If you can find a domain where you learn fast and work fast, you <em>can</em> improve ridiculously quickly. The software startup &ldquo;rocket ship&rdquo;/&ldquo;hockey stick&rdquo; trajectory is a direct result of finding fast learning and improvement, and working hard to keep it happening fast. Occasionally a developer can become an &ldquo;instant expert&rdquo; and very rapidly master a new area if they can just keep from slowing their learning with one distraction or another.</p>
+
+<p>These instant-expertise cases are rare and you can waste a lifetime of reasonable opportunities in looking for them. It&rsquo;s like if you avoided opening a bank account to spend it all on lottery tickets; recognising a winning lottery ticket is good, but spending your whole life looking for one is bad.</p>
+
+<p>Yet looking for large advantages and then taking advantage isn&rsquo;t a bad thing.</p>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='https:&#x2F;&#x2F;imgs.xkcd.com&#x2F;comics&#x2F;compiling.png' >
+      <img src="https:&#x2F;&#x2F;imgs.xkcd.com&#x2F;comics&#x2F;compiling.png" class="d-none d-md-block" alt="XKCD two figures swordfighting as code compiles"    />
+    </a>
+</figure>
+
+<p>Oddly, we don&rsquo;t mind <strong>non</strong>-obvious inefficiency. Developers cheerfully put up with long compile times because they feel &ldquo;busy&rdquo; in a good way. If the test suite is running we&rsquo;re often happy and we feel productive. These are both often true even if you could speed both up by 10x with some work. But the time spent feels &ldquo;efficient&rdquo; and &ldquo;productive&rdquo; even if it&rsquo;s not actually a quick route to progress.</p>
+
+<p>Developers often <em>hate</em> being idle, because that&rsquo;s <em>obvious</em> inefficiency and it <em>feels</em> unproductive. We hate status meetings where our progress is slowed for somebody else&rsquo;s benefit, which feels like inefficiency. And we hate &ldquo;waiting to respond&rdquo; situations where we&rsquo;re assessing a situation and don&rsquo;t know what&rsquo;s happening yet. To be fair nearly <em>everybody</em> hates those situations, but developers often label them as &ldquo;inefficiency&rdquo; even when they&rsquo;re not.</p>
+
+<p>This one doesn&rsquo;t have an obvious opposite, though it has several important contrasts. Operations folks often like tinkering and fiddling to get a feel for a system, and to &ldquo;just&rdquo; learn. That&rsquo;s a powerful skill, and it requires tolerance for not knowing what the goal is (yet.) Artists and designers are often willing to play and dabble before jumping into a project, just to get a feel. In my experience, that&rsquo;s much rarer for software developers, though I don&rsquo;t know why it should be. Businesspeople hate inefficiency <em>that obviously costs money</em>, which is a bit different from developers, though there&rsquo;s overlap.</p>
+
+<h2>Developers Get a Huge Kick Out of Arcane Knowledge</h2>
+
+<p>Developers love knowledge and trivia in our areas of focus. What arguments does a particular function in the standard library take? How does a particular JavaScript framework handle HTML rendering? In C++, is a template-based approach faster than macros for this problem? We&rsquo;ve mostly broken the habit of using these as job interview questions, but we did for many years. And it&rsquo;s still the kind of thing developers do to posture when they get together in groups.</p>
+
+<p>Knowledge is good. Uncommon knowledge is better. Knowledge whose specifics can barely even be explained, is best. For an example of &ldquo;can barely be explained,&rdquo; step into your favourite debate about exactly what a Monad is and why it matters. I&rsquo;m not trying to pick on Monads, Haskell or Functional Programming &mdash; Object-Oriented Design has its Law of Demeter and SOLID principles, C++ has template code, Ruby has metaprogramming. We love our subtle arcane knowledge.</p>
+
+<p>This tends to favour academic knowledge over skills and practice. Demonstrating your mastery of a practical skill is harder, especially in the middle of an Internet flame war. Being able to <em>do</em> Object Oriented Design really well is only impressive if the other person&rsquo;s skill is close to your own &mdash; a rank novice may simply not understand that what you are doing is impressive. However, being able to parrot back all the SOLID principles and what they mean can be verified via Google, so the simple trick is better for posturing than the complex and well-developed mastery of a valuable skill.</p>
+
+<p>This bias also favours facts and trivia over tuning and improvement for the same reason. You can show that a particular piece of optimisation <em>works</em>, but you can&rsquo;t easily show <em>how difficult</em> it was to come up with. But an Internet game of Trivial Pursuit or Debate Team can make you look good, in a &ldquo;winning the pointless debate&rdquo; sort of way.</p>
+
+<p>The way developers keep score with trivia and challenges is a bit different from business folks, who keep score with money. And it&rsquo;s different from artists and designers, who <em>do</em> use practical skills for bragging via their portfolios. I&rsquo;m not sure what the equivalent for Operations folks is, though it might be war stories.</p>
+
+<h2>Developers Love Complexity</h2>
+
+<p>I&rsquo;ll wait a moment for all the Clojure developers to protest mightily before I continue. Take a breath! Okay, let&rsquo;s get started.</p>
+
+<p>Developers try to impress each other with complexity. Here&rsquo;s all the cool stuff this framework does for you automatically! Here&rsquo;s this powerful library and how many complicated things it can do! Here are all the options that are supported! Look at how well this programs handles scaling up to huge numbers of requests! Look at all the libraries that are integrated into this! Look, I used MongoDB and I can run this on ten hosts with automatic load-balancing!</p>
+
+<p>Even the kind of &ldquo;simplicity&rdquo; we favour tends to have many tons of freight of mental models. Pointfree style? Mathematical abstractions like Monads? Simple-looking code where the complexity is hidden by annotations or metaprogramming? In some sense, these are simple. In another, saner sense, they <em>really</em> aren&rsquo;t. &ldquo;Simple once you&rsquo;ve taken weeks or years to understand the model&rdquo; is different from the word &ldquo;simple&rdquo; as used in other professions. For what it&rsquo;s worth, a mathematician <em>might</em> agree with this definition of &ldquo;simple.&rdquo; But I suspect they&rsquo;d use the word &ldquo;elegant&rdquo; instead.</p>
+
+<p>Actual simplicity, where we actually avoid thorny problems, tends to be frowned on by programmers. This is a close relative of developers being in love with problems: avoiding problems when it isn&rsquo;t necessary to solve them is treated as cheating, even though it&rsquo;s a really good idea in most human activity. You&rsquo;ve probably heard <a href="https://www.scientificamerican.com/article/fact-or-fiction-nasa-spen/">the joke/story about Space Pens</a> &mdash; &ldquo;NASA spent $165 million developing a pressurised pen that could write in space; the Russians used a pencil.&rdquo; That punchline is exactly the kind of solution that software developers make fun of. We may occasionally use the &ldquo;simplicity is good&rdquo; argument to take down a blowhard colleague&rsquo;s bad solution. But a complicated, multi-part solution is generally treated as proof of intelligence and hard work.</p>
+
+<p>Conversely, somebody who tends to come back with genuinely simple solutions by finding a way to step around the complexity is often treated as cheating, or not trying, or not a &ldquo;real developer.&rdquo;</p>
+
+<p>This is another reason non-developers tend to see us as being obsessed with trivia and arcana. One of the easiest ways to add complexity is to tack on more extra bits of trivia and arcana. &ldquo;Look, I also made it read email!&rdquo;</p>
+
+<p>Here&rsquo;s an example of a developer (Sandi Metz) <a href="https://us3.campaign-archive.com/?u=1090565ccff48ac602d0a84b4&amp;id=24e2bac263">swimming against the current</a> of this heading. When she presents a very simple solution that turns something hard into something easy, she finds that nobody else tried that. &ldquo;Why did this occur to me and not to others?&rdquo; she asks. Because a solution like that (decompose the problem into two simpler steps, run them consecutively) is often a solution where we look for excuses to disqualify it - &ldquo;oh, but that&rsquo;s less efficient&rdquo; (there&rsquo;s that word again.)</p>
+
+<h2>Developers are Highly Specialised and Believe Things They Don&rsquo;t Understand Are Easy</h2>
+
+<p>Most people believe that what they don&rsquo;t know is either trivial (&ldquo;why don&rsquo;t you just&hellip;?&rdquo;) or impossible (&ldquo;oh, I could never learn to paint like that!&rdquo;) That&rsquo;s not particularly specific to developers, but developers are people, and mostly they share this very normal, very human trait.</p>
+
+<p>And in fact, while those sound like opposites (trivial vs impossible,) in some sense they&rsquo;re the same thing. &ldquo;Oh, <em>you</em> can paint like that because you&rsquo;re a natural artist&rdquo; is often the implication &mdash; it may be impossible for me, but it&rsquo;s trivial for you. That&rsquo;s why people don&rsquo;t like the common answer from artists (&ldquo;it just takes <em>lots</em> of practice.&rdquo;) That answer would turn it into a skill which other people <em>could</em> have, but it would take a lot of work, and the artist <em>does</em> have, but only because of a lot of work.</p>
+
+<p>Neither the trivial and the impossible demand your respect. A skill that is merely very difficult and very expensive <em>does</em> demand respect. So &ldquo;trivial&rdquo; and &ldquo;impossible&rdquo; are both convenient and very human ways to trivialise others&rsquo; accomplishments.</p>
+
+<p>This is, again, not specific to developers.</p>
+
+<p>Here&rsquo;s the part that&rsquo;s more specific: developers tend to be highly specialised. Our skills tend to require a lot of time to learn, and we tend to learn a lot of different computer skills - multiple programming languages, multiple libraries, at least one operating system and so on. We are often computer hobbyists as well as computer professionals.</p>
+
+<p>There&rsquo;s a strong tendency for &ldquo;computer stuff&rdquo; collectively to eat up a big chunk of our lives.</p>
+
+<p>That means there are more normal human skills that we don&rsquo;t put a lot of time or thought into, and which we therefore assume are either trivial or impossible.</p>
+
+<p>If you can cook a bit, you tend to respect an excellent cook and understand the effort they put into becoming one. If you play tennis, you tend to respect an excellent tennis player.</p>
+
+<p>Developers have a strong tendency to ignore random non-computer skills and hobbies in favor of computer skills and hobbies&hellip; Which leaves them less respectful, as a group, of skills like knitting and golfing that have no computer component, and which aren&rsquo;t frequently practiced by developers.</p>
+
+<p>https://imgs.xkcd.com/comics/physicists.png</p>
+
+<p>This is also the origin of &ldquo;but that sounds easy, why don&rsquo;t you just&hellip;?&rdquo; as a response to other major fields of study (TODO: LINK TO XKCD ABOUT PHYSICS)</p>
+
+<p>This is an interesting one to contrast, because artists sometimes have the same problem. They&rsquo;re consumed in their own skills and may not have a lot of interest or respect outside that world &mdash; not always, just like developers, but frequently, just like developers. By contrast, Operations folks often have background with more &ldquo;random&rdquo; skills, and businesspeople almost always require a huge range of skills in small amounts. A businessperson may or may not respect skills that don&rsquo;t make money, depending. But they tend to understand that developing those skills is difficult and takes work.</p>
+
+<h2>Developers Want There to be a Right Answer</h2>
+
+<p>One major difference between junior and senior developers is that good senior developers have slowly become bitterly resigned to the idea that everything is a tradeoff. Every tool, every techique is good for some things and bad for others. At best, a particular tool or technique may be clearly the right one for the job you&rsquo;re doing. And even that becomes more dubious as they gain experience.</p>
+
+<p>Charity Majors recently talked about getting the &ldquo;sadder but wiser&rdquo; perspective of a senior developer. Yeah, that. (TODO: LINK TO IT)</p>
+
+<p>Why is it so hard for us to do that? Because we want there to be a right answer. We want there to be a &ldquo;best.&rdquo; We&rsquo;ll defend our programming language, our text editor, our libraries as the best against all others because we really, really want there to <em>be</em> a best, not just an unlimited number of different &ldquo;maybe best for this specific situation&rdquo; tradeoffs.</p>
+
+<p>If there is a best, our job is, perhaps, simple. We can use the best thing. If there is nothing but ten thousand subtle tradeoffs then we&rsquo;re responsible for somehow navigating that huge and horrible mess for every project. Junior developers seem to find this reality too harsh to face, while senior developers seem to grudgingly work around it while trying not to look directly at it.</p>
+
+<p>We all have our cross to bear.</p>
+
+<p>Computers are highly deterministic. When we give them instructions, they have a very strong tendency to do the same thing in response, over and over. This is especially true when things are working well, and for beginner tools. As a result, people who find this enjoyable and comforting are especially likely to become developers.</p>
+
+<p>And then, as it turns out, they step into a field with no right answers, only tradeoffs as far as the eye can see.</p>
+
+<p>How can you not sympathise?</p>
+
+<p>Worse, the farther they advance in their discipline, the more their job is dealing with humans instead of computers. The world is not a fair place, for developers or anybody else.</p>
+
+<p>But at heart, we really <em>want</em> there to be right answers. We really <em>wish</em> there were right answers. We argue vehemently that <strong>just in this one specific case</strong> there are totally right answers and if you don&rsquo;t see that, you&rsquo;re a fool.</p>
+
+<p>We&rsquo;re unquellably optimistic at heart, is what I&rsquo;m saying.</p>
+
+<p>As a side effect of this, we really love getting a gold star. Those same early-career tools that give simple, repeatable responses? We became developers partly because we <em>love</em> the puzzle of getting them to do what we want. And after trying hard for awhile, we get it right. And the computer &mdash; our tool, our authority, the judge of whether we did it right &mdash; gives us a gold star. It does the thing we wanted it to do.</p>
+
+<p>Programmers <em>like</em> right answers, and <em>like</em> gold stars. The early part of our career arc almost requires it.</p>
+
+<p>And then we step out into the muddy world of human needs and unreliable systems and jobs, where nothing is clearly exactly right or wrong.</p>
+
+<p>There&rsquo;s no justice in this world. Unless it&rsquo;s some kind of poetic justice, and I don&rsquo;t want to think too hard about that one.</p>
+
+<p>What superpower does this give us? It keeps us <em>looking</em> for that right answer, long past when a saner person would give up.</p>
+
+<p>What&rsquo;s the contrast here? Well, artists are often working for their own gratification. If they draw a thing and they like what they drew, they give <em>themselves</em> a gold star. That&rsquo;s probably healthier, honestly. And they tend not to believe in specific right answers, since more of their discipline is based on being different and creative. Excellent small-company business folks do neither one, in favor of satisficing (doing 80% of each thing so that everything is adequate and little is excellent.) That means <em>their</em> superpower is being able to juggle far, far too many activities at once. And while Operations get a different set of powers - the power of &ldquo;good enough,&rdquo; where they can do most of a thing and then stop, which is very powerful. And the power of tuning and tweaking, where they don&rsquo;t believe a system can <em>ever</em> be fully good enough, but they&rsquo;re often happy to stop working on it when something else comes up.</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2019-11-20">Nov 20 2019</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/favourite/'>favourite</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/water-we-swim-in-software-developer-mindset';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/water-we-swim-in-software-developer-mindset';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/how-to-commit-to-mastery/">How to Commit to Mastery</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                        <a href="/posts/how-to-commit-to-mastery/" class="post-thumbnail">
+                            <img src="/img/StudyOnFloor_aside.png" width="216" height="162" alt="How to Commit to Mastery" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/a-simple-coding-exercise/">A Simple Coding Study</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/codingstudy/'>codingstudy</a>
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/encourage-a-blogging-culture-at-your-company/">How to Encourage a Blogging Culture at your Company</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/career/'>career</a>
+                        </p>
+                    </header>
+                        <a href="/posts/encourage-a-blogging-culture-at-your-company/" class="post-thumbnail">
+                            <img src="/img/GetBetterFaster_aside.png" width="216" height="162" alt="How to Encourage a Blogging Culture at your Company" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/wait-let-me-explain-my-theory-what-steve-martin-taught-me/">Wait, Let Me Explain My Theory! What Steve Martin Taught Me About Writing Software</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                        </p>
+                    </header>
+                        <a href="/posts/wait-let-me-explain-my-theory-what-steve-martin-taught-me/" class="post-thumbnail">
+                            <img src="/img/fib_n_aside.png" width="216" height="162" alt="Wait, Let Me Explain My Theory! What Steve Martin Taught Me About Writing Software" />
+                    </a>
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

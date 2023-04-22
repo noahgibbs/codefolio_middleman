@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Let's Build Course Software: Real Teaching and File-Based Models</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/series-build-coding-course-real-teaching/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">Let's Build Course Software: Real Teaching and File-Based Models</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/RadioRepair_aside_216_162.png" class="d-none d-md-block" alt="A chalk figure kneeling to repair (possibly) a radio." width='216' height='162' title='How Hard Can it Be?' />
+    </div>
+
+      <figcaption class="caption-text">
+        How Hard Can it Be?
+        
+        
+      </figcaption>
+</figure>
+
+                <p>In <a href="/tags/rubymadscience">this series</a> I&rsquo;m building courseware (teaching software) to let folks go through lessons in a better way than the simple email classes I use now. Last week we figured out how to track progress for a user in a topic using an AJAX call hooked up to a button and selector in the browser. It looks okay.</p>
+
+<p>And I realised that the topics being taught probably <strong><em>don&rsquo;t</em></strong> belong as database rows. Using a file is solidly superior. And syncing a file into a database row is needless complexity.</p>
+
+<p>So let&rsquo;s look at how to use file-based models to do this. It turns out to be basically the right solution to this problem, it&rsquo;s underused, and as a topic it matches a chapter from <a href="https://rebuilding-rails.com">my Rails book</a>. Perfect.</p>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-real-teaching&#x2F;rms_step_list.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-real-teaching&#x2F;rms_step_list.png" class="img-frame" alt="A picture of a few steps in a single topic."   title="Here&#x27;s how far we got up to now." />
+    </a>
+        <figcaption class="caption-text">Here&rsquo;s how far we got up to now.</figcaption> 
+</figure>
+
+<p>It&rsquo;s possible to use <a href="https://guides.rubyonrails.org/active_model_basics.html">ActiveModel</a> to get &lsquo;normal&rsquo; Rails model functionality in somethat that isn&rsquo;t a database class. ActiveModel provides callbacks, lets you inflect names to make them singular or plural, allows ActiveRecord-style validations and many other things. It doesn&rsquo;t do anything I really want for this case, though, so I&rsquo;m skipping it for now. It would be easy enough to add later if I want it.</p>
+
+<h2>Replacing ActiveRecord with Structs</h2>
+
+<p>Most of switching from ActiveRecord to Plain Old Ruby Objects (POROs) is easy enough. Parsing JSON is trivial. Having a topic contain a &ldquo;steps&rdquo; field is easy. I can manually check the JSON&rsquo;s structure easily. I could even use a heavyweight schema validator if I needed something complicated. I don&rsquo;t think I do, though.</p>
+
+<p>One minor difficulty is that I&rsquo;d like to keep saying &ldquo;step.desc&rdquo; rather than &ldquo;step[:desc]&rdquo;. For that, Ruby Structs are a good simple solution. It turns out <a href="https://www.honeybadger.io/blog/how-openstruct-and-hashes-can-kill-performance/">some variations like OpenStruct are quite slow</a>, but I just need plain old Struct for what I&rsquo;m doing.</p>
+
+<p>One thing databases do well is synthetic IDs. When you put information into a database row, you normally tag it with a simple, unique, easy-to-check integer primary ID. You can refer to that information with that ID from then on. In my JSON files I don&rsquo;t get that automatically.</p>
+
+<p>The reason synthetic IDs matter is because I&rsquo;m already using the Step IDs to <a href="http://codefol.io/posts/series-build-coding-course-tracking-progress/">track what user has completed a particular step</a>. Instead of trying to mimic what databases do with globally-unique incrementing integers, I&rsquo;m going to change the completion&rsquo;s step ID to a string, which will be easier for me to track in JSON files.</p>
+
+<p>Another thing databases do well is live data loading. I don&rsquo;t need to do as well as databases for this - for v1 I should either load every time, or load once on startup. Having to restart the server to update topics will eventually be a hardship, but I&rsquo;m nowhere near that yet. And file modification dates mean that it&rsquo;s not hard to build live reloading with files either.</p>
+
+<p>And finally, Rails tracks timestamps (created<em>at and updated</em>at) automatically for DB rows. For a file I have to do that myself. It&rsquo;s not hard. Files have creation and modification timestamps too.</p>
+
+<p>I&rsquo;ve written up <a href="https://github.com/noahgibbs/rubymadscience/commit/b8504baa44b86d446cbc36768eced3d4153b5dc2">three topics as JSON with real blog posts and videos</a>. That gives me a nice place to start. Here&rsquo;s an excerpt:</p>
+<div class="highlight"><pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Coding Studies"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"desc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This topic is about coding studies: a specific coding practice exercise. First you'll learn how to do them, then see some coding studies in action."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"thumbnail_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/img/rms_thumb_flask.png"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"related"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"software_practice"</span><span class="p">],</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Conscious Coding Practice: the Three Concrete Steps"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rubyconf-conscious-coding-practice"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"video"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"desc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Coding studies are a specific coding practice exercise, stolen from a profession with a lot more teaching experience than we have. This forty-minute video tells you the what, why and how."</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"video"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"youtube"</span><span class="p">:</span><span class="w"> </span><span class="s2">"33fAzjOTaDE"</span><span class="w"> </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A Simple Coding Study: Ivy on a Windowsill"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://codefol.io/posts/a-simple-coding-exercise/"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a-simple-coding-exercise"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"blog"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"desc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Here's a simple example of how to look at something in the real-world, like an artist, and mimic the interesting features to get better at coding."</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Since some of this is text and some video, I&rsquo;ve started using a &ldquo;type&rdquo; for each step, which can be &ldquo;blog&rdquo;, &ldquo;video&rdquo; or &ldquo;blog<em>and</em>video&rdquo;.</p>
+
+<h2>Schema, Schema, Schema</h2>
+
+<p>I can do a rough-and-ready conversion of the Topic class from database models to file models and things should mostly still display well. So let&rsquo;s do that.</p>
+
+<p>While I could use the Struct class directly like an ActiveRecord type, I&rsquo;m a little leery of that. I have constants that need to be declared before I can create the struct type, for instance, and a combination of methods on instances and methods on the class itself. I decide to just create a Topic type that includes a wrapped TopicStruct type and StepStruct type. <a href="#">You can see the full diff here</a>, but here&rsquo;s the relevant excerpt:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Topic</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">all</span>
+        <span class="n">root_path</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="no">TOPIC_ROOT</span><span class="p">,</span> <span class="s2">"*.json"</span><span class="p">)</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="no">Dir</span><span class="p">[</span><span class="n">root_path</span><span class="p">].</span><span class="nf">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">topic_file</span><span class="o">|</span>
+            <span class="n">load_topic_from_json</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">topic_file</span><span class="p">),</span> <span class="ss">created: </span><span class="no">File</span><span class="p">.</span><span class="nf">ctime</span><span class="p">(</span><span class="n">topic_file</span><span class="p">),</span> <span class="ss">updated: </span><span class="no">File</span><span class="p">.</span><span class="nf">mtime</span><span class="p">(</span><span class="n">topic_file</span><span class="p">),</span> <span class="ss">id: </span><span class="no">File</span><span class="p">.</span><span class="nf">basename</span><span class="p">(</span><span class="n">topic_file</span><span class="p">,</span> <span class="s2">".json"</span><span class="p">))</span>
+        <span class="k">end</span>
+        <span class="n">objs</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">topic_id</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="no">TOPIC_ROOT</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">topic_id</span><span class="p">.</span><span class="nf">downcase</span><span class="si">}</span><span class="s2">.json"</span><span class="p">)</span>
+        <span class="n">load_topic_from_json</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="ss">created: </span><span class="no">File</span><span class="p">.</span><span class="nf">ctime</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="ss">updated: </span><span class="no">File</span><span class="p">.</span><span class="nf">mtime</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="ss">id: </span><span class="n">topic_id</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">load_topic_from_json</span><span class="p">(</span><span class="n">json_string_data</span><span class="p">,</span> <span class="n">created</span><span class="p">:,</span> <span class="n">updated</span><span class="p">:,</span> <span class="nb">id</span><span class="p">:)</span>
+        <span class="n">raw_objs</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">json_string_data</span><span class="p">)</span>
+        <span class="n">illegal_keys</span> <span class="o">=</span> <span class="n">raw_objs</span><span class="p">.</span><span class="nf">keys</span> <span class="o">-</span> <span class="no">TOPIC_KEYS</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">)</span>
+        <span class="k">raise</span><span class="p">(</span><span class="s2">"Illegal keys in topic: </span><span class="si">#{</span><span class="n">illegal_keys</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span> <span class="k">unless</span> <span class="n">illegal_keys</span><span class="p">.</span><span class="nf">empty?</span>
+
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">raw_objs</span><span class="p">[</span><span class="s2">"steps"</span><span class="p">].</span><span class="nf">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">step_objs</span><span class="o">|</span>
+            <span class="k">unless</span> <span class="no">STEP_TYPES</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_s</span><span class="p">).</span><span class="nf">include?</span><span class="p">(</span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"type"</span><span class="p">])</span>
+                <span class="k">raise</span><span class="p">(</span><span class="s2">"Illegal type </span><span class="si">#{</span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"type"</span><span class="p">].</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> for step object!"</span><span class="p">)</span>
+            <span class="k">end</span>
+            <span class="no">StepStruct</span><span class="p">.</span><span class="nf">new</span> <span class="ss">name: </span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+                <span class="ss">desc: </span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"desc"</span><span class="p">],</span>
+                <span class="ss">url: </span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"url"</span><span class="p">],</span>
+                <span class="ss">id: </span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+                <span class="ss">type: </span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"type"</span><span class="p">],</span>
+                <span class="ss">data: </span><span class="n">step_objs</span><span class="p">[</span><span class="s2">"data"</span><span class="p">]</span>
+        <span class="k">end</span>
+
+        <span class="no">TopicStruct</span><span class="p">.</span><span class="nf">new</span> <span class="ss">name: </span><span class="n">raw_objs</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
+            <span class="ss">desc: </span><span class="n">raw_objs</span><span class="p">[</span><span class="s2">"desc"</span><span class="p">],</span>
+            <span class="ss">thumbnail_url: </span><span class="n">raw_objs</span><span class="p">[</span><span class="s2">"thumbnail_url"</span><span class="p">],</span>
+            <span class="ss">data: </span><span class="n">raw_objs</span><span class="p">[</span><span class="s2">"data"</span><span class="p">],</span>
+            <span class="ss">steps: </span><span class="n">steps</span><span class="p">,</span>
+            <span class="ss">id: </span><span class="nb">id</span><span class="p">,</span>
+            <span class="ss">created_at: </span><span class="n">created</span><span class="p">,</span>
+            <span class="ss">updated_at: </span><span class="n">updated</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>That&rsquo;s not terrible. A bit verbose, but not complicated. We also need to drop the Steps and Topics tables and change the UserStepItem to use a string for the step ID. And we prepend the Topic ID to the step ID so we don&rsquo;t have to make them globally unique. But it turns out the JavaScript we wrote already treats the step ID as an opaque string (<strong><em>nearly</em></strong> - and it&rsquo;s an easy fix), so <a href="#">the whole change isn&rsquo;t <strong><em>too</em></strong> bad</a>.</p>
+
+<p>It&rsquo;s reminding me that this is big and sprawling enough to need tests again, though. Some of the things I&rsquo;m seeing are hard to test, but many aren&rsquo;t too bad and I should be testing them.</p>
+
+<h2>Showing the Steps</h2>
+
+<p>Currently we&rsquo;re not displaying some of the nice useful data in the JSON file. We&rsquo;re not showing videos at all, for instance. Let&rsquo;s show off some of that writing.</p>
+
+<p>That brings us to the question, &ldquo;how will I turn that freeform JSON field into interesting HTML that a learner can interact with?&rdquo;</p>
+
+<p>It&rsquo;s generating HTML, which suggests <strong><em>not</em></strong> using model or controller code for it. But it&rsquo;s deeply entwined with the business logic in the model. What&rsquo;s the answer here?</p>
+
+<p>One possible answer is &ldquo;helper.&rdquo; Another is something more exotic like a decorator or presenter &mdash; something that does nontrivial logic to turn model-specific data into presentation to the user. Those are mostly the same answer, in that a decorator or a presenter is basically a helper method that has grown large enough (and/or has enough internal state) to merit its own object.</p>
+
+<p>In fact, I had just about convinced myself that I should write a complex presenter/decorator type and instance and dispatch on it&hellip; when I looked at the code and thought, &ldquo;this could also be three partials, and another partial that dispatches to one of them based on the type field.&rdquo;</p>
+
+<p>Sigh. Being a responsible adult engineer sucks, as the Foglios remind us frequently:</p>
+
+<figure class="">
+    <a  href='&#x2F;posts&#x2F;series-build-coding-course-real-teaching&#x2F;taken_the_joy_out_of_it.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-real-teaching&#x2F;taken_the_joy_out_of_it.png" class="img-frame" alt="Three mad scientists ponder how to drop somebody down a hole until a fellow with common sense spoils all their planning with an actual good idea."    />
+    </a>
+</figure>
+
+<p>I feel like these guys would make good software developers.</p>
+
+<p>So, those partials. I figure it makes sense to have a top-level &lsquo;master&rsquo; partial dispatching to three (for now) others. Simple enough:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># topic.rb</span>
+<span class="no">PARTIAL_BY_TYPE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"blog"</span> <span class="o">=&gt;</span> <span class="s2">"step_blog"</span><span class="p">,</span>
+    <span class="s2">"video"</span> <span class="o">=&gt;</span> <span class="s2">"step_video"</span><span class="p">,</span>
+    <span class="s2">"blog_and_video"</span> <span class="o">=&gt;</span> <span class="s2">"step_blog_and_video"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="sr">//</span> <span class="n">topics</span><span class="o">/</span><span class="n">_step</span><span class="p">.</span><span class="nf">html</span><span class="p">.</span><span class="nf">erb</span>
+<span class="o">&lt;</span><span class="sx">% partial_name </span><span class="o">=</span> <span class="no">Topic</span><span class="o">::</span><span class="no">PARTIAL_BY_TYPE</span><span class="p">[</span><span class="n">step</span><span class="p">.</span><span class="nf">type</span><span class="p">]</span> <span class="o">%&gt;</span>
+
+<span class="o">&lt;</span><span class="sx">%= render "topics/#{partial_name}", step: step %&gt;
+
+// topics/_step_blog_and_video.html.erb
+&lt;h3&gt;&lt;%=</span> <span class="n">step</span><span class="p">.</span><span class="nf">name</span> <span class="sx">%&gt;&lt;/h3&gt;</span>
+
+<span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;&lt;</span><span class="sx">%= step.desc.html_safe %&gt;&lt;/p&gt;
+
+&lt;iframe width=</span><span class="s2">"560"</span> <span class="n">height</span><span class="o">=</span><span class="s2">"315"</span> <span class="n">src</span><span class="o">=</span><span class="s2">"https://www.youtube.com/embed/&lt;%= step.data["</span><span class="n">video</span><span class="s2">"]["</span><span class="n">youtube</span><span class="s2">"] %&gt;"</span> <span class="n">frameborder</span><span class="o">=</span><span class="s2">"0"</span> <span class="n">allow</span><span class="o">=</span><span class="s2">"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"</span> <span class="n">allowfullscreen</span><span class="o">&gt;&lt;</span><span class="sr">/iframe&gt;
+
+&lt;p&gt;
+    &lt;a href="&lt;%= step.url %&gt;" target="_blank"&gt;🔗 Open Blog Post in New Tab 🔗&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="sr">/p&gt;
+</span></code></pre></div>
+<p>This isn&rsquo;t perfect visually, but it&rsquo;s doing the right thing - showing a different layout for the different types, using a different partial for each. And I&rsquo;d rather edit a partial full of markup than Ruby code generating that markup any day of the week. This is much simpler than using decorators, and easier to modify.</p>
+
+<p>You can also see the <a href="https://github.com/noahgibbs/rubymadscience/commit/4fa9f35f6a24ef90a3b3f9a663a022c7ae63f030">full commit on GitHub</a> as usual.</p>
+
+<p>Here&rsquo;s what it looks like:</p>
+
+<figure class="">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-real-teaching&#x2F;rms_with_videos.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-real-teaching&#x2F;rms_with_videos.png" class="img-frame" alt="Multiple steps shown, including two with videos."    />
+    </a>
+</figure>
+
+<h2>Moving Right Along&hellip;</h2>
+
+<p>I&rsquo;m really happy with how this looks. I have three real topics there and it&rsquo;s not too painful to write new ones &mdash; much better than calling Step.create manually in the Rails console!</p>
+
+<p>There&rsquo;s really only one piece of functionality left before I can let people use this: email reminders! I&rsquo;m kind of dreading them, honestly, but I think they&rsquo;re really important. That&rsquo;s the kind of thing I <strong><em>often</em></strong> dread.</p>
+
+<p>Want to see more about Ruby Mad Science as it happens? You can check <a href="/tags/rubymadscience">the rubymadscience tag on this blog</a>, including not-yet-published ones. There’s also an RSS feed of posts at the top, or you can subscribe to my email list below. I’ll definitely email the list with these posts.</p>
+
+<p>Or if you’ve bought one of my books, you get to read and discuss blog posts early with my readers as I finish them, in the #prerelease-blog-posts channel of the customer Slack.</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2020-06-26">Jun 26 2020</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/ruby/'>ruby</a>
+                        <a href='/tags/rails/'>rails</a>
+                        <a href='/tags/letsbuild/'>letsbuild</a>
+                        <a href='/tags/rubymadscience/'>rubymadscience</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/series-build-coding-course-real-teaching';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/series-build-coding-course-real-teaching';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-deployment/">Let's Build Course Software: Deployment</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-deployment/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Let's Build Course Software: Deployment" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-tracking-progress/">Let's Build Course Software: Tracking Progress</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-tracking-progress/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="Let's Build Course Software: Tracking Progress" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/coding-study-video-ascii-art-faces/">Coding Study Video: ASCII Art Faces</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/codingstudy/'>codingstudy</a>
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/video/'>video</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

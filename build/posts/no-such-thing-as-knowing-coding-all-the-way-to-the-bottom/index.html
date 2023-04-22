@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>There's No Such Thing as Knowing Your Computer 'All the Way to the Bottom'</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">There's No Such Thing as Knowing Your Computer 'All the Way to the Bottom'</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/OldComputer_aside_216_162.png" class="d-none d-md-block" alt="An ancient computer, possibly some kind of Apple II" width='216' height='162' title='A first computer is like a first love &amp;mdash; the wrong one will really screw you up, especially if you&#x27;re convinced it was the right one.' />
+    </div>
+
+      <figcaption class="caption-text">
+        A first computer is like a first love &mdash; the wrong one will really screw you up, especially if you're convinced it was the right one.
+        
+        
+      </figcaption>
+</figure>
+
+                <p>(You can see the <a href="https://www.youtube.com/watch?v=XIzw4zQPbcY">five-minute video version of this post on YouTube.</a>)</p>
+
+<p>I&rsquo;m an old-school programmer. I&rsquo;ve been doing this for 30 years. I worked for over a decade in C and C++, often on operating systems and device drivers.</p>
+
+<p>If you ask, &ldquo;how do I get better at programming,&rdquo; I&rsquo;m <em>supposed</em> to tell you:</p>
+
+<ul>
+<li>you should learn C (or C++ or assembly) &mdash; a language that works like the computer hardware does</li>
+<li>you should write code that directly messes with the hardware, preferably an operating system</li>
+<li>you need to learn the highest-performance languages because otherwise what will you do if your code is too slow?</li>
+</ul>
+
+<p><strong>These are all terrible advice.</strong></p>
+
+<p>And they&rsquo;re all variations on a different, wrong idea: that you should learn about computers and software past all the abstractions, &ldquo;all the way to the bottom.&rdquo;</p>
+
+<p>That&rsquo;s also terrible advice. Let me tell you why.</p>
+
+<p></p>
+
+<h2>Why You Shouldn&rsquo;t Learn C Early</h2>
+
+<p>First of all, C is a language that works like <strong>old computers used to</strong>, not a language that works like modern computers do. You can get the long version in the (excellent) ACM article <a href="https://queue.acm.org/detail.cfm?id=3212479">&ldquo;C is Not a Low-Level Language&rdquo;</a>, but processors no longer look like C. The C language is older than threads. It&rsquo;s so old it has no real recognition of concurrency. In fact, it&rsquo;s actively hostile to most concurrency and optimises it very poorly. That&rsquo;s a problem. Around 2010 we suddenly stopped being able to ignore multiple processors&hellip; But C was close to forty years old at that point, and wasn&rsquo;t going to make a drastic change at that age.</p>
+
+<figure class="aside-left">
+    <div  >
+      <img src="/img/FingertipFeel_aside_216_162.png" class="d-none d-md-block" alt="A hand drawn in chalk balances a pencil, a teapot and an umbrella on one outstretched finger." width='216' height='162' title='It can be hard keeping a whole stack of pointers in the air in C...' />
+    </div>
+
+      <figcaption class="caption-text">
+        It can be hard keeping a whole stack of pointers in the air in C&hellip;
+        
+        
+      </figcaption>
+</figure>
+
+<p>There&rsquo;s another reason they tell you to learn C: so that you can use a language which, being similar to your processor, is easy to optimise to be extremely fast. That stops being true as soon as you look at processor features like concurrency and <a href="https://en.wikipedia.org/wiki/SIMD">vectorisation, or SIMD (doing the same operation on big lists of numbers all at once.)</a> Those two things are, by the way, the essence of optimising a modern processor. C also makes it hard to deal with <a href="https://www.usenix.org/legacy/publications/library/proceedings/als00/2000papers/papers/full_papers/sears/sears_html/index.html">cache line alignment</a>, and its use of <a href="https://en.wikipedia.org/wiki/Pointer_aliasing">pointer aliasing</a> means it can&rsquo;t assume a thing it wrote to memory is still there&hellip; Basically, C was an excellent education in how the PDP-11 computer worked in 1972, but a lot has changed since then.</p>
+
+<p>(C <em>culture</em>, by the way, is highly concerned with optimisation. Talking to C programmers can be a great way to learn optimisation. And they are mostly working around a language that no longer supports them well in this activity. They&rsquo;re frequently stuck with <a href="https://users.ece.cmu.edu/~franzf/teaching/slides-18-645-simd.pdf">assembly language</a>, <a href="https://ermig1979.github.io/Simd/index.html">external libraries</a>, and <a href="http://www.cs.uu.nl/docs/vakken/magr/2017-2018/files/SIMD%20Tutorial.pdf">carefully tickling one specific compiler in the right way to emit the right code</a>. It is the <em>language</em> that is teaching the wrong lessons &mdash; the <em>developers</em> are mostly conscientious and excellent, and it&rsquo;s a shame they have no better tool for modern processors.)</p>
+
+<p>I love C. It was the first language I really fell in love with, and I look for chances to use it when it&rsquo;s appropriate. Those chances are now rare. How often are we writing device drivers or operating systems these days? <strong><em>Not very often</em></strong>. More on that in a moment.</p>
+
+<p>C <em>will</em> teach you a number of potentially-interesting things about low-level programming, even if some of them are now misleading. And if you don&rsquo;t have a specific use for them, you can skip them.</p>
+
+<h2>You Shouldn&rsquo;t Write Hardware-Level Code, Especially an Operating System</h2>
+
+<p>I cut my teeth on <a href="https://en.wikipedia.org/wiki/Apple_IIe">Apple IIe</a> code. Back then there was a lot more (what we&rsquo;d now call) systems-level code. I didn&rsquo;t write an OS for the Apple, but I wrote or worked on OSes for <a href="https://en.wikipedia.org/wiki/DECstation">DECstations</a>, Intel PCs, <a href="https://en.wikipedia.org/wiki/Freescale_DragonBall">Motorola Dragonball</a> and <a href="https://en.wikipedia.org/wiki/ARM_architecture">embedded ARM processors</a> &mdash; the last two for money, the first two for education. I technically also wrote some Linux-based OS code on a few other processors while writing device drivers, but who&rsquo;s counting?</p>
+
+<p>So if I wrote that much OS code, why don&rsquo;t I tell you to?</p>
+
+<p>I tell you to pick something different <em>because</em> I wrote that much OS code.</p>
+
+<p>If you specifically want to know OS coding for some reason, sure, go do it. Have fun with it as an eccentric side project.</p>
+
+<p>But most people tell you to write an OS so that you &ldquo;understand how your computer really works.&rdquo; <a href="https://www.merriam-webster.com/dictionary/balderdash">Balderdash</a>, friends. Balderdash.</p>
+
+<figure class="aside-right">
+    <div  >
+      <img src="/img/GetBetterFaster_aside_216_162.png" class="d-none d-md-block" alt="A stick figure types at a keyboard as the sun goes up (or down) in the window behind." width='216' height='162' title='If you must spend your time studying, study the most valuable thing you can. You can never get your time back.' />
+    </div>
+
+      <figcaption class="caption-text">
+        If you must spend your time studying, study the most valuable thing you can. You can never get your time back.
+        
+        
+      </figcaption>
+</figure>
+
+<p>This is like recommending that you learn C. It will teach you how a computer <strong>used to work</strong>. You will learn a few interesting and useful tidbits like <a href="https://en.wikipedia.org/wiki/Virtual_memory">virtual memory</a>, which certainly <strong>are</strong> useful. Indeed, they are so useful that I recommend skimming the Wikipedia article and perhaps even reading a bit about them in a book of your choice. I do <em>not</em> recommend the multi-month undertaking of writing an OS to learn about virtual memory. It is a waste of your time, and it will only teach you how old primitive memory systems <em>used</em> to work, because you will not be implementing modern virtual memory, so you won&rsquo;t really understand it. I bring up virtual memory because nearly everything else you will learn from writing an OS is a <em>less</em> valuable use of your time.</p>
+
+<p>&ldquo;But you&rsquo;ll learn how a <a href="https://en.wikipedia.org/wiki/Scheduling_(computing)">scheduler</a> works.&rdquo; Nope. You&rsquo;ll learn how an old-style really simplified scheduler <em>used</em> to work. You will only learn about serious scheduler problems if you implement a variety of schedulers under a variety of workloads, using a variety of applications you will have to custom-develop for your operating system that nobody has ever used, or will ever use. It is <em>not</em> a good use of your time.</p>
+
+<p>I don&rsquo;t mean learning about schedulers is a bad use of your time &mdash; that can be quite valuable. But you know what will teach you much faster than writing an OS? Writing (just) a scheduler in a modern fast-to-write language and watching scheduler failure patterns (like <a href="https://en.wikipedia.org/wiki/Starvation_(computer_science)">starvation</a>) operate using more interesting data, where you don&rsquo;t have to debug <a href="https://en.wikipedia.org/wiki/Segmentation_fault">seg faults</a> constantly.</p>
+
+<p>In other words, writing your own operating system is no longer even the best way to <em>learn about your operating system</em>, let alone about the rest of your computer.</p>
+
+<p>I&rsquo;m pretty obviously a fan of understanding a system by rebuilding that system. <a href="https://rebuilding-rails.com">I wrote a book about it</a>. Writing a real, honest-to-<a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra</a> OS is not the way to learn quickly. My book is written in a nice high-level language (Ruby) where you can make mistakes rapidly and therefore learn rapidly. C is not that sort of language. I&rsquo;d listen to arguments that <a href="https://www.rust-lang.org/">Rust</a> might be, but I have doubts.</p>
+
+<p>&ldquo;But how will you ever learn about things an OS would teach you? How will you even <em>know</em> about schedulers and virtual memory?&rdquo; The folks telling you to write an OS are convinced these lessons apply elsewhere, and that OS-like situations will just happen organically. In cases where they&rsquo;re right, you&rsquo;ll learn from those organic situations. Where they were wrong, you&rsquo;ll skip learning something archaic and useless. There are many better uses of your time.</p>
+
+<h2>Don&rsquo;t Learn High-Performance Languages Without a Good Reason</h2>
+
+<p>The conventional wisdom is that you should know a very high-performance language, and learn it early, so that you have a fallback if you need your code to be faster.</p>
+
+<p>The same people telling you that will then tell you that you need to use it for nearly everything &ldquo;in case your program turns out to be too slow later.&rdquo;</p>
+
+<p>There are many, many things wrong with this argument.</p>
+
+<figure class="aside-left">
+    <div  >
+      <img src="/img/RadioRepair_aside_216_162.png" class="d-none d-md-block" alt="A chalk figure kneeling to repair (possibly) a radio." width='216' height='162' title='This is not the most efficient way to listen to a radio program. You only do it if you care about the project.' />
+    </div>
+
+      <figcaption class="caption-text">
+        This is not the most efficient way to listen to a radio program. You only do it if you care about the project.
+        
+        
+      </figcaption>
+</figure>
+
+<p>Let&rsquo;s start with my favourite: a CPU-efficient language being &ldquo;faster&rdquo; starts by assuming that your problem is CPU time. But your actual problem is often memory, or network round-trips, or something else that has nothing to do with your CPU. I frequently spend my time on web programming, where network round trips trump CPU time every day of the week. A Ruby program (though not necessarily Rails) is normally much more memory-efficient than Java for the same purpose, and frequently more memory-efficient than the C you&rsquo;d write in practice. In general, an interpreted language can be surprisingly memory-efficient even while burning more CPU cycles. Which one is more valuable depends on your constraints.</p>
+
+<p>So having to write <strong>all</strong> your code in C or Java to save CPU is, as a rule, extremely foolish.</p>
+
+<p>But the problem goes deeper than that.</p>
+
+<p>Higher-level languages (I&rsquo;m thinking of something like Python or Ruby here) will generally have better tools for finding the slow spots. <a href="https://en.wikipedia.org/wiki/Profiling_(computer_programming)">Profiling</a> tools tend to be more effective in higher-level languages, just in general. Which means CPU-efficient low-level languages are often hard to &ldquo;see into&rdquo; and wind up being <a href="https://writingexplained.org/idiom-dictionary/penny-wise-pound-foolish">penny-wise and pound-foolish</a> &mdash; C has less CPU overhead for a given algorithm, but it&rsquo;s harder to write in and so you tend to wind up with worse algorithms. In C especially, the right algorithm is often ugly and laborious to write and so there&rsquo;s a strong tendency to use something that can be written quickly &mdash; which can eliminate the whole benefit of C pretty rapidly. The argument against Java is the same, though less extreme because Java is a higher-level language than C. That is, it&rsquo;s both less efficient and easier to write in, both of which are the right choice in most cases; it&rsquo;s just that you can do even better than Java, and usually you should.</p>
+
+<p>The above argument <em>also</em> assumes that your code will wind up needing to be &ldquo;too fast for language X.&rdquo; That is far rarer than it sounds. It also assumes you can&rsquo;t convert <strong>just the most important sections</strong> to another language via <a href="https://en.wikipedia.org/wiki/Foreign_function_interface">foreign function interface</a> or a similar process, which you nearly always can.</p>
+
+<p>At heart, using a lower-level language &ldquo;just in case&rdquo; is a premature optimization &mdash; which has been referred to as <a href="https://stackify.com/premature-optimization-evil/">the root of all evil</a>. In general, you want to profile (measure speed) before you optimise (improve speed) because otherwise you&rsquo;re blindly doing extra work that is likely to be wasted.</p>
+
+<p>Using a more laborious language &ldquo;just in case&rdquo; is nearly the definition of premature optimisation.</p>
+
+<h2>All the Way to the Bottom</h2>
+
+<p>All three of these pieces of advice presume that there&rsquo;s value in learning things &ldquo;all the way down.&rdquo; Yes, yes, writing your web applications in C would be foolish in <em>time</em> terms, but surely there is virtue in doing <em>something</em>, doing <strong>anything</strong>, in a way where you fully understand everything your code is doing?</p>
+
+<p>And here, finally, is the piece of buried bullshit that is so far outside most modern programmers&rsquo; view that they don&rsquo;t understand how bad it is. <em>Here</em> is the problem underneath our problem.</p>
+
+<p>Sure, let&rsquo;s talk about that.</p>
+
+<p>I used the word &ldquo;virtue&rdquo; above very purposefully. Programmers like to think we&rsquo;re driven by logic and efficiency, but mostly we have all the same repressed issues as everybody else. How could it be otherwise? We&rsquo;re people.</p>
+
+<figure class="aside-right">
+    <div  >
+      <img src="/img/Superpowers_2_aside_216_162.png" class="d-none d-md-block" alt="Various possibly-heroes showing off silly but impressive tricks." width='216' height='162' title='Want to be a hero? Great. Focus on what you &lt;em&gt;actually&lt;&#x2F;em&gt; care about.' />
+    </div>
+
+      <figcaption class="caption-text">
+        Want to be a hero? Great. Focus on what you <em>actually</em> care about.
+        
+        
+      </figcaption>
+</figure>
+
+<p>When most people say &ldquo;all the way to the bottom,&rdquo; they mean that you should learn down to the level <strong>they got down to</strong>. If they learned C early on, they mean C. If they learned some assembly to do old pre-ubiquitous-graphics-hardware games, then they mean assembly. If a hardware designer is talking, they mean hardware. Note that it&rsquo;s a bit of a &ldquo;natural&rdquo; level thing &mdash; a systems programmer who did a little processor design probably still means assembly, even though they know perfectly well that there are more levels underneath and that they matter.</p>
+
+<p>Each of those is wrong. Let&rsquo;s talk about why.</p>
+
+<p>C doesn&rsquo;t work like modern hardware &mdash; no concurrency, no vectorisation, but also many other things simply aren&rsquo;t represented, such as the behavior of cache lines, which is also critical to modern optimisation. <a href="https://queue.acm.org/detail.cfm?id=3212479">That ACM article is, again, a good summary</a> and I won&rsquo;t repeat it here. So if learning C would teach you a solid understanding of the hardware it represents&hellip; then you shouldn&rsquo;t learn C, because what it teaches you is no longer accurate.</p>
+
+<p><a href="https://techterms.com/definition/assembly_language">Assembly language</a> is, by definition, close to the hardware &mdash; it&rsquo;s the second-lowest-level language of a given processor after actual <a href="https://en.wikipedia.org/wiki/Machine_code">machine code</a>, which is barely a language at all. However, assembly language on modern processors is barely optimisable by humans. The issues involved are very difficult, and processor companies long since switched to designing their machine code to be written by <a href="https://en.wikipedia.org/wiki/Compiler">compilers</a>, not humans. So if you&rsquo;re learning assembly, it shouldn&rsquo;t be to learn about performance, because assembly mostly won&rsquo;t teach you that. You could learn about compilers &mdash; they would teach you more about performance. Compilers aren&rsquo;t written in assembly, though. Essentially every compiler-design class uses very high-level languages, and has at least since I was in university in the mid-1990s.</p>
+
+<p>You could instead learn assembly because you want to understand &ldquo;everything&rdquo; about how your program works. I&rsquo;ve worked at Palm and at NVidia on experimental hardware with hardware bugs&hellip; So I&rsquo;ll tell you that assembly is <em>not</em> everything about how your program works. But it&rsquo;s worse than that. The <a href="https://en.wikipedia.org/wiki/Pentium_FDIV_bug">Pentium FDIV bug</a> was a reminder that, yes, hardware bugs happen on &lsquo;normal&rsquo; commodity hardware too&hellip;</p>
+
+<p>But it&rsquo;s not just hardware bugs. Some of a computer&rsquo;s behaviour is basically inaccessible to software. Whether you&rsquo;re looking at <a href="https://en.wikipedia.org/wiki/Memory_refresh">memory refresh</a> on computers with DRAM (yeah, I&rsquo;m old) or <a href="https://en.wikipedia.org/wiki/Interrupt#Hardware_interrupts">hardware interrupts</a>, at some level the computer is doing something you can&rsquo;t directly perceive or control with your software.</p>
+
+<p><strong>And it&rsquo;s even worse than that&hellip;</strong></p>
+
+<p>Down under the level of assembly language is the level of hardware design diagrams. And under those are transistors. And down under <strong>that</strong> is the level of magnetic currents and fluctuations. And if you go down much further we don&rsquo;t have language for the levels and the problems any more &mdash; my understanding bottoms out even before &ldquo;quantum physics&rdquo; &mdash; but <strong>even lower levels still exist</strong>.</p>
+
+<p>You cannot learn computers &ldquo;down to the bottom&quot; because there is no bottom. And you can&rsquo;t learn them &quot;just far enough that you fully understand them&rdquo; because there is not some fully understandable, predictable layer between <a href="https://devcenter.heroku.com/articles/deploying-nodejs">deploying your Node.js app to Heroku</a> and &ldquo;the bottom,&rdquo; which does not exist.</p>
+
+<p>You might think <a href="https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/">Joel&rsquo;s Law of Leaky Abstractions</a> means that you should go <em>underneath</em> all the leaky abstractions, and learn all the lowest levels that leak through. But unfortunately it&rsquo;s leaky abstractions all the way down to the lowest levels of human understanding.</p>
+
+<p>Where, then, do you expect to <strong>find</strong> this magical place with no further leaky abstractions? In practice, no such place exists.</p>
+
+<h2>But What Do We Do Instead?</h2>
+
+<figure class="aside-right">
+    <div  >
+      <img src="/img/SuperPrincess_aside_162_216.png" class="d-none d-md-block" alt="A teddy bear, drawn in chalk and dressed in a t-shirt and jeans." width='162' height='216' title='I hang out with my bear. And my kids. It&#x27;s not everybody&#x27;s thing, but it works for me.' />
+    </div>
+
+      <figcaption class="caption-text">
+        I hang out with my bear. And my kids. It&rsquo;s not everybody&rsquo;s thing, but it works for me.
+        
+        
+      </figcaption>
+</figure>
+
+<p>It&rsquo;s easy for me to be a <a href="https://www.merriam-webster.com/dictionary/curmudgeon">curmudgeonly</a> <a href="https://www.merriam-webster.com/dictionary/grognard">grognard</a>, even if I&rsquo;m not quite the usual flavour. But tearing down is always easier than building up &mdash; what do I think programmers should be doing instead?</p>
+
+<p>Basically, don&rsquo;t bias your study toward lower levels of abstraction. Instead, learn new disciplines as they apply to your problem. That doesn&rsquo;t mean &ldquo;never learn C&rdquo; nor even &ldquo;never learn operating systems.&rdquo; But it does mean that you should de-emphasise them &mdash; you&rsquo;ve almost certainly been told too often to learn about them. Learn them when and if you need them for some specific reason.</p>
+
+<p>I don&rsquo;t care if you&rsquo;re learning a high-level language like Ruby or one like Haskell or OCaML or Scala &mdash; but learn a high-level language and work in it primarily. You&rsquo;ll learn far faster. The main reason to learn languages that (claim to) care excessively about your computer&rsquo;s physical architecture is to learn computer archaeology. Instead you should learn about problems that you&rsquo;re interested in, and then learn the relevant tools. Don&rsquo;t feel like you need to know how computers <em>used</em> to work unless that helps you somehow.</p>
+
+<p>I&rsquo;m also not saying you should avoid anything hard &mdash; if you&rsquo;re going to learn Ruby on Rails, that&rsquo;s likely to point you in directions like SQL and high-performance database work and HTTP and TCP packet protocols and more. There are many fine and difficult topics there, <strong>even in a low-abstraction direction</strong>. Web programming will also, if you let it, point you in directions like <a href="https://en.wikipedia.org/wiki/Queueing_theory">queueing theory</a> and <a href="https://en.wikipedia.org/wiki/Little%27s_law">Little&rsquo;s Law</a> and many others that are quite high-abstraction indeed. Very low-level programmers often tend to ignore higher-level concerns, just like the other way around.</p>
+
+<p>Don&rsquo;t think of yourself as a turnip, starting at the surface and slowly descending <em>downward</em> below each abstraction as your roots grow. You&rsquo;re a star, exploding outward in <em>every</em> direction, including high- and low-abstraction. You don&rsquo;t need to make &ldquo;downward&rdquo; your particular preference unless there&rsquo;s something there you want &mdash; and then you should know what it is.</p>
+
+<p>How do you pick a direction right now? I&rsquo;m a big fan of <a href="https://codefol.io/topics/technique">conscious coding practice</a> as my personal compass. You no doubt have your own.</p>
+
+<h2>But Then Why Do People Say&hellip;?</h2>
+
+<figure class="aside-left">
+    <div  >
+      <img src="/img/ScaresYou_aside_216_162.png" class="d-none d-md-block" alt="A chalk figure walks nonchalantly past a giant, dangerous-looking horned toad while whistling." width='216' height='162' title='Remember, it&#x27;s not bad advice if you never look directly at it...' />
+    </div>
+
+      <figcaption class="caption-text">
+        Remember, it&rsquo;s not bad advice if you never look directly at it&hellip;
+        
+        
+      </figcaption>
+</figure>
+
+<p>It would be reasonable to ask, &ldquo;why do people suggest that?&rdquo; It&rsquo;s common advice, after all.</p>
+
+<p>Lots of reasons.</p>
+
+<p>Here&rsquo;s one: people give the advice that was up-to-date when they learned. Folks with more experience have been known to give outdated advice.</p>
+
+<p>Here&rsquo;s another: nobody really wants to think that skills they spent years on aren&rsquo;t as valuable as they were. I&rsquo;ve faced the fact that DECStation assembly language isn&rsquo;t going to help me out ever again, but&hellip; Well, wouldn&rsquo;t it be nice if it <em>could</em>? Maybe I should suggest to the young folks that there&rsquo;s something important to be learned there.</p>
+
+<p>(No, not really. But you see the temptation, right? I certainly do.)</p>
+
+<p>And so that bad advice is often given by the people who have put the most effort into it. Somebody with a very expensive university education will stick up hard for the value of it. And somebody with fifteen years of low-level C experience will decide that every programmer needs the same.</p>
+
+<h2>What&rsquo;s Next?</h2>
+
+<p>If you finished reading through this (thank you!), you probably did it because you&rsquo;re trying to get better at the craft of software. I certainly am, and I&rsquo;ve been at it for decades!</p>
+
+<p>If so, I hope you&rsquo;ll <a href="https://codefol.io/topics/technique">look over my material about practicing software and getting better</a>, and perhaps get on my email list. I work hard at this and I&rsquo;m looking for other people who do too. I think that improving at <em>actually writing software</em> is something our industry neglects too much, and I want there to be more places to start on that, and more ways to improve. Join me?</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2019-11-08">Nov  8 2019</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/technique/'>technique</a>
+                        <a href='/tags/favourite/'>favourite</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/no-such-thing-as-knowing-coding-all-the-way-to-the-bottom';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/a-simple-coding-exercise/">A Simple Coding Study</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/codingstudy/'>codingstudy</a>
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                      <!-- Nothing here -->
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/what-you-learn-by-repeating-exercises/">What You Learn by Repeating Coding Exercises</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                        </p>
+                    </header>
+                        <a href="/posts/what-you-learn-by-repeating-exercises/" class="post-thumbnail">
+                            <img src="/img/GetBetterFaster_aside.png" width="216" height="162" alt="What You Learn by Repeating Coding Exercises" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/the-computer-science-thing/">How to Stop Being Afraid of 'The Computer Science Thing'</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/technique/'>technique</a>
+                                <a href='/tags/favourite/'>favourite</a>
+                        </p>
+                    </header>
+                        <a href="/posts/the-computer-science-thing/" class="post-thumbnail">
+                            <img src="/img/dragon_aside.png" width="216" height="162" alt="How to Stop Being Afraid of 'The Computer Science Thing'" />
+                    </a>
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

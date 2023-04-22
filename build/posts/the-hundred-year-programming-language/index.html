@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>The Hundred-Year Programming Language</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/the-hundred-year-programming-language/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">The Hundred-Year Programming Language</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/chalk_calendar_aside_216_162.png" class="d-none d-md-block" alt="A calendar, drawn in chalk, with crumpled used pages below.." width='216' height='162' title='Calendar pages blowing in the wind...' />
+    </div>
+
+      <figcaption class="caption-text">
+        Calendar pages blowing in the wind...
+        
+        
+      </figcaption>
+</figure>
+
+                <p>Video version available on YouTube:</p>
+
+<div style="text-align: center;">
+    <div style="width: 320px; height: 195px; display: inline-block;">
+      <iframe width="640" height="390" src="https://www.youtube.com/embed/Lh_hdIe7UUs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>
+
+<p>A certain kind of software developer&mdash;or more often, businessperson&mdash; likes to talk about a hundred-year programming language, or even a hundred-year framework.</p>
+
+<p>That&rsquo;s a pretty audacious thing to say. I mean, software development is <a href="https://codefol.io/posts/the-forty-year-programmer/">roughly 65 years old</a> by now. Frameworks are younger yet. Deciding that your language or framework is going to make it to a hundred years is quite a statement.</p>
+
+<p>You can read <a href="http://www.paulgraham.com/hundred.html">Paul Graham pontificating</a> about a hundred-year language. He means something slightly different: he means a language whose <strong><em>descendants</em></strong> will still be with us in 100 years, in more-or-less recognisable form. He cares more about programming paradigms and features than I do. But if C takes over from Algol, he figures that&rsquo;s fine, he just wants to know which Algol features are good enough they&rsquo;ll survive the transition.</p>
+
+<p>I&rsquo;d like to know what languages will still be around and basically usable in 100 years.</p>
+
+<p>It&rsquo;s popular to say things like &ldquo;for a language to still be usable in a hundred years, it needs to have good performance.&rdquo; How would you evaluate a claim like that? How would you even start?</p>
+
+<p>That&rsquo;s not a rhetorical question. Let&rsquo;s start evaluating.</p>
+
+<h2>What Can the Oldest Languages Tell Us?</h2>
+
+<p>If we have 65 years of history, we have <strong><em>no</em></strong> examples of a hundred-year programming language. But we have some 60-and-more-year programming languages. What can we tell from our oldest examples?</p>
+
+<p>Once a language becomes popular, it rarely dies but often mutates. Fortran&rsquo;s 2008 version doesn&rsquo;t look exactly like Fortran77 or original Fortran (1957.) But there&rsquo;s a pretty continuous chain of sensibilities. It has a lot in common. It&rsquo;s recognisable. It has a continuous programming community. Fortran has always been popular in the scientific and mathematical communities, and it still is. Fortran remains the main language for programming supercomputers, for instance, where you&rsquo;re paying far too much for high performance and you need a language that is as fast as possible. Fortran is significantly faster than C, for instance. That need and that developer community have continued to move Fortran forward.</p>
+
+<p>So that&rsquo;s interesting: when we say a hundred-year language, we don&rsquo;t really mean a continuity of syntax or features. We&rsquo;re looking at a continuous <strong><em>programming community</em></strong>. Perl is an interesting example of this: Perl version 6 (now called Raku) was intended to make <strong><em>massive</em></strong> changes to the language, and it did. But it took many years. And so Perl 5 split off as a separate community, while Perl 6 was left to mostly make its way as a new language. If the big Perl 6 rewrite had happened quickly, we&rsquo;d certainly have still called it the Perl community. Perl 1 and 2 looked pretty different from Perl 5, and <strong><em>nobody</em></strong> argues that we shouldn&rsquo;t call Perl 1 and Perl 5 the same language. Unlike with Perl 6, it had a pretty continuous programming community. The schism in users (software developers) is what makes people say Perl 6 is effectively a different language.</p>
+
+<p>Another old language is LISP, which has many, many descendants including Guile, Scheme, Clojure and Racket. They&rsquo;ve never been massively popular languages, but collectively they show no sign of going away. LISP isn&rsquo;t dead, though many small dialects of it are. The bigger dialects (e.g. CommonLISP) have their own momentum, and aren&rsquo;t really gone either. So: we don&rsquo;t always mean a single-language programming community. You could maybe argue that, for instance, even if Clojure became huge that LISP was still dead. But mostly people don&rsquo;t mean the very specific original LISP when they say LISP. Like Perl 1, its descendants have changed massively, but they&rsquo;re still very recognisable as the same basic language. More importantly, it&rsquo;s not that hard to pick up a new LISP dialect if you know an old one. They have a lot in common with each other, which allows them to quickly and fluidly share a larger developer community.</p>
+
+<h2>How Can Languages Die?</h2>
+
+<p>What&rsquo;s &lsquo;dead&rsquo;? Mostly I mean &lsquo;dead&rsquo; the way that Latin is dead. There are small, isolated communities of academic and religious Latin speakers. But it&rsquo;s not the day-to-day language of any significant number of people.</p>
+
+<p>The <a href="https://en.wikipedia.org/wiki/History_of_programming_languages">Wikipedia page on the history of programming languages</a> is worth a read-through, if you haven&rsquo;t.</p>
+
+<p>Algol (1958) is dead. It has descendants, but they don&rsquo;t look very much like Algol. So: that&rsquo;s one way a language can die. It can be eaten entirely by better descendants, who take away its entire user base. The <a href="https://wiki.c2.com/?AlgolFamily">&ldquo;Algol Family&rdquo;</a> of languages include distant relatives like Perl and less-used offshoots like Delphi. But they also include C, C++, Visual BASIC and Java. These are wildly popular languages which have long ago cannibalised Algol&rsquo;s entire developer community. C in particular was early and extremely popular. It meant there wasn&rsquo;t much reason to continue using Algol.</p>
+
+<p>Some languages never really got established. FLOW-MATIC was Grace Hopper&rsquo;s first language before she wrote COBOL. It influenced COBOL but it was never much used on its own. Many now-dead languages were like this: few users, not much community.</p>
+
+<p>You could include a lot of &ldquo;proto-languages&rdquo; if you wanted to. By that I mean languages that mostly mutated into something else. FLOW-MATIC turned into COBOL, so its tiny user community became COBOL users. And that&rsquo;s how a lot of languages die: they join another language and their community become&rsquo;s that language&rsquo;s community.</p>
+
+<p>&ldquo;Forerunners&rdquo; and proto-languages don&rsquo;t have to be designed by the same people. FACT (1959) is considered a COBOL forerunner now, in that it influenced the design and its community became COBOL programmers instead. But that wasn&rsquo;t a Grace Hopper project. Different people, but the community turned into COBOL programmers. So it&rsquo;s not about who <strong><em>wrote</em></strong> the language either. It&rsquo;s about where the community of users goes.</p>
+
+<p>In the same way, C was named after BCPL. BCPL users (there weren&rsquo;t that many) became C users. But BCPL was written by Martin Richards, not one of the C authors. It&rsquo;s about the user community, not the language authors or the features.</p>
+
+<h2>What Does Dead Mean?</h2>
+
+<p>Before we go farther, I should address an obvious, somewhat-stupid usage of the word &ldquo;dead&rdquo; as regards programming languages.</p>
+
+<p>Programming languages are written by humans, to humans. They are a human language and a human culture. They happen to also make functional computer programs. They are as susceptible to trends as any other human language or culture.</p>
+
+<p>When you hear <a href="https://codefol.io/posts/what-do-they-mean-when-they-ask-if-rails-is-dead/">somebody say &ldquo;Rails is dead&rdquo;</a>, you may be certain they do not mean &ldquo;no programs are still running Rails&rdquo; or &ldquo;no companies are still using Rails&rdquo; or &ldquo;no new projects are written in Rails.&rdquo; All those things are manifestly, clearly, simply untrue.</p>
+
+<p>They mean &ldquo;Rails is now no longer &lsquo;hot&rsquo; and you should learn something else instead.&rdquo; They may mean there are fewer jobs in Rails than in some other language, framework or technology. They might mean something else is better-respected among startup founders. In one way or another, they do not mean that Rails is unused or unusable. They mean that it is no longer &ldquo;hot.&rdquo;</p>
+
+<p>For everything we are discussing now, we may safely ignore this usage. Entirely. Any language that&rsquo;s over about 25 years old is no longer new, hot and heavily-hyped. An absolute, <strong><em>100% requirement</em></strong> for a 100-year language is to be, by this definition, dead.</p>
+
+<h2>What Weakens Languages?</h2>
+
+<p>Languages don&rsquo;t die all at once. They waste away, as the last few daily users die off, or find some other day-to-day language.</p>
+
+<p>They get weaker and weaker until they&rsquo;re basically dead, and then entirely dead.</p>
+
+<p>What makes languages weaker?</p>
+
+<p>One thing is splitting the community. Perl 5 and Raku are both much, much weaker after the split. Python&rsquo;s transition from version 2 to 3 was hard, and cost it mindshare. Ruby&rsquo;s transition from 1.8 to 1.9 was similar, if not quite as slow and dramatic. When you do something that splits the community, your community gets weaker. In extreme cases like Perl, your community becomes small enough it can possibly die off.</p>
+
+<p>That&rsquo;s one reason languages tend to be killed by their own descendants. Why stay with Algol when C exists? Why stay with FLOW-MATIC if the author has moved on to making COBOL? A descendant of the same language is often very attractive to that language&rsquo;s community.</p>
+
+<p>More importantly, language communities tend to leave in favour of something else that solves their same problems. Developers move from Perl to Ruby or Python, languages that solve similar problems in similar ways. There&rsquo;s a constant tension between Python and R for statistics, because both solve useful problems for statisticians. Not many people adopt a language for its own sake. They have problems that need solving, and the language solves them.</p>
+
+<p>That&rsquo;s not just a problem when a new competitor arises. It&rsquo;s also a problem when an old solution stops working well. Ruby and Rails had a reputation as a phenomenally easy web-programming stack compared to old Java frameworks like JBoss. But more recent versions of Rails need to harden more and more of the framework against security threats, which has made deployment harder. Heroku stopped offering a free plan and there&rsquo;s not an obvious Heroku replacement. So: Rails now has a worse deployment story than it used to have. There is a very real reduction in Rails&rsquo; ability to solve some problems for some users. This weakens the framework, and also weakens Ruby, which benefits from Rails&rsquo; user community.</p>
+
+<p>Languages are weakened if they stop solving a problem as well as they did, or if a competitor shows up who solves the problem better.</p>
+
+<h2>What Strengthens a Language?</h2>
+
+<p>If a language has to solve problems for users, that indicates that the problem matters.</p>
+
+<p>Niches strengthen a language. The R language is great for statistics, and has a strong niche in that community. You wouldn&rsquo;t write an operating system with it, and everybody involved is okay with that.</p>
+
+<p>Java is the most recent popular general-purpose language. Everything afterward has been a niche language of one kind or another. Python excels at math and scientific and AI programming, while Ruby handles dynamic web applications. JavaScript is the dominant owner of in-browser programming and a few server-side niches that are related. Fortran, once general-purpose, now lives on in supercomputing and certain highly-mathematical applications. C retreats to a niche in operating systems and drivers, so it&rsquo;s now banished from general application programming.</p>
+
+<p>Niches are powerful.</p>
+
+<p>I&rsquo;m not going to say &ldquo;Java is the final general-purpose language, ever.&rdquo; That seems far too strong a declaration based on 65 years of history. Java&rsquo;s 27-year run doesn&rsquo;t tell us that no other popular general-purpose language will exist. It just tells us that they&rsquo;ll be fairly rare.</p>
+
+<p>That makes sense. Niches are very powerful, and you have to avoid them to be a really general-purpose language. Even Java has some significant restrictions on where you&rsquo;d use it, e.g. high memory usage makes it dubious for small embedded processors. It may be that &ldquo;general-purpose&rdquo; is a description that will go away, eroded by many and various niches.</p>
+
+<p>Or not. All of this is recent history, so calling it permanent would be silly. We don&rsquo;t know yet.</p>
+
+<p>A niche means, though, that the language has focus and purpose. A niche is powerful because it tells its user community who it helps, and how it helps them. That&rsquo;s also what you need for the community around a book or a product or many other things.</p>
+
+<p>It makes sense that programming languages have the same requirement.</p>
+
+<h2>So Is Performance Necessary for a Hundred-Year Language?</h2>
+
+<p>I said we&rsquo;d evaluate whether performance is a requirement for a hundred-year language.</p>
+
+<p>So let&rsquo;s evaluate.</p>
+
+<p>Fortran, one of the oldest thriving languages, lives and dies on performance. So that&rsquo;s a check mark in the &ldquo;yes&rdquo; column.</p>
+
+<p>LISP, another of the oldest, doesn&rsquo;t care a whit about it and thrives on flexibility and ease of implementation. So there&rsquo;s one in the &ldquo;no&rdquo; column.</p>
+
+<p>But of course it isn&rsquo;t a vote. Instead, Fortran&rsquo;s entire purpose, the focus of its user community, is performance. LISP&rsquo;s focus is on flexibility and expressiveness.</p>
+
+<p>Is performance necessary? That depends. Is that what the language is about? Is that what its focus is?</p>
+
+<p>Performance isn&rsquo;t a bad thing. But if you asked the Fortran community, &ldquo;do you need more simplicity in your compiler implementation?&rdquo; they would say &ldquo;don&rsquo;t care.&rdquo; The LISP community may not <strong><em>say</em></strong> they don&rsquo;t care about performance, but they also don&rsquo;t avoid low-performance interesting interpreters. The question isn&rsquo;t &ldquo;is high performance good?&rdquo; The question is &ldquo;where does it rank on your priority list?&rdquo;</p>
+
+<p>BASH, the command-line shell, has pretty bad performance and always has. That&rsquo;s not what it&rsquo;s selling. Instead, its community wants compatibility and stability and ease of use and for it to readily get out of the way. If you made a massively high-performance bash implementation, a few people would use it. At least, they&rsquo;d use it <strong><em>unless it compromised one of those other goals</em></strong>. So our hypothetical high-performance BASH is probably dead in the water because &ldquo;being universally available&rdquo; and &ldquo;being 100% compatible&rdquo; are so important to its community.</p>
+
+<h2>Can&rsquo;t Priorities Change?</h2>
+
+<p>You could argue that just because something wasn&rsquo;t a priority for early users doesn&rsquo;t mean it isn&rsquo;t a priority <strong><em>right now</em></strong>. Maybe Ruby or Python&rsquo;s first versions could be very slow, but maybe some of their current users care about performance much more than expressiveness. Perhaps PHP was initially about ease of deployment, but its current savvy base of Laravel users may want a cleaner, more expressive core language and be willing to sacrifice some compatibility and availability for it?</p>
+
+<p>That&rsquo;s not impossible.</p>
+
+<p>The problem is the continuity of your community. It&rsquo;s very hard to drive off one community and then attract another. Too much old information about you is now incorrect. Bad information attracts people you don&rsquo;t want and repels people who want your current focus. So: <strong><em>changing</em></strong> what you offer is one of the most dangerous things a language can possibly do. It&rsquo;s the cause of the community splits we talked about earlier.</p>
+
+<p>You can make small changes. A bit of extra performance won&rsquo;t drive anybody off. But at some point, you hit tradeoffs.</p>
+
+<p>Ruby has started being used by more large companies. Overall that&rsquo;s a good thing. But it&rsquo;s also an inflection point, a place where our tradeoffs change. Do we reduce expressiveness, because unrestrained expressiveness causes trouble with bigger teams? Maybe. And if that change works, it increases the size and longevity of Ruby&rsquo;s developer community. But changes like this are some of the greatest risks of dying that languages take.</p>
+
+<p>Incidentally, that&rsquo;s one reason that Ruby-optimisation projects like YJIT and TruffleRuby mostly <strong><em>do not</em></strong> push to restrict what Ruby can do. Extra performance is nice, but expressiveness is why Ruby won early on. Performance is great <strong><em>if it does not compromise expressiveness</em></strong>. That&rsquo;s not true everywhere. But it&rsquo;s true in Ruby&rsquo;s niche.</p>
+
+<h2>Faster, Slower</h2>
+
+<p>That worry about priorities is also why Python took such a long, painful time over the Python 2 -&gt; Python 3 transition. Python makes very slow, deliberate changes with excellent backwards compatibility. On the rare occasions where it breaks backwards compatibility, it&rsquo;s taken as a sort of betrayal by the user base.</p>
+
+<p>Ruby had an easier time because Ruby doesn&rsquo;t promise as much backwards compatibility. Ruby&rsquo;s promise is more like, &ldquo;we keep a fair bit of backwards compatibility, mostly, but things are going to break sometimes when we want to make the language better and you&rsquo;re going to just deal with that.&rdquo; And Python wins the math/science community that needs programs to run 20 years later, and Ruby wins the web programming community, where the standards change every 5 years regardless. That&rsquo;s not a coincidence.</p>
+
+<p>Incidentally, this doesn&rsquo;t mean &ldquo;Ruby is right and Python is wrong,&rdquo; nor does it mean the opposite. It&rsquo;s not that &ldquo;better for web&rdquo; is good and &ldquo;better for math and science&rdquo; is bad. This is another way to say how powerful niches are: if you&rsquo;re okay being good for one thing and bad for another, you can be <strong><em>really</em></strong> good for that one thing, and beat a general-purpose language that isn&rsquo;t amazing at either one.</p>
+
+<p>The language that wins the web niche benefits from being fast-changing, like Ruby. The language that wins the math/science niche benefits from being slow-changing, like Python.</p>
+
+<p>It&rsquo;s not impossible that a single language could be SO good it could win both. But it would have to compete with faster-changing descendants of itself <strong><em>and</em></strong> slower-changing descendants of itself eventually, so you&rsquo;d expect it to be hard to bridge that gap.</p>
+
+<p>Incidentally, that&rsquo;s how it worked with Perl. Long ago, Perl was the only scripting language going. It&rsquo;s still quite good for summarizing big lumps of text files. But now it&rsquo;s competing with Ruby, a faster-changing descendant and with Python, a slower-changing descendant. Ruby took over a web niche that was Perl&rsquo;s to lose.</p>
+
+<p>That&rsquo;s not limited to scripting languages. C++ changes much faster than C, for all kinds of reasons. C has benefited from slow change in some domains. How often do device-driver-writers change languages? They like their stability. C++ has benefited from faster change in other domains, like application programming. That&rsquo;s not the only difference between C and C++ by a long shot. But it&rsquo;s an important one.</p>
+
+<h2>The Elephant in the Room</h2>
+
+<p>Here&rsquo;s a language we haven&rsquo;t talked much about yet: COBOL. There aren&rsquo;t many COBOL programmers, and they almost entirely maintain old code. And yet many millions of lines of COBOL keep vast amounts of bank infrastructure running. It&rsquo;s been in place, mostly unchanged, for decades. In places that got rid of COBOL, they usually did it by mechanically translating from COBOL to another language (Java, basically always.)</p>
+
+<p>In terms of lines of code running, COBOL is enormously alive and vigorous. If all the COBOL code evaporated tomorrow, the whole international banking system would collapse instantly.</p>
+
+<p>In terms of people who use it for new projects, COBOL is nearly dead. Very, very few new COBOL projects are written.</p>
+
+<p>So is it alive or dead? Mostly dead.</p>
+
+<p>There&rsquo;s not a large COBOL developer community. People are transitioning off of it. COBOL is what happens if you <strong><em>never</em></strong> change your tradeoffs, and eventually your user community doesn&rsquo;t care about what you provide. To change is to risk dying, either a little or a lot. To never change is to certainly die, eventually.</p>
+
+<p>Isn&rsquo;t it just that COBOL is old? Not really. COBOL is slightly younger than Fortran, and Fortran is surprisingly healthy and vigorous within its niche.</p>
+
+<p>Mostly, this is a reminder that &ldquo;this language can&rsquo;t go away, it&rsquo;s used by Company X&rdquo; only gets you so far. C++ is used extensively by Google, but it needs to not let that be its only reason to survive. Ruby is used by Shopify, but that can only be so much of its longevity.</p>
+
+<p>You need new users, new promises, new blood.</p>
+
+<h2>How Do Promises Age?</h2>
+
+<p>One of C&rsquo;s old promises was to act like a PDP-11 computer. It still does that, but that&rsquo;s not anybody&rsquo;s priority any more. Oddly, early LISP did a similar thing, which is why <a href="https://en.wikipedia.org/wiki/CAR_and_CDR#704_macros">&ldquo;head of list&rdquo;/&ldquo;tail of list&rdquo; is still named &ldquo;car&rdquo;/&ldquo;cdr&rdquo;, after machine registers on the ancient IBM 704</a>.</p>
+
+<p>These are old languages. These features can be thought of as old promises.</p>
+
+<p>LISP originally needed a bit of performance to make its mathematical expressiveness workable. Eventually processors got faster and that was dropped &mdash; car and cdr are definitely not simple register accesses in modern LISP implementations, and nobody cares. It wasn&rsquo;t an important promise to their community, as long as performance was acceptable. And &ldquo;acceptable&rdquo; was, for the time, pretty lenient. CommonLISP, for instance, was vastly slower than C, and mostly that was fine.</p>
+
+<p>You might think C would have a harder time with the same changes. If C promises to be like the processor, what does it do when the processor changes? Newer processors use <a href="https://en.wikipedia.org/wiki/Single_instruction,_multiple_data">SIMD instructions</a> such as Intel SSE instructions. Those do large-array operations, and that&rsquo;s pretty core to doing large tasks speedily. C never really added any kind of abstraction for them. C still looks mostly like a PDP-11, which had no such thing.</p>
+
+<p>But often we don&rsquo;t understand which promises are important to our developer community. C doesn&rsquo;t need to be the very fastest language. Otherwise problems like <a href="https://cvw.cac.cornell.edu/vector/coding_aliasing">pointer aliasing</a> would have driven its early users into the arms of Fortran, a faster language without that problem.</p>
+
+<p>C was a fast enough, enjoyable enough language that provided a nice balance between power and performance. And frankly, it had fewer competitors during its heyday, so it could worry less about its promises and its niche. Modern C in its modern niche (operating systems, device drivers, low-level systems programming) is about control more than performance. Its performance has to be acceptable, but it&rsquo;s primarily about exact bitwise layouts. If it drops a few CPU cycles here and there, there are plenty more to spare. And so pointer aliasing doesn&rsquo;t result in device drivers being written in Fortran.</p>
+
+<p>Promises <strong><em>do</em></strong> change over the years. They have to. It&rsquo;s not a matter of avoiding all change. It&rsquo;s a matter of managing it.</p>
+
+<p>How much do promises change? C is from 1972, 50 years ago. All the changes it has been through over the years get it <strong><em>halfway</em></strong> to being a hundred-year language. It&rsquo;s hale and hearty yet. I think it&rsquo;ll make it.</p>
+
+<h2>So How Do You Last 100 Years?</h2>
+
+<p>What if you want your language to last 100 years? What if you&rsquo;re in a language community you like, or you&rsquo;re a language designer? What would you do to design a hundred-year language, a monument to the ages?</p>
+
+<p>You can&rsquo;t just focus on the language features and syntax. The English language keeps picking up new vocabulary, and that&rsquo;s neither its greatest strength nor its greatest weakness. The important, continuous part is the community of speakers. We care about the vocabulary only in terms of that community.</p>
+
+<p>The same is true of Java or Fortran or Ruby or whatever language you like.</p>
+
+<p>To keep a language healthy, you need to know what you&rsquo;re promising to your community. Why are they here? That&rsquo;s what has to stay true. Some parts of that promise are complicated: is a specific new feature a good thing or a bad thing? Some parts of the promise are trivial, because sometimes you&rsquo;re in conflict with a core reason your audience is here. In Fortran, they don&rsquo;t value expressiveness over speed. In Ruby, they do. In Rust, memory safety ranks near the very top of the priority list. In C, being able to mess with memory in weird ways is valued more than safety.</p>
+
+<p>None of these priority lists are wrong. They define niches.</p>
+
+<p>It also means you need to be careful &ldquo;breaking out of your niche.&rdquo; Your niche is your strength. Leave it carefully, and somewhat timidly. There is every sign that languages will be <strong><em>more</em></strong> focused on niches in the future, not less.</p>
+
+<p>It also means you have to be careful when following Henry Ford&rsquo;s various famous bits of advice. &ldquo;If I asked them what they wanted, they&rsquo;d have said a faster horse.&rdquo; &ldquo;They can have any colour they want as long as it&rsquo;s black.&rdquo; Sometimes you can be visionary and give your community something they didn&rsquo;t think to ask for. But if they say they <strong><em>don&rsquo;t</em></strong> want something, remember you&rsquo;re in dangerous territory. For every Henry Ford in the world, there are an awful lot of people who aren&rsquo;t Henry Ford and guess wrong.</p>
+
+<p>The important part here is to ask, &ldquo;what are our promises?&rdquo; Think about how well those promises age. Will people need what you&rsquo;re providing in 100 years? What did they need 100 years ago?</p>
+
+<p>I&rsquo;m not suggesting any of this is easy. But it&rsquo;s important to realise just how long 100 years is.</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2022-09-22">Sep 22 2022</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/technique/'>technique</a>
+                        <a href='/tags/ruby/'>ruby</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/the-hundred-year-programming-language';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/the-hundred-year-programming-language';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/feedback-for-a-new-coder/">Feedback for a New Coder?</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/career/'>career</a>
+                                <a href='/tags/technique/'>technique</a>
+                        </p>
+                    </header>
+                        <a href="/posts/feedback-for-a-new-coder/" class="post-thumbnail">
+                            <img src="/img/SittingCoder_aside.png" width="130" height="216" alt="Feedback for a New Coder?" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/how-do-i-run-a-ruby-workshop/">How Do You Run a Coding Workshop?</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/career/'>career</a>
+                                <a href='/tags/business/'>business</a>
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                        </p>
+                    </header>
+                        <a href="/posts/how-do-i-run-a-ruby-workshop/" class="post-thumbnail">
+                            <img src="/img/Professor_aside.png" width="216" height="127" alt="How Do You Run a Coding Workshop?" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/when-do-i-break-out-a-service/">When Do I Break Out a Service?</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/business/'>business</a>
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                        </p>
+                    </header>
+                        <a href="/posts/when-do-i-break-out-a-service/" class="post-thumbnail">
+                            <img src="/img/chimp_bear_pirate_studying_objects_aside.png" width="216" height="135" alt="When Do I Break Out a Service?" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/what-things-should-you-break-out-into-services/">What Things Should You Break Out Into Services?</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/rails/'>rails</a>
+                        </p>
+                    </header>
+                        <a href="/posts/what-things-should-you-break-out-into-services/" class="post-thumbnail">
+                            <img src="/img/RadioRepair_aside.png" width="216" height="162" alt="What Things Should You Break Out Into Services?" />
+                    </a>
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

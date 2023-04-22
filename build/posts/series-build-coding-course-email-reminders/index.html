@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Let's Build Course Software: Email Reminders</title>
+        <!-- <meta name="description" content=""> -->
+        <link rel="canonical" href="/posts/series-build-coding-course-email-reminders/">
+
+    <!-- Site Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+
+    <!-- Font Embed Code -->
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet" />
+
+    <!-- CSS Styles -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/monokai.css" rel="stylesheet"> <!-- Pygments code highlighting -->
+    <link href="/css/site.css" rel="stylesheet">
+    <link href="/css/simple-lightbox.min.css" rel="stylesheet">
+
+</head>
+
+<body> <!-- class="layout-default" -->
+    <div id="page" class="site">
+        <header id="masthead" class="site-header outer">
+    <div class="site-header-inside">
+        <div class="site-branding">
+            <p class="site-logo"><a href="https://codefol.io/" rel="home"><img src="/images/codefolio_book_transparent_160_102.png" alt="Codefol.io book logo" /></a></p>
+            <h1 class="site-title screen-reader-text"><a href="https://codefol.io" rel="home">Codefol.io</a></h1>
+        </div><!-- .site-branding -->
+        <nav id="main-navigation" class="site-navigation" aria-label="Primary Navigation">
+            <ul class="menu">
+                <li class="menu-item"><a href="/posts">All Articles</a></li>
+                <li class="menu-item"><a href="/topics">Articles by Topic</a></li>
+                <li class="menu-item"><a href="/tags/favourite">Favourite Articles</a></li>
+                <li class="menu-item"><a href="/feed.xml">RSS</a></li>
+                <li class="menu-item"><a href="/about">About</a></li>
+            </ul>
+        </nav><!-- .site-navigation -->
+    </div><!-- .site-header-inside -->
+</header><!-- .site-header -->
+
+        
+
+<div id="content" class="site-content">
+    <main id="main" class="site-main outer">
+        <article class="post-full inner">
+            <header class="post-header">
+                <h1 class="posttitle">Let's Build Course Software: Email Reminders</h1>
+            </header><!-- .post-header -->
+            <div class="post-content">
+                  
+<figure class="aside-right">
+    <div  >
+      <img src="/img/chimp_bear_pirate_studying_objects_aside_216_135.png" class="d-none d-md-block" alt="A pirate puppet, a chimpanzee in scrubs and a teddy bear in safety goggles and lab coat study wooden blocks, a purple lucite ball and various small cables and electronics on a small wicker table." width='216' height='135' title='I&#x27;m enjoying the new thumbnails for topics a lot.' />
+    </div>
+
+      <figcaption class="caption-text">
+        I'm enjoying the new thumbnails for topics a lot.
+        
+        
+      </figcaption>
+</figure>
+
+                <p>In <a href="/tags/rubymadscience">this series</a> I&rsquo;ve built out a Rails app from scratch, deployed it and I&rsquo;m <strong><em>this close</em></strong> to getting it actually useful.</p>
+
+<p>Will today be that final bit to hit &ldquo;useful?&rdquo; I don&rsquo;t know as I write this, but it&rsquo;s getting closer&hellip;</p>
+
+<p>Last week we built out subscription buttons, profiles for managing subscriptions and a lot of other stuff that doesn&rsquo;t actually <strong><em>send any email</em></strong>. Let&rsquo;s fix that.</p>
+
+<p>But first let&rsquo;s talk a bit about email.</p>
+
+<h2>Transactional and Recurring Email</h2>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_pretty_new_thumbs.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-subscriptions-and-profiles&#x2F;rms_pretty_new_thumbs.png" class="img-frame" alt="RubyMadScience showing a list of topics on the front page with the new stuffed-animal topic thumbnails."   title="Current progress on the deployed app which doesn&#x27;t yet have email reminders." />
+    </a>
+        <figcaption class="caption-text">Current progress on the deployed app which doesn&rsquo;t yet have email reminders.</figcaption> 
+</figure>
+
+<p>With email, a lot of your worries as a developer are about legality. How do I make sure I&rsquo;m not annoying anybody or, worse, breaking laws in how I annoy them?</p>
+
+<p>One answer is to use a service like <a href="https://mailchimp.com">MailChimp</a> that makes it easy and permanent for people to unsubscribe, and that tries hard to require you to meet all your legal obligations. Those services are designed for <strong><em>marketing and promotional emails, which usually have the strongest legal restrictions</em></strong>. MailChimp is who I use for my <a href="#bottom-newsletter-box">email list you see below</a> and they&rsquo;re great, especially with double opt-in. With work you can even get them to stop tracking opens, as I have for my regular newsletters but not (yet) my automations.</p>
+
+<p>However, that&rsquo;s not what I&rsquo;ll be using for RubyMadScience email reminders.</p>
+
+<p>The problem with an awesomely-responsible service like MailChimp is, what do you do when the laws on marketing emails are in conflict with site usability? If somebody hits &ldquo;unsubscribe&rdquo; at the bottom of one of your emails, they don&rsquo;t <strong><em>really</em></strong> expect that password reset will never work again. But they <strong><em>did</em></strong> just tell you to never email them again. So which do they want? Legally speaking, MailChimp says &ldquo;they told you never, and that means we will never let you email them again.&rdquo;</p>
+
+<p>That&rsquo;s very responsible. It&rsquo;s also rough in terms of password resets or (for a commercial site) receipts, invoices, confirmations&hellip; Those latter things are called <a href="https://www.getvero.com/resources/guides/lifecycle-marketing/transactional-emails/">Transactional Email</a>, which basically means &ldquo;email in response to a direct action the user just took.&rdquo; For instance, a request for a password reset or a receipt for a purchase or a confirmation of an action.</p>
+
+<p>Transactional emails are in a different legal category than marketing emails. But they&rsquo;re hard to tell apart. Luckily, I don&rsquo;t think RubyMadScience is going to be emailing anything that looks much like marketing or promotion.</p>
+
+<p>In fact, &ldquo;hey, I asked you to email me weekly about this topic until it&rsquo;s finished&rdquo; isn&rsquo;t really transactional <strong><em>or</em></strong> promotional. It&rsquo;s in a weird grey area. But I don&rsquo;t think it wants the restrictions that a newsletter tool like MailChimp would entail.</p>
+
+<p>By picking the all-transactional route, I&rsquo;m also losing out in terms of delivery. Spam filters <strong><em>love</em></strong> the MailChimp approach where they know who&rsquo;s on your list, carefully get opt-in and repeatedly deal with the exact same recipients. If I thought RubyMadScience was going to be a money-making product I would look carefully at a newsletter-type service and, even if it was painful, use it for the email reminders. I would get better deliverability, better speed</p>
+
+<h2>Logistics: Adding Email with Sendgrid</h2>
+
+<p>I expect RubyMadScience to start with few users. Daily/weekly/etc email reminders don&rsquo;t need to be delivered quickly. Even things like password resets can have a nice long time limit.</p>
+
+<p>That means I can use very cheap email delivery via SendGrid. I may not even exceed its free monthly tier. Free is a good price for a service I don&rsquo;t earn money from. If I&rsquo;m ever looking at more than 12,000 emails per month, I&rsquo;ll find a way to make money off it. Cheap email is still good (and cheap.)</p>
+
+<p>Getting SendGrid to <strong><em>actually send</em></strong> took a bit of doing, though. The configuration they give for Ruby on Rails is basically right, but:</p>
+
+<ul>
+<li>You should turn on exceptions on email send to make sure you see problems when they happen</li>
+<li>You need to tell SendGrid <a href="https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/">it&rsquo;s okay to send from certain addresses</a>.</li>
+</ul>
+
+<p>These things are individually quite sensible. Put together, they can easily result in all your email being silently ignored because you didn&rsquo;t realise what needed to happen, or that you haven&rsquo;t done it.</p>
+
+<p>I&rsquo;m going to need to figure out how to keep email exceptions from being swallowed, because that&rsquo;s not okay. But just turning on exceptions will make transient email timeouts give 500s from my site. Also not okay. This is going to be one of those things I don&rsquo;t fix perfectly on the first try &mdash; I can already tell.</p>
+
+<p>Also, email is one of those things it&rsquo;s possible to <strong><em>screw up really badly in a way that makes people angry</em></strong>. So, y&#39;know, there&rsquo;s that.</p>
+
+<p>Frankly, I&rsquo;m glad there aren&rsquo;t more of you reading this. My own obscurity is probably my best protection from over-engineering right now. I <strong><em>want</em></strong> to build a huge gated outgoing email-trap to let me do full review before anything gets sent. But that&rsquo;s only a danger if anybody ever uses the service, so onwards I go.</p>
+
+<p>The courage of a software developer is in building features thinking, &ldquo;somebody will test this before it goes out.&rdquo; The courage of a QA engineer is in thinking, &ldquo;somebody else wrote this, I just have to record any problems I find,&rdquo; and the courage of an Ops engineer is in thinking, &ldquo;I&rsquo;m just babysitting the awful thing somebody else wrote.&rdquo; Between them they can often be entirely fearless through a whole feature-release cycle, just by everybody getting to blame somebody else.</p>
+
+<p>One problem here is that nobody else could possibly be to blame for any feature I write, test, release and maintain for myself.</p>
+
+<h2>Turning Subscriptions Into Reminders</h2>
+
+<p>Excellent. I can write a simple Sidekiq job to make rows in this table from people&rsquo;s reminder settings. I&rsquo;d <em>like</em> to make sure that daily and monthly jobs arrive in the same email and that the behaviour is generally sane&hellip; and now that I&rsquo;m working out what all that means, let&rsquo;s do the simple thing first. Here&rsquo;s the simple thing:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># No reason that the User email reminder logic can't live</span>
+<span class="c1"># a simple, separate PORO.</span>
+
+<span class="c1"># For now, this assumes all sends happen at roughly the same time of</span>
+<span class="c1"># day, so we can mostly count in whole days. Convenient!</span>
+<span class="c1">#</span>
+<span class="c1"># Can that condition fail? Absolutely. Bounced mail and server downtime</span>
+<span class="c1"># are just the first two reasons that come to mind.</span>
+<span class="k">module</span> <span class="nn">ReminderCalculator</span>
+    <span class="c1"># Pass in a hash 'topics' of the form:</span>
+    <span class="c1">#    "topic_name" =&gt; {</span>
+    <span class="c1">#        frequency: "weekly",      # Or "daily", "monthly" or "none"</span>
+    <span class="c1">#        last_reminder: Time.now,  # Whenever last reminder was for this topic</span>
+    <span class="c1">#    }</span>
+    <span class="k">def</span> <span class="nf">topics_to_remind</span><span class="p">(</span><span class="n">topics_hash</span><span class="p">,</span> <span class="n">send_time</span><span class="p">)</span>
+        <span class="n">topics</span> <span class="o">=</span> <span class="n">topics_hash</span><span class="p">.</span><span class="nf">dup</span>
+        <span class="n">topics</span><span class="p">.</span><span class="nf">delete_if</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span> <span class="n">v</span><span class="p">[</span><span class="ss">:frequency</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"none"</span> <span class="p">}</span>
+
+        <span class="n">topics_to_remind</span> <span class="o">=</span> <span class="n">topics</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">topic_name</span><span class="o">|</span>
+            <span class="n">topic</span> <span class="o">=</span> <span class="n">topics</span><span class="p">[</span><span class="n">topic_name</span><span class="p">]</span>
+            <span class="n">approx_next_reminder</span> <span class="o">=</span> <span class="k">if</span> <span class="n">topic</span><span class="p">[</span><span class="ss">:frequency</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"daily"</span>
+                <span class="n">topic</span><span class="p">[</span><span class="ss">:last_reminder</span><span class="p">].</span><span class="nf">advance</span><span class="p">(</span><span class="ss">days: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">hours: </span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">elsif</span> <span class="n">topic</span><span class="p">[</span><span class="ss">:frequency</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"weekly"</span>
+                <span class="n">topic</span><span class="p">[</span><span class="ss">:last_reminder</span><span class="p">].</span><span class="nf">advance</span><span class="p">(</span><span class="ss">weeks: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">hours: </span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">elsif</span> <span class="n">topic</span><span class="p">[</span><span class="ss">:frequency</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"monthly"</span>
+                <span class="n">topic</span><span class="p">[</span><span class="ss">:last_reminder</span><span class="p">].</span><span class="nf">advance</span><span class="p">(</span><span class="ss">months: </span><span class="mi">1</span><span class="p">,</span> <span class="ss">hours: </span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">else</span>
+                <span class="k">raise</span> <span class="s2">"Unknown frequency </span><span class="si">#{</span><span class="n">topic</span><span class="p">[</span><span class="ss">:frequency</span><span class="p">].</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> for topic </span><span class="si">#{</span><span class="n">topic_name</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">!"</span>
+            <span class="k">end</span>
+
+            <span class="c1"># Return true for this topic name if it's time to send again</span>
+            <span class="n">approx_next_reminder</span> <span class="o">&lt;=</span> <span class="n">send_time</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="c1"># This takes a list of topic_ids and returns a mapping</span>
+    <span class="c1"># of those which, after step_completions, still have at</span>
+    <span class="c1"># least one unfinished step.</span>
+
+    <span class="c1"># This method looks up Topics by ID, which I feel a</span>
+    <span class="c1"># little odd about. The rationale is that it avoids</span>
+    <span class="c1"># database objects, but Topic is loaded from a file.</span>
+    <span class="c1"># That's true, and test-relevant, but it also mixes</span>
+    <span class="c1"># levels of abstraction. Separating this logic from</span>
+    <span class="c1"># its models has been messy and could likely be done</span>
+    <span class="c1"># better.</span>
+
+    <span class="c1"># Step_completions is a list of items that look like</span>
+    <span class="c1"># UserStepItems - they have accessors for topic_id and</span>
+    <span class="c1"># step_id, and if passed in are assumed to correspond</span>
+    <span class="c1"># to "yes, this step is complete (or skipped.)"</span>
+    <span class="k">def</span> <span class="nf">next_step_by_topic_id</span><span class="p">(</span><span class="n">topic_ids</span><span class="p">,</span> <span class="n">step_completions</span><span class="p">)</span>
+        <span class="n">topic_steps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">topic_ids</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">topic_id</span><span class="o">|</span>
+            <span class="n">topic</span> <span class="o">=</span> <span class="no">Topic</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">topic_id</span><span class="p">)</span>
+            <span class="n">topic_steps</span><span class="p">[</span><span class="n">topic_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">topic</span><span class="p">.</span><span class="nf">steps</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">step</span><span class="o">|</span>
+                <span class="n">topic_steps</span><span class="p">[</span><span class="n">topic_id</span><span class="p">][</span><span class="n">step</span><span class="p">.</span><span class="nf">id</span><span class="p">]</span> <span class="o">=</span> <span class="kp">true</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="n">step_completions</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">completion</span><span class="o">|</span>
+            <span class="n">topic_steps</span><span class="p">[</span><span class="n">completion</span><span class="p">.</span><span class="nf">topic_id</span><span class="p">].</span><span class="nf">delete</span><span class="p">(</span><span class="n">completion</span><span class="p">.</span><span class="nf">step_id</span><span class="p">)</span>
+        <span class="k">end</span>
+
+        <span class="n">next_by_topic_id</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">topic_steps</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">topic_id</span><span class="p">,</span> <span class="n">unfinished_steps</span><span class="o">|</span>
+            <span class="k">unless</span> <span class="n">unfinished_steps</span><span class="p">.</span><span class="nf">empty?</span>
+                <span class="n">first_unfinished</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="o">*</span><span class="n">unfinished_steps</span><span class="p">.</span><span class="nf">first</span>
+                <span class="n">next_by_topic_id</span><span class="p">[</span><span class="n">topic_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_unfinished</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="n">next_by_topic_id</span>
+    <span class="n">endend</span>
+</code></pre></div>
+<p>There&rsquo;s also a little glue code in user.rb to tie this in. I&rsquo;ll spare you <a href="https://github.com/noahgibbs/rubymadscience/blob/master/app/models/user.rb">unless you specifically want to see it</a>. Also, it <a href="https://github.com/noahgibbs/rubymadscience/commit/484b36f294a868b3561c1b69a7c2c0d38122efb8">wants the UserStepItem to have a topic_id to index on,</a>, but that&rsquo;s not hard.</p>
+
+<h2>Finally, ActionMailer</h2>
+
+<figure class="aside-right">
+    <a class='lightboxed' href='&#x2F;posts&#x2F;series-build-coding-course-email-reminders&#x2F;rms_mailer_preview.png' >
+      <img src="&#x2F;posts&#x2F;series-build-coding-course-email-reminders&#x2F;rms_mailer_preview.png" class="img-frame" alt="A RubyMadScience reminder email showing a couple of topics with next steps."   title="That&#x27;s not elaborate, but it&#x27;s not awful." />
+    </a>
+        <figcaption class="caption-text">That&rsquo;s not elaborate, but it&rsquo;s not awful.</figcaption> 
+</figure>
+
+<p>It&rsquo;s nice to calculate these things. But how do we send mail? First, <a href="https://guides.rubyonrails.org/action_mailer_basics.html">ActionMailer has very good documentation</a> to start from.</p>
+
+<p>So I&rsquo;ve created a mailer called TopicReminderMailer and an action called merged_reminder. It&rsquo;s &ldquo;merged&rdquo; because the daily, weekly and monthly all go in one email.</p>
+
+<p>I <a href="https://github.com/noahgibbs/rubymadscience/commit/91ee1465eb704fe08d096e0d7f7d870caf551bba">added the nontrivial logic</a> to the mailer, and Rails will cheerfully show a live preview if you build a preview action (you can see one to the right there.)</p>
+
+<p>And while I was very tempted to add a lot more tracking, I&rsquo;ve suppressed that urge for now. I&rsquo;m pretty sure I&rsquo;m procrastinating by engineering. It&rsquo;s time to stop that and push something out the door.</p>
+
+<p>Once we have the mailer and the calculation, it&rsquo;s not hard to add a snippet to the Sidekiq job to put them together&hellip; Although it&rsquo;s not quite as easy as I thought, and it took me a little debugging to get to this point:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">ReminderEmails</span>
+    <span class="kp">include</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Worker</span>
+
+    <span class="k">def</span> <span class="nf">perform</span>
+        <span class="no">User</span><span class="p">.</span><span class="nf">all</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">u</span><span class="o">|</span>
+            <span class="n">remind_steps</span> <span class="o">=</span> <span class="n">u</span><span class="p">.</span><span class="nf">next_steps_to_remind_at_time</span><span class="p">(</span><span class="no">Time</span><span class="p">.</span><span class="nf">now</span><span class="p">)</span>
+            <span class="k">next</span> <span class="k">if</span> <span class="n">remind_steps</span><span class="p">.</span><span class="nf">empty?</span>
+            <span class="no">UserTopicItem</span><span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
+                <span class="n">remind_steps</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">topic_id</span><span class="o">|</span>
+                    <span class="n">ut</span> <span class="o">=</span> <span class="no">UserTopicItem</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">user_id: </span><span class="n">u</span><span class="p">.</span><span class="nf">id</span><span class="p">,</span> <span class="ss">topic_id: </span><span class="n">topic_id</span><span class="p">).</span><span class="nf">first</span>
+                    <span class="n">ut</span><span class="p">.</span><span class="nf">last_reminder</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">now</span>
+                    <span class="n">ut</span><span class="p">.</span><span class="nf">save!</span>
+                <span class="k">end</span>
+                <span class="no">TopicReminderMailer</span><span class="p">.</span><span class="nf">with</span><span class="p">(</span><span class="ss">remind_topics: </span><span class="n">remind_steps</span><span class="p">,</span> <span class="ss">user_id: </span><span class="n">u</span><span class="p">.</span><span class="nf">id</span><span class="p">).</span><span class="nf">merged_reminder</span><span class="p">.</span><span class="nf">deliver</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+        <span class="no">ReminderEmails</span><span class="p">.</span><span class="nf">perform_in</span><span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">hour</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>This won&rsquo;t last forever. Or very long. In fact, it will cheerfully page through every user on the site on every Sidekiq job. If I outgrow a few thousand users, this will get very slow&hellip; though not <strong><em>so slow</em></strong> that anybody would be able to tell by their email reminders.</p>
+
+<p>In keeping with the spirit of getting something workable out the door, this does just fine. And this is one of many, many opportunities for more polish later.</p>
+
+<h2>Is That It?</h2>
+
+<p>This is pretty close to workable. It&rsquo;s also a huge pain to test. I can subscribe to some daily tasks, but then I&rsquo;m waiting to get emailed, and then get emailed again to make sure the reminders are working right.</p>
+
+<p>(There&rsquo;s a lot of debugging that I do behind the scenes. If it would make for a boring blog post, I skip writing about it. But <a href="https://github.com/noahgibbs/rubymadscience/commits/main">it&rsquo;s in the repository</a>.)</p>
+
+<p>Sounds like it&rsquo;s time for a much-more-frequent email reminder that only shows up in the UI in development. I don&rsquo;t mind it <strong><em>existing</em></strong> in production if you&rsquo;d have to build your own AJAX requests to subscribe to it. I just don&rsquo;t want anybody hitting the &ldquo;spam me and never stop&rdquo; button by accident.</p>
+
+<p>And with that, and a bit more testing and debugging, I have it sending me reminders from my development server.</p>
+
+<h2>Isn&rsquo;t Software Development Supposed to be Instant?</h2>
+
+<p>Is it just me or is <a href="/tags/rubymadscience">this series</a> pretty long? I wasn&rsquo;t sure I&rsquo;d be able to get everything done in one more blog post, and putting everything together seems to be taking awhile.</p>
+
+<p>It often does. The &ldquo;last 10%&rdquo; of the work is often a big chunk of the total effort since, by nature, it contains most everything I didn&rsquo;t bother to plan up-front.</p>
+
+<p>And finally, after six weeks (as I write this) of effort, I have what I consider an MVP.</p>
+
+<p>That always feels impossible, every time I write it, until it&rsquo;s true.</p>
+
+<p>Now I just need to start putting the application in places where it sees real-world use. <strong><em>Then</em></strong> I&rsquo;ll know how far short this falls of &ldquo;actually useful, really, in the real world.&rdquo;</p>
+
+<p>In other words, expect more posts about this. The rate will probably slow down from here on out, though.</p>
+
+<hr/>
+
+<p>Want to see more about Ruby Mad Science as it happens? You can check <a href="/tags/rubymadscience">the rubymadscience tag on this blog</a>, including not-yet-published ones. There’s also an RSS feed of posts at the top, or you can subscribe to my email list below. I’ll definitely email the list with these posts.</p>
+
+<p>Or if you’ve bought one of my books, you get to read and discuss blog posts early with my readers as I finish them, in the #prerelease-blog-posts channel of the customer Slack.</p>
+
+            </div>
+            <footer class="post-footer">
+                <div class="post-meta">
+                    <time class="post-date" datetime="2020-07-17">Jul 17 2020</time>
+                </div><!-- .post-meta -->
+                <div class="post-tags">
+                        <a href='/tags/ruby/'>ruby</a>
+                        <a href='/tags/rails/'>rails</a>
+                        <a href='/tags/letsbuild/'>letsbuild</a>
+                        <a href='/tags/rubymadscience/'>rubymadscience</a>
+                </div>
+            </footer>
+        </article>
+        <section id="bottom-newsletter-box" class="newsletter-box inner-wide">
+    <div class="inner">
+        <h2 class="newsletter-box-title">You Hunger to Get Better</h2>
+        <p>
+            Subscribe to get free ebook chapters and an emailed coding class now, plus videos and articles a few times a month.
+        </p>
+        <p>
+            Why this specific newsletter? <i><b>You want to be an expert</b></i>. Expertise comes from learning the fundamentals, deeply. And that comes from the best kind of practice.
+            I write with that in mind. I won't waste your time.
+        </p>
+        <p>
+            (Yes, I also sell things. They're good, but I'm fine if you don't buy them.)
+        </p>
+        <!-- Begin ActiveCampaign Signup Form -->
+<style>
+ #_form_1_ { font-size:14px; line-height:1.6; font-family:arial, helvetica, sans-serif; margin:0; }
+ #_form_1_ * { outline:0; }
+ ._form_hide { display:none; visibility:hidden; }
+ ._form_show { display:block; visibility:visible; }
+ #_form_1_._form-top { top:0; }
+ #_form_1_._form-bottom { bottom:0; }
+ #_form_1_._form-left { left:0; }
+ #_form_1_._form-right { right:0; }
+ #_form_1_ input[type="text"],#_form_1_ input[type="date"],#_form_1_ textarea { padding:6px; height:auto; border:#979797 1px solid; border-radius:4px; color:#000 !important; font-size:14px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
+ #_form_1_ textarea { resize:none; }
+ #_form_1_ ._submit { -webkit-appearance:none; cursor:pointer; font-family:arial, sans-serif; font-size:14px; text-align:center; background:#004cff !important; border:0 !important; -moz-border-radius:10px !important; -webkit-border-radius:10px !important; border-radius:10px !important; color:#fff !important; padding:10px !important; }
+ #_form_1_ ._close-icon { cursor:pointer; background-image:url('https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png'); background-repeat:no-repeat; background-size:14.2px 14.2px; position:absolute; display:block; top:11px; right:9px; overflow:hidden; width:16.2px; height:16.2px; }
+ #_form_1_ ._close-icon:before { position:relative; }
+ #_form_1_ ._form-body { margin-bottom:30px; }
+ #_form_1_ ._form-image-left { width:150px; float:left; }
+ #_form_1_ ._form-content-right { margin-left:164px; }
+ #_form_1_ ._form-branding { color:#fff; font-size:10px; clear:both; text-align:left; margin-top:30px; font-weight:100; }
+ #_form_1_ ._form-branding ._logo { display:block; width:130px; height:14px; margin-top:6px; background-image:url('https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png'); background-size:130px auto; background-repeat:no-repeat; }
+ #_form_1_ .form-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); border:0; }
+ #_form_1_ ._form-label,#_form_1_ ._form_element ._form-label { font-weight:bold; margin-bottom:5px; display:block; }
+ #_form_1_._dark ._form-branding { color:#333; }
+ #_form_1_._dark ._form-branding ._logo { background-image:url('https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png'); }
+ #_form_1_ ._form_element { position:relative; margin-bottom:10px; font-size:0; max-width:100%; }
+ #_form_1_ ._form_element * { font-size:14px; }
+ #_form_1_ ._form_element._clear { clear:both; width:100%; float:none; }
+ #_form_1_ ._form_element._clear:after { clear:left; }
+ #_form_1_ ._form_element input[type="text"],#_form_1_ ._form_element input[type="date"],#_form_1_ ._form_element select,#_form_1_ ._form_element textarea:not(.g-recaptcha-response) { display:block; width:100%; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-family:inherit; }
+ #_form_1_ ._field-wrapper { position:relative; }
+ #_form_1_ ._inline-style { float:left; }
+ #_form_1_ ._inline-style input[type="text"] { width:150px; }
+ #_form_1_ ._inline-style:not(._clear) + ._inline-style:not(._clear) { margin-left:20px; }
+ #_form_1_ ._form_element img._form-image { max-width:100%; }
+ #_form_1_ ._form_element ._form-fieldset { border:0; padding:0.01em 0 0 0; margin:0; min-width:0; }
+ #_form_1_ ._clear-element { clear:left; }
+ #_form_1_ ._full_width { width:100%; }
+ #_form_1_ ._form_full_field { display:block; width:100%; margin-bottom:10px; }
+ #_form_1_ input[type="text"]._has_error,#_form_1_ textarea._has_error { border:#f37c7b 1px solid; }
+ #_form_1_ input[type="checkbox"]._has_error { outline:#f37c7b 1px solid; }
+ #_form_1_ ._error { display:block; position:absolute; font-size:14px; z-index:10000001; }
+ #_form_1_ ._error._above { padding-bottom:4px; bottom:39px; right:0; }
+ #_form_1_ ._error._below { padding-top:4px; top:100%; right:0; }
+ #_form_1_ ._error._above ._error-arrow { bottom:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #f37c7b; }
+ #_form_1_ ._error._below ._error-arrow { top:0; right:15px; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:5px solid #f37c7b; }
+ #_form_1_ ._error-inner { padding:8px 12px; background-color:#f37c7b; font-size:14px; font-family:arial, sans-serif; color:#fff; text-align:center; text-decoration:none; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+ #_form_1_ ._error-inner._form_error { margin-bottom:5px; text-align:left; }
+ #_form_1_ ._button-wrapper ._error-inner._form_error { position:static; }
+ #_form_1_ ._error-inner._no_arrow { margin-bottom:10px; }
+ #_form_1_ ._error-arrow { position:absolute; width:0; height:0; }
+ #_form_1_ ._error-html { margin-bottom:10px; }
+ .pika-single { z-index:10000001 !important; }
+ #_form_1_ input[type="text"].datetime_date { width:69%; display:inline; }
+ #_form_1_ select.datetime_time { width:29%; display:inline; height:32px; }
+ #_form_1_ input[type="date"].datetime_date { width:69%; display:inline-flex; }
+ #_form_1_ input[type="time"].datetime_time { width:29%; display:inline-flex; }
+ @media all and (min-width:320px) and (max-width:667px) { ::-webkit-scrollbar { display:none; }
+ #_form_1_ { margin:0; width:100%; min-width:100%; max-width:100%; box-sizing:border-box; }
+ #_form_1_ * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; font-size:1em; }
+ #_form_1_ ._form-content { margin:0; width:100%; }
+ #_form_1_ ._form-inner { display:block; min-width:100%; }
+ #_form_1_ ._form-title,#_form_1_ ._inline-style { margin-top:0; margin-right:0; margin-left:0; }
+ #_form_1_ ._form-title { font-size:1.2em; }
+ #_form_1_ ._form_element { margin:0 0 20px; padding:0; width:100%; }
+ #_form_1_ ._form-element,#_form_1_ ._inline-style,#_form_1_ input[type="text"],#_form_1_ label,#_form_1_ p,#_form_1_ textarea:not(.g-recaptcha-response) { float:none; display:block; width:100%; }
+ #_form_1_ ._row._checkbox-radio label { display:inline; }
+ #_form_1_ ._row,#_form_1_ p,#_form_1_ label { margin-bottom:0.7em; width:100%; }
+ #_form_1_ ._row input[type="checkbox"],#_form_1_ ._row input[type="radio"] { margin:0 !important; vertical-align:middle !important; }
+ #_form_1_ ._row input[type="checkbox"] + span label { display:inline; }
+ #_form_1_ ._row span label { margin:0 !important; width:initial !important; vertical-align:middle !important; }
+ #_form_1_ ._form-image { max-width:100%; height:auto !important; }
+ #_form_1_ input[type="text"] { padding-left:10px; padding-right:10px; font-size:16px; line-height:1.3em; -webkit-appearance:none; }
+ #_form_1_ input[type="radio"],#_form_1_ input[type="checkbox"] { display:inline-block; width:1.3em; height:1.3em; font-size:1em; margin:0 0.3em 0 0; vertical-align:baseline; }
+ #_form_1_ button[type="submit"] { padding:20px; font-size:1.5em; }
+ #_form_1_ ._inline-style { margin:20px 0 0 !important; }
+ }
+ #_form_1_ { position:relative; text-align:left; margin:25px auto 0; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; *zoom:1; background:#fff !important; border:0px solid #b0b0b0 !important; max-width:500px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; color:#000 !important; }
+ #_form_1_._inline-form,#_form_1_._inline-form ._form-content,#_form_1_._inline-form input,#_form_1_._inline-form ._submit { font-family:"IBM Plex Sans", Helvetica, sans-serif, 'IBM Plex Sans', arial, sans-serif; }
+ #_form_1_ ._form-title { font-size:22px; line-height:22px; font-weight:600; margin-bottom:0; }
+ #_form_1_:before,#_form_1_:after { content:" "; display:table; }
+ #_form_1_:after { clear:both; }
+ #_form_1_._inline-style { width:auto; display:inline-block; }
+ #_form_1_._inline-style input[type="text"],#_form_1_._inline-style input[type="date"] { padding:10px 12px; }
+ #_form_1_._inline-style button._inline-style { position:relative; top:27px; }
+ #_form_1_._inline-style p { margin:0; }
+ #_form_1_._inline-style ._button-wrapper { position:relative; margin:27px 12.5px 0 20px; }
+ #_form_1_ ._form-thank-you { position:relative; left:0; right:0; text-align:center; font-size:18px; }
+ @media all and (min-width:320px) and (max-width:667px) { #_form_1_._inline-form._inline-style ._inline-style._button-wrapper { margin-top:20px !important; margin-left:0 !important; }
+ }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  <form method="POST" action="https://thecodefolioguy.activehosted.com/proc.php" id="_form_1_" class="_form _form_1 _inline-form  _dark" novalidate>
+    <input type="hidden" name="u" value="1" />
+    <input type="hidden" name="f" value="1" />
+    <input type="hidden" name="s" />
+    <input type="hidden" name="c" value="0" />
+    <input type="hidden" name="m" value="0" />
+    <input type="hidden" name="act" value="sub" />
+    <input type="hidden" name="v" value="2" />
+    <input type="hidden" name="or" value="b32f143a691c8dfcc1838e20ce69bab4" />
+    <div class="_form-content">
+      <div class="_form_element _x76866041 _full_width _clear" >
+        <div class="_form-title">
+          Subscribe for an Email Class, Free Chapters and Articles
+        </div>
+      </div>
+      <div class="_form_element _x66338756 _full_width _clear" >
+        <div class="_html-code">
+          <p>
+            Your welcome message will contain download links.
+          </p>
+        </div>
+      </div>
+      <div class="_form_element _x14249554 _full_width " >
+        <label for="fullname" class="_form-label">
+          Full Name
+        </label>
+        <div class="_field-wrapper">
+          <input type="text" id="fullname" name="fullname" placeholder="Type your name" />
+        </div>
+        <!--  This STARTS the Custom Objects section  -->
+        </div>
+        <div class="_form_element _x74061491 _full_width " >
+          <label for="email" class="_form-label">
+            Email*
+          </label>
+          <div class="_field-wrapper">
+            <input type="text" id="email" name="email" placeholder="Type your email" required/>
+          </div>
+          <!--  This STARTS the Custom Objects section  -->
+          </div>
+          <div class="_button-wrapper _full_width">
+            <button id="_form_1_submit" class="_submit" type="submit">
+              Submit
+            </button>
+          </div>
+          <div class="_clear-element">
+          </div>
+        </div>
+        <div class="_form-thank-you" style="display:none;">
+        </div>
+      </form><script type="text/javascript">
+window.cfields = [];
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+  var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+  form.querySelector('._form-content').style.display = 'none';
+  thank_you.innerHTML = message;
+  thank_you.style.display = 'block';
+  const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+  var visitorObject = window[vgoAlias];
+  if (email && typeof visitorObject !== 'undefined') {
+    visitorObject('setEmail', email);
+    visitorObject('update');
+  } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+    // Site tracking URL to use after inline form submission.
+    _load_script(trackcmp_url);
+  }
+  if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+  var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+  if (old_error) old_error.parentNode.removeChild(old_error);
+  err.innerHTML = message;
+  err.className = '_error-inner _form_error _no_arrow';
+  var wrapper = document.createElement('div');
+  wrapper.className = '_form-inner';
+  wrapper.appendChild(err);
+  button.parentNode.insertBefore(wrapper, button);
+  document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+  if (html) {
+    var div = document.createElement('div');
+    div.className = '_error-html';
+    div.innerHTML = html;
+    err.appendChild(div);
+  }
+};
+window._load_script = function(url, callback) {
+  var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+  script.type = 'text/javascript';
+  script.charset = 'utf-8';
+  script.src = url;
+  if (callback) {
+    script.onload = script.onreadystatechange = function() {
+      if (!r && (!this.readyState || this.readyState == 'complete')) {
+        r = true;
+        callback();
+      }
+    };
+  }
+  head.appendChild(script);
+};
+(function() {
+  if (window.location.search.search("excludeform") !== -1) return false;
+  var getCookie = function(name) {
+    var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  var setCookie = function(name, value) {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+    now.setTime(expireTime);
+    document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+  }
+      var addEvent = function(element, event, func) {
+    if (element.addEventListener) {
+      element.addEventListener(event, func);
+    } else {
+      var oldFunc = element['on' + event];
+      element['on' + event] = function() {
+        oldFunc.apply(this, arguments);
+        func.apply(this, arguments);
+      };
+    }
+  }
+  var _removed = false;
+  var form_to_submit = document.getElementById('_form_1_');
+  var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+  var getUrlParam = function(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name) || false;
+  };
+
+  for (var i = 0; i < allInputs.length; i++) {
+    var regexStr = "field\\[(\\d+)\\]";
+    var results = new RegExp(regexStr).exec(allInputs[i].name);
+    if (results != undefined) {
+      allInputs[i].dataset.name = window.cfields[results[1]];
+    } else {
+      allInputs[i].dataset.name = allInputs[i].name;
+    }
+    var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+    if (fieldVal) {
+      if (allInputs[i].dataset.autofill === "false") {
+        continue;
+      }
+      if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+        if (allInputs[i].value == fieldVal) {
+          allInputs[i].checked = true;
+        }
+      } else {
+        allInputs[i].value = fieldVal;
+      }
+    }
+  }
+
+  var remove_tooltips = function() {
+    for (var i = 0; i < tooltips.length; i++) {
+      tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+    }
+    tooltips = [];
+  };
+  var remove_tooltip = function(elem) {
+    for (var i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].elem === elem) {
+        tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        tooltips.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var create_tooltip = function(elem, text) {
+    var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+    if (elem.type != 'radio' && elem.type != 'checkbox') {
+      tooltip.className = '_error';
+      arrow.className = '_error-arrow';
+      inner.className = '_error-inner';
+      inner.innerHTML = text;
+      tooltip.appendChild(arrow);
+      tooltip.appendChild(inner);
+      elem.parentNode.appendChild(tooltip);
+    } else {
+      tooltip.className = '_error-inner _no_arrow';
+      tooltip.innerHTML = text;
+      elem.parentNode.insertBefore(tooltip, elem);
+      new_tooltip.no_arrow = true;
+    }
+    new_tooltip.tip = tooltip;
+    new_tooltip.elem = elem;
+    tooltips.push(new_tooltip);
+    return new_tooltip;
+  };
+  var resize_tooltip = function(tooltip) {
+    var rect = tooltip.elem.getBoundingClientRect();
+    var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+    if (scrollPosition < 40) {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+    } else {
+      tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+    }
+  };
+  var resize_tooltips = function() {
+    if (_removed) return;
+    for (var i = 0; i < tooltips.length; i++) {
+      if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+    }
+  };
+  var validate_field = function(elem, remove) {
+    var tooltip = null, value = elem.value, no_error = true;
+    remove ? remove_tooltip(elem) : false;
+    if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+    if (elem.getAttribute('required') !== null) {
+      if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+        var elems = form_to_submit.elements[elem.name];
+        if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+          no_error = elem.checked;
+        }
+        else {
+          no_error = false;
+          for (var i = 0; i < elems.length; i++) {
+            if (elems[i].checked) no_error = true;
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (elem.type =='checkbox') {
+        var elems = form_to_submit.elements[elem.name], found = false, err = [];
+        no_error = true;
+        for (var i = 0; i < elems.length; i++) {
+          if (elems[i].getAttribute('required') === null) continue;
+          if (!found && elems[i] !== elem) return true;
+          found = true;
+          elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+          if (!elems[i].checked) {
+            no_error = false;
+            elems[i].className = elems[i].className + ' _has_error';
+            err.push("Checking %s is required".replace("%s", elems[i].value));
+          }
+        }
+        if (!no_error) {
+          tooltip = create_tooltip(elem, err.join('<br/>'));
+        }
+      } else if (elem.tagName == 'SELECT') {
+        var selected = true;
+        if (elem.multiple) {
+          selected = false;
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected) {
+              selected = true;
+              break;
+            }
+          }
+        } else {
+          for (var i = 0; i < elem.options.length; i++) {
+            if (elem.options[i].selected && (!elem.options[i].value || (elem.options[i].value.match(/\n/g)))) {
+              selected = false;
+            }
+          }
+        }
+        if (!selected) {
+          elem.className = elem.className + ' _has_error';
+          no_error = false;
+          tooltip = create_tooltip(elem, "Please select an option.");
+        }
+      } else if (value === undefined || value === null || value === '') {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "This field is required.");
+      }
+    }
+    if (no_error && elem.name == 'email') {
+      if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid email address.");
+      }
+    }
+    if (no_error && /date_field/.test(elem.className)) {
+      if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+        elem.className = elem.className + ' _has_error';
+        no_error = false;
+        tooltip = create_tooltip(elem, "Enter a valid date.");
+      }
+    }
+    tooltip ? resize_tooltip(tooltip) : false;
+    return no_error;
+  };
+  var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true
+        }
+        if(el.name === 'email' && el.value !== ""){
+            return true
+        }
+        return false
+  };
+  var validate_form = function(e) {
+    var err = form_to_submit.querySelector('._form_error'), no_error = true;
+    if (!submitted) {
+      submitted = true;
+      for (var i = 0, len = allInputs.length; i < len; i++) {
+        var input = allInputs[i];
+        if (needs_validate(input)) {
+          if (input.type == 'text' || input.type == 'number' || input.type == 'time') {
+            addEvent(input, 'blur', function() {
+              this.value = this.value.trim();
+              validate_field(this, true);
+            });
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'radio' || input.type == 'checkbox') {
+            (function(el) {
+              var radios = form_to_submit.elements[el.name];
+              for (var i = 0; i < radios.length; i++) {
+                addEvent(radios[i], 'click', function() {
+                  validate_field(el, true);
+                });
+              }
+            })(input);
+          } else if (input.tagName == 'SELECT') {
+            addEvent(input, 'change', function() {
+              validate_field(this, true);
+            });
+          } else if (input.type == 'textarea'){
+            addEvent(input, 'input', function() {
+              validate_field(this, true);
+            });
+          }
+        }
+      }
+    }
+    remove_tooltips();
+    for (var i = 0, len = allInputs.length; i < len; i++) {
+      var elem = allInputs[i];
+      if (needs_validate(elem)) {
+        if (elem.tagName.toLowerCase() !== "select") {
+          elem.value = elem.value.trim();
+        }
+        validate_field(elem) ? true : no_error = false;
+      }
+    }
+    if (!no_error && e) {
+      e.preventDefault();
+    }
+    resize_tooltips();
+    return no_error;
+  };
+  addEvent(window, 'resize', resize_tooltips);
+  addEvent(window, 'scroll', resize_tooltips);
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+  var form_submit = function(e) {
+    e.preventDefault();
+    if (validate_form()) {
+      // use this trick to get the submit button & disable it using plain javascript
+      document.querySelector('#_form_1_submit').disabled = true;
+            var serialized = _form_serialize(document.getElementById('_form_1_')).replace(/%0A/g, '\\n');
+      var err = form_to_submit.querySelector('._form_error');
+      err ? err.parentNode.removeChild(err) : false;
+      _load_script('https://thecodefolioguy.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+    }
+    return false;
+  };
+  addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+        <!-- End ActiveCampaign Signup Form -->
+    </div><!-- .inner -->
+</section><!-- .widget -->
+
+        
+
+<section id="comments-area" class="comments-area comments-opened">  <!-- comments-opened class added to do insta-show, not delayed-show -->
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments-inside">
+        <div id="disqus_thread"></div>
+    </div><!-- .comments-inside -->
+    <!-- <div id="comments-overlay" class="comments-overlay">
+        <a href="#" id="comments-show" class="comments-show">Show comments</a>
+    </div> --><!-- .comments-overlay - removed because I don't like the click-to-load... -->
+    <script type="text/javascript">
+        var disqus_config = function () {
+            // Replace PAGE_URL with your page's canonical URL variable
+            this.page.url = 'https://codefol.io/posts/series-build-coding-course-email-reminders';
+
+            // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            this.page.identifier = 'https://codefol.io/posts/series-build-coding-course-email-reminders';
+        };
+
+        var disqus_shortname = 'rubymadscience';
+        var disqus_developer = 0;
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+        <section class="read-next inner">
+            <h2 class="read-next-title">Read Next</h2>
+
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/when-should-you-not-use-rails/">When Should You NOT Use Rails?</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                        </p>
+                    </header>
+                        <a href="/posts/when-should-you-not-use-rails/" class="post-thumbnail">
+                            <img src="/img/chimp_keyboard_aside.png" width="216" height="135" alt="When Should You NOT Use Rails?" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/series-build-coding-course-subscriptions-and-profiles/">Let's Build Course Software: Subscriptions and Profiles</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/ruby/'>ruby</a>
+                                <a href='/tags/rails/'>rails</a>
+                                <a href='/tags/letsbuild/'>letsbuild</a>
+                                <a href='/tags/rubymadscience/'>rubymadscience</a>
+                        </p>
+                    </header>
+                        <a href="/posts/series-build-coding-course-subscriptions-and-profiles/" class="post-thumbnail">
+                            <img src="/img/chimp_bear_pirate_studying_objects_aside.png" width="216" height="135" alt="Let's Build Course Software: Subscriptions and Profiles" />
+                    </a>
+                </article>
+                <article class="post">
+                    <header class="post-header">
+                        <h3 class="post-title"><a href="/posts/how-can-there-be-a-job-shortage-and-so-hard-to-get-a-tech-job/">How Can There Be a Job Shortage *and* It Be So Hard to Get a Tech Job?</a></h3>
+                        <p class="post-tags">
+                                <a href='/tags/career/'>career</a>
+                        </p>
+                    </header>
+                        <a href="/posts/how-can-there-be-a-job-shortage-and-so-hard-to-get-a-tech-job/" class="post-thumbnail">
+                            <img src="/img/how_to_solve_it_aside.png" width="216" height="144" alt="How Can There Be a Job Shortage *and* It Be So Hard to Get a Tech Job?" />
+                    </a>
+                </article>
+        </section><!-- .read-next -->
+        <!-- has_key(prev) -->
+    </main><!-- .site-main -->
+</div><!-- .site-content -->
+
+
+
+        <footer id="colophon" class="site-footer outer">
+            <div class="site-footer-inside">
+                <p class="social-links">
+    <a href="https://ruby.social/@codefolio" target="_blank">
+        <span class="fa-rss fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Mastodon</span>
+    </a>
+    <a href="https://github.com/noahgibbs" target="_blank">
+        <span class="fa-github fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">GitHub</span>
+    </a>
+    <a href="https://www.linkedin.com/in/noahgibbs" target="_blank">
+        <span class="fa-linkedin fa" aria-hidden="true"></span>
+        <span class="screen-reader-text">Linkedin</span>
+    </a>
+   <a rel="me" href="https://ruby.social/@codefolio">Mastodon</a>
+</p>
+
+                <p class="site-info">
+                    <a href="#">Codefol.io</a> &copy; 2020 . Horace theme by
+                    <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>..
+                </p>
+                <p class="back-to-top">
+                    <a id="top-button" class="top-button" href="#page">
+                        <span class="icon-arrow-up" aria-hidden="true"></span>
+                        <span class="screen-reader-text">Back to top</span>
+                    </a>
+                </p>
+            </div><!-- .site-footer-inside -->
+        </footer><!-- .site-footer -->
+    </div><!-- .site -->
+    <div id="site-overlay" class="site-overlay"></div>
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30520713-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-30520713-1');
+    </script>
+
+    <!-- Javascript Assets -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/simple-lightbox.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/custom.js"></script>
+    <script id="dsq-count-scr" src="//rubymadscience.disqus.com/count.js" async></script>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+<p>Folks are asking on Reddit, <a href="https://www.reddit.com/r/rails/comments/6jolzg/is_rails_worth_pursuing_anymore/">Is Rails Worth Pursuing Anymore?</a> Here&rsquo;s my answer:</p>
+
+<p>Rails still has some unusual characteristics: it&rsquo;s easy and very low-boilerplate to get a web app up and running. The browser security is unmatched, as far as what the framework does for you automatically. Rails&rsquo; use of metaprogramming allows less code for certain things than any other language/framework combo in existence.</p>
+
+<p>In other words, Rails will teach you some important things about frameworks that you can&rsquo;t (currently) learn anywhere else.</p>
+
+<p>In a business sense, it&rsquo;s also by far the best early-prototyping framework for an app that will serve HTML to humans but needs to be secure. That&rsquo;s why you see so much focus on mid-to-senior-level positions: it&rsquo;s new startups and startup-like efforts within larger companies. Rails is still unmatched in that specific space.</p>
+
+<p>Do you care about that space? Eh, maybe. That&rsquo;s up to you, isn&rsquo;t it? But the jobs will be there for a long time to come.</p>
