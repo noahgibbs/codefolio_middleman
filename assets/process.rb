@@ -73,7 +73,7 @@ Dir["assets/*.json"].each do |asset_file|
   end
 
   orig_filename = "assets/orig/#{asset["file"]}"
-  unless File.exists?(orig_filename)
+  unless File.exist?(orig_filename)
     raise "No such image as #{orig_filename.inspect} while reading #{asset_file.inspect}!"
   end
 
