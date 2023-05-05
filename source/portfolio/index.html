@@ -20,7 +20,7 @@
 <script type="text/javascript">
 
 var loc = location.href.split("#")[0];
-if(loc[loc.length - 1] != "/") {
+if(!loc.endsWith("/") && !loc.endsWith(".html")) {
   var loc_parts = location.href.split("#");
   var new_url = loc_parts[0] + "/";
   var new_hash = loc_parts[1] ? loc_parts[1] : "all";
