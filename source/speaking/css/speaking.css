@@ -1,0 +1,23 @@
+body {
+}
+
+.top-note {
+  padding: 1em;
+}
+
+div.card {
+  width: 85%;
+  margin: 5%;
+}
+
+div.card img {
+  float:right;
+  border: 5px solid gray;
+  margin: 1.5rem;
+  box-shadow: 10px 5px 5px black;
+}
+
+.description {
+  font-size: 120%;
+}
+

@@ -1,0 +1,64 @@
+<html>
+<body>
+  <!-- TODO: 'how to build and run YJIT' intro -->
+
+  <p>
+    Want to get started with YJIT? See the <a href="https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md">latest README</a> for details.
+    The short version goes:
+  </p>
+
+  <pre>
+    # If you have a YJIT-capable Ruby installed, run with the --yjit flag
+    ruby --yjit my_file_to_make_faster.rb
+    RUBYOPT="--yjit" rails server
+
+    # Any Ruby 3.1.0 or later has YJIT support
+    rvm install ruby-3.1
+    ruby-build 3.1.0 ~/.rubies/ruby-3.1.0
+  </pre>
+
+  <h2>YJIT Resources</h2>
+  <ul>
+    <li><a href="https://arxiv.org/abs/1411.0352">Lazy Basic Block Versioning whitepaper</a></li>
+    <li>RubyKaigi 2021 talk: <a href="https://www.youtube.com/watch?v=PBVLf3yfMs8">YJIT: Building a New JIT Compiler Inside CRuby</a>
+    <li>RubyKaigi 2022 talk: <a href="https://rubykaigi.org/2022/presentations/alanwusx.html">Stories from Developing YJIT</a></li>
+    <li><a href="https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md">Latest YJIT README in CRuby</a></li>
+    <li><a href="https://github.com/ruby/ruby/blob/master/doc/yjit/yjit_hacking.md">Latest YJIT Hacking Concepts in CRuby</a></li>
+    <li>For deep details about Ruby bytecode, <a href="https://kddnewton.com/2022/11/30/advent-of-yarv-part-0.html">Kevin Newton's Advent of YARV</a> is fantastic</li>
+  </ul>
+
+  <p>
+    You can install Ruby 3.1.0 or higher to get the most recent release
+    of YJIT. 3.2.0 or higher is strongly preferred for long-running
+    servers.
+  </p>
+
+  <p>
+    Snippets to disassemble chunks of Ruby code:<br/>
+  </p>
+
+  <pre>
+    # To disassemble Ruby bytecode:
+    puts RubyVM::InstructionSequence.disassemble(method :whatever_method)
+
+    # Ruby bytecode plus YJIT assembly language (only on dev YJIT):
+    puts RubyVM::YJIT.disasm(method :whatever_method)
+
+    # If you want to do YJIT disassembly, you'll need to run with YJIT
+    ruby --yjit my_disassembly_test.rb
+
+    # And when you build Ruby, you'll need to turn on dev YJIT:
+    ./configure --yjit-enable=dev
+  </pre>
+
+  <p>
+    You can find more BBV and YJIT talks and papers in the
+    <a href="https://github.com/ruby/ruby/blob/master/doc/yjit/yjit.md">CRuby YJIT README</a>.
+  </p>
+
+  <p>
+    <a href="./YJIT%20Three%20Languages%20slides.pdf">Slides from my talk</a>
+  </p>
+</body>
+</html>
+
