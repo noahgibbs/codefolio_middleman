@@ -1,0 +1,209 @@
+---
+title: "Fibers for Flow Control - A Weird Ruby Magic Trick"
+tags: ruby
+featured_asset: radio_repair
+featured_caption: "Experimentation is the Key!"
+front_page: false
+---
+
+I've been working on [Scarpe](https://github.com/scarpe-team/scarpe) a fair bit lately. I came across a lovely and bizarre bit of Ruby and I really want to share.
+
+Short version: did you know that with the cool Ruby 3.0 Fibers changes, you can use Fibers as a weird form of flow-control primitive, not for concurrency at all? And it solves some of Ruby's mismatch with JS-style evented programming and promises?
+
+I'm gonna talk about an ugly situation with Ruby Webview, and a surprisingly clean solution with Fibers. I'm sure there are, like, ten good reasons not to do this in production. Also, Scarpe will be [doing this as its main method of testing](https://github.com/scarpe-team/scarpe/pull/259).
+
+READMORE
+
+## Webview Is Not the Easiest
+
+So, hey, [Webview](https://github.com/webview/webview). It runs a little browser, on any of Linux/Mac/Windows, and you can send snippets of Javascript across to it. So in theory you can write a little web app and run it, as a local GUI app, on all three operating systems. That's kinda cool. Think of it as a lighter-weight, less polished version of [Electron](https://electron.js).
+
+Scarpe's own Marco Rudilosso wrote a [Ruby wrapper](https://github.com/Maaarcocr/webview_ruby) for it that's worked well for us. The wrapper has been fine. No, it's Webview itself that tends to be a problem.
+
+Webview is a GUI library. So it wants to run the event loop -- you tell it to run, and it'll call you back when and how it feels like it. Your JS calls are async, dispatched from that event loop. Window updates (redrawing things when you resize the window, or when it pops up from under another window, etc) are all done by Webview, from the event loop.
+
+Also if you don't return control to it promptly it'll just segfault and crash your process. And you can't call Webview APIs from a background thread. And it stops all background threads when it starts running.
+
+Bit of a constrained situation.
+
+But there's a Javascript-flavoured answer to this. Lots of async calls? Great, use [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) and [event handlers and so on](https://en.wikipedia.org/wiki/Event-driven_programming).
+
+You can see how that comes out if we do the same thing in Ruby. In fact, you can see it marked in red in a lot of parts of that Scarpe PR above, as I tear it all out. Here's an example:
+
+```ruby
+def test_assert_multiple_dom_updates
+  run_test_scarpe_code(<<-'SCARPE_APP', test_code: <<-'TEST_CODE')
+    Shoes.app do
+      para "Hello"
+    end
+  SCARPE_APP
+    on_event(:next_redraw) do
+      para = find_wv_widgets(Scarpe::WebviewPara)[0]
+      with_js_dom_html do |html_text|
+        assert html_text.include?("Hello"), "DOM HTML should include initial para text!"
+      end.then_ruby_promise do
+        # We'll send the signal that changes the para text, as though we called Scarpe's para.replace
+        change = { "text_items" => [ "Goodbye" ] }
+        doc_root.send_shoes_event(change, event_name: "prop_change", target: para.shoes_linkable_id)
+        wrangler.promise_dom_fully_updated
+      end.then_with_js_dom_html do |html_text|
+        assert html_text.include?("Goodbye"), "DOM root should contain the first replacement text! Text: #{html_text.inspect}"
+        assert !html_text.include?("Hello"), "DOM root shouldn't still contain the original text! Text: #{html_text.inspect}"
+      end.then_ruby_promise do
+        change = { "text_items" => [ "Borzoi" ] }
+        doc_root.send_shoes_event(change, event_name: "prop_change", target: para.shoes_linkable_id)
+        wrangler.promise_dom_fully_updated
+      end.then_with_js_dom_html do |html_text|
+        assert html_text.include?("Borzoi"), "DOM root should contain the second replacement text! Text: #{html_text.inspect}"
+      end.then { return_when_assertions_done }
+    end
+  TEST_CODE
+end
+```
+
+That top bit with the Shoes.app call is a tiny little Shoes app. And that last bit is us calling "replace" on the line of text that says "Hello", twice, and making sure everything is where it should be.
+
+Horrible, isn't it? Before I wrote this we had no testing, so I hope you'll forgive me for this intermediate stage that only a 2005-era Javascript programmer could love. It has as many hideous failure modes as you think it does. I wrote a custom assertion library for it, because you have to "open" an assert as early as possible to keep it from returning before it checks everything.
+
+I even had to write [another Ruby Promises library](https://github.com/scarpe-team/scarpe/blob/main/lib/scarpe/promises.rb) because usually they start background threads and that would be very, very bad for us.
+
+I'm very sorry I did this, is what I'm saying.
+
+But! It basically works, with a certain percentage of flaky tests. Webview doesn't crash. Mostly it all joins up together and things happen when they should. It doesn't require a background thread. Control flickers rapidly back and forth between the test code and Webview getting to run its JS code.
+
+All of this has been the problem. I haven't even started talking about a solution yet. So let me show you something weird and awesome that doesn't look at all like a solution.
+
+## Ruby 3.0 Fibers are Weird and Awesome
+
+Fibers are a sort of cooperative form of threads. You hand off control to one of them and it decides when to "yield" -- that is, when to give up control and let the next one run. If all goes well, this is a nice efficient way to share the CPU and each Fiber decides how long to hold it before waiting for I/O or whatever it does in between.
+
+If all goes poorly, some Fiber holds onto the CPU, never calls yield and everything crashes and burns. So, no pressure.
+
+Samuel Williams is Ruby's champion of Fibers in recent years and has worked hard to make them awesome for all kinds of tasks. He maintains the Falcon Fiber-based application server, and the Async library for Fiber-based interfaces like databases, the network and so on.
+
+He also made some ***interesting*** changes for Ruby 3.0.
+
+You ***can*** use Fibers for concurrency, as cooperative threads. Of course, you could also do something completely different with them.
+
+## Fiber.transfer
+
+Normally a Fiber calls Fiber.yield, and Ruby moves on to the next Fiber in turn. If you have 37 Fibers, you'll go around through 37 yields (as a rule) before getting back to your first Fiber. When a Fiber gets control again, it is "resumed". You usually make a bunch of Fibers that are sitting around and waiting and then you Fiber.resume one of them, and now it's running. So it gets control until the Fiber (or whole bunch of Fibers) decide it's done, perhaps by yielding until it gets back to that first Fiber-resume caller.
+
+But there's another interface, called [Fiber.transfer](https://ruby-doc.org/core-3.0.0/Fiber.html#method-i-transfer). You can give control to a *specific* Fiber. If a Fiber gets called with Fiber.transfer *first*, before Fiber.resume, it also takes them out of the Fiber.yield rotation. So they'll never run because another Fiber called Fiber.resume.
+
+If you were going to do a more complicated Fibers-as-cooperative-threads thing, you'd do it this way, giving control where you wanted it. But also, a Fiber can stick around a long time before you Fiber.transfer back to it. So you could start running a block of code, call a method that Fiber.transfer's you back to a different Fiber, and then leave that Fiber on ice for awhile, partway through that method call. You could go about your day, with a method sitting around half done, and come back to it seconds or hours later while the rest of your program gets on with its day.
+
+If you wanted.
+
+Here's a hideous example, which wants Ruby 3.0.0 or later:
+
+```
+require "fiber"
+
+$mgr = Fiber.new do |start_spot, how_many|
+  loop do
+    items = []
+    items << $the_worst_iterator.transfer(true, start_spot)
+    (how_many - 1).times do
+      items << $the_worst_iterator.transfer(false)
+    end
+    start_spot, how_many = Fiber.yield items
+  end
+end
+
+$the_worst_iterator = Fiber.new do |reset_count, new_count|
+  count = 1
+  loop do
+    count = new_count if reset_count
+
+    item = "#{count} "
+    item += "Fizz" if count % 3 == 0
+    item += "Buzz" if count % 5 == 0
+
+    count += 1
+    reset_count, new_count = $mgr.transfer(item)
+  end
+end
+
+def the_worst_fizzbuzz(start_spot, how_many)
+  $mgr.resume(start_spot, how_many)
+end
+
+puts the_worst_fizzbuzz(1, 15)
+puts "===="
+puts the_worst_fizzbuzz(37, 5)
+puts "===="
+```
+
+There you are. Now never, never use that in a job interview.
+
+What's happening is that we're transferring control to the manager fiber with Fiber.resume, and passing it values, which get returned on the manager side from Fiber.yield, and passed into the original block on the very first resume. You may want to print these things out and play with the code a bit -- it took me some time to figure out.
+
+If you want some kind of method that sits around not doing anything until you call it, this will let you pop back and forth, into it and out of it, whenever you like.
+
+So if you wrote a test with straight-line code, but you wanted it to go call an event loop in between, you could do it this way. It would be sort of evil.
+
+But would it be more evil than using Promises and handlers...?
+
+## How It Shakes Out
+
+You can see the [whole PR](https://github.com/scarpe-team/scarpe/pull/259) if you want. But remember that ugly promises-based code above? Let's look at that after restructuring:
+
+```
+def test_html_dom_replace
+  run_test_scarpe_code(<<-'SCARPE_APP', app_test_code: <<-'TEST_CODE')
+    Shoes.app do
+      para "Hello World"
+    end
+  SCARPE_APP
+    on_heartbeat do
+      p = para()
+      assert_include dom_html, "Hello World"
+      p.replace("Goodbye World")
+      wait fully_updated
+      assert_include dom_html, "Goodbye World"
+      assert_not_include dom_html, "Hello World"
+      p.replace("Borzoi")
+      assert_include dom_html, "Borzoi"
+      wait fully_updated
+      test_finished
+    end
+  TEST_CODE
+end
+```
+
+This isn't 100% the same. For instance, we can literally use p.replace() here instead of sending the under-the-hood signal. But to me, the big striking change is that the code reads in a simple, straight-line way and you can understand what it's doing.
+
+The flip side is that this code actually stops executing, returns, and gets Fiber-transferred back six times. So it (initially) runs that on_heartbeat block once, but goes *back* to it six more times before it reaches the end.
+
+For those counting at home, the six times are the two calls to "wait fully_updated" and four to "dom_html". "wait fuly_updated" waits for all the Javascript updates from the changed text to happen. And dom_html has to query Javascript for a copy of the page's HTML code. Both require returning to Webview and giving it time to sort through its incoming message queue.
+
+So this is still just as horribly messy and evented in terms of its flow of control... and the mess is completely hidden. But much, much better yet is that you can't easily start an async call with a promise and then just not wait for it.
+
+Well, okay, that fully_updated promise has that problem. It doesn't block, it just returns the promise. Maybe I should fix that. I *do* like having a "wait" for an arbitrary promise, though.
+
+All of this uses a lot of Promises under the hood. It just makes them much less ugly, and a bit less error-prone. If this reminds you a lot of [Javascript's async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function), it should. It's very similar.
+
+## Disagreeable Side Effects
+
+It would be reasonable to ask, "what terrible problems will this cause?" Luckily, using transfer as we do above will take the Fibers we keep in suspended animation from being part of the normal "Fiber.yield" rotation. That's an obvious one, and I'm sure it's the reason for the otherwise-complicated rule about whether the *first* time a Fiber gets control it's via resume or via transfer.
+
+The obvious and normal Fiber side effect is: be sure you actually return control to your caller. A Fiber won't stop you from doing something foolish like a tight loop for 30 seconds. If you do, bad things will happen. There are lots of fancy tricks you can do to keep sleep() or File.read() from having the same problem... and I've been avoiding those fancy tricks, because this is already hard enough for me to reason about.
+
+Debugging this will be interesting. So that's a sort of side effect. If you make flow-of-control be a complicated, configurable thing then you're going to have to think through it. So try to keep it simple, as much as you can.
+
+As well, this is ***not*** for concurrency, only for flow control. If you try to resume a Fiber from a different thread than it was created in, you'll get a "fiber called across threads" FiberError. This only works for flow control *within* a single process and thread.
+
+## Takeaways
+
+What do you know that you didn't know when you started reading?
+
+Well, Ruby has a ***funky*** flow-control primitive built into Fibers, and it will let you run a block or method in little chunks, with seconds or hours in between. You can already do a similar thing with Threads, but this will work in places Threads aren't allowed. Also it won't hold an OS thread open, so you could do this with ***lots*** of Fibers, if you somehow thought that was a good idea.
+
+You may have seen your new personal worst FizzBuzz, or not. There are some pretty darn bad ones out there.
+
+You've probably lost a lot of respect for me. [TODO: DO NOT PUBLISH THIS ARTICLE ALSO BURY LAPTOP IN BACK GARDEN]
+
+Usually this is the part of the article where you'd read, "and this was all written by ChatGPT." But not today.
+
+But mostly you know a new technique for getting Ruby to deal with evented libraries. There are a lot of them out there. I don't think Webview will be the begin and end of these.
