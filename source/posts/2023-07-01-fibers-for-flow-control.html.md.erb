@@ -194,6 +194,16 @@ Debugging this will be interesting. So that's a sort of side effect. If you make
 
 As well, this is ***not*** for concurrency, only for flow control. If you try to resume a Fiber from a different thread than it was created in, you'll get a "fiber called across threads" FiberError. This only works for flow control *within* a single process and thread.
 
+## Horrible Implications
+
+What else could we use this for? Here's my favourite bad idea: web framework. You know how we break up "how does the user do X" flows into HTTP GETs and redirects and POSTs and so on? Nah. You could write a UI flow with, like, five GETs and two POSTs in your tests with a single Fiber, like the above, and break it up into requests under the hood. There are a *lot* of details to be worked out, the obvious ways to do this would be awful. But maybe there's a gem somewhere in the muck there?
+
+Relatedly, you could do a wizard this way, that walks you through your site. The wizard code is a set of transitions from page to page that somehow "overlays" windows and text and stuff, without having to build it into each specific page action individually.
+
+I used functions like this for a MUD once. I didn't write it, that time. But they'd take a set of commands for monsters and computer-controlled people and whatnot, and divide a linear "talk, wait, pick up a hat"-type flow into a set of events for you. So you can write it in a sensible linear way, and it'll turn into all the little annoying pieces behind the scenes.
+
+What do these have in common? Mostly that they're "meta flows of control" - you have some kind of flow of control (monster behaviour, onboarding instructions) that moves separately from your normal flow of control (GET, POST, redirect, GET.)
+
 ## Takeaways
 
 What do you know that you didn't know when you started reading?
