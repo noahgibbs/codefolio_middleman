@@ -97,7 +97,7 @@ If you wanted.
 
 Here's a hideous example, which wants Ruby 3.0.0 or later:
 
-```
+```ruby
 require "fiber"
 
 $mgr = Fiber.new do |start_spot, how_many|
@@ -149,7 +149,7 @@ But would it be more evil than using Promises and handlers...?
 
 You can see the [whole PR](https://github.com/scarpe-team/scarpe/pull/259) if you want. But remember that ugly promises-based code above? Let's look at that after restructuring:
 
-```
+```ruby
 def test_html_dom_replace
   run_test_scarpe_code(<<-'SCARPE_APP', app_test_code: <<-'TEST_CODE')
     Shoes.app do
