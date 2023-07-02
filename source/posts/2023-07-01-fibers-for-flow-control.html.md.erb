@@ -176,7 +176,7 @@ This isn't 100% the same. For instance, we can literally use p.replace() here in
 
 The flip side is that this code actually stops executing, returns, and gets Fiber-transferred back six times. So it (initially) runs that on_heartbeat block once, but goes *back* to it six more times before it reaches the end.
 
-For those counting at home, the six times are the two calls to "wait fully_updated" and four to "dom_html". "wait fuly_updated" waits for all the Javascript updates from the changed text to happen. And dom_html has to query Javascript for a copy of the page's HTML code. Both require returning to Webview and giving it time to sort through its incoming message queue.
+For those counting at home, the six times are the two calls to "wait fully\_updated" and four to "dom\_html". "wait fully\_updated" waits for all the Javascript updates from the changed text to happen. And dom\_html has to query Javascript for a copy of the page's HTML code. Both require returning to Webview and giving it time to sort through its incoming message queue.
 
 So this is still just as horribly messy and evented in terms of its flow of control... and the mess is completely hidden. But much, much better yet is that you can't easily start an async call with a promise and then just not wait for it.
 
