@@ -1,0 +1,99 @@
+---
+title: "We Got Criticised Online - Woo-Hoo!"
+tags: ruby
+featured_asset: bad_practice
+featured_caption: "This Is Us! It actually totally is."
+front_page: false
+---
+
+Awhile back I joined the [Scarpe project](https://github.com/scarpe-team/scarpe). I was part of the original Hack Days project for it, and I've continued to contribute bits and pieces since.
+
+Scarpe is good silly fun. We're not very far along, but people seem happy and excited. That's nice! The Shoes4 folks helped us find an old Shoes3 binary to test against, and have been generally positive.
+
+There's a normal thing that happens when you get a few people excited about a project and cool stuff happens: other folks, who have been doing their own thing for a long time, respond to it. That makes sense. It's a thing happening! You can respond to it.
+
+The guy who writes Glimmer recently wrote a blog post and/or section of his README, ["If You Liked Shoes, You'll Love Glimmer."](https://andymaleh.blogspot.com/2023/06/if-you-liked-shoes-youll-love-glimmer.html) That makes sense. Glimmer is a much more mature, complete solution to building local UI apps than Scarpe is.
+
+Wait, why Scarpe? He said "Shoes." There's other Shoes out there, right?
+
+READMORE
+
+Yeah, [other Shoes totally exists](https://github.com/shoes/shoes4) though it's [at kind of a low point](https://github.com/shoes/shoes4/issues/1586) -- not a lot going on with it. But Andy did us a great favour: his very first bullet point isn't true of Shoes3, or Shoes4, or any of the ones before that. It doesn't seem to be true of Red Shoes or Green Shoes or the other long-ago experimental ones I've seen.
+
+[It's a Scarpe bug](https://github.com/scarpe-team/scarpe/issues/136). He's right, having it work right would be better than what we do now. Scarpe actually has a ***bunch*** of bugs and places where we're incomplete. Glimmer and Shoes both do it the way he says is better. At least, Shoes3 and Shoes4 and Red Shoes and so on do it that way. Scarpe does it the wrong way. We're gonna fix it, but it's [taken a bit of research](https://github.com/scarpe-team/scarpe/wiki/ShoesSlotsSelf.md), and I may not get around to it immediately.
+
+(There are other things he mentions that are Scarpe bugs rather than Shoes, but it was very convenient for him to put the most obvious one first. Saved me some time!)
+
+Anyway, it's a good blog post. [You should read it](https://andymaleh.blogspot.com/2023/06/if-you-liked-shoes-youll-love-glimmer.html). It's all about why there's not really any reason for us to continue on Scarpe, because things like Glimmer are just a better idea.
+
+So why do I mention it?
+
+## Danger, Will Robinson
+
+Back in 2008, a programmer guy named Reg Braithwaite, or possibly [Raganwald](https://raganwald.com/), changed jobs. He's pretty awesome, but not because he changed jobs.
+
+He's a great writer. He wrote that he was changing jobs because he [wanted to do something dangerous](http://weblog.raganwald.com/2008/07/brief-history-of-dangerous-ideas.html). Then he wrote a lot about what "dangerous" meant. He sort of meant "disruptive" but not in a business way. He meant he wanted to put a dent in the social order of the world, by returning power to random people instead of keeping the power with specialists, elites and so on. Ideas that "subvert the existing hierarchy of control," he says. Subversive ideas, he says. Ideas that allow non-specialists to do things (like kill armoured knights) that previously needed specialists.
+
+He says it better than I do, by a lot. [Really, read his article](http://weblog.raganwald.com/2008/07/brief-history-of-dangerous-ideas.html). It's great.
+
+(Let's be clear: while I am a very random person, I am also a specialist-elite programmer guy. I am not here speaking for The Little Guy. I am a Really Fairly Big Guy, particularly because of how well I make pancakes.)
+
+## The Substance of the Criticism
+
+I started with "the Glimmer guy wrote some good criticism about how Shoes is, at best, a start and these other approaches are better." Let's talk about some of the specific criticisms. They're good! I'll skip the first one because, again, it's a bug we're fixing.
+
+Here's are the next three:
+
+* Shoes lacks support for high-quality business widget controls (View components) like table and tree. Glimmer GUI DSLs that are feature complete like Glimmer DSL for SWT do support table and tree widgets. Some non-final Glimmer GUI DSLs like Glimmer DSL for LibUI support the table control too.
+
+* Shoes does not encourage proper separation of concerns with a correct MVC architecture (Model-View-Controller), resulting in a lot of non-presentation logic mixed with View code. Glimmer GUI DSLs do support proper separation of concerns 100% following the MVC or MVP (Model-View-Presenter) architecture by default.
+
+* Shoes does not provide a simple way for connecting View components to Model data. Glimmer GUI DSLs provide full bidirectional/unidirectional data-binding support out of the box that provides the terest code syntax for connecting Views to Models and keeping them in sync.
+
+So here's a thing: Shoes is designed to allow non-programmers to write GUI programs. It's designed to make programmers out of non-specialists by removing as many obstacles as possible.
+
+Scarpe doesn't do a great job of that (yet?). We lost [\_why, the guy who originally wrote it](https://en.wikipedia.org/wiki/Why_the_lucky_stiff), and so we've lost a lot of what Old Shoes used to do. Maybe we'll get Scarpe back to that point. Maybe not.
+
+But you know what will make sure it's not dangerous? Making things complicated enough that a real specialist would find it tolerable. Something to keep genuine random people from picking it up.
+
+Things like... oh, let's say high-quality business widgets like tables and trees. Or pushing proper separation of concerns with an MVC or MVP architecture, right out of the box. Or full -- but complex and abstract -- data-binding support.
+
+For example, [here is the alphabetically-first example](https://github.com/AndyObtiva/glimmer-dsl-libui/blob/master/examples/area_based_custom_controls.rb) from the Fukuoka-award-winning Glimmer DSL for LibUI. You could find a Shoes example that complex and abstract, but you'll have to dig pretty hard to do it.
+
+If you read a little Glimmer code, I think you'll agree with me: it's a complex, excellent tool for responsible specialists, the kind of tool you wouldn't ever hand to a Little-Timmy-type trying to prank his grandmother with a fake computer virus.
+
+I ***love*** the Glimmer guy's blog post. For some of you, it's even true that if you liked Shoes you'll love Glimmer. But I think it's at least as likely that if you ***loved*** Shoes, you'll feel like Glimmer is... something else. Like it's not even playing the same game.
+
+It's not like I never [add anything complicated](https://github.com/scarpe-team/scarpe/pull/259) to Scarpe. But when I'm doing a good job, I'm sweeping complexity under the rug, and making things as simply concrete as I can.
+
+Sometimes I fail. But that's the goal.
+
+If I get criticism like ***this***... I'm aiming in the right direction.
+
+## Scarpe is a Clownish Scion of Clownish Sires
+
+\_Why -- who is worth reading up on, if you haven't -- was pretty silly. On purpose and inadvertently. His [\_Why's Poignant Guide to Ruby](https://poignant.guide/) was ***enormously*** silly. It also spawned a new sub-genre of programming books (hello, [Learn You a Haskell!](http://learnyouahaskell.com/)) and brought a ton of new programmers into Ruby and changed a surprising amount of how programmers talk to each other, indirectly and over time.
+
+Shoes brought a lot of people into programming who, so far as we can tell, otherwise wouldn't be here.
+
+Scarpe hasn't had time to do much. So it's just silly and useless and ridiculous. That's cool, at least as far as I'm concerned.
+
+But if we produce the kind of library where I'd say we "took that approach to its maximum and produced the ultimate evolution of Shoes," feel free to make fun of me for it. It means we failed.
+
+## But What If You're a Big Pancake-Eating Programmer Person?
+
+You're pretty smart. Or pretty and smart? Probably both of those. So you've probably figured out that if you ***do*** know a lot of programming, why would you care about tools designed for people who can't do that?
+
+If you have a big idea for a desktop program that's going to make a ton of money, definitely do it in Glimmer. If you want to be responsible and use the ultimate evolution of something... Definitely Glimmer. Bidirectional data binding? Glimmer. Complicated business widgets? Glimmer. Technically, like, Shoes will let you build bigger widgets too, but Scarpe won't. So: Glimmer.
+
+If that's the game you're playing, go with Glimmer. No question. Shoes isn't gonna be worth a second look, and Scarpe even less so. Even after we fix that bug. No kidding.
+
+But if you're looking for a different game, maybe it's worth finding out about Old Shoes, and \_Why the Lucky Stiff and [Hackety-Hack](https://en.wikipedia.org/wiki/Hackety_Hack), and reading [Nobody Knows Shoes](https://github.com/whymirror/why-archive/blob/master/shoes/nobody-knows-shoes.pdf).
+
+Maybe it's worth finding out if there's another game out there. Scarpe's not very good at playing it yet. Give us another year or two. And then probably we still won't.
+
+But I'm an old guy. I'm getting tired of not playing that game. And maybe some day an idiot writing a bad library that will never be the ultimate evolution of anything will look back and say "there was this guy named Noah, and he was pretty cool, but not because he was leaving his job, and he worked on a library called Scarpe, that didn't really do everything he wanted, but he was trying to play a different game."
+
+I feel like we've already got a lot of the always-lots-more-complexity-and-abstraction game we play. Maybe it's time to try something else, even if it makes us look silly.
+
+But not if you're building a big serious app. Then, use Glimmer.
