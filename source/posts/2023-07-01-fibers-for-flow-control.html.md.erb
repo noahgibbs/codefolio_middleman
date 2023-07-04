@@ -172,7 +172,7 @@ def test_html_dom_replace
 end
 ```
 
-This isn't 100% the same. For instance, we can literally use p.replace() here instead of sending the under-the-hood signal. But to me, the big striking change is that the code reads in a simple, straight-line way and you can understand what it's doing.
+This isn't 100% the same. For instance, we just use p.replace() here instead of sending the under-the-hood signal -- the Fiber changes aren't the only thing in that PR. But to me, the big striking change is that the code reads in a simple, straight-line way and you can understand what it's doing.
 
 The flip side is that this code actually stops executing, returns, and gets Fiber-transferred back six times. So it (initially) runs that on_heartbeat block once, but goes *back* to it six more times before it reaches the end.
 
