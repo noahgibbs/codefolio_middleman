@@ -51,6 +51,22 @@
 
     <%= partial "analytics" %>
     <!-- Javascript Assets -->
+
+<!-- Bento JS tracking -->
+<script src="https://app.bentonow.com/475b29221d25cedb37bbcc4ec8a5494f.js" defer async></script>
+<script>
+window.addEventListener("bento:ready", function () {
+  if (typeof(bento$) != 'undefined') {
+    bento$(function() {
+        // bento.showChat();
+        // bento.updateFields({"name": "User 1"});
+        // bento.identify("example@example.com");
+        bento.view();
+    });
+  }
+})
+</script>
+
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/simple-lightbox.min.js"></script>
     <script src="/js/plugins.js"></script>
