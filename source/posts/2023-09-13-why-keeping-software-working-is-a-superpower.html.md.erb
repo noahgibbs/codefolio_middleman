@@ -1,0 +1,128 @@
+---
+title: "Why Keeping Software Working is a Superpower"
+tags: career, business
+featured_asset: radio_repair
+featured_caption: "Just One More Feature and It'll Be Perfect..."
+front_page: false
+published: false
+---
+
+They say that programming is the art of getting things working, while software ***engineering*** is the art of ***keeping*** things working.
+
+That sounds like most programmers aren't good at keeping things working. Which is true.
+
+If you build to ***keep*** things working, you'll have a superpower, one that very few software developers have. I'll explain.
+
+But first I need to tell you about [Scarpe](https://github.com/scarpe-team/scarpe).
+
+READMORE
+
+## The Best Kind of Infuriating
+
+Some of us at work got together to rebuild [an old Ruby library to make UI apps](http://shoesrb.com/). We started with a [kind of wobbly library for running a web app on your desktop](https://github.com/webview/webview) and a [little Ruby wrapper around it](https://github.com/Maaarcocr/webview_ruby) that one of us wrote (thanks, Marco!)
+
+I haven't written apps that run locally and open a window in forever. I'm usually a web and command line guy. I used to do this kind of thing, long ago, when I was a lot worse at programming. So hey, coming back to it, I should be awesome now, right?
+
+Yes and no. But oh man, I can see what's going on better.
+
+                 ADD A SCARPE SCREENSHOT HERE
+
+Grouchy old programmers say wonderful things like, "the interface is just a giant ugly bag of state and side effects" when they're trying to tell you how hard native programming is. And they're right.
+
+But I've been doing this for [almost 40 years now](https://codefol.io/posts/the-forty-year-programmer/). Wrapping up ugly bags of state and side effects behind a well-behaved API is my whole schtick. I'm supposed to be good at that.
+
+A bunch of us built Scarpe in a week as a Hack Days project in February. There was a basic wrapper library already there, but mostly we were building from a [tiny chunk of starter code](https://github.com/scarpe-team/scarpe/tree/cc953d7fd0b58303e4111abc0295dcc3b93228c5) that Nick and Marco built. It had basic containers and buttons, etc. It wasn't starting from zero. But there wasn't a ton there.
+
+I'll tell this story two ways, because [it's really useful to see things from multiple points of view](https://www.youtube.com/watch?app=desktop&v=yZSe1BhiTvI). The first way says "it was a disaster." So let's start there.
+
+The underlying Webview library was crashy. Really crashy. Too much delay handling an event? [Segfault](https://en.wikipedia.org/wiki/Segmentation_fault). Wrong params? Segfault. Too many messages at once? Segfault. Message too large? Segfault.
+
+You know those old Bugs Bunny cartoons where they ask for a volunteer, and everybody except for one guy takes a giant step backward? That's how I volunteered to tame Webview. We had a bunch of people building features, and then we had me trying to make it so everything else could run.
+
+And I did, eventually. But in the mean time, other people were trying to build small, fun features and I was trying to get their pull requests to crash less, and to let them know when a failure wasn't their fault. Which doesn't make for them having the most fun, you know? We had around four days to do this, and a lot of that had me merging big pull requests for [basic testing](https://github.com/scarpe-team/scarpe/commit/2cae0903b2e51b4e25da9a32cdf5616415a10dea) and [wrapping Webview](https://github.com/scarpe-team/scarpe/commit/a11cc5df6126170fcb625c76f7229a3ac3cd0db4) and all kinds of disruptive things.
+
+Here's another way I can tell this story:
+
+We started off with a wobbly library underneath, but a simple working prototype. We have five or more not-terribly-senior programmers jumping in with fun feature requests. By putting in wrapper code (manage Webview's problems, avoid the worst of them) and some testing and some manual monitoring, I was able to keep the whole thing stable-ish while they all had a good time working on the fun, visible parts of the library.
+
+Both stories are true, of course. There are fifty more true ways I could tell the same story, easily.
+
+So why did I tell the story? And why twice?
+
+## Keeping Things Working
+
+Nick and Marco got the library working. I kept it working, barely. Because I did, a whole team could keep moving forward. I hope that sounds like it can be useful and valuable if you could do the same (and you can.)
+
+But that's hard. Taking something fragile and wrapping it so that it stays working is something most people have trouble doing. It's also unpleasant. *Getting* things working is a lot more fun.
+
+Scarpe is teaching me a lot about keeping things working, especially software that doesn't *want* to keep working. The wrappers around Webview and the testing have gotten a lot more complicated [for some good reasons](https://codefol.io/posts/fibers-for-flow-control/).
+
+Am I just defending [Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development) and its relatives?
+
+Not really, no. Tests are important to keep software working. But whether you write them first is a cosmetic detail for this. Almost all of Scarpe has been written test-after. Testing GUI libraries is hard and painful. Webview is fragile and immature. I've had to do a lot of novel work to write stable tests for any of it. The [fiber-driven test library](https://en.wikipedia.org/wiki/Test-driven_development) I linked above is one of two (maybe three?) separate test libraries I've written specifically for Scarpe. Testing it ***well*** is going to take even longer. It wasn't written test-first because testing libraries don't exist for Webview, and standard testing libraries don't work well with it.
+
+TDD would have been fine in other circumstances, but here it would have been impossible. My first sprint to write a real testing library, after the Hack Days were over, took me over a week. Our deadline was four days.
+
+"Keeping software working" isn't a way we think about these things. Let me be more specific: the better sort of Operations folks and [Site Reliability Engineers]() (SREs) do, but software developers, almost never. But the Ops folk and SREs are almost never the ones developing the software, which causes difficulty here.
+
+Once upon a time, software developers either wrote the software and handed it to Ops to support ("deployed to production, ops problem now") or there was no Operations group and the same people wrote and maintained it... But never really described how they did it. Like testing and monitoring, it was a black art in the old days and we never really came back to it in modern times, with tests and source control and project management. "The same people write, deploy and operate the software" lived in the same wild early frontier as "FTP your source files to the PHP server and edit them in place."
+
+(For youngsters: FTP was the early, much worse predecessor to scp. It copies your files to a server. And PHP was a much worse language back when FTP was your main choice for doing that.)
+
+## But What's Different?
+
+I'm saying if your mindset is different when you build to keep things working, it will somehow happen. That sounds like annoying magical thinking. How does it actually work?
+
+Here are some tricks I used when building the early test and robustness code for Scarpe:
+
+* get early CI, and pre-CI (run the tests a lot locally), working fast
+* communicate loudly to everybody about what state things are in
+* watch everybody's pull requests and try not to destabilise the code while they work on it
+
+That's fine. None of that is new. So why does the mindset matter?
+
+Because I prioritised those things ***over building features***. In standard software development, you play with burndown charts and bug lists and you measure the number of points or features you deliver in a sprint. Stability is something you think about in terms of its effect on velocity. Velocity means how fast you can deliver new features.
+
+Here's the problem with that: none of it is about sustaining what's already there. We were building, but I was intentionally losing feature velocity by taking one of our strongest developers (me) and dedicating me entirely to architecture, testing and stability. You'll occasionally see that, but almost never at a company for long. Why? Because companies, and teams that emulate companies, are thinking in "velocity" -- a euphemism for "how fast can we deliver new features?"
+
+That's pretty alien if you've only been a software developer. Of course, it's as natural as can be if you've worked in Operations or as an SRE.
+
+I've done both, though I'm mostly a developer. And while the Ops mindset isn't exactly better, we really suffer when there's none of it around.
+
+## The Ops Magic Mindset
+
+It's really hard to [see the software developer mindset from the inside](https://codefol.io/posts/water-we-swim-in-software-developer-mindset/), just like it's hard to describe water when you're a fish.
+
+One of the easiest ways to see it better is to work in an adjacent discipline -- Ops or SRE, but also Data Science or Database Administration or Network Administration or IT support. Even some other kind of engineering, like infrastructure versus product engineering, helps.
+
+Let's talk about some things we're usually blind to.
+
+Some day I'll be able to find one specific whitepaper from Facebook again. I go look for it sometimes. But in the middle of a generally good paper, they included a graph of the number of bugs found in production, week by week. It varied a lot over time, as you'd expect. And the absolutely ***eye-popping*** thing was how it dropped to ***zero*** for two weeks in December. Not to a small number like some other weeks did. ***Zero***.
+
+See, that was the two weeks around Christmas and New Years where they didn't deploy new code, so they didn't have any new production bugs.
+
+Think about that a minute. No really, stop and think.
+
+As software developers, it's hard to even *explain* how new features could be a bad thing. We think of them as pure benefit, not a cost at all. And that's false. Not subtly false, but blatantly false. And all our standard models, like measuring progress by chunks of features, ignore that completely.
+
+It turns out that to keep software working, you have to pay attention to some things that ***our entire discipline*** is wilfully blind to.
+
+But with a little work, you could see it too.
+
+Does this sound like a superpower yet?
+
+I described building ***different*** code on Scarpe. What I didn't describe was all the normal stuff I ***didn't*** do. I didn't push out big changes that touched a lot of files because that's so inherently damaging when you need the code to be stable. You've seen that done, but only near releases, usually by Project Managers or Operations people, and the developers tend to treat it as a stupid imposition.
+
+If you could be the developer ***and*** see that, you could do things normal developers treat as impossible.
+
+## Keeping Software Working
+
+I mentioned a mindset, and that's important. There's also technique to it. Usually in companies, that technique gets divided between Software Development (write software) and Operations/SRE (keep software working.) That makes everything harder. And it makes it hard to learn, since the two departments don't communicate much.
+
+Heck, Ops and SRE is infamous for having no formal classes or degrees, few training materials and barely any research whitepapers. They tend to train via apprenticeship or sink-or-swim learning on the job.
+
+So to do this, you usually need ***two*** hard-to-learn specialties.
+
+That's a bit silly, though. It's not that hard to learn, once you change your point of view. Alan Kay, the inventor of Smalltalk and the namer of Object-Oriented Programming said "a change of perspective is worth 80 IQ points."
+
+I'm going to write more about how to keep software working, and what that perspective looks like. If you'd like, you can subscribe to the email list below and keep reading about it.
