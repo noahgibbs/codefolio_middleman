@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-# Create static HTML from the source files for the directory
+# Process images into JSON asset files and images of the correct size(s).
 
 # May need to: brew install imagemagick
 
