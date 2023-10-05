@@ -1,0 +1,119 @@
+---
+title: "Ways to Keep Software Working"
+tags: career, business, favorite
+featured_asset: superpowers_2
+featured_caption: "Yes, But What Do They Add to the Bottom Line?"
+front_page: false
+---
+
+I can talk about [keeping software working](/posts/why-keeping-software-working-is-a-superpower/) and [why we care](/posts/mission-driven-companies-and-what-lets-a-company-live-long/) and theorise all I like. But normally people have something decent working on the ground long before the theorists catch up. What's working on the ground? How do we currently keep software working?
+
+I'm writing this with an eye toward individual software developers keeping things working by themselves, which says a few things about methods and budget. So let's look!
+
+We use many methods, with many tradeoffs. And we all use a mixture of them.
+
+READMORE
+
+## Manual Testing
+
+Manual testing is very expensive, and very effective. We use it constantly when developing a feature, and a lot near software releases. A human can find problems that no automated test is likely to.
+
+I think the freeform nature of human testing is underrated. We constantly look at software with thousands of automated tests, all currently passing, and say "oh, yeah, that's completely wrong."
+
+Manual testing is especially prone to ugly "works on my machine" bugs. Not only is it often done on the original developer's machine, it's nearly always done on a small set of machines that are rarely reinstalled. And if you go the other route and reinstall them constantly (or use Docker or emulation) then you have the opposite problem -- you don't see the cruft of real-world machines with real-world user programs running on them.
+
+Manual testing tends to fare poorly in the "one guy keeping stuff running" arena. It's a ton of ongoing work, often for projects that have limited ongoing value.
+
+There are a lot of ways to foist more manual testing off on the final user - report exceptions when they come up, push immature first versions and wait for user complaints and so on. None of that is free. It requires people on the developer side, often customer service employees, to listen to user feedback and aggregate it. Even reported exceptions needs somebody to check the exception logs. But if you're a large company with a lot of employees, the savings in manual testing can be worth the tradeoff of pushing it onto your users.
+
+## "Don't Touch That"
+
+A lot of keeping things working is to make the system as unchanging -- as rigid -- as possible. This isn't a perfect method, but it has a pretty amazing track record. Think of that old Linux server that's been running in a closet somewhere for 25 years without a reboot. Or software written for Apple II computers. It's still emulatable, but also if you can find an Apple II where the hardware hasn't died of age, it all still runs fine.
+
+Traditional, pre-SRE operations groups at companies were/are masterful at this. If they use an operating system, they lock updates so they can examine them coming in, one at a time. If they use a piece of software, restrict it to particular versions.
+
+Many people are yelling at the screen "but security!" here, and they're not wrong. One reason that no modern operating system allows this by default is that we don't want massive numbers of exploitable old computers running ancient software and being used to attack the rest of us (just like with the Internet of Things.)
+
+Nevertheless, this is overall a very good method. It *does* rely on restricting functionality a lot, which those operations groups were also quite good at.
+
+"Restricting functionality?" Yeah. If the old Linux server in the closet was set up ***well*** 25 years ago, the sysadmin shut down all services that weren't vital to its operation. It wasn't a fun toy with a shiny-as-of-25-years-ago graphical interface. It ran SSH to allow maintenance and had three other open ports, all for the services it was actually used for. And then, magically, you can ignore 25 years of security bugs for all the services it doesn't actually have installed or running.
+
+An additional form of restricted functionality is that you tend to get new software slowly. If it's locked down to allow auditing, your new versions arrive at the speed of human auditing.
+
+This is one of the most effective methods for solo developers, if they're disciplined. The long-term cost is extremely low. But of course, "restricted functionality" may defeat the whole point, depending what you want.
+
+## Testing and CI
+
+For this section I'm thinking of developer-style testing: unit testing, integration testing and their numerous relatives.
+
+Testing can be a huge component of keeping things working in the face of change. And yet tests, by themselves, don't fix anything.
+
+CI systems -- systems that keep your tests running more or less constantly -- have become far more common in recent times to let us know when something is broken. That way when it breaks you'll get an email (or other notification) pretty rapidly, and a human can get to the business of fixing whatever is wrong.
+
+Tests are a fantastic way to let your system make approximate guarantees (and those are the only kind of guarantees in the real world) in the face of change. Either an assumption will stay true, or a human will be told that it isn't and they can work to fix it.
+
+Tests are especially valuable when something big may change. That's why they're so good when you're about to do a big refactor. It's also why they're used around other people's code, APIs and so on. Even if you don't change anything about your software, the rest of the world keeps changing.
+
+As a solo developer, tests can be very useful. They help reduce the cost of change significantly, and often do the same for the initial development as well. The trick is to do careful, directed testing of things that may actually change. It's easy to over-test -- to write many tests for conditions that will never change, and therefore spend a huge amount of time running tests that will never fail. A test that absolutely ***will*** never fail, or will only fail when another test fails is giving you no information.
+
+## Production Monitoring
+
+The flip side of developer testing is watching the real software in its final location and seeing how it's doing. Production monitoring can be passive, watching software as it operates and looking for signs of distress. It can also be active, where you add load or make API requests and see how the system responds. It's very common to use both.
+
+Production monitoring, like the various sorts of testing, can only tell you when things break. It's a method to manage change, not to reduce the amount of it.
+
+I mentioned earlier that you can reduce manual testing by having users do more of that testing for you. Production monitoring is how you make that bet pay off, by noticing when something goes wrong for the user. Making effectively-perfect software is so expensive that nobody can really afford to do it. Production monitoring helps bandage the wounds of releasing imperfect software into the world, by noticing where its imperfections matter and where they don't.
+
+There are many variations of this, depending on whether you monitor servers, clients, standalone applications or something else. But for all of them the basic idea is the same: gather data on how your software is working, collect the data, and get it into a usable form.
+
+The best production monitoring data can be used in a freeform way when humans spot problems. This is similar to the divide between manual testing and developer automated tests: specific automated testing catches known bugs excellently and cheaply, but won't normally catch unexpected problems. You can collect general-purpose data such as CPU usage and API usage (e.g. calls/minute) to help a human verify what's happening when problems pop up.
+
+## Buy It, Make it Commodity
+
+Like "Don't Touch That," above, this is a way to try to reduce the amount of change rather than to cope more gracefully when change ***does*** occur. It's massively valuable because it's a way to ***do less***, the most powerful technique of all.
+
+The best "make it commodity" approaches use interfaces that are simple and will be around forever. If you can build a site as static HTML with no dynamic Javascript or backend, it's hard to imagine a situation where you can't keep it running. If you need Javascript, that's still far better than needing a server to be live -- provided the Javascript can be hosted completely on your page, rather than using a vendor API to do your storage for you (and yes, I use one of those for the comments here).
+
+This is related to approaches where you use a common file format, such as writing in markdown, with the assumption that you'll be able to convert it later. It *is* very likely that you'll be able to turn markdown into something useful, basically forever. This also lets you change out one vendor or piece of software for another, such as switching from Netlify to Render for hosting your static HTML. The format is identical and the switch is quite painless.
+
+In the long run, vendors hate this and try hard to work around it. The last thing they want is actual competition or the ability for you to take your data elsewhere. So you *will* be playing a game where vendors sell you on the common format and then try to get you to make vendor-specific extensions in any way they can. That's part of the game and I won't tell you how to respond, but keep it in mind.
+
+## Throw People and/or Money at the Problem
+
+I've been mostly talking about solo practitioners and how they handle this. But it's worth contrasting with the normal corporate approach -- throwing labour at the problem continuously. This includes, but is not limited to, the manual testing above.
+
+This is the fallback when any of the optimisation methods above fail. Not enough automated testing? Do it manually. Not enough automated production monitoring? Do it manually. Not enough manual testing or monitoring in advance? Hear from the customers and go check/fix it manually. Didn't use a commodity interface? Fix up what you have for a new vendor if you switch. No interest in locking down versions? Test each new version as you switch to it, and constantly check whether the OS vendor shipped something recently.
+
+It's not that any of the activities above must be followed perfectly. It's that the consequence of *not* following them is to spend time, labour and/or money doing it this way.
+
+Why do I call this the "normal corporate approach?" Surely, companies use the methods above (it's true, they do!).
+
+A company is normally "pragmatic" in the very specific sense that they don't like finicky or error-prone methods that require unusual competence. A company is in the business of doing something repeatedly, with replaceable parts and replaceable people. They are basically always on a marketing treadmill of constantly adding new features, often unexpected new features that weren't planned for. All of this results in limited usage, or inconsistent usage, of the methods mentioned here.
+
+You can "do less" until a manager says, "hey, we've added these three features and they all need to ship this year." You can "not touch that" until the new feature needs a lot of updated packages you haven't had time to test properly. You can use a commodity interface until you're told to switch vendors, or add features that the commodity interface doesn't easily support -- if there's a quicker way to do it by adding a vendor-specific API, a company is very willing to add the vendor-specific API. Companies are absolutely infamous for "driving without changing the oil" by requiring lots of new features and refusing to make them lower maintenance or add enough automated tests for them.
+
+All of this can be done, provided you're willing to make up the shortfall in extra labour. If a company makes enough money to cover the salaries, that can work great. If you're not hiring people or bringing in revenue with features, you may need to consider whether this method will work well for you. For many of us, it's a non-starter.
+
+Which means you have to be careful about emulating companies. The results they get may not be results you want.
+
+## Do Less
+
+I mentioned this briefly, but it has a lot of sub-methods. The one above, using commodity interfaces and replaceable vendors, is just one of many.
+
+You can literally cut scope - removing features you might want to limit the cost of maintaining them. Doing this is an art as much as a science. How can you get the closest to what you want with the least code and the fewest features? But practice helps, and you should definitely be practicing.
+
+You can create a sort of "drop box" for work. When you hit an unusual or exceptional case, have it literally email you and you can take care of it manually. If the case is hit constantly this would be a lot more work. If the case is never hit, this would be a lot ***less*** work. It's one of the more literal interpretations of the [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) ("You Ain't Gonna Need It") principle.
+
+There is an old Operations trick of asking, "can you do that with an interface we already supply?" Sometimes you can limit the later effects of change by relying on something you already rely on, even if it takes a little more up-front work. Expose yourself to less change. It is, in some sense, a way of doing less -- don't add that new interface, and thus don't add the additional labour it will entail over time.
+
+In all of these cases, you're making a bit of a bet. The email dropbox is an excellent example: it can be more or less work, and you can wind up doing more or doing less, by making that bet. If you do it with something that happens a lot, you've added the email dropbox for nothing. You're just going to need to write the real version anyway. But if you do it for a feature that nobody ever uses, it's pure win.
+
+The trick with doing less is to understand that, as people who write software, we're inclined to believe that people will use our stuff. We believe that far more than has historically been true. We're usually wrong, at least partly. And so by building less, we're acknowledging what the universe has been telling us the whole time: we are much more enthused about the features we write than random people are.
+
+## But What's the Upshot?
+
+I've talked about a number of techniques to help keep software working with limited labour and maintenance, and some common reasons that we usually don't use them routinely, and wind up needing a lot more labour and maintenance.
+
+There's a lot going on above. Some of those are valuable techniques in isolation, while others need to be combined. How do you put it all together?
+
+I'm planning to write about feedback loops and the basic mechanism of tying it all together pretty soon. But this article is already long enough.
