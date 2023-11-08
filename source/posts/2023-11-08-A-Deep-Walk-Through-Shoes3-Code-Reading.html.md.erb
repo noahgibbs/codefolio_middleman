@@ -1,0 +1,20 @@
+---
+title: "A Deep Walk Through Shoes3 Code Reading"
+tags: ruby, shoes
+featured_youtube: o9BffzwppKM
+front_page: false
+---
+
+Shoes3 is an old, creaky codebase from the Ruby 1.8 days. When working on
+[Scarpe](https://github.com/scarpe-team/scarpe), I get to read through it
+a lot to answer questions like, "what methods can you call on a Button?"
+or "what is self supposed to be here?"
+
+It provides a fun code reading challenge. I recorded a video to help folks
+who work on Scarpe with the code reading. But it can be useful for all sorts
+of folks.
+
+The Ruby/C interface that it's using is basically the same now as it was
+then, and it's what's used by native extensions. Peter Zhu's series of
+articles [A Rubyist's Walk Along the C-side](https://blog.peterzhu.ca/ruby-c-ext/)
+can also be really valuable here since it's using the same APIs.
