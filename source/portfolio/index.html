@@ -19,15 +19,6 @@
 
 <script type="text/javascript">
 
-var loc = location.href.split("#")[0];
-if(!loc.endsWith("/") && !loc.endsWith(".html")) {
-  var loc_parts = location.href.split("#");
-  var new_url = loc_parts[0] + "/";
-  var new_hash = loc_parts[1] ? loc_parts[1] : "all";
-  //console.log("Replacing URL with " + new_url + "#" + new_hash);
-  location.replace(new_url + "#" + new_hash);
-}
-
 // This isn't guaranteed to match the calendar year. A "blah to present" entry may
 // sort differently since that doesn't guarantee it's been touched recently.
 // There's not really a perfect answer here... When in doubt, explicit sort dates
@@ -233,12 +224,18 @@ $(function() {
 
 <div data-tags="fulltime ruby writing coding">
   <div class="title">YJIT Research</div>
-  <div class="dates"> 2021-2022 </div>
+  <div class="dates"> 2021-2023 </div>
   <div class="description">
-    The YJIT team submitted a paper to VMIL:<br/>
+    The YJIT team submitted a paper to VMIL:<br/><br/>
     M. Chevalier-Boisvert, N. Gibbs, J. Boussier, S. Wu, A. Patterson, K. Newton, J. Hawthorn. YJIT: a basic block versioning JIT compiler for CRuby. In Proceedings of the 13th ACM SIGPLAN International Workshop on Virtual Machines and Intermediate Languages (VMIL), 2021<br/>
-    <br/>
+    <br/><br/>
     Our paper and the yjit-bench benchmarks were cited in S. Kaleba, O. Larose, R. Jones, S. Marr. Who You Gonna Call: Analyzing the Run-time Call-Site Behavior of Ruby Applications. In Proceedings of the 18th Symposium on Dynamic Languages (DLS), 2022.
+    <br/><br/>
+    It was also presented at MPLR in 2023:<br/><br/>
+
+    Maxime Chevalier-Boisvert; Takashi Kokubun; Noah Gibbs; Si Xing (Alan) Wu; Aaron Patterson; Jemma Issroff: Evaluating YJIT's Performance in a Production Context: A Pragmatic Approach<br/><br/>
+
+    In both cases I handled a lot of the benchmarking and raw data reporting, including some of the graphing and visualisation.
   </div>
   <div class="pictures">
   </div>
@@ -277,7 +274,7 @@ $(function() {
     much longer than that. I wrote
     <a href="https://codefol.io/posts/when-should-you-not-use-rails/">Ruby Weekly's most
     clicked article of 2020</a>, played with social media and generally increased
-    the yearly revenue of Rebuilding Rails in a variety of ways. <br/><br/>
+    the yearly revenue of Rebuilding Rails (et al) in a variety of ways. <br/><br/>
     It wasn't profitable enough to remain full-time on it, but we all live and learn. I <i>did</i> roughly double the long-term passive income.
   </div>
   <div class="pictures">
@@ -341,8 +338,23 @@ $(function() {
 </div>
 
 <div data-tags="product ruby writing">
+  <div class="title">Rebuilding HTTP (self-published)</div>
+  <div class="dates"> 2023-present </div>
+  <div class="description">
+    <a href="https://rebuilding-http.com">Rebuilding HTTP</a> is an ebook
+    leading the reader through building a small application server from
+    scratch, thus understanding the server side of HTTP and many of the
+    tools used to debug at that level.
+  </div>
+  <div class="pictures">
+    <a href="ss/rebuilding-http-1.png" class="fancybox">
+      <img src="thumbs/rebuilding-http-1.png" /></a>
+  </div>
+</div>
+
+<div data-tags="product ruby writing">
   <div class="title">Mastering Software Technique (self-published)</div>
-  <div class="dates"> 2019 to present </div>
+  <div class="dates"> 2019-present </div>
   <div class="sort_dates">2019, 2021</div>
   <div class="description">
     <a href="https://software-technique.com">Mastering Software Technique</a>, an ebook on
@@ -360,14 +372,14 @@ $(function() {
 
 <div data-tags="fulltime ruby coding">
   <div class="title">YJIT Project at Shopify</div>
-  <div class="dates"> 2021 </div>
+  <div class="dates"> 2021-2023 </div>
   <div class="description">
-    I joined Shopify to work on YJIT, first as a separate project. It's now a part of <a href="http://ruby-lang.org">CRuby</a>.
+    I joined Shopify to work on YJIT, initially as its own project. It's now a part of <a href="http://ruby-lang.org">CRuby</a>.
     I worked on the <a href="https://shopify.engineering/porting-yjit-ruby-compiler-to-rust">Rust port</a>. I built
     <a href="https://speed.yjit.org">speed.yjit.org</a>, <a href="https://github.com/Shopify/yjit-metrics">yjit-metrics</a>,
     and related benchmarking, graphing and reporting software.
-    As I write this in 2022, yjit-bench is still the premier Ruby-language
-    benchmark in active service.
+    As I write this in 2023, yjit-bench is still the premier Ruby-language
+    benchmark in active service and continuing to increase its lead.
   </div>
   <div class="pictures">
     <a href="ss/speed_yjit_01.png" class="fancybox">
@@ -1341,6 +1353,28 @@ $(function() {
   </div>
 </div>
 
+<div data-tags="personal ruby coding">
+  <div class="title">Scarpe</div>
+  <div class="dates"> 2023-present </div>
+  <div class="description">
+    <a href="https://github.com/scarpe-team/scarpe">Scarpe</a> is a re-creation
+    of _why's much older GUI library called Shoes. It's a GUI toolkit that
+    allows a Rubyist to portably, easily create local desktop GUI applications
+    with a configurable display back-end. The vast majority of initial work was
+    on the Webview back-end, followed by Wasm.<br/><br/>
+    Scarpe was the result of an early prototype before me, followed by
+    Shopify Hack Days I was part of in early 2023, followed by intensive
+    later work of various kinds. I handled a lot of the Webview and Wasm
+    adaptation, general library architecture and a ton of testing &mdash;
+    always tricky in a GUI library. Nick Schwaderer gave a
+    Scarpe talk at Brighton Ruby 2023 that explains in more detail.
+  </div>
+  <div class="pictures">
+    <a href="ss/scarpe-1.png" class="fancybox"><img src="thumbs/scarpe-1.png" /></a>
+    <a href="ss/scarpe-2.png" class="fancybox"><img src="thumbs/scarpe-2.png" /></a>
+  </div>
+</div>
+
 <div data-tags="personal ruby games coding">
   <div class="title">Shards of Faerie</div>
   <div class="dates"> 2018-2019 </div>
@@ -1468,7 +1502,7 @@ $(function() {
 
 <div data-tags="product ruby writing coding">
   <div class="title">Rebuilding Rails (self-published)</div>
-  <div class="dates"> 2012 to present </div>
+  <div class="dates"> 2012-present </div>
   <div class="sort_dates"> 2016, 2020 </div>
   <div class="description">
     <a href="http://rebuilding-rails.com">Rebuilding Rails</a>, a video class and ebook on
@@ -1732,7 +1766,7 @@ $(function() {
         <img src="thumbs/bigvolt.png" alt="large Lotka-Volterra pred/prey graph" /></a>
       <a href="ss/smallvolt.png" class="fancybox">
         <img src="thumbs/smallvolt.png" alt="small Lotka-Volterra pred/prey graph" /></a>
-      <a href="ss/volterra._rb" class="fancybox">
+      <a href="ss/volterra.rb" class="fancybox">
         simple ruby code for Lotka-Volterra predator/prey graph </a>
   </div>
 </div>
