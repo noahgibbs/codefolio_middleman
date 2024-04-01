@@ -19,6 +19,15 @@
 
 <script type="text/javascript">
 
+var loc = location.href.split("#")[0];
+if(!loc.endsWith("/") && !loc.endsWith(".html")) {
+  var loc_parts = location.href.split("#");
+  var new_url = loc_parts[0] + "/";
+  var new_hash = loc_parts[1] ? loc_parts[1] : "all";
+  //console.log("Replacing URL with " + new_url + "#" + new_hash);
+  location.replace(new_url + "#" + new_hash);
+}
+
 // This isn't guaranteed to match the calendar year. A "blah to present" entry may
 // sort differently since that doesn't guarantee it's been touched recently.
 // There's not really a perfect answer here... When in doubt, explicit sort dates
