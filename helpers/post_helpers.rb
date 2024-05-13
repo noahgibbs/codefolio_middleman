@@ -1,10 +1,10 @@
 module PostHelpers
-    def aside_image(url, alt:, image_classes: [], width: nil, height: nil, direction: :none, caption: nil, disappear_on_mobile: false, lightbox: true)
+    def aside_image(url, alt:, size: :aside, image_classes: [], width: nil, height: nil, direction: :none, caption: nil, disappear_on_mobile: false, lightbox: true)
         figure_classes = ""
         if direction == :right
-            figure_classes = "aside-right"
+            figure_classes = "#{size}-right"
         elsif direction == :left
-            figure_classes = "aside-left"
+            figure_classes = "#{size}-left"
         elsif direction == :none
             # Nothing
         else
@@ -23,6 +23,10 @@ module PostHelpers
             direction: direction,
             lightbox: lightbox,
         })
+    end
+
+    def full_size_image(url, alt:, image_classes: [], width: nil, height: nil, caption: nil, disappear_on_mobile: false, lightbox: true)
+      aside_image(url, alt:, image_classes:, width:, height:, direction: :none, caption:, disappear_on_mobile:, lightbox:, size: :full)
     end
 
     def asset_image(asset_name, size:, image_classes: [], direction: :none, caption: nil, disappear_on_mobile: true, lightbox: false)
