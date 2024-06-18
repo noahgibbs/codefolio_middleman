@@ -18,7 +18,7 @@ Rails uses <a href="http://rack.github.com">Rack</a> to parse them, so it's (mos
 
 <h2> What Does the Code Say? </h2>
 
-Rack is really poorly documented. But the query param code is short, so instead of my <a href="http://rebuilding-rails.com">usual &quot;rebuild it&quot;</a> approach, let's go right to <a href="https://github.com/rack/rack/blob/master/lib/rack/utils.rb">the source - Rack::Utils.parse\_nested\_query</a>:
+Rack is really poorly documented. But the query param code is short, so instead of my <a href="http://rebuilding-rails.com">usual &quot;rebuild it&quot;</a> approach, let's go right to <a href="https://github.com/rack/rack/blob/main/lib/rack/utils.rb">the source - Rack::Utils.parse\_nested\_query</a>:
 
 ``` ruby
 def parse_nested_query(qs, d = nil)

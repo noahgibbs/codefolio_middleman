@@ -30,9 +30,9 @@ So HashWithIndifferentAccess is just a regular hash, but any symbol key is conve
 
 <h2>Fun Ruby Tricks</h2>
 
-This class shows one fun ruby trick - <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb#L49">aliasing and replacing a method</a>. The old hash update and assignment are renamed to regular_update and regular_writer.
+This class shows one fun ruby trick - <a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/hash_with_indifferent_access.rb#L49">aliasing and replacing a method</a>. The old hash update and assignment are renamed to regular_update and regular_writer.
 
-<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb#L49"><img src="/images/11/line_49.png" alt="listing from line 49" /></a>
+<a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/hash_with_indifferent_access.rb#L49"><img src="/images/11/line_49.png" alt="listing from line 49" /></a>
 
 You can also see just how many methods you need to override to make your own hash... Default(), brackets, assignment, update(), key(), fetch(), dup(), merge() and many more. Making your own variant type is a bad idea unless you <a href="http://www.ruby-doc.org/core-1.9.3/Hash.html">spend some quality time with the core language documentation</a> and see what actually changes.
 
@@ -57,7 +57,7 @@ Your array will actually change!  That hash inside will suddenly have indifferen
 
 <h2> Up To Date? </h2>
 
-Nothing stays the same forever. In Rails, not much stays the same for long. So here is a <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb">link to the latest HashWithIndifferentAccess in GitHub</a>, whenever you go look for it.
+Nothing stays the same forever. In Rails, not much stays the same for long. So here is a <a href="https://github.com/rails/rails/blob/main/activesupport/lib/active_support/hash_with_indifferent_access.rb">link to the latest HashWithIndifferentAccess in GitHub</a>, whenever you go look for it.
 
 <h2>Enjoy Getting Your Hands Dirty?</h2>
 

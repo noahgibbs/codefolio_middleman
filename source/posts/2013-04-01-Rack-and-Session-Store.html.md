@@ -16,7 +16,7 @@ You can also map from the session ID to data on the server side, with what Rails
 
 * <a href="http://stackoverflow.com/questions/10451392/how-do-i-set-get-session-vars-in-a-rack-app">How Do I Get Session Variables In Rack?</a>
 
-* <a href="https://github.com/rack/rack/tree/master/lib/rack/session">GitHub: Rack Session Types</a>
+* <a href="https://github.com/rack/rack/tree/main/lib/rack/session">GitHub: Rack Session Types</a>
 
 * <a href="http://guides.rubyonrails.org/action_controller_overview.html#session">ActionController: Sessions</a>
 

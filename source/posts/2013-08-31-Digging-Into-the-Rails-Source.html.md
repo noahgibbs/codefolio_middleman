@@ -12,7 +12,7 @@ Head to <a href="http://github.com/rails/rails">Rails on GitHub</a>. My screensh
 
 <img src="/images/51/github_screen.png" width="956" height="657" />
 
-You can see the controller and view code in “actionpack” (note: <a href="https://github.com/rails/rails/tree/master/actionview">actionview has been extracted</a> in Rails 4). Rebuilding Rails has an easy simplified version, but you can see the real thing in there with some work. <a href="https://github.com/rails/rails/tree/master/actionpack/lib">Inside actionpack/lib are subdirectories</a> like action_controller which provide a great start for a deep dive.
+You can see the controller and view code in “actionpack” (note: <a href="https://github.com/rails/rails/tree/main/actionview">actionview has been extracted</a> in Rails 4). Rebuilding Rails has an easy simplified version, but you can see the real thing in there with some work. <a href="https://github.com/rails/rails/tree/main/actionpack/lib">Inside actionpack/lib are subdirectories</a> like action_controller which provide a great start for a deep dive.
 
 <h2> Rack </h2>
 
@@ -22,7 +22,7 @@ Later chapters of Rebuilding Rails talk a lot about Rack, including Rack Middlew
 
 <h2> Dependencies </h2>
 
-Rails also depends on a number of other libraries. It’s hard to understand ActiveRecord without <a href="https://github.com/rails/arel">Arel</a>, for instance. Read through the <a href="https://github.com/rails/rails/blob/master/rails.gemspec">.gemspec</a> <a href="https://github.com/rails/rails/blob/master/activesupport/activesupport.gemspec">files</a> when you want to know what Rails depends on. That’s also great when thinking, “huh, what else should I add to my own framework?” If you don’t know what a gem does, Google something like <b>“arel gem”</b> or <b>“tzinfo gem”</b> or <b>“ruby mail gem”</b>. You can also check out rubygems.org to track down info and documentation if you know its name.
+Rails also depends on a number of other libraries. It’s hard to understand ActiveRecord without <a href="https://github.com/rails/arel">Arel</a>, for instance. Read through the <a href="https://github.com/rails/rails/blob/main/rails.gemspec">.gemspec</a> <a href="https://github.com/rails/rails/blob/main/activesupport/activesupport.gemspec">files</a> when you want to know what Rails depends on. That’s also great when thinking, “huh, what else should I add to my own framework?” If you don’t know what a gem does, Google something like <b>“arel gem”</b> or <b>“tzinfo gem”</b> or <b>“ruby mail gem”</b>. You can also check out rubygems.org to track down info and documentation if you know its name.
 
 In general, look at dependencies like Gemfile and .gemspec files for every library you look at. You can learn a <i>lot</i> about any library from what gems it uses.
 
