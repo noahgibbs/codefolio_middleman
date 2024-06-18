@@ -1,0 +1,99 @@
+---
+title: "Introducing SpaceShoes"
+tags: ruby, favorite
+featured_asset: professor
+featured_caption: "And now, class, use Ruby anywhere!"
+---
+
+I had a silly idea. I think you'll like it.
+
+What if you could embed Ruby on a web page, using [ruby.wasm](https://github.com/ruby/ruby.wasm) without needing to install anything locally? And what if you could use [Shoes](https://shoesrb.com) -- via [Scarpe](https://github.com/scarpe-team/scarpe) -- to do it?
+
+And what if you didn't need a dev environment or anything. Just copy the HTML file to any server you want, and it works?
+
+READMORE
+
+## What It Looks Like
+
+Here's a web page with a Shoes app in it:
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@spaceshoes/spacewalk/spacewalk.js"></script>
+  <script type="text/ruby">
+    Shoes.app do
+      @p = para "Buttons are good!"
+      button("OK") { @p.replace("Buttons are amazing!") }
+    end
+  </script>
+
+  </head>
+  <body>
+  </body>
+</html>
+~~~
+
+If you write that in a local file, you can point your browser at it with a file URL. For instance, on a Mac you can say "open whatever_file.html" and it'll start your default browser.
+
+<%= full_size_image("../2024-introducing-spaceshoes/app_1_pre_232_86.png", alt: "An \"OK\" button with text above it saying buttons are good.", width: 232, height: 86, image_classes: ["img-frame"]) %>
+
+(then click the OK button...)
+
+<%= full_size_image("../2024-introducing-spaceshoes/app_1_post_252_92.png", alt: "An \"OK\" button with text above it saying buttons are great.", width: 252, height: 92, image_classes: ["img-frame"]) %>
+
+You don't have to do it locally. You can copy it onto a server and it works fine. For instance, <a href="../2024-introducing-spaceshoes/tiny_shoes_app" target="_blank">click here</a> and wait a minute for the big wasm file to load.
+
+You can also run old-school original Shoes apps [like this little calculator](https://github.com/scarpe-team/scarpe/blob/main/examples/legacy/working/simple/calc.rb).
+
+<%= full_size_image("../2024-introducing-spaceshoes/calc_584_425.png", alt: "A little Shoes calculator application in a browser.", width: 252, height: 92, image_classes: ["img-frame"]) %>
+
+And if you pop open the Javascript console, there's lot of debugging messages, just like Scarpe gives when you run it from the command line.
+
+<%= full_size_image("../2024-introducing-spaceshoes/calc_debug_903_406.png", alt: "A little Shoes calculator application in a browser, with a debug console open.", width: 252, height: 92, image_classes: ["img-frame"]) %>
+
+## Why You Care
+
+Ruby is hard to install and deploy. This is ***really*** easy to install and deploy.
+
+Are you so old you can remember what it was like to make something cool on the computer and show your friends? And they didn't need to buy anything and you didn't need to deploy anything?
+
+SpaceShoes does that. So does [Scratch](https://scratch.mit.edu), but with more having to go to their site and more UI around it and stuff. This is as painless as "look at this URL to see my Javascript toy", but it's written in Ruby.
+
+## How It Works
+
+Some folks figured out how to build Ruby for Wasm. That let Ruby run in a web browser. Later they figured out how to [hook it into Bundler](https://evilmartians.com/chronicles/first-steps-with-ruby-wasm-or-building-ruby-next-playground). And then you could build Ruby running in a web page in a pretty cool way.
+
+A bunch of us decided to [rebuild Shoes for Webview, which we called Scarpe](https://github.com/scarpe-team/scarpe). And we [rebuilt it for Wasm](https://github.com/scarpe-team/scarpe-wasm), and we're [partway there with GTK+](https://github.com/scarpe-team/gtk-scarpe). But with Wasm, and especially with better Bundler support, we could just run our Shoes apps in a browser, embedded directly into a web page.
+
+That was pretty cool. And we could build [an npm package](https://www.npmjs.com/package/@spaceshoes/spacewalk) like with ruby.wasm, so you didn't need a local checkout or even a local Ruby install. Your Shoes app is just text in an HTML file and it runs fine, from a server or from a local file URL.
+
+## The Hazy Future
+
+This is a really simple version of SpaceShoes. In fact, this is the first time the really ***cool*** trick has worked at all. I only got it working a few days ago.
+
+But I think there are a lot of other cool tricks we can do.
+
+Like, Shoes is a GUI library. It's hard to make it really portable, because GUIs are usually OS-specific, and native apps want to run programs and write files and things. And however you display (Webview, GTK+, etc.) is going to have weird per-OS quirks.
+
+SpaceShoes is surprisingly portable. In fact, it's the first time we've had Scarpe running on Windows successfully. Wasm is really good for that.
+
+And you should be able to hook your Shoes app into other Javascript, and into the DOM. Right now your Shoes app goes at the very top of the page, so that's not convenient. But there's no reason it has to do that. Ruby.wasm has a [JS gem](https://github.com/ruby/ruby.wasm/tree/main/packages/gems/js) that lets it integrate with all the usual HTML page DOM stuff. You can use that from your Shoes event handlers.
+
+In other words, you could embed a highly-dynamic SpaceShoes app -- or several of them -- in the middle of your HTML page and it could mess with the page. You could have multiple SpaceShoes apps interacting with each other, just like old-fashioned Shoes.
+
+I'm really looking forward to that.
+
+## So Is It Ready for Prime Time?
+
+Nope, it's a prototype. You can use the HTML page above, and it works great from anywhere. Works from a server, works from a file:// URL. But Scarpe doesn't support everything from Shoes, and SpaceShoes doesn't support everything from Scarpe. You can have basic buttons and dropdowns and stuff.
+
+If you're curious what Shoes supports, there's [the old Shoes manual](https://github.com/scarpe-team/scarpe/blob/main/docs/static/manual.md). And [Scarpe keeps a list of legacy Shoes apps that now work in Scarpe](https://github.com/scarpe-team/scarpe/blob/main/examples/legacy/working/). A lot of that should work in SpaceShoes. But it's missing some big things -- images aren't right yet, for instance.
+
+There's [some kind of weird Wasm bug](https://github.com/scarpe-team/space_shoes/issues/1) that we hit more often with larger apps -- and just generally this is an early prototype, there's going to be plenty to add and fix.
+
+This will keep getting better, though. I'm going to keep working on it.
+
+If you want, you [can watch how I'm doing on GitHub](https://github.com/scarpe-team/space_shoes).
