@@ -1,0 +1,12 @@
+This is all slapped together quickly in Camtasia.
+
+Audio:
+* Record, mix-to-mono, 150% loudness
+
+Camtasia:
+* Export audio-only then drop the m4a in the Git directory
+
+YouTube version (no longer?):
+* Title card w/ basic copyright attribution, do *not* pause at the beginning
+* Export local file w/ defaults from Camtasia, then upload to YouTube
+* Unlisted video, basic attribution in description
